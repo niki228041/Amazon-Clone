@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Amazon-clone", "Amazon-clone\Amazon-clone.csproj", "{662E4360-72D9-4F38-A7FA-7FB1ED6C7AEB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{662E4360-72D9-4F38-A7FA-7FB1ED6C7AEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{662E4360-72D9-4F38-A7FA-7FB1ED6C7AEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{662E4360-72D9-4F38-A7FA-7FB1ED6C7AEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{662E4360-72D9-4F38-A7FA-7FB1ED6C7AEB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E3197777-4916-4FD1-9903-D05A129C5E30}
+	EndGlobalSection
+EndGlobal
