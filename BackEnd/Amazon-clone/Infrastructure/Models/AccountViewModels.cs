@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Infrastructure.Models
+﻿namespace Infrastructure.Models
 {
-    internal class AccountVievModels
+    public class LoginViewModel
     {
+        public string email { get; set; }
+        public string password { get; set; }
+    }
+    
+    public class ExternalLoginRequest
+    {
+        public string Provider { get; set; }
+        public string Token { get; set; }
     }
 }

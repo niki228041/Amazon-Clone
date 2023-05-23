@@ -1,0 +1,49 @@
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\Infrastructure\bin\Debug\net6.0\Infrastructure.deps.json
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\Infrastructure\bin\Debug\net6.0\Infrastructure.dll
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\Infrastructure\bin\Debug\net6.0\Infrastructure.pdb
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\Infrastructure\bin\Debug\net6.0\Microsoft.AspNetCore.Http.Features.dll
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\Infrastructure\bin\Debug\net6.0\System.IO.Pipelines.dll
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\Infrastructure\bin\Debug\net6.0\Microsoft.Extensions.Features.dll
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\Infrastructure\bin\Debug\net6.0\Microsoft.Net.Http.Headers.dll
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\Infrastructure\obj\Debug\net6.0\Infrastructure.csproj.AssemblyReference.cache
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\Infrastructure\obj\Debug\net6.0\Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\Infrastructure\obj\Debug\net6.0\Infrastructure.AssemblyInfoInputs.cache
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\Infrastructure\obj\Debug\net6.0\Infrastructure.AssemblyInfo.cs
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\Infrastructure\obj\Debug\net6.0\Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\Infrastructure\obj\Debug\net6.0\Infrastructure.csproj.CopyComplete
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\Infrastructure\obj\Debug\net6.0\Infrastructure.dll
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\Infrastructure\obj\Debug\net6.0\refint\Infrastructure.dll
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\Infrastructure\obj\Debug\net6.0\Infrastructure.pdb
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\Infrastructure\obj\Debug\net6.0\ref\Infrastructure.dll
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\Infrastructure\bin\Debug\net6.0\DAL.dll
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\Infrastructure\bin\Debug\net6.0\DAL.pdb
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\Infrastructure\obj\Debug\net6.0\Infrastructure.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\Infrastructure\obj\Debug\net6.0\Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\Infrastructure\obj\Debug\net6.0\Infrastructure.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\Infrastructure\obj\Debug\net6.0\Infrastructure.AssemblyInfo.cs
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\Infrastructure\obj\Debug\net6.0\Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\Infrastructure\obj\Debug\net6.0\Infrastructure.dll
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\Infrastructure\obj\Debug\net6.0\refint\Infrastructure.dll
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\Infrastructure\obj\Debug\net6.0\Infrastructure.pdb
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\Infrastructure\bin\Debug\net6.0\Infrastructure.deps.json
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\Infrastructure\bin\Debug\net6.0\Infrastructure.dll
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\Infrastructure\bin\Debug\net6.0\Infrastructure.pdb
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\Infrastructure\bin\Debug\net6.0\DAL.dll
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\Infrastructure\bin\Debug\net6.0\DAL.pdb
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\Infrastructure\obj\Debug\net6.0\Infrastructure.csproj.CopyComplete
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\Infrastructure\obj\Debug\net6.0\ref\Infrastructure.dll
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\Infrastructure\bin\Debug\net6.0\Infrastructure.deps.json
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\Infrastructure\bin\Debug\net6.0\Infrastructure.dll
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\Infrastructure\bin\Debug\net6.0\Infrastructure.pdb
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\Infrastructure\bin\Debug\net6.0\DAL.dll
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\Infrastructure\bin\Debug\net6.0\DAL.pdb
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\Infrastructure\obj\Debug\net6.0\Infrastructure.csproj.AssemblyReference.cache
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\Infrastructure\obj\Debug\net6.0\Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\Infrastructure\obj\Debug\net6.0\Infrastructure.AssemblyInfoInputs.cache
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\Infrastructure\obj\Debug\net6.0\Infrastructure.AssemblyInfo.cs
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\Infrastructure\obj\Debug\net6.0\Infrastructure.csproj.CoreCompileInputs.cache
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\Infrastructure\obj\Debug\net6.0\Infrastructure.csproj.CopyComplete
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\Infrastructure\obj\Debug\net6.0\Infrastructure.dll
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\Infrastructure\obj\Debug\net6.0\refint\Infrastructure.dll
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\Infrastructure\obj\Debug\net6.0\Infrastructure.pdb
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\Infrastructure\obj\Debug\net6.0\ref\Infrastructure.dll
