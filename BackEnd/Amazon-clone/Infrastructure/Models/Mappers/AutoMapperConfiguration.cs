@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.Models.Mappers
+namespace Infrastructure.Models.Mappers;
+
+public class AutoMapperConfiguration
 {
-    internal class AutoMapperConfiguration
+    public static void Config(IServiceCollection services)
     {
+        services.AddAutoMapper(typeof(AppMappingProfile));
     }
 }

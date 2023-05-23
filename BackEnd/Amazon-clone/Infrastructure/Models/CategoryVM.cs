@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Infrastructure.Models;
 
-namespace Infrastructure.Models
+public class CategoryVM
 {
-    internal class CategoryVM
-    {
-    }
+    public string Name { get; set; }   
+    public string Image { get; set; }   
 }

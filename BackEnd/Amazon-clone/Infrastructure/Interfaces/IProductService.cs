@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Infrastructure.Models;
+using Services;
 
-namespace Infrastructure.Interfaces
+namespace Infrastructure.Interfaces;
+
+public interface IProductService
 {
-    internal interface IProductService
-    {
-    }
+     Task<ServiceResponse> GetProductAsync(string name);
+     Task<ServiceResponse> GetProductsAsync(GetProductsVM model);
 }

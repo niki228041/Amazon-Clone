@@ -1,0 +1,42 @@
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\DAL\bin\Debug\net6.0\DAL.deps.json
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\DAL\bin\Debug\net6.0\DAL.runtimeconfig.json
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\DAL\bin\Debug\net6.0\DAL.dll
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\DAL\bin\Debug\net6.0\DAL.pdb
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\DAL\obj\Debug\net6.0\DAL.csproj.AssemblyReference.cache
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\DAL\obj\Debug\net6.0\DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\DAL\obj\Debug\net6.0\DAL.AssemblyInfoInputs.cache
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\DAL\obj\Debug\net6.0\DAL.AssemblyInfo.cs
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\DAL\obj\Debug\net6.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\DAL\obj\Debug\net6.0\DAL.dll
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\DAL\obj\Debug\net6.0\refint\DAL.dll
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\DAL\obj\Debug\net6.0\DAL.pdb
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\DAL\obj\Debug\net6.0\DAL.genruntimeconfig.cache
+C:\Users\PC Admin\source\ShopAPI_ReactPV016-main\ShopApi\DAL\obj\Debug\net6.0\ref\DAL.dll
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\DAL\bin\Debug\net6.0\DAL.deps.json
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\DAL\bin\Debug\net6.0\DAL.runtimeconfig.json
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\DAL\bin\Debug\net6.0\DAL.dll
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\DAL\bin\Debug\net6.0\DAL.pdb
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\DAL\obj\Debug\net6.0\DAL.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\DAL\obj\Debug\net6.0\DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\DAL\obj\Debug\net6.0\DAL.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\DAL\obj\Debug\net6.0\DAL.AssemblyInfo.cs
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\DAL\obj\Debug\net6.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\DAL\obj\Debug\net6.0\DAL.dll
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\DAL\obj\Debug\net6.0\refint\DAL.dll
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\DAL\obj\Debug\net6.0\DAL.pdb
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\DAL\obj\Debug\net6.0\DAL.genruntimeconfig.cache
+C:\Users\user\Desktop\ShopAPI_React-master\ShopApi\DAL\obj\Debug\net6.0\ref\DAL.dll
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\DAL\bin\Debug\net6.0\DAL.deps.json
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\DAL\bin\Debug\net6.0\DAL.runtimeconfig.json
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\DAL\bin\Debug\net6.0\DAL.dll
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\DAL\bin\Debug\net6.0\DAL.pdb
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\DAL\obj\Debug\net6.0\DAL.csproj.AssemblyReference.cache
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\DAL\obj\Debug\net6.0\DAL.GeneratedMSBuildEditorConfig.editorconfig
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\DAL\obj\Debug\net6.0\DAL.AssemblyInfoInputs.cache
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\DAL\obj\Debug\net6.0\DAL.AssemblyInfo.cs
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\DAL\obj\Debug\net6.0\DAL.csproj.CoreCompileInputs.cache
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\DAL\obj\Debug\net6.0\DAL.dll
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\DAL\obj\Debug\net6.0\refint\DAL.dll
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\DAL\obj\Debug\net6.0\DAL.pdb
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\DAL\obj\Debug\net6.0\DAL.genruntimeconfig.cache
+D:\Diplamka\Amazon-Clone\BackEnd\Amazon-clone\DAL\obj\Debug\net6.0\ref\DAL.dll

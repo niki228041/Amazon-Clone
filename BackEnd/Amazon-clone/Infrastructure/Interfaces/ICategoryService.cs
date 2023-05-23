@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Infrastructure.Models.Caterories;
+using Services;
 
 namespace Infrastructure.Interfaces
-{
-    internal interface ICategoryService
+{ 
+    public interface ICategoryService
     {
+        Task<int> Create(CategoryCreateVM model);
+        Task<ServiceResponse> GetAllAsync();
     }
 }
