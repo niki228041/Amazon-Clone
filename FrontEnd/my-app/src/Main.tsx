@@ -3,7 +3,7 @@ import React from 'react';
 const Main=()=> {
   return (
     <div>
-        New Main Site
+      New Main Site
     </div>
   );
 }

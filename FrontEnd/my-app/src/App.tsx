@@ -1,24 +1,47 @@
 import React from 'react';
+import { Route,Router,Routes,BrowserRouter,Outlet, Link} from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Main from './Main';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
+    <BrowserRouter>
+    <Routes>
+        <Route path='*' element={
+          <>
+          <div className='flex flex-col' style={{minHeight:"100vh"}}>
+            <Header/>
+            {/* <div style={{height:"100vh"}}> */}
+              <Outlet/>
+            {/* </div> */}
+            <div className='mt-auto'>
+              <Footer/>
+            </div>
+          </div>
           
-        </a>
-      </header>
-    </div>
+          </>
+        }>
+
+        <Route path='products' element={<Main/>}>
+          
+        </Route>
+
+
+
+
+
+
+
+
+
+        </Route>
+
+        
+
+    </Routes>
+    </BrowserRouter>
+
   );
 }
 
