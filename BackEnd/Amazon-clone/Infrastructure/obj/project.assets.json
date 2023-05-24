@@ -1125,19 +1125,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\user\\.nuget\\packages\\": {}
+    "C:\\Users\\novak\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Diplamka\\Amazon-Clone\\BackEnd\\Amazon-clone\\Infrastructure\\Infrastructure.csproj",
+      "projectUniqueName": "D:\\Study\\2023\\13. Dyplomy\\5.Amazon\\Amazon-Clone\\BackEnd\\Amazon-clone\\Infrastructure\\Infrastructure.csproj",
       "projectName": "Infrastructure",
-      "projectPath": "D:\\Diplamka\\Amazon-Clone\\BackEnd\\Amazon-clone\\Infrastructure\\Infrastructure.csproj",
-      "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "D:\\Diplamka\\Amazon-Clone\\BackEnd\\Amazon-clone\\Infrastructure\\obj\\",
+      "projectPath": "D:\\Study\\2023\\13. Dyplomy\\5.Amazon\\Amazon-Clone\\BackEnd\\Amazon-clone\\Infrastructure\\Infrastructure.csproj",
+      "packagesPath": "C:\\Users\\novak\\.nuget\\packages\\",
+      "outputPath": "D:\\Study\\2023\\13. Dyplomy\\5.Amazon\\Amazon-Clone\\BackEnd\\Amazon-clone\\Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\novak\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1145,14 +1150,15 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\Diplamka\\Amazon-Clone\\BackEnd\\Amazon-clone\\DAL\\DAL.csproj": {
-              "projectPath": "D:\\Diplamka\\Amazon-Clone\\BackEnd\\Amazon-clone\\DAL\\DAL.csproj"
+            "D:\\Study\\2023\\13. Dyplomy\\5.Amazon\\Amazon-Clone\\BackEnd\\Amazon-clone\\DAL\\DAL.csproj": {
+              "projectPath": "D:\\Study\\2023\\13. Dyplomy\\5.Amazon\\Amazon-Clone\\BackEnd\\Amazon-clone\\DAL\\DAL.csproj"
             }
           }
         }
@@ -1196,7 +1202,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }
