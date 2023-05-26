@@ -69,9 +69,10 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath="/images"
 });
 app.UseCors(options => options
-    .WithOrigins(new[] { "http://localhost:3000"})
+    .WithOrigins("http://localhost:3000")
     .AllowAnyHeader()
     .AllowCredentials()
+    .AllowAnyMethod()
 );
 app.MapControllers();
 
