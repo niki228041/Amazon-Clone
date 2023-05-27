@@ -10,7 +10,7 @@ namespace DAL.Entities
         [Key]
         public int Id { get; set; }
 
-        [MaxLength(25)]
+        [MaxLength(255)]
         [Required(ErrorMessage = "Field name is required")]
         public string Name { get; set; }
 

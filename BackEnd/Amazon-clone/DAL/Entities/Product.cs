@@ -33,7 +33,7 @@ namespace DAL.Entities
         public int NumberOfDaysForDelivery { get; set; }
 
         [Required(ErrorMessage = "The Address field is required.")]
-        public Address Address { get; set; }
+        public string Address { get; set; }
 
         [DataType(DataType.DateTime)]
         public DateTime Created_At { get; set; }
