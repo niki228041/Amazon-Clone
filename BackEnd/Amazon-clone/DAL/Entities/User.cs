@@ -6,11 +6,9 @@ using DAL.Entities.Identity;
 
 namespace DAL.Entities
 {
-    [Table("tblUsers")]
+
     public class User : IdentityUser<int>
     {
-        [Key]
-        public int Id { get; set; }
 
         [Required]
         [MaxLength(25)]

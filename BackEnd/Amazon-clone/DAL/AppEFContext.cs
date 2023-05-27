@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,9 +32,9 @@ namespace DAL
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.Company)
-                .WithMany(c => c.Users)
+            modelBuilder.Entity<Company>()
+                .HasMany(u => u.Users)
+                .WithOne(c => c.Company)
                 .HasForeignKey(u => u.Company_Id)
                 .OnDelete(DeleteBehavior.Restrict);
 

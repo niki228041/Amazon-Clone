@@ -36,6 +36,7 @@ namespace ShopApi.Controllers
             }
 
             var checkPassword = await _userManager.CheckPasswordAsync(user, model.password);
+
             if (!checkPassword)
             {
                 return BadRequest(new { error = "Дані вказано не вірно" });

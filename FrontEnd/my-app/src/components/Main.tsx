@@ -1,13 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useGetProductsQuery } from '../features/user/apiProductSlice';
-
+import img from '../images/tshirts_black.jpg'
 
 const Category=(data:any)=>{
 
   return<>
-  <div className=' bg-slate-200 rounded-xl p-2 hover:bg-slate-300'>
-    {data.name}
+  <div className='bg-slate-200 pb-2 hover:bg-slate-300 mt-20'>
+    <div>
+      <img src={img} className=' ' />        
+    </div>
+    <div className='p-1'>
+      <p className=' text-xl'>432.44$</p>
+      {data.name}
+    </div>
+
   </div>
   </>
 }
@@ -19,18 +26,13 @@ console.log(data);
 console.log(error);
 
 return (
-  <div className='flex flex-col '>
-      <div className='w-full flex justify-center'>
+    <div className='w-full pl-44 pr-44 grid grid-cols-8 gap-1 '>
 
-          {/* grid */}
-          <div className='grid lg:grid-cols-6 gap-x-16 gap-y-28 sm:grid-cols-3 mt-11 text-sm'>
-              {isSuccess ? data?.payload?.map((a:any)=>{return Category(a) }): ""}
-          </div>
+      {/* grid */}
+      {isSuccess ? data?.payload?.map((a:any)=>{return Category(a) }): ""}
 
-      </div>
-      
-  </div>
 
+    </div>
 )
 }
 
