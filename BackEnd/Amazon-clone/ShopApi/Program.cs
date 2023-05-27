@@ -1,4 +1,5 @@
 using DAL;
+using DAL.Entities;
 using DAL.Entities.Identity;
 using DAL.Interfaces;
 using DAL.Repositories;
@@ -20,7 +21,7 @@ builder.Services.AddDbContext<AppEFContext>(opt =>
     opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 // Add services to the container.
 
-builder.Services.AddIdentity<UserEntity, RoleEntity>(opt =>
+builder.Services.AddIdentity<User, RoleEntity>(opt =>
 {
     opt.Password.RequireDigit = false;
     opt.Password.RequiredLength = 5;
