@@ -45,7 +45,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tblCategories");
+                    b.ToTable("tblCategories", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Identity.RoleEntity", b =>
@@ -221,7 +221,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("tblProducts");
+                    b.ToTable("tblProducts", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

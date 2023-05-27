@@ -10,7 +10,7 @@ function App() {
     <Routes>
         <Route path='*' element={
           <>
-          <div className='flex flex-col' style={{minHeight:"100vh"}}>
+          <div className='flex flex-col' style={{minHeight:"120vh"}}>
             <Header/>
             {/* <div style={{height:"100vh"}}> */}
               <Outlet/>
