@@ -22,7 +22,7 @@ public class ProductService : IProductService
     public async Task<ServiceResponse> GetProductAsync(string name)
     {
         var res = await _productRepository.GetByName(name);
-        var item = _mapper.Map<ProductEntity, ProductVM>(res);
+        var item = _mapper.Map<Product, ProductVM>(res);
         //item.Category = res.Category.Name;
         return new ServiceResponse
         {
@@ -34,7 +34,7 @@ public class ProductService : IProductService
 
     public async Task<ServiceResponse> GetProductsAsync(GetProductsVM model)
     {
-        ICollection<ProductEntity>? res = _productRepository.GetProductsAsync(model);
+        ICollection<Product>? res = _productRepository.GetProductsAsync(model);
 
 
         if (res == null)
@@ -50,7 +50,7 @@ public class ProductService : IProductService
         var list = new List<ProductVM>();
         foreach (var p in res)
         {
-            var item = _mapper.Map<ProductEntity, ProductVM>(p);
+            var item = _mapper.Map<Product, ProductVM>(p);
             list.Add(item);
         }
 

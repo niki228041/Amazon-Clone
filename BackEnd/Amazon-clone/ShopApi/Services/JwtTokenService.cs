@@ -8,21 +8,22 @@ using System.Security.Claims;
 using System.Text;
 using Infrastructure.Models;
 using ShopApi.Constants;
+using DAL.Entities;
 
 namespace ShopApi.Services
 {
     public interface IJwtTokenService
     {
-        Task<string> CreateToken(UserEntity user);
+        Task<string> CreateToken(User user);
         Task<GoogleJsonWebSignature.Payload> VerifyGoogleToken(ExternalLoginRequest request);
     }
     public class JwtTokenService : IJwtTokenService
     {
         private readonly IConfiguration _configuration;
-        private readonly UserManager<UserEntity> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly GoogleAuthSettings _googleAuthSettings;
         public JwtTokenService(IConfiguration configuration,
-            UserManager<UserEntity> userManager,
+            UserManager<User> userManager,
             GoogleAuthSettings googleAuthSettings)
         {
             _configuration = configuration;
@@ -30,14 +31,13 @@ namespace ShopApi.Services
             _googleAuthSettings = googleAuthSettings;
         }
 
-        public async Task<string> CreateToken(UserEntity user)
+        public async Task<string> CreateToken(User user)
         {
             var roles = await _userManager.GetRolesAsync(user);
             List<Claim> claims = new List<Claim>()
             {
                 new Claim("name", user.FirstName),
                 new Claim("surname", user.LastName),
-                new Claim("username", user.UserName),
                 new Claim("email", user.Email),
             };
 

@@ -1,9 +1,11 @@
 ﻿using Bogus;
+using DAL;
 using DAL.Entities;
 using DAL.Entities.Identity;
 using DAL.Interfaces;
 using DAL.Repositories;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
 using ShopApi.Constants;
 using static System.Int32;
@@ -17,11 +19,12 @@ namespace ShopApi
             using (var scope = app.ApplicationServices
                        .GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<UserEntity>>();
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+                var dbcontext = scope.ServiceProvider.GetRequiredService<AppEFContext>();
                 var roleManaager = scope.ServiceProvider.GetRequiredService<RoleManager<RoleEntity>>();
                 var categoryRepository = scope.ServiceProvider.GetRequiredService<ICategoryRepository>();
                 var productRepository = scope.ServiceProvider.GetRequiredService<IProductRepository>();
-
+                dbcontext.Database.Migrate();
                 if (!roleManaager.Roles.Any())
                 {
                     var result = roleManaager.CreateAsync(new RoleEntity
@@ -37,10 +40,10 @@ namespace ShopApi
                 if (!userManager.Users.Any())
                 {
                     string admin = "admin@gmail.com";
-                    var user = new UserEntity
+                    var user = new User
                     {
                         Email = admin,
-                        UserName = admin,
+                        FirstName = admin,
                         LastName = "Главний"
                     };
                     var result = userManager.CreateAsync(user, "123456").Result;
@@ -50,21 +53,18 @@ namespace ShopApi
 
                 if (!categoryRepository.Categories.Any())
                 {
-                    var faker = new Faker<CategoryEntity>()
+                    var faker = new Faker<Category>()
                         .RuleFor(c => c.Name, f => f.Commerce.Department());
-                    List<CategoryEntity> res = faker.Generate(10);
+                    List<Category> res = faker.Generate(10);
                     foreach (var c in res)
                     {
                         await categoryRepository.Create(c);
                     }
                 
-                    var faker2 = new Faker<ProductEntity>()
+                    var faker2 = new Faker<Product>()
                             .RuleFor(p => p.Category, f => f.PickRandom(res))
                             .RuleFor(p => p.Name, f => f.Commerce.ProductName())
-                            .RuleFor(p => p.Description, f => f.Commerce.ProductDescription())
-                            .RuleFor(p => p.ShortDescription, f => f.Commerce.ProductDescription())
-                            .RuleFor(p => p.Manufacturer, f => f.Company.CompanyName())
-                        ;
+                            .RuleFor(p => p.Description, f => f.Commerce.ProductDescription());
                     var res2 = faker2.Generate(100);
                     Random rnd = new Random();
                     foreach (var r in res2)

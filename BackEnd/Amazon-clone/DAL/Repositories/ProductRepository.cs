@@ -5,41 +5,41 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories;
 
-public class ProductRepository : GenericRepository<ProductEntity>, IProductRepository
+public class ProductRepository : GenericRepository<Product>, IProductRepository
 {
     public ProductRepository(AppEFContext context) : base(context)
     {
     }
 
-    public IQueryable<ProductEntity> Products => GetAll();
+    public IQueryable<Product> Products => GetAll();
 
-    public Task<IQueryable<ProductEntity>> SearchProducts(string name)
+    public Task<IQueryable<Product>> SearchProducts(string name)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<ProductEntity> GetByName(string name)
+    public async Task<Product> GetByName(string name)
     {
-        return await _dbContext.Set<ProductEntity>().Include(i=>i.Category)
+        return await _dbContext.Set<Product>().Include(i=>i.Category)
             .AsNoTracking().FirstOrDefaultAsync(e => e.Name == name);
     }
 
-    private ICollection<ProductEntity> GetByCategoryName(string category)
+    private ICollection<Product> GetByCategoryName(string category)
     {
         if (category == "")
         {
             return GetAll().Include(i=>i.Category).ToList();
         }
 
-        return _dbContext.Categories.FirstOrDefault(i => i.Name == category)?.Products;
+        return _dbContext.Category.FirstOrDefault(i => i.Name == category)?.Products;
     }
 
-    private ICollection<ProductEntity> FilterByName(ICollection<ProductEntity> list, string name)
+    private ICollection<Product> FilterByName(ICollection<Product> list, string name)
     {
         return list.Where(i =>  i.Name.ToLower().Contains(name.ToLower())).ToList();
     }
 
-    public ICollection<ProductEntity> GetProductsAsync(GetProductsVM model)
+    public ICollection<Product> GetProductsAsync(GetProductsVM model)
     {
         int start = model.pageNumber * model.pageSize;
         int end = model.pageSize * model.pageNumber + model.pageSize;

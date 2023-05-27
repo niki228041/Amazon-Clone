@@ -12,11 +12,11 @@ public class AppMappingProfile : Profile
     public AppMappingProfile()
     {
      
-        CreateMap<ProductEntity, ProductVM>().ForMember(dst => dst.Category,
+        CreateMap<Product, ProductVM>().ForMember(dst => dst.Category,
             act =>
                 act.MapFrom(src => src.Category.Name));
-        CreateMap<ProductVM, ProductEntity>();
-        CreateMap<CategoryEntity, CategoryVM>();
+        CreateMap<ProductVM, Product>();
+        CreateMap< Category, CategoryVM>();
   
     }
 
