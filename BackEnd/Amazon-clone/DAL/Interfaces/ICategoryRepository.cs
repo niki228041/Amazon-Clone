@@ -3,8 +3,8 @@ using DAL.Entities;
 
 namespace DAL.Interfaces
 {
-    public interface ICategoryRepository : IGenericRepository<CategoryEntity, int>
+    public interface ICategoryRepository : IGenericRepository<Category, int>
     {
-        IQueryable<CategoryEntity> Categories { get; }
+        IQueryable<Category> Categories { get; }
     }
 }

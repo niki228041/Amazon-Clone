@@ -1,4 +1,5 @@
-﻿using DAL.Entities.Identity;
+﻿using DAL.Entities;
+using DAL.Entities.Identity;
 using Infrastructure.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -14,10 +15,10 @@ namespace ShopApi.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly UserManager<UserEntity> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly IJwtTokenService _jwtTokenService;
 
-        public AccountController(UserManager<UserEntity> userManager,
+        public AccountController(UserManager<User> userManager,
             IJwtTokenService jwtTokenService)
         {
             _userManager = userManager;
@@ -54,10 +55,9 @@ namespace ShopApi.Controllers
                 return BadRequest(new ServiceResponse { Message = "Ви вже зареєстровані" });
             }
 
-            user = new UserEntity
+            user = new User
             {
                 FirstName = model.FirstName,
-                UserName = model.UserName,
                 LastName = model.LastName,
                 Email = model.email
             };
@@ -94,12 +94,12 @@ namespace ShopApi.Controllers
                     user = await _userManager.FindByEmailAsync(payload.Email);
                     if (user == null)
                     {
-                        user = new UserEntity
+                        user = new User
                         {
-                            Email = payload.Email,
-                            UserName = payload.Email,
                             FirstName = payload.GivenName,
-                            LastName = payload.FamilyName
+                            LastName = payload.FamilyName,
+                            Email = payload.Email
+                            
                         };
                         var resultCreate = await _userManager.CreateAsync(user);
                         if (!resultCreate.Succeeded)
