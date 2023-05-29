@@ -32,71 +32,21 @@ namespace DAL
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Company>()
-                .HasMany(u => u.Users)
-                .WithOne(c => c.Company)
-                .HasForeignKey(u => u.Company_Id)
-                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<UserRoleEntity>(ur =>
+            {
+                ur.HasKey(u => new { u.UserId, u.RoleId });
 
-            modelBuilder.Entity<Product>()
-                .HasOne(p => p.Company)
-                .WithMany(c => c.Products)
-                .HasForeignKey(p => p.Company_Id)
-                .OnDelete(DeleteBehavior.Restrict);
+                ur.HasOne(ur => ur.Role)
+                    .WithMany(r => r.UserRoles)
+                    .HasForeignKey(r => r.RoleId)
+                    .IsRequired();
 
-            modelBuilder.Entity<Product>()
-                .HasOne(p => p.Category)
-                .WithMany(c => c.Products)
-                .HasForeignKey(p => p.Category_Id)
-                .OnDelete(DeleteBehavior.Restrict);
+                ur.HasOne(ur => ur.User)
+                    .WithMany(r => r.UserRoles)
+                    .HasForeignKey(r => r.UserId)
+                    .IsRequired();
+            });
 
-            modelBuilder.Entity<Product>()
-                .HasOne(o => o.Order)
-                .WithMany(p => p.Products)
-                .HasForeignKey(p => p.Order_Id)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Comment>()
-                .HasOne(p => p.Product)
-                .WithMany(c => c.Comments)
-                .HasForeignKey(p => p.Product_Id)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Comment>()
-                .HasOne(u => u.User)
-                .WithMany(c => c.Comments)
-                .HasForeignKey(c => c.User_Id)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Order>()
-                .HasOne(o => o.Company)
-                .WithMany(c => c.Orders)
-                .HasForeignKey(o => o.Company_Id)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Order>()
-                .HasOne(o => o.User)
-                .WithMany(c => c.Orders)
-                .HasForeignKey(o => o.User_Id)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Address>()
-                .HasOne(o => o.Order)
-                .WithOne(a => a.Address)
-                .HasForeignKey<Address>(a => a.Order_Id)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<CommentImage>()
-                .HasOne(u => u.Comment)
-                .WithMany(c => c.CommentImages)
-                .HasForeignKey(u => u.Image_Id)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<ProductImage>()
-                .HasOne(u => u.Product)
-                .WithMany(c => c.ProductImages)
-                .HasForeignKey(u => u.Product_Id)
-                .OnDelete(DeleteBehavior.Restrict);
         }
       
     }

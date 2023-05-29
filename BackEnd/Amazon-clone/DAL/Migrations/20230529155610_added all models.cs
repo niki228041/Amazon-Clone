@@ -42,10 +42,9 @@ namespace DAL.Migrations
                 name: "Image",
                 table: "tblCategories");
 
-            migrationBuilder.RenameColumn(
+            migrationBuilder.DropColumn(
                 name: "Image",
-                table: "AspNetUsers",
-                newName: "AvatarImage");
+                table: "AspNetUsers");
 
             migrationBuilder.AlterColumn<float>(
                 name: "Price",
@@ -195,23 +194,17 @@ namespace DAL.Migrations
                 oldNullable: true);
 
             migrationBuilder.AddColumn<int>(
+                name: "CompanyId",
+                table: "AspNetUsers",
+                type: "integer",
+                nullable: true);
+
+            migrationBuilder.AddColumn<int>(
                 name: "Company_Id",
                 table: "AspNetUsers",
                 type: "integer",
                 nullable: false,
                 defaultValue: 0);
-
-            migrationBuilder.AddColumn<int>(
-                name: "RoleId1",
-                table: "AspNetUserRoles",
-                type: "integer",
-                nullable: true);
-
-            migrationBuilder.AddColumn<int>(
-                name: "UserId1",
-                table: "AspNetUserRoles",
-                type: "integer",
-                nullable: true);
 
             migrationBuilder.CreateTable(
                 name: "tblComments",
@@ -371,19 +364,9 @@ namespace DAL.Migrations
                 column: "Order_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_Company_Id",
+                name: "IX_AspNetUsers_CompanyId",
                 table: "AspNetUsers",
-                column: "Company_Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserRoles_RoleId1",
-                table: "AspNetUserRoles",
-                column: "RoleId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserRoles_UserId1",
-                table: "AspNetUserRoles",
-                column: "UserId1");
+                column: "CompanyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblAddresses_Order_Id",
@@ -422,26 +405,11 @@ namespace DAL.Migrations
                 column: "Product_Id");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_AspNetUserRoles_AspNetRoles_RoleId1",
-                table: "AspNetUserRoles",
-                column: "RoleId1",
-                principalTable: "AspNetRoles",
-                principalColumn: "Id");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_AspNetUserRoles_AspNetUsers_UserId1",
-                table: "AspNetUserRoles",
-                column: "UserId1",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_AspNetUsers_tblCompanies_Company_Id",
+                name: "FK_AspNetUsers_tblCompanies_CompanyId",
                 table: "AspNetUsers",
-                column: "Company_Id",
+                column: "CompanyId",
                 principalTable: "tblCompanies",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_tblProducts_tblCategories_Category_Id",
@@ -471,15 +439,7 @@ namespace DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_AspNetUserRoles_AspNetRoles_RoleId1",
-                table: "AspNetUserRoles");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_AspNetUserRoles_AspNetUsers_UserId1",
-                table: "AspNetUserRoles");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_AspNetUsers_tblCompanies_Company_Id",
+                name: "FK_AspNetUsers_tblCompanies_CompanyId",
                 table: "AspNetUsers");
 
             migrationBuilder.DropForeignKey(
@@ -525,16 +485,8 @@ namespace DAL.Migrations
                 table: "tblProducts");
 
             migrationBuilder.DropIndex(
-                name: "IX_AspNetUsers_Company_Id",
+                name: "IX_AspNetUsers_CompanyId",
                 table: "AspNetUsers");
-
-            migrationBuilder.DropIndex(
-                name: "IX_AspNetUserRoles_RoleId1",
-                table: "AspNetUserRoles");
-
-            migrationBuilder.DropIndex(
-                name: "IX_AspNetUserRoles_UserId1",
-                table: "AspNetUserRoles");
 
             migrationBuilder.DropColumn(
                 name: "Address",
@@ -573,21 +525,12 @@ namespace DAL.Migrations
                 table: "tblProducts");
 
             migrationBuilder.DropColumn(
-                name: "Company_Id",
+                name: "CompanyId",
                 table: "AspNetUsers");
 
             migrationBuilder.DropColumn(
-                name: "RoleId1",
-                table: "AspNetUserRoles");
-
-            migrationBuilder.DropColumn(
-                name: "UserId1",
-                table: "AspNetUserRoles");
-
-            migrationBuilder.RenameColumn(
-                name: "AvatarImage",
-                table: "AspNetUsers",
-                newName: "Image");
+                name: "Company_Id",
+                table: "AspNetUsers");
 
             migrationBuilder.AlterColumn<int>(
                 name: "Price",
@@ -703,6 +646,13 @@ namespace DAL.Migrations
                 oldClrType: typeof(string),
                 oldType: "character varying(256)",
                 oldMaxLength: 256);
+
+            migrationBuilder.AddColumn<string>(
+                name: "Image",
+                table: "AspNetUsers",
+                type: "character varying(255)",
+                maxLength: 255,
+                nullable: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblProducts_CategoryId",

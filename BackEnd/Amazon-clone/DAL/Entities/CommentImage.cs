@@ -16,9 +16,15 @@ namespace DAL.Entities
 
         public int Priority { get; set; }
 
-        public int Image_Id { get; set; }
+        public int Image { get; set; }
 
+    //Foreign keys:
+
+        //Every User have a company
         public Comment Comment { get; set; }
+
+        [ForeignKey(nameof(Comment))]
+        public int? CommentId { get; set; }
     }
 }
 

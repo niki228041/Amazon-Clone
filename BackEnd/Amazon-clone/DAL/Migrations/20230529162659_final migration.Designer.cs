@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppEFContext))]
-    [Migration("20230527062548_added all models")]
-    partial class addedallmodels
+    [Migration("20230529162659_final migration")]
+    partial class finalmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -42,7 +42,7 @@ namespace DAL.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<int>("Order_Id")
+                    b.Property<int?>("OrderId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Postcode")
@@ -62,7 +62,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Order_Id")
+                    b.HasIndex("OrderId")
                         .IsUnique();
 
                     b.ToTable("tblAddresses");
@@ -114,7 +114,7 @@ namespace DAL.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
-                    b.Property<int>("Product_Id")
+                    b.Property<int?>("ProductId")
                         .HasColumnType("integer");
 
                     b.Property<int>("Stars")
@@ -125,14 +125,14 @@ namespace DAL.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<int>("User_Id")
+                    b.Property<int?>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Product_Id");
+                    b.HasIndex("ProductId");
 
-                    b.HasIndex("User_Id");
+                    b.HasIndex("UserId");
 
                     b.ToTable("tblComments");
                 });
@@ -145,7 +145,10 @@ namespace DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Image_Id")
+                    b.Property<int?>("CommentId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Image")
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
@@ -158,7 +161,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Image_Id");
+                    b.HasIndex("CommentId");
 
                     b.ToTable("tblCommentImages");
                 });
@@ -218,19 +221,9 @@ namespace DAL.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("RoleId1")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("UserId1")
-                        .HasColumnType("integer");
-
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
-
-                    b.HasIndex("RoleId1");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
@@ -244,6 +237,9 @@ namespace DAL.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Address_Id")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("CompanyId")
                         .HasColumnType("integer");
 
                     b.Property<int>("Company_Id")
@@ -261,14 +257,17 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("User_Id")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Company_Id");
+                    b.HasIndex("CompanyId");
 
-                    b.HasIndex("User_Id");
+                    b.HasIndex("UserId");
 
                     b.ToTable("tblOrders");
                 });
@@ -285,10 +284,10 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Category_Id")
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Company_Id")
+                    b.Property<int?>("CompanyId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("Created_At")
@@ -317,7 +316,7 @@ namespace DAL.Migrations
                     b.Property<int>("NumberOfDaysForDelivery")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Order_Id")
+                    b.Property<int?>("OrderId")
                         .HasColumnType("integer");
 
                     b.Property<float>("Price")
@@ -328,11 +327,11 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Category_Id");
+                    b.HasIndex("CategoryId");
 
-                    b.HasIndex("Company_Id");
+                    b.HasIndex("CompanyId");
 
-                    b.HasIndex("Order_Id");
+                    b.HasIndex("OrderId");
 
                     b.ToTable("tblProducts");
                 });
@@ -356,12 +355,12 @@ namespace DAL.Migrations
                     b.Property<int>("Priority")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Product_Id")
+                    b.Property<int?>("ProductId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Product_Id");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("tblProductImages");
                 });
@@ -377,11 +376,7 @@ namespace DAL.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
 
-                    b.Property<string>("AvatarImage")
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<int>("Company_Id")
+                    b.Property<int?>("CompanyId")
                         .HasColumnType("integer");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -421,7 +416,6 @@ namespace DAL.Migrations
                         .HasColumnType("character varying(256)");
 
                     b.Property<string>("PasswordHash")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("PhoneNumber")
@@ -442,7 +436,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Company_Id");
+                    b.HasIndex("CompanyId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -546,9 +540,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Entities.Order", "Order")
                         .WithOne("Address")
-                        .HasForeignKey("DAL.Entities.Address", "Order_Id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("DAL.Entities.Address", "OrderId");
 
                     b.Navigation("Order");
                 });
@@ -557,15 +549,11 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Entities.Product", "Product")
                         .WithMany("Comments")
-                        .HasForeignKey("Product_Id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("ProductId");
 
                     b.HasOne("DAL.Entities.User", "User")
                         .WithMany("Comments")
-                        .HasForeignKey("User_Id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Product");
 
@@ -576,34 +564,24 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Entities.Comment", "Comment")
                         .WithMany("CommentImages")
-                        .HasForeignKey("Image_Id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("CommentId");
 
                     b.Navigation("Comment");
                 });
 
             modelBuilder.Entity("DAL.Entities.Identity.UserRoleEntity", b =>
                 {
-                    b.HasOne("DAL.Entities.Identity.RoleEntity", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("DAL.Entities.Identity.RoleEntity", "Role")
                         .WithMany("UserRoles")
-                        .HasForeignKey("RoleId1");
-
-                    b.HasOne("DAL.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DAL.Entities.User", "User")
                         .WithMany("UserRoles")
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Role");
 
@@ -614,15 +592,11 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Entities.Company", "Company")
                         .WithMany("Orders")
-                        .HasForeignKey("Company_Id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("CompanyId");
 
                     b.HasOne("DAL.Entities.User", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("User_Id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Company");
 
@@ -633,21 +607,15 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Entities.Category", "Category")
                         .WithMany("Products")
-                        .HasForeignKey("Category_Id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("CategoryId");
 
                     b.HasOne("DAL.Entities.Company", "Company")
                         .WithMany("Products")
-                        .HasForeignKey("Company_Id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("CompanyId");
 
                     b.HasOne("DAL.Entities.Order", "Order")
                         .WithMany("Products")
-                        .HasForeignKey("Order_Id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("OrderId");
 
                     b.Navigation("Category");
 
@@ -660,9 +628,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Entities.Product", "Product")
                         .WithMany("ProductImages")
-                        .HasForeignKey("Product_Id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("ProductId");
 
                     b.Navigation("Product");
                 });
@@ -671,9 +637,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Entities.Company", "Company")
                         .WithMany("Users")
-                        .HasForeignKey("Company_Id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("CompanyId");
 
                     b.Navigation("Company");
                 });

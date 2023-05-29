@@ -44,7 +44,8 @@ namespace ShopApi
                     {
                         Email = admin,
                         FirstName = admin,
-                        LastName = "Главний"
+                        LastName = "Главний",
+                        UserName= admin,
                     };
                     var result = userManager.CreateAsync(user, "123456").Result;
                     result = userManager.AddToRoleAsync(user, Roles.Admin).Result;
@@ -60,7 +61,7 @@ namespace ShopApi
                     {
                         await categoryRepository.Create(c);
                     }
-                
+
                     var faker2 = new Faker<Product>()
                             .RuleFor(p => p.Category, f => f.PickRandom(res))
                             .RuleFor(p => p.Name, f => f.Commerce.ProductName())
@@ -71,7 +72,7 @@ namespace ShopApi
                     {
                         r.Price = rnd.Next(100, 1000000);
                     }
-                
+
                     foreach (var c in res2)
                     {
                         await productRepository.Create(c);
