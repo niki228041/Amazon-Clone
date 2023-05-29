@@ -18,9 +18,14 @@ namespace DAL.Entities
 
         public bool IsMainImage { get; set; }
 
-        public int Product_Id { get; set; }
+        //Foreign keys:
 
+        //Every ProductImage have a product
         public Product Product { get; set; }
+
+        [ForeignKey(nameof(Product))]
+        public int? ProductId { get; set; }
+
     }
 }
 
