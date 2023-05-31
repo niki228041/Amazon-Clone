@@ -1,4 +1,5 @@
-﻿using Infrastructure.Interfaces;
+﻿using DAL.Entities.DTO_s;
+using Infrastructure.Interfaces;
 using Infrastructure.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,17 +9,20 @@ namespace ShopApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
-    { private readonly IProductService _productService;
+    { 
+        private readonly IProductService _productService;
 
         public ProductsController(IProductService productService)
         {
             _productService = productService;
         }
-        [HttpPost("GetProducts")]
-       
-        public async Task<IActionResult> GetProductsAsync([FromBody] GetProductsVM model)
+
+
+        [HttpGet("GetProducts")]
+        public async Task<IActionResult> GetProductsAsync()
         {
-            var res = await _productService.GetProductsAsync(model); 
+            //[FromBody] GetProductsVM model
+            var res = await _productService.GetProductsAsync(); 
             if (res.IsSuccess)
             {
                 return Ok(res);
@@ -26,8 +30,8 @@ namespace ShopApi.Controllers
 
             return BadRequest();
         }
+
         [HttpGet("GetProduct")]
-       
         public async Task<IActionResult> GetProductAsync(string title)
         {
             string p = string.Join(" ", title.Split('_'));
@@ -39,6 +43,33 @@ namespace ShopApi.Controllers
 
             return BadRequest(res);
         }
+
+
+        [HttpPost("CreateProduct")]
+        public async Task<IActionResult> CreateProductAsync([FromBody] CreateProductDTO model)
+        {
+            
+            var res = await _productService.CreateProductAsync(model);
+            if (res.IsSuccess)
+            {
+                return Ok(res);
+            }
+
+            return BadRequest(res);
+        }
+
+        [HttpPost("GetProductById")]
+        public async Task<IActionResult> GetProductByIdAsync([FromBody]FindByIdVM Id)
+        {
+            var res = await _productService.GetProductByIdAsync(Id.Id);
+            if (res.IsSuccess)
+            {
+                return Ok(res);
+            }
+
+            return BadRequest(res);
+        }
+
         [HttpPost]
         [Route("UploadImage")]
         public async Task<IActionResult> UploadImage([FromForm] ProductUploadImageViewModel model)
