@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material/textfield": "^14.0.0",
+    "@mui/material": "^5.13.3",
+    "@mui/styled-engine-sc": "^5.12.0",
     "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -12,12 +15,17 @@
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
     "axios": "^1.4.0",
+    "leaflet-topography": "^0.2.1",
     "react": "^18.2.0",
+    "react-avatar": "^5.0.3",
+    "react-button": "^1.2.1",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.11.2",
     "react-scripts": "5.0.1",
+    "styled-components": "^5.3.11",
     "typescript": "^4.9.5",
+    "ui-box": "^5.4.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
