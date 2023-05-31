@@ -11,6 +11,7 @@ public interface IProductRepository : IGenericRepository<Product, int>
     Task<IQueryable<Product>> SearchProducts(string name);
     Task<Product> GetByName(string name);
     ICollection<Product> GetProductsAsync(GetProductsVM model);
+    ICollection<Product> GetProductsAsync();
 
 
 }

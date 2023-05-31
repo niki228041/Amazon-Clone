@@ -29,7 +29,7 @@ namespace Infrastructure.Services
             return new ServiceResponse()
             {
                 IsSuccess = true,
-                Payload = _mapper.Map<ICollection<Category>, ICollection<CategoryVM>>(_categoryRepository.Categories.ToList())
+                Payload = _categoryRepository.Categories.ToList()
             };
         }
     }

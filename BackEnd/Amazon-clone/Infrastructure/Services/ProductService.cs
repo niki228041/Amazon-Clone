@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DAL.Entities;
+using DAL.Entities.DTO_s;
 using DAL.Interfaces;
 using Infrastructure.Interfaces;
 using Infrastructure.Models;
@@ -32,6 +33,43 @@ public class ProductService : IProductService
         };
     }
 
+    public async Task<ServiceResponse> CreateProductAsync(CreateProductDTO model)
+    {
+        var product = _mapper.Map<CreateProductDTO, Product>(model);
+
+        if(product != null) { 
+            await _productRepository.Create(product);
+            return new ServiceResponse
+            {
+                Message = "CreateProduct",
+                IsSuccess = true,
+                Payload = product
+            };
+        }
+
+        return new ServiceResponse
+        {
+            Message = "CreateProduct",
+            IsSuccess = false,
+        };
+
+        //item.Category = res.Category.Name;
+    }
+
+    public async Task<ServiceResponse> GetProductByIdAsync(int id)
+    {
+        var res = await _productRepository.GetById(id);
+        var item = _mapper.Map<Product, ProductVM>(res);
+        //item.Category = res.Category.Name;
+
+        return new ServiceResponse
+        {
+            Message = "GetProduct",
+            IsSuccess = true,
+            Payload = item
+        };
+    }
+
     public async Task<ServiceResponse> GetProductsAsync(GetProductsVM model)
     {
         ICollection<Product>? res = _productRepository.GetProductsAsync(model);
@@ -47,6 +85,27 @@ public class ProductService : IProductService
             };
         }
 
+        var list = new List<ProductVM>();
+        foreach (var p in res)
+        {
+            var item = _mapper.Map<Product, ProductVM>(p);
+            list.Add(item);
+        }
+
+        return new ServiceResponse
+        {
+            Message = "GetProducts",
+            IsSuccess = true,
+            Payload = list
+        };
+    }
+
+    public async Task<ServiceResponse> GetProductsAsync()
+    {
+        ICollection<Product> res = _productRepository.GetProductsAsync();
+
+
+       
         var list = new List<ProductVM>();
         foreach (var p in res)
         {
