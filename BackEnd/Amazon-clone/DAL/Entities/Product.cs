@@ -52,7 +52,7 @@ namespace DAL.Entities
 
 
         [DataType(DataType.DateTime)]
-        public DateTime Created_At { get; set; }
+        public DateTime Created_At { get; set; } = DateTime.UtcNow;
 
 
 
