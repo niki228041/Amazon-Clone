@@ -27,6 +27,7 @@ namespace DAL
         public DbSet<Product> Product { get; set; }
         public DbSet<ProductImage> ProductImage { get; set; }
         public DbSet<User> User { get; set; }
+        public DbSet<Subcategory> Subcategories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -46,6 +47,16 @@ namespace DAL
                     .HasForeignKey(r => r.UserId)
                     .IsRequired();
             });
+            modelBuilder.Entity<Subcategory>(ur =>
+            {
+                ur.HasOne(c => c.Category)
+                    .WithMany(s => s.Subcategories)
+                    .HasForeignKey(c => c.Id)
+                    .IsRequired();
+
+            });
+                
+
 
         }
       

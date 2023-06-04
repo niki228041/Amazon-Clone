@@ -4,6 +4,7 @@ using DAL.Interfaces;
 using Infrastructure.Interfaces;
 using Infrastructure.Models;
 using Infrastructure.Models.Caterories;
+using Microsoft.EntityFrameworkCore;
 using Services;
 
 namespace Infrastructure.Services
@@ -26,11 +27,27 @@ namespace Infrastructure.Services
 
         public async Task<ServiceResponse> GetAllAsync()
         {
-            return new ServiceResponse()
+            try
             {
-                IsSuccess = true,
-                Payload = _categoryRepository.Categories.ToList()
-            };
+                var categories = await _categoryRepository.Categories.Include(c => c.Subcategories).ToListAsync();
+                var categoryVMs = _mapper.Map<List<Category>, List<CategoryVM>>(categories);
+
+                return new ServiceResponse
+                {
+                    IsSuccess = true,
+                    Payload = categoryVMs
+                };
+            }
+            catch (Exception ex)
+            {
+
+                return new ServiceResponse
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+
         }
     }
 }
