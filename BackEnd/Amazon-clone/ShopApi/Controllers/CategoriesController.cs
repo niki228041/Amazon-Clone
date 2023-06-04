@@ -1,7 +1,10 @@
-﻿using Infrastructure.Interfaces;
+﻿using DAL.Entities;
+using Infrastructure.Interfaces;
 using Infrastructure.Models.Caterories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace ShopApi.Controllers
 {
@@ -15,6 +18,7 @@ namespace ShopApi.Controllers
         {
             _categoryService = categoryService;
         }
+
         [HttpPost]
         [Route("Create")]
         public async Task<IActionResult> Create(CategoryCreateVM model)
@@ -28,5 +32,6 @@ namespace ShopApi.Controllers
         {
             return Ok(await _categoryService.GetAllAsync());
         }
+
     }
 }
