@@ -47,6 +47,7 @@ namespace Infrastructure.Services
                     Message = ex.Message
                 };
             }
+
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DAL.Entities;
+using DAL.Entities.DTO_s;
 using DAL.Interfaces;
 using DAL.Repositories;
 
@@ -17,7 +18,10 @@ public class AppMappingProfile : Profile
                 act.MapFrom(src => src.Category.Name));
         CreateMap<ProductVM, Product>();
         CreateMap< Category, CategoryVM>();
-  
+
+        CreateMap<Product, CreateProductDTO>();
+        CreateMap<CreateProductDTO, Product>();
+
     }
 
     

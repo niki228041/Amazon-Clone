@@ -45,4 +45,8 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         int end = model.pageSize * model.pageNumber + model.pageSize;
         return FilterByName(GetByCategoryName(model.Category), model.Find).Skip(start).Take(end - start).ToList();
     }
+    public ICollection<Product> GetProductsAsync()
+    {
+        return GetAll().Include(i => i.Category).ToList();
+    }
 }

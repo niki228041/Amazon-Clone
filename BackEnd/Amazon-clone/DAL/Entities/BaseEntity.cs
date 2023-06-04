@@ -17,7 +17,7 @@ namespace DAL.Entities
         public T Id { get; set; }
         public string Name { get; set; }
         public bool IsDelete { get; set; }
-        public DateTime DateCreated { get; set; }
+        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
     }
 }
 
