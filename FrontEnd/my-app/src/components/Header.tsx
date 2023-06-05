@@ -25,6 +25,13 @@ const Header=()=> {
             
             {/*  outline outline-2 outline-white */}
             <div className="flex"> 
+
+                <div className="mr-14 hover:bg-slate-800 hover:contrast-75 cursor-pointer bg-whiteYellow flex items-center">
+                    <div onClick={()=>routeChange("/admin")} className=' pl-1 pr-1' >
+                        Admin
+                    </div>
+                </div>
+
                 <div className="mr-14"  onClick={handleOpenMenu}>
                     Menu
                     {openMenu ?

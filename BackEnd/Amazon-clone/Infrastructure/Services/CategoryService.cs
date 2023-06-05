@@ -22,7 +22,9 @@ namespace Infrastructure.Services
 
         public async Task<int> Create(CategoryCreateVM model)
         {
-            return 0;
+            var category = _mapper.Map<CategoryCreateVM, Category>(model);
+             await _categoryRepository.Create(category);
+            return 000;
         }
 
         public async Task<ServiceResponse> GetAllAsync()

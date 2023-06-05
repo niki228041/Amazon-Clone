@@ -26,6 +26,7 @@ namespace ShopApi.Controllers
             var id =  await _categoryService.Create(model);
             return Ok(id);
         }
+
         [HttpGet]
         [Route("GetAll")]
         public async Task<IActionResult> GetAllAsync()

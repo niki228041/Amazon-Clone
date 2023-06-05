@@ -5,6 +5,8 @@ import Footer from './components/Footer';
 import Main from './components/Main';
 import OneProduct from './components/OneProduct';
 import Profile from './components/Profile';
+import LoginScreen from './components/Auth/Login/Login';
+import AdminSite from './components/AdminSite';
 
 function App() {
   return (
@@ -24,11 +26,13 @@ function App() {
           
           </>
         }>
+          <Route path='admin' element={<AdminSite/>} />
 
           <Route path='products' element={<Main/>}>
           </Route>
           <Route path="product/:productId" element={<OneProduct/>} />
           <Route path="profile" element={<Profile/>} />
+          <Route path="login" element={<LoginScreen/>} />
 
         </Route>
 

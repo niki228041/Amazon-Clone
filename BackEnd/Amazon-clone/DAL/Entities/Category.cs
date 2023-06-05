@@ -14,9 +14,10 @@ namespace DAL.Entities
         [Required(ErrorMessage = "Field name is required")]
         public string Name { get; set; }
 
+
         //Foreign keys:
         public ICollection<Product> Products { get; set; }
-        public ICollection<Subcategory> Subcategories { get; set; }
+        public ICollection<Category> Subcategories { get; set; } = new List<Category>();
     }
 }
 
