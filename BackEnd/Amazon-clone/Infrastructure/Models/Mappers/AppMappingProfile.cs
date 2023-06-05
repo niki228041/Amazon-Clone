@@ -3,6 +3,7 @@ using DAL.Entities;
 using DAL.Entities.DTO_s;
 using DAL.Interfaces;
 using DAL.Repositories;
+using Infrastructure.Models.Caterories;
 
 namespace Infrastructure.Models.Mappers;
 
@@ -21,6 +22,9 @@ public class AppMappingProfile : Profile
 
         CreateMap<Product, CreateProductDTO>();
         CreateMap<CreateProductDTO, Product>();
+
+        CreateMap<CategoryCreateVM, Category>();
+        CreateMap<Category, CategoryCreateVM>();
 
     }
 

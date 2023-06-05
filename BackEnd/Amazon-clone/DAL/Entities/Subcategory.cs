@@ -12,7 +12,7 @@ namespace DAL.Entities
         [ForeignKey(nameof(Category))]
         public int? CategoryId { get; set; }
 
-        public Category Category { get; set; }
+        public Subcategory Category { get; set; } = null;
         public virtual ICollection<Product> Products { get; set; }
     }
 }

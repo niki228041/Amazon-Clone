@@ -47,15 +47,7 @@ namespace DAL
                     .HasForeignKey(r => r.UserId)
                     .IsRequired();
             });
-            modelBuilder.Entity<Subcategory>(ur =>
-            {
-                ur.HasOne(c => c.Category)
-                    .WithMany(s => s.Subcategories)
-                    .HasForeignKey(c => c.Id)
-                    .IsRequired();
 
-            });
-                
 
 
         }
