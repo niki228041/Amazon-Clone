@@ -58,6 +58,13 @@ namespace ShopApi.Controllers
             return BadRequest(res);
         }
 
+        [HttpPost("DeleteProduct")]
+        public async Task<IActionResult> DeleteProductAsync([FromBody] FindByIdVM model)
+        {
+            await _productService.DeleteProductAsync(model.Id);
+            return Ok(model);
+        }
+
         [HttpPost("GetProductById")]
         public async Task<IActionResult> GetProductByIdAsync([FromBody]FindByIdVM Id)
         {

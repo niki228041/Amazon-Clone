@@ -1,7 +1,7 @@
 
 
 export interface Product{
-    id: BigInteger,
+    id: number,
     name: String,
     price: String,
     discount: String,

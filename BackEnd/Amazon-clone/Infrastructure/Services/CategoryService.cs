@@ -51,5 +51,18 @@ namespace Infrastructure.Services
             }
 
         }
+
+        public async Task<Category> GetByIdAsync(int id)
+        {
+            var category = _categoryRepository.Categories.Include(c => c.Subcategories).FirstOrDefault(categ=>categ.Id==id);
+
+
+            if (category != null)
+            {
+                return category;
+            }
+
+            return null;
+        }
     }
 }

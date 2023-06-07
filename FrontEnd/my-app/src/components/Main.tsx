@@ -4,8 +4,9 @@ import { useGetProductsQuery } from '../features/user/apiProductSlice';
 import img from '../images/t-shirt-png.webp'
 import { useParams} from 'react-router-dom'
 import star from "../images/Gold_Star.png"
+import { Product } from './types';
 
-const Category=(data:any)=>{
+const Category=(data:Product)=>{
 
   return(
   <Link key={data.id} to={"/product/" + data.id}>
