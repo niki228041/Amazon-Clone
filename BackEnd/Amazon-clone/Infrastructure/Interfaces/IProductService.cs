@@ -12,4 +12,5 @@ public interface IProductService
     Task<ServiceResponse> CreateProductAsync(CreateProductDTO model);
     Task<ServiceResponse> GetProductsAsync(GetProductsVM model);
     Task<ServiceResponse> GetProductsAsync();
+    Task DeleteProductAsync(int id);
 }
