@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { apiProductSlice, useGetProductsQuery } from "../../features/user/apiProductSlice";
-import { useGetCategoriesQuery } from "../../features/user/apiCategorySlice";
+import { apiCategorySlice, useGetCategoriesQuery } from "../../features/user/apiCategorySlice";
 import { Category } from "./types";
 import { useState } from "react";
 import { Product } from "../types";
@@ -12,7 +12,8 @@ const AdminSite=()=> {
     const [list,setList] = useState("products");
 
     
-    const [deleteProduct_,{}] = apiProductSlice.useDeleteProductByIdMutation();
+    const [deleteProduct_,{}] = apiProductSlice.useDeleteProductMutation();
+    const [deleteCategory_,{}] = apiCategorySlice.useDeleteCategoryMutation();
     // const [deleteProduct_,{}] = apiProductSlice.useDeleteProductByIdMutation();
     const {data,isSuccess} = useGetProductsQuery();
     const {data:categories,isSuccess:isSuccessCategory}:{data:any,isSuccess:boolean,error:any} = useGetCategoriesQuery();
@@ -33,7 +34,7 @@ const AdminSite=()=> {
     }
 
     const deleteCategoryHandle=(id:number)=>{
-      // deleteProduct_({id:id});
+      deleteCategory_({id:id});
     }
 
 
@@ -65,12 +66,11 @@ const AdminSite=()=> {
         <div className=" justify-center w-full p-4 rounded-xl">
 
             <div className="flex content-center self-center text-center place-content-between">
-                <span className="text-xl font-semibold leading-6 text-gray-900">Products</span>
+                <span className="text-xl font-semibold leading-6 text-gray-900">{list}</span>
                 <button
                    type="button"
-                   onClick={()=>{navigate("create")}}
+                   onClick={()=>{navigate("create/" + list)}}
                    className="inline-flex items-center rounded-md   cursor-pointer bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                   
                    Create
                  </button>
             </div>

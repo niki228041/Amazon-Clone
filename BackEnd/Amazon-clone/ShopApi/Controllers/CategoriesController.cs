@@ -1,6 +1,8 @@
 ﻿using DAL.Entities;
 using Infrastructure.Interfaces;
+using Infrastructure.Models;
 using Infrastructure.Models.Caterories;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -32,6 +34,27 @@ namespace ShopApi.Controllers
         public async Task<IActionResult> GetAllAsync()
         {
             return Ok(await _categoryService.GetAllAsync());
+        }
+
+        [HttpGet]
+        [Route("GetMainCategories")]
+        public async Task<IActionResult> GetMainCategoriesAsync()
+        {
+            return Ok(await _categoryService.GetMainCategoriesAsync());
+        }
+
+        [HttpPost]
+        [Route("GetAllSubcategoriesByCategoryId")]
+        public async Task<IActionResult> GetAllSubcategoriesByCategoryIdAsync([FromBody] FindByIdVM model)
+        {
+            return Ok(await _categoryService.GetAllSubcategoriesByCategoryId(model.Id));
+        }
+
+        [HttpPost("DeleteCategory")]
+        public async Task<IActionResult> DeleteCategoryAsync([FromBody] FindByIdVM model)
+        {
+            await _categoryService.DeleteCategoryAsync(model.Id);
+            return Ok(model);
         }
 
     }

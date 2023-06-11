@@ -11,6 +11,11 @@ export interface createProduct{
     categoryId: number
 }
 
+export interface createCategory{
+    name: String,
+    categoryId: number
+}
+
 export interface Category{
     id: number,
     name: String,
