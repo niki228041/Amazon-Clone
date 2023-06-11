@@ -23,7 +23,7 @@ export const apiProductSlice:any = createApi({
           }),
           providesTags:result=>['Product']
         }),
-        deleteProductById:builder.mutation<any,any>({
+        deleteProduct:builder.mutation<any,any>({
           query:(todo)=>({
             url:'/api/Products/DeleteProduct',
             method:"POST",

@@ -53,17 +53,16 @@ const Header=()=> {
                     Basket
                 </div>
             </div>
-            
-            
         </div>
-
     </div>
 
-    <div className=" bg-slate-500 w-full h-6 flex flex-row-reverse text-sm">
-        <div className=" text-white text-center mr-2 hover:bg-slate-400 w-14"> Item 1 </div>
-        <div className=" text-white text-center mr-2 hover:bg-slate-400 w-14"> Item 2 </div>
-        <div className=" text-white text-center mr-2 hover:bg-slate-400 w-14"> Item 3 </div>
-        <div className=" text-white text-center mr-2 hover:bg-slate-400 w-14"> Item 4 </div>
+    <div className="bg-slate-500 w-full h-10 flex flex-row text-sm text-center items-center">
+        <div className=" ml-3 text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">All</div>
+        <div className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Best Sellers</div>
+        <div className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Amazon Basic</div>
+        <div className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Today's Deals</div>
+        <div className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Prime Video</div>
+        <div className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Music</div>
     </div>
 
     <SideBar/>

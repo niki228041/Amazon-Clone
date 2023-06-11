@@ -8,6 +8,7 @@ import Profile from './components/Profile';
 import LoginScreen from './components/Auth/Login/Login';
 import AdminSite from './components/Admin/AdminSite';
 import CreateProduct from './components/Admin/CreateProduct';
+import CreateCategory from './components/Admin/CreateCategory';
 
 const App:React.FC =()=> {
   return (
@@ -31,7 +32,10 @@ const App:React.FC =()=> {
 
             <Route path='admin' element={<Outlet/>}>
               <Route path='' element={<><AdminSite/></>}/>
-              <Route path='create' element={<><CreateProduct/></>} />
+              <Route path='create'>
+                <Route path='products' element={<CreateProduct/>} />
+                <Route path='categories' element={<CreateCategory/>} />
+              </Route>
             </Route>
 
           

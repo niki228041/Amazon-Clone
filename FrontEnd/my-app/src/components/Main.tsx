@@ -1,10 +1,11 @@
-import React from 'react';
+import {useEffect,useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useGetProductsQuery } from '../features/user/apiProductSlice';
 import img from '../images/t-shirt-png.webp'
 import { useParams} from 'react-router-dom'
 import star from "../images/Gold_Star.png"
 import { Product } from './types';
+import { apiCategorySlice, useGetCategoriesQuery, useGetMainCategoriesQuery } from '../features/user/apiCategorySlice';
 
 const Category=(data:Product)=>{
 
@@ -37,16 +38,50 @@ const Main=()=>{
 
   // const navigate = useNavigate();
   const {data,isSuccess,error} = useGetProductsQuery();
-  console.log(data);
-  console.log(error);
+  const {data:categories,isSuccess:isSuccessCategory} = useGetMainCategoriesQuery();
+  const [getSubcategories,{}] = apiCategorySlice.useGetAllSubcategoriesByCategoryIdMutation();
 
-return (
-    <div className='w-full pl-44 pr-44 grid grid-cols-6 gap-1 '>
+  var [fetchedSubcategories,setFetchedSubcategories] = useState([]);
+  
+  console.log(categories);
+
+  useEffect(()=>{
+  },[])
+
+  const toNextCategory= async (id:number)=>{
+    let response:any = await  getSubcategories({id:id});
+    console.log(id);
+    console.log("RESPONSE:");
+    console.log(response.data.payload.subcategories);
+    setFetchedSubcategories (response.data.payload.subcategories);
+  }
+  
+
+  return (
+    <div className='flex p-2 '>
+      <div className='w-full'>
+        <div className=' font-medium'>All Categories</div>
+        {isSuccessCategory ? categories.payload.map((a:any)=>{return <div>
+          <div className='text-blue-950 cursor-pointer hover:underline'>{a.name}</div>
+          <div className='ml-2'>
+            {a.subcategories?.map((sub:any)=>{return <p onClick={()=>{toNextCategory(sub.id)}} className='text-blue-950 cursor-pointer hover:underline'>{sub.name}</p>  })}
+          </div>
+          { fetchedSubcategories ? fetchedSubcategories.map((sub:any)=>{return sub.name }) : "g"}
+        </div> }) : ""}
+          {/* <div className='text-blue-950 cursor-pointer hover:underline'>sdfds</div> */}
+      </div>
+        
+      
+    <div className=' pl-44 pr-44 grid grid-cols-6 gap-1 '>
 
       {/* grid */}
+      
+      
+
       {isSuccess ? data?.payload?.map((a:any)=>{return Category(a) }): ""}
 
 
+    </div>
     </div>
 )
 }
