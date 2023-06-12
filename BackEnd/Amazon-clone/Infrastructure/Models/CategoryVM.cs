@@ -1,7 +1,11 @@
-﻿namespace Infrastructure.Models;
+﻿using DAL.Entities;
+
+namespace Infrastructure.Models;
 
 public class CategoryVM
 {
-    public string Name { get; set; }   
-    public string Image { get; set; }   
+    public string Id { get; set; }   
+    public string Name { get; set; }
+    public List<CategoryVM> Subcategories { get; set; }
+    public int ParentId { get; set; }
 }
