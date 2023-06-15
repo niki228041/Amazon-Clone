@@ -1,12 +1,30 @@
 
 
+
 import { useParams} from 'react-router-dom'
 import img from '../images/t-shirt-png.webp'
 import { useGetProductByIdQuery, useGetProductsQuery } from '../features/user/apiProductSlice';
-import { Product } from './types';
+import { Order, Product } from './types';
+import { useAppSelector } from '../app/hooks';
+import { useDispatch } from 'react-redux';
+import { addOrder } from '../features/user/ordersStateSlice';
+import { v4 as uuidv4 } from 'uuid';
 
 const OneProduct=()=>{
+    const dispatch = useDispatch();
     const params = useParams();
+    const orders = useAppSelector((state)=>state.orders);
+
+
+    const handleAddNewOrder=(data:any)=>{
+        const newOrder:Order = {id:uuidv4(), name:data.name,product_id:data.id};
+        dispatch(addOrder(newOrder));
+
+        console.log(uuidv4());
+    }
+
+    console.log(orders);
+
     
     // const { data, isSuccess } = useGetProductByIdQuery({ Id: params.productId });
     
@@ -37,7 +55,7 @@ const OneProduct=()=>{
                     <p>address: {data?.payload.address}</p>
                 </div>
                 <div>
-                    <button className=' bg-green-300 p-2' onClick={()=>{console.log("add here to basket")}}>
+                    <button className=' bg-green-300 p-2' onClick={()=>{handleAddNewOrder(data?.payload)}}>
                         Add To Basket
                     </button>
                 </div>

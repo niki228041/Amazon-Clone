@@ -9,28 +9,30 @@ import { apiCategorySlice, useGetCategoriesQuery, useGetMainCategoriesQuery } fr
 
 const Category=(data:Product)=>{
 
-  return(
-  <Link key={data.id} to={"/product/" + data.id}>
+  return<>
+  <div >
+  <Link to={"/product/" + data.id}>
     <div className='pb-2 mt-20'>
       <div>
-        <img src={img} className=' ' />        
-      </div>
-      <div className='p-1'>
-        <p className='text-blue-950 hover:text-red-700 cursor-pointer hover:underline '>
-          {data.name}
-        </p>
-        <div className='flex'>
-          <img className='h-4' src={star}/>
-          <img className='h-4' src={star}/>
-          <img className='h-4' src={star}/>
-          <img className='h-4' src={star}/>
-          <span className='ml-1 text-blue-950 hover:text-red-700 cursor-pointer hover:underline text-[12px] font-medium'>144</span>
+          <img src={img} className=' ' />        
         </div>
-        <p className='text-sm text-red-700 font-medium'>$ 432.44</p>
+        <div className='p-1'>
+          <p className='text-blue-950 hover:text-red-700 cursor-pointer hover:underline '>
+            {data.name}
+          </p>
+          <div className='flex'>
+            <img className='h-4' src={star}/>
+            <img className='h-4' src={star}/>
+            <img className='h-4' src={star}/>
+            <img className='h-4' src={star}/>
+            <span className='ml-1 text-blue-950 hover:text-red-700 cursor-pointer hover:underline text-[12px] font-medium'>144</span>
+          </div>
+          <p className='text-sm text-red-700 font-medium'>$ 432.44</p>
+        </div>
       </div>
-    </div>
-  </Link>)
-  
+    </Link>
+  </div>
+  </>
 }
 
 
@@ -61,12 +63,12 @@ const Main=()=>{
     <div className='flex p-2 '>
       <div className='w-full'>
         <div className=' font-medium'>All Categories</div>
-        {isSuccessCategory ? categories.payload.map((a:any)=>{return <div>
+        {isSuccessCategory ? categories.payload.map((a:any,id:number)=>{return <div key={id}>
           <div className='text-blue-950 cursor-pointer hover:underline'>{a.name}</div>
           <div className='ml-2'>
-            {a.subcategories?.map((sub:any)=>{return <p onClick={()=>{toNextCategory(sub.id)}} className='text-blue-950 cursor-pointer hover:underline'>{sub.name}</p>  })}
+            {a.subcategories?.map((sub:any,id:number)=>{return <p key={id} onClick={()=>{toNextCategory(sub.id)}} className='text-blue-950 cursor-pointer hover:underline'>{sub.name}</p>  })}
           </div>
-          { fetchedSubcategories ? fetchedSubcategories.map((sub:any)=>{return sub.name }) : "g"}
+          { fetchedSubcategories ? fetchedSubcategories.map((sub:any,id:number)=>{return <div key={id}>{sub.name}</div>}) : "g"}
         </div> }) : ""}
           {/* <div className='text-blue-950 cursor-pointer hover:underline'>sdfds</div> */}
       </div>
@@ -77,8 +79,8 @@ const Main=()=>{
       {/* grid */}
       
       
+      {isSuccess ? data?.payload?.map((a:any,id:number)=>{return <div key={id}>{Category(a)}</div>  }): ""}
 
-      {isSuccess ? data?.payload?.map((a:any)=>{return Category(a) }): ""}
 
 
     </div>

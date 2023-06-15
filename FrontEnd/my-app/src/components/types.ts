@@ -11,3 +11,9 @@ export interface Product{
     numberOfDaysForDelivery: String,
     address: String
 }
+
+export interface Order{
+    id:any;
+    name:any;
+    product_id:any;
+}
