@@ -31,6 +31,9 @@
     "styled-components": "^5.3.11",
     "typescript": "^4.9.5",
     "ui-box": "^5.4.1",
+    "util": "^0.12.5",
+    "uuid": "^9.0.0",
+    "uuidv4": "^6.2.13",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

@@ -9,6 +9,7 @@ import LoginScreen from './components/Auth/Login/Login';
 import AdminSite from './components/Admin/AdminSite';
 import CreateProduct from './components/Admin/CreateProduct';
 import CreateCategory from './components/Admin/CreateCategory';
+import Orders from './components/Orders';
 
 const App:React.FC =()=> {
   return (
@@ -42,6 +43,8 @@ const App:React.FC =()=> {
             <Route path="/products" element={<><Main /></>} >
               <Route path="products" element={<Profile />} />
             </Route>
+
+            <Route path='orders' element={<Orders/>}/>
             <Route path="product/:productId" element={<OneProduct />} />
             <Route path="profile" element={<Profile />} />
             <Route path="login" element={<LoginScreen />} />
