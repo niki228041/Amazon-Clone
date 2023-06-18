@@ -14,6 +14,10 @@ const CreateCategory=()=> {
 
       var e:any = document.getElementById("Category");
       var categoryId = e.value;
+      if(e.value=="-")
+      {
+        categoryId = 0;
+      }
       
       var name = curentData?.get("name")?.toString()!;
 

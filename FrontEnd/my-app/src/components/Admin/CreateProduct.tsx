@@ -10,7 +10,6 @@ const CreateProduct=()=> {
     const {data:categories,isSuccess} = useGetCategoriesQuery();
 
     const handleCreate=(data:React.FormEvent<HTMLFormElement>)=>{
-
       data.preventDefault();
       var curentData = new FormData(data.currentTarget);
 
@@ -31,79 +30,60 @@ const CreateProduct=()=> {
       if(isInTheStock == null)
       isInTheStock_bool = false;
 
-      
+      var {files}:any = document?.getElementById("Images");
+
+      var imagesBytes = [];
 
       
-      var newProduct:createProduct = {
-        name:name,
-        price: price,
-        discount: discount,
-        description: description,
-        quantity: quantity,
-        isInTheStock: isInTheStock_bool,
-        numberOfDaysForDelivery: numberOfDaysForDelivery,
-        address: address,
-        categoryId:categoryId
-      };
+      for(var it =0;it<files.length;it++){
+        imagesBytes.push(files[it]);
+      } 
 
-      console.log(newProduct);
+      const promises = imagesBytes.map((img: any) => {
+        return new Promise((resolve) => {
+          let byte_img = toBase64(img);
+          byte_img.then((res: any) => {
+            let res_byte_img = res.split(',')[1];
+            let ext = getFileExtension(img.name);
+            
+            resolve({ data: res_byte_img, extension: ext });
+          });
+        });
+      });
 
-      createProduct(newProduct);
-
-      // if(file.size.length < 7) return `${Math.round(file.size/1024).toFixed(2)}kb`
-      //     var sizeInMb = `${(Math.round(file.size.toString()/1024)/1000).toFixed(2)}MB`;
+      Promise.all(promises).then((imagesBytes_toSend) => {
+        var newProduct: createProduct = {
+          name: name,
+          price: price,
+          discount: discount,
+          description: description,
+          quantity: quantity,
+          isInTheStock: isInTheStock_bool,
+          numberOfDaysForDelivery: numberOfDaysForDelivery,
+          address: address,
+          categoryId: categoryId,
+          images_: imagesBytes_toSend
+        };
+        console.log(newProduct);
       
-
-      // var re:any = /(?:\.([^.]+))?$/;
-      // var ext = re.exec(file.name)[1];
-
-
-      // var e:any = document.getElementById("Company");
-      // var companyId = e.value;
-
-      // var fileBytes = toBase64(file);
-
-      // var imagesBytes = [];
-      // var imagesBytes_toSend:any = [];
-      
-      // for(var it =0;it<files.length;it++){
-      //   imagesBytes.push(files[it]);
-      // } 
-
-
-
-      // imagesBytes.forEach((img:any)=>{
-      //   let byte_img = toBase64(img);
-      //   byte_img.then((res:any)=>{
-      //     var res_byte_img = res.split(',')[1];
-      //     imagesBytes_toSend.push({Data:res_byte_img,extension:'.' + getFileExtension(img.name)});
-      //   })
-      // })
-      
-
-      // fileBytes.then((res:any)=>{
-      //     var bytesToRequest = res.split(',')[1];
-      //     let newAsset:INewAsset = {
-      //         name:Name,
-      //         inWhichPrograms:InWhichPrograms,
-      //         licenseType:LicenseType,
-      //         extension:ext,uploadDate: new Date(Date.now()),
-      //         userId:user.data.id,
-      //         companyId:companyId,
-      //         data:bytesToRequest,
-      //         size:sizeInMb,
-      //         price:Price,
-      //         version:Version,
-      //         images_:imagesBytes_toSend
-      //     };
-      //     console.log(newAsset);
-
-      //     createProduct(newAsset);
-      // })
-
-
+        createProduct(newProduct);
+      });
 
       
+  }
+
+  const toBase64:any = (file:File) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+
+  });
+
+  function getFileExtension(filename:any){
+    // get file extension
+    const extension = "." + filename.split('.').pop();
+    return extension;
   }
     
     return <>
@@ -156,7 +136,6 @@ const CreateProduct=()=> {
                 <input
                   id="price"
                   name="price"
-                  type="number"
                   autoComplete="price"
                   required
                   className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -238,6 +217,14 @@ const CreateProduct=()=> {
                     {isSuccess ? categories.payload?.map((a:Category)=>{return <option value={a.id} key={a.id}>{a.name}</option>;}) : ""}
                   </select>
                 </div>
+            </div>
+
+            <div className=' rounded-full flex flex-col mb-4'>
+              <span>Select Images</span>
+              <input name="Images" id="Images" multiple type="file" className='hidden' />
+              <label htmlFor='Images' className=' bg-yellowForInputs hover:opacity-90 text-[15px] mediumFont outline-none rounded-full h-10 pl-3 pr-3 flex justify-center items-center cursor-pointer' >
+                  Upload Images
+              </label>
             </div>
 
             

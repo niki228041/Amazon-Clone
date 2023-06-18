@@ -15,14 +15,14 @@ namespace Infrastructure.Services
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;
-        private readonly IProductRepository _productService;
+        private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
 
         public CategoryService(ICategoryRepository categoryRepository, IMapper mapper, IProductRepository productService)
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;
-            _productService = productService;
+            _productRepository = productService;
         }
 
         public async Task<int> Create(CategoryCreateVM model)
@@ -31,8 +31,6 @@ namespace Infrastructure.Services
 
 
             var category_parent = _categoryRepository.GetAll().FirstOrDefault(categ => categ.Id == model.CategoryId);
-
-            
 
 
             if (category_parent!=null)
@@ -84,12 +82,12 @@ namespace Infrastructure.Services
 
         public async Task DeleteCategoryAsync(int id)
         {
-            var request = _productService.GetProductsAsync();
+            var request = _productRepository.GetProductsAsync();
             var products = (List<Product>)request;
             
             foreach(var product in products)
             {
-                _productService.Delete(product.Id);
+                _productRepository.Delete(product.Id);
             }
 
             await _categoryRepository.Delete(id);

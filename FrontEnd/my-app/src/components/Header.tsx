@@ -84,14 +84,13 @@ const Header=()=> {
 
     
 
-          <a>
-            <div id="dropdownSmallButton" onClick={()=>navigate("/login")} data-dropdown-toggle="dropdownSmall" className="header__option">
+          <Link to="/login">
+            <div id="dropdownSmallButton" data-dropdown-toggle="dropdownSmall" className="header__option">
               <span className="header__optionLineOne" >Hello, sign in </span>
               
               <span className="header__optionLineTwo">Account & Lists</span>
             </div>
-
-          </a>
+          </Link>
           
         
 
