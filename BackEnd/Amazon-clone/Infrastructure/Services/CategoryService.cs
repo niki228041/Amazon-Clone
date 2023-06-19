@@ -140,12 +140,12 @@ namespace Infrastructure.Services
             return null;
         }
 
-        public async Task<ServiceResponse> GetAllSubcategoriesByCategoryId(int id)
+        public async Task<ServiceResponse> GetNearSubcategoriesByCategoryId(int id)
         {
             try
             {
-                var categories = await _categoryRepository.Categories.Include(c=>c.Subcategories).ToListAsync();
-                var category = categories.Find(c=>c.Id == id);
+                var categories = await _categoryRepository.Categories.Include(c => c.Subcategories).ToListAsync();
+                var category = categories.Find(c => c.Id == id);
                 //var categoriesWithParents = _categoryRepository.Categories.Include(c => c.Parent).ToList();
 
                 var categoryVM = _mapper.Map<Category, CategoryVM>(category);
@@ -168,5 +168,51 @@ namespace Infrastructure.Services
                 };
             }
         }
+
+        public async Task<List<CategoryVM>> GetAllSubcategoriesByCategoryId(int id)
+        {
+            var categories = await _categoryRepository.Categories.Include(c => c.Subcategories).ToListAsync();
+            var category = categories.Find(c => c.Id == id);
+
+            var categ_list = new List<Category>();
+
+            foreach(var categ_tmp in category.Subcategories)
+            {
+                var sub_category = categories.Find(c => c.Id == categ_tmp.Id);
+                if (sub_category.Subcategories.Count != 0)
+                {
+                    var allSubCategories = await getSubcategoriesFromCategory(sub_category.Subcategories);
+                    categ_list.AddRange(allSubCategories);
+                    categ_list = categ_list;
+                }
+                categ_list.Add(categ_tmp);
+            }
+
+            var final_list = _mapper.Map<List<Category>, List<CategoryVM>>(categ_list);
+
+            return final_list;
+        }
+
+        public async Task<List<Category>> getSubcategoriesFromCategory(ICollection<Category> subcategories)
+        {
+            var categories = await _categoryRepository.Categories.Include(c => c.Subcategories).ToListAsync();
+
+            var categ_list = new List<Category>();
+
+            foreach (var categ_tmp in subcategories)
+            {
+                var sub_category = categories.Find(c => c.Id == categ_tmp.Id);
+                if (sub_category.Subcategories != null)
+                {
+                    var allSubCategories = await getSubcategoriesFromCategory(sub_category.Subcategories);
+                    categ_list.AddRange(allSubCategories);
+                }
+                categ_list.Add(categ_tmp);
+            }
+
+            return categ_list;
+        }
+
+
     }
 }

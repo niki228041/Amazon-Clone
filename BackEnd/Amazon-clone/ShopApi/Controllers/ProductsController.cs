@@ -76,6 +76,18 @@ namespace ShopApi.Controllers
             return BadRequest(res);
         }
 
+        [HttpPost("GetProductByCategoryId")]
+        public async Task<IActionResult> GetProductByCategoryIdAsync([FromBody] FindByIdVM Id)
+        {
+            var res = await _productService.GetProductByCategoryId(Id.Id);
+            if (res.IsSuccess)
+            {
+                return Ok(res);
+            }
+
+            return BadRequest(res);
+        }
+
         [HttpPost]
         [Route("UploadImage")]
         public async Task<IActionResult> UploadImage([FromForm] ProductUploadImageViewModel model)

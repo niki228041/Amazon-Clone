@@ -47,7 +47,7 @@ namespace ShopApi.Controllers
         [Route("GetAllSubcategoriesByCategoryId")]
         public async Task<IActionResult> GetAllSubcategoriesByCategoryIdAsync([FromBody] FindByIdVM model)
         {
-            return Ok(await _categoryService.GetAllSubcategoriesByCategoryId(model.Id));
+            return Ok(await _categoryService.GetNearSubcategoriesByCategoryId(model.Id));
         }
 
         [HttpPost("DeleteCategory")]

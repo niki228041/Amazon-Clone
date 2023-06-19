@@ -1,5 +1,5 @@
 import {useEffect,useState} from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useGetProductsQuery } from '../features/user/apiProductSlice';
 import img from '../images/t-shirt-png.webp'
 import { useParams} from 'react-router-dom'
@@ -14,7 +14,7 @@ const Product_Component=(data:Product)=>{
   <Link to={"/product/" + data.id}>
     <div className='pb-2 px-3 mt-20 w-full'>
       <div>
-          <div className='w-full h-[200px]' style={{ backgroundImage: `url(${'data:image/gif;base64,' + data?.image})`,backgroundPosition:"center",backgroundSize:"cover"}}>
+          <div className='w-full h-[160px]' style={{ backgroundImage: `url(${'data:image/gif;base64,' + data?.image})`,backgroundPosition:"center",backgroundSize:"cover"}}>
 
           </div>
           {/* <img src={data?.image ? "data:image/png;base64," + data?.image : img} className=' w-full h-[100px] ' />         */}
@@ -43,16 +43,25 @@ const Product_Component=(data:Product)=>{
 
 
 const Main=()=>{
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const category = searchParams.get('category');
+  const categoryId = searchParams.get('id');
 
-  // const navigate = useNavigate();
+
   const {data,isSuccess,error} = useGetProductsQuery();
   const {data:categories,isSuccess:isSuccessCategory} = useGetMainCategoriesQuery();
   const [getSubcategories,{}] = apiCategorySlice.useGetAllSubcategoriesByCategoryIdMutation();
+  
+  const navigate = useNavigate();
+
+
 
 
   var [categoriesToView,setCategoriesToView] = useState([]);
 
   var [categoriesSequence,setCategoriesSequence] = useState<categorySequence[]>([]);
+  var url = `/products?category=${encodeURIComponent("")}`;
   
 
   useEffect(()=>{
@@ -71,7 +80,10 @@ const Main=()=>{
     console.log("RESPONSE:");
     console.log(response.data.payload.subcategories);
 
+    url = `/products?category=${encodeURIComponent(name)}&id=${encodeURIComponent(id)}`
+    navigate(url);
     if(response.data.payload.subcategories.length != 0){
+
       setCategoriesToView(response.data.payload.subcategories);
 
       const newCategoriesSequence = [...categoriesSequence];
@@ -92,6 +104,9 @@ const Main=()=>{
   }
 
   const setMainCategories=async()=>{
+    url = `/products`;
+    navigate(url);
+
     setCategoriesToView(categories.payload);
     setCategoriesSequence([]);
   }
