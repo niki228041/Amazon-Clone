@@ -176,21 +176,25 @@ namespace Infrastructure.Services
 
             var categ_list = new List<Category>();
 
-            foreach(var categ_tmp in category.Subcategories)
+            if (category != null)
             {
-                var sub_category = categories.Find(c => c.Id == categ_tmp.Id);
-                if (sub_category.Subcategories.Count != 0)
+                foreach (var categ_tmp in category.Subcategories)
                 {
-                    var allSubCategories = await getSubcategoriesFromCategory(sub_category.Subcategories);
-                    categ_list.AddRange(allSubCategories);
-                    categ_list = categ_list;
+                    var sub_category = categories.Find(c => c.Id == categ_tmp.Id);
+                    if (sub_category.Subcategories.Count != 0)
+                    {
+                        var allSubCategories = await getSubcategoriesFromCategory(sub_category.Subcategories);
+                        categ_list.AddRange(allSubCategories);
+                        categ_list = categ_list;
+                    }
+                    categ_list.Add(categ_tmp);
                 }
-                categ_list.Add(categ_tmp);
+
+                var final_list = _mapper.Map<List<Category>, List<CategoryVM>>(categ_list);
+
+                return final_list;
             }
-
-            var final_list = _mapper.Map<List<Category>, List<CategoryVM>>(categ_list);
-
-            return final_list;
+            return null;
         }
 
         public async Task<List<Category>> getSubcategoriesFromCategory(ICollection<Category> subcategories)
