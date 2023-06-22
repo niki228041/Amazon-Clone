@@ -9,11 +9,17 @@ export interface Product{
     quantity: String,
     isInTheStock: String,
     numberOfDaysForDelivery: String,
-    address: String
+    address: String,
+    image: string,
 }
 
 export interface Order{
     id:any;
     name:any;
     product_id:any;
+}
+
+export interface categorySequence{
+    id:any;
+    name:any;
 }

@@ -1,4 +1,5 @@
 ﻿using DAL.Entities;
+using Infrastructure.Models;
 using Infrastructure.Models.Caterories;
 using Services;
 
@@ -11,6 +12,7 @@ namespace Infrastructure.Interfaces
         Task<Category> GetByIdAsync(int id);
         Task DeleteCategoryAsync(int id);
         Task<ServiceResponse> GetMainCategoriesAsync();
-        Task<ServiceResponse> GetAllSubcategoriesByCategoryId(int id);
+        Task<ServiceResponse> GetNearSubcategoriesByCategoryId(int id);
+        Task<List<CategoryVM>> GetAllSubcategoriesByCategoryId(int id);
     }
 }

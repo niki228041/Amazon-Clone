@@ -44,17 +44,16 @@ namespace ShopApi.Controllers
             return BadRequest(res);
         }
 
-
-        [HttpPost("CreateProduct")]
-        public async Task<IActionResult> CreateProductAsync([FromBody] CreateProductDTO model)
+        [HttpPost]
+        [Route("CreateProduct")]
+        [DisableRequestSizeLimit]
+        public async Task<IActionResult> CreateProductAsync(CreateProductDTO model) // я ЕБУ ЧОГО СЮДИ НЕ ПРИХОДЯТЬ КАРТИНКИ :)
         {
-            
             var res = await _productService.CreateProductAsync(model);
             if (res.IsSuccess)
             {
                 return Ok(res);
             }
-
             return BadRequest(res);
         }
 
@@ -69,6 +68,18 @@ namespace ShopApi.Controllers
         public async Task<IActionResult> GetProductByIdAsync([FromBody]FindByIdVM Id)
         {
             var res = await _productService.GetProductByIdAsync(Id.Id);
+            if (res.IsSuccess)
+            {
+                return Ok(res);
+            }
+
+            return BadRequest(res);
+        }
+
+        [HttpPost("GetProductByCategoryId")]
+        public async Task<IActionResult> GetProductByCategoryIdAsync([FromBody] FindByIdVM Id)
+        {
+            var res = await _productService.GetProductByCategoryId(Id.Id);
             if (res.IsSuccess)
             {
                 return Ok(res);
