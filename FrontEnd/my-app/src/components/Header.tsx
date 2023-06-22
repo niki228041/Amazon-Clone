@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import "../index.css"
 import { useState } from "react";
-import img from "../images/amazon.png"
+import logo from "../images/amazon.png"
 import cart from "../images/cart.svg"
-import "../css/header.css"
+import "../css/MainPage.css"
 
 
 const Header=()=> {
@@ -11,17 +11,20 @@ const Header=()=> {
     return <>
 
     <div className="header">
-      <a href="/index.html" >
-        <img className="headerLogo" src={img} />
-      </a>
+      <div onClick={()=>navigate("#")} >
+        <img className="headerLogo" src={logo} />
+      </div>
       
-      <div className="header__option mb-2">
-          <span className="header__optionLineOne">Hello</span>
-          <span className="header__optionLineTwo">Select your address</span>
+      <div className="header__option ">
+        <span className="header__optionLineOne">Hello</span>
+        <span className="header__optionLineTwo">Select your address</span>
       </div>
 
       <div className="header__search">
-        <input className="header__searchInput" type="text" placeholder="Search on Amazon.com" /> 
+        <input className="headerSearchInput" type="text" placeholder="Search on Amazon.com" /> 
+        <svg aria-hidden="true" className="searchIcon" fill="none" stroke="currentColor" viewBox="0 0 25 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
       </div>
 
       <div className="header__nav">
@@ -29,7 +32,8 @@ const Header=()=> {
             
             <div className="flex items-center md:order-2">
                 <button type="button" data-dropdown-toggle="language-dropdown-menu" className="inline-flex items-center font-medium justify-center px-4 py-2 text-sm text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
-                  <svg className="w-5 h-5 mr-2 rounded-full" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 3900 3900"><path fill="#b22234" d="M0 0h7410v3900H0z"/><path d="M0 450h7410m0 600H0m0 600h7410m0 600H0m0 600h7410m0 600H0" stroke="#fff" stroke-width="300"/><path fill="#3c3b6e" d="M0 0h2964v2100H0z"/><g fill="#fff"><g id="d"><g id="c"><g id="e"><g id="b"><path id="a" d="M247 90l70.534 217.082-184.66-134.164h228.253L176.466 307.082z"/><use xlinkHref="#a" y="420"/><use xlinkHref="#a" y="840"/><use xlinkHref="#a" y="1260"/></g><use xlinkHref="#a" y="1680"/></g><use xlinkHref="#b" x="247" y="210"/></g><use xlinkHref="#c" x="494"/></g><use xlinkHref="#d" x="988"/><use xlinkHref="#c" x="1976"/><use xlinkHref="#e" x="2470"/></g></svg>
+                  <svg className="w-5 h-5 mr-2 rounded-full" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 3900 3900"><path fill="#b22234" d="M0 0h7410v3900H0z"/>
+                  <path d="M0 450h7410m0 600H0m0 600h7410m0 600H0m0 600h7410m0 600H0" stroke="#fff" stroke-width="300"/><path fill="#3c3b6e" d="M0 0h2964v2100H0z"/><g fill="#fff"><g id="d"><g id="c"><g id="e"><g id="b"><path id="a" d="M247 90l70.534 217.082-184.66-134.164h228.253L176.466 307.082z"/><use xlinkHref="#a" y="420"/><use xlinkHref="#a" y="840"/><use xlinkHref="#a" y="1260"/></g><use xlinkHref="#a" y="1680"/></g><use xlinkHref="#b" x="247" y="210"/></g><use xlinkHref="#c" x="494"/></g><use xlinkHref="#d" x="988"/><use xlinkHref="#c" x="1976"/><use xlinkHref="#e" x="2470"/></g></svg>
                   English (US)
                 </button>
                 <div className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700" id="language-dropdown-menu">
@@ -75,33 +79,27 @@ const Header=()=> {
             </div>
           </nav>
 
-
-          <a>
-            <div id="dropdownSmallButton" onClick={()=>navigate("/login")} data-dropdown-toggle="dropdownSmall" className="header__option">
-              <span className="header__optionLineOne" >Hello, sign in </span>
-              
-              <span className="header__optionLineTwo">Account & Lists</span>
-            </div>
-
-          </a>
-          
-        
-
-          <a href="/Auth/Login/Login.tsx">
-          <div className="header__option">
+          <div id="dropdownSmallButton" onClick={()=>navigate("/login")} data-dropdown-toggle="dropdownSmall" className="header__option">
+            <span className="header__optionLineOne" >Hello, sign in </span>
+            
+            <span className="header__optionLineTwo">Account & Lists</span>
+          </div>
+                   
+          <div onClick={()=>navigate("#")} className="header__option">
             <span className="header__optionLineOne">Returns</span>
             <span className="header__optionLineTwo">& Orders</span>
           </div>
-          </a>
       
         
 
-          <div className="header__optionBasket mr-1">
+          <div className="header__optionBasket">
             <img className="cartIcon" src={cart}  />
             <span className="numberOfOrders" >
               0
             </span>
           </div>
+
+          
 
       </div>
       
