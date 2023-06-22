@@ -1,6 +1,6 @@
 import {useEffect,useState} from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useGetProductsQuery } from '../features/user/apiProductSlice';
+import { apiProductSlice, useGetProductsQuery } from '../features/user/apiProductSlice';
 import img from '../images/t-shirt-png.webp'
 import { useParams} from 'react-router-dom'
 import star from "../images/Gold_Star.png"
@@ -45,40 +45,82 @@ const Product_Component=(data:Product)=>{
 const Main=()=>{
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const category = searchParams.get('category');
-  const categoryId = searchParams.get('id');
+
+
+  
 
 
   const {data,isSuccess,error} = useGetProductsQuery();
+
+
+
   const {data:categories,isSuccess:isSuccessCategory} = useGetMainCategoriesQuery();
   const [getSubcategories,{}] = apiCategorySlice.useGetAllSubcategoriesByCategoryIdMutation();
+
+  const [getProductsByCategory,{}] = apiProductSlice.useGetProductsByCategoryIdMutation();
   
   const navigate = useNavigate();
 
+  const getSearchParams = () => {
+    return new URLSearchParams(window.location.search);
+  };
+
+  var [categoryId,setcategoryId] = useState(getSearchParams().get('id'));
+  
 
 
 
   var [categoriesToView,setCategoriesToView] = useState([]);
+  var [products,setProducts] = useState([]);
 
   var [categoriesSequence,setCategoriesSequence] = useState<categorySequence[]>([]);
   var url = `/products?category=${encodeURIComponent("")}`;
+  
+  // console.log("products");
+  // console.log(products);
+
+
   
 
   useEffect(()=>{
     if(categories)
       setCategoriesToView(categories.payload);
     
-    console.log("categoriesToView");
-    console.log(categoriesToView);
+    // console.log("categoriesToView");
+    // console.log(categoriesToView);
+
     
-  },[categories])
+    
+    // const category = searchParams.get('category');
+    getProducts();
+    // setProducts();
+    
+  },[categories,categoryId])
+
+
+
+  const getProducts=async()=>{
+    var id = parseInt(getSearchParams().get('id')!);
+
+    if(!Number.isInteger(id)){
+      id = -1;
+    }
+    
+    let response:any = await getProductsByCategory({id:id});
+
+    // console.log(categoryId);
+    // console.log("RESPONSE:");
+    // console.log(response.data.payload);
+
+    setProducts((prevProducts) => response.data.payload);
+  }
 
 
   const changeCategory=async(id:number,name:string)=>{
     let response:any = await getSubcategories({id:id});
-    console.log(id);
-    console.log("RESPONSE:");
-    console.log(response.data.payload.subcategories);
+    // console.log(id);
+    // console.log("RESPONSE:");
+    // console.log(response.data.payload.subcategories);
 
     url = `/products?category=${encodeURIComponent(name)}&id=${encodeURIComponent(id)}`
     navigate(url);
@@ -99,8 +141,10 @@ const Main=()=>{
         setCategoriesSequence(newCategoriesSequence);
       }
 
-      console.log(newCategoriesSequence);
+      // console.log(newCategoriesSequence);
     }
+
+    await getProducts();
   }
 
   const setMainCategories=async()=>{
@@ -109,6 +153,9 @@ const Main=()=>{
 
     setCategoriesToView(categories.payload);
     setCategoriesSequence([]);
+
+
+    await getProducts();
   }
 
   return (
@@ -161,7 +208,7 @@ const Main=()=>{
       {/* grid */}
       
       
-      {isSuccess ? data?.payload?.map((a:any,id:number)=>{return <div key={id}>{Product_Component(a)}</div>  }): ""}
+      {products.map((a:any,id:number)=>{return <div key={id}>{Product_Component(a)}</div>  })}
 
 
 

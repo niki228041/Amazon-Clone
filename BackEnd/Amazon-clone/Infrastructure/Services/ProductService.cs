@@ -213,6 +213,8 @@ public class ProductService : IProductService
         List<Product> res = _productRepository.GetProductsAsync().ToList();
         List<ProductVM> res_to_send = new List<ProductVM>();
 
+
+
         if (categories != null)
         {
             for (int i = 0; i < res.Count; i++)
@@ -221,6 +223,12 @@ public class ProductService : IProductService
                 if (product.CategoryId == id || categories_vms.Find(categ => categ.Id == product.CategoryId) != null)
                 {
                     var item = _mapper.Map<Product, ProductVM>(product);
+
+                    var mainImage = await _productImageService.GetMainImageByIdAsync(item.Id);
+
+                    if (mainImage != null)
+                        item.Image = _productImageService.GetBase64ByName(mainImage.Name);
+
                     res_to_send.Add(item);
                 }
             }
@@ -232,12 +240,22 @@ public class ProductService : IProductService
                 Payload = res_to_send
             };
         }
-
-        return new ServiceResponse
+        else
         {
-            Message = "error",
-            IsSuccess = false,
-        };
+            var list_with_prod_vms = _mapper.Map<List<Product>, List<ProductVM>>(res);
+            foreach (var p in list_with_prod_vms)
+            {
+                var mainImage = await _productImageService.GetMainImageByIdAsync(p.Id);
+                if (mainImage != null)
+                    p.Image = _productImageService.GetBase64ByName(mainImage.Name);
+            }
 
+            return new ServiceResponse
+            {
+                Message = "GetProducts without category sort",
+                IsSuccess = true,
+                Payload = list_with_prod_vms
+            };
+        }
     }
 }

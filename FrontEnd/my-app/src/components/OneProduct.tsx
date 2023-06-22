@@ -37,7 +37,26 @@ const OneProduct=()=>{
         {isSuccess?
         <>
         
-        <div className='pl-20 pr-20'>
+        <div className='pl-40 pr-40 mt-10'>
+            <div className='grid grid-cols-12 gap-2 '>
+                <div className=' w-full col-span-5'>
+                    <img src={img} />
+                </div>
+                <div className='w-full col-span-5 flex flex-col'>
+                    <span className=" text-xl">{data?.payload.name}</span>
+                    <hr className='my-3' />
+                    <p><span className=' text-sm'>€</span> <span className=" text-lg font-medium">{data?.payload.price}</span></p>
+                    <span className='text-sm font-medium'>About this item</span>  
+                    <div>
+                        
+                    </div>
+                </div>
+                <div className=' bg-slate-900 w-full  col-span-2'>
+                    asdas
+                    asdas
+                    asdas
+                </div>
+            </div>
             <span className=" text-xl">{data?.payload.name}</span>
             <div className=' flex '>
                 <div>
