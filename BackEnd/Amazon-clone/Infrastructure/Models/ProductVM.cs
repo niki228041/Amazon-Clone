@@ -12,6 +12,6 @@ public class ProductVM
     public bool IsInTheStock { get; set; }
     public int NumberOfDaysForDelivery { get; set; }
     public string Address { get; set; }
-
+    public string Image { get; set; }
     public string Category { get; set; }
 }

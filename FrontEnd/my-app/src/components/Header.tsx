@@ -86,13 +86,20 @@ const Header=()=> {
             </div>
           </nav>
 
-          <div id="dropdownSmallButton" onClick={()=>navigate("/login")} data-dropdown-toggle="dropdownSmall" className="header__option">
-            <span className="header__optionLineOne" >Hello, sign in </span>
-            
-            <span className="header__optionLineTwo">Account & Lists</span>
-          </div>
-                   
-          <div onClick={()=>navigate("#")} className="header__option">
+
+          <Link to="/login">
+            <div id="dropdownSmallButton" data-dropdown-toggle="dropdownSmall" className="header__option">
+              <span className="header__optionLineOne" >Hello, sign in </span>
+              
+              <span className="header__optionLineTwo">Account & Lists</span>
+            </div>
+          </Link>
+          
+        
+
+          <a href="/Auth/Login/Login.tsx">
+          <div className="header__option">
+
             <span className="header__optionLineOne">Returns</span>
             <span className="header__optionLineTwo">& Orders</span>
           </div>

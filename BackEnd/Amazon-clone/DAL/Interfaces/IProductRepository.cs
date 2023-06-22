@@ -12,7 +12,6 @@ public interface IProductRepository : IGenericRepository<Product, int>
     ICollection<Product> GetProductsAsync(GetProductsVM model);
     ICollection<Product> GetProductsAsync();
 
-
 }
 
 
