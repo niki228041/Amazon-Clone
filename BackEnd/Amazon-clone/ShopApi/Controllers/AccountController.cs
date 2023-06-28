@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Services;
 using ShopApi.Constants;
-using ShopApi.Services;
+using Infrastructure.Services;
 
 namespace ShopApi.Controllers
 {

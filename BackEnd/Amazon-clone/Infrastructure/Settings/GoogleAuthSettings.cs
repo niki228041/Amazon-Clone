@@ -1,4 +1,4 @@
-﻿namespace ShopApi.Settings
+﻿namespace Infrastructure.Settings
 {
     public class GoogleAuthSettings
     {

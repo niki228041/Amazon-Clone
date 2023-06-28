@@ -4,7 +4,6 @@ import { useState } from "react";
 import logo from "../images/amazon.png"
 import cart from "../images/cart.svg"
 import "../css/MainPage.css"
-import "../css/header.css"
 import { useAppSelector } from "../app/hooks";
 
 

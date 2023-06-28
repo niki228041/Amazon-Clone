@@ -1,4 +1,6 @@
-﻿namespace Infrastructure.Models
+﻿using System;
+
+namespace Infrastructure.Models
 {
     public class LoginViewModel
     {
