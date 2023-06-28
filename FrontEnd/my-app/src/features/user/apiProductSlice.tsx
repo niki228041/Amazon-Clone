@@ -4,7 +4,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
 
 export const apiProductSlice:any = createApi({
     reducerPath:"product",
-    baseQuery:fetchBaseQuery({baseUrl:"http://localhost:5034"}),
+    baseQuery:fetchBaseQuery({baseUrl:"http://10.10.10.150:5034"}),
     tagTypes:['Product'],
     endpoints:(builder)=>({
         getProducts:builder.query<any,any>({

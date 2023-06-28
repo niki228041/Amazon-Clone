@@ -5,7 +5,7 @@ import parseJwt from "../../api/jwtDecodeToken";
 
 import { SetAccessToken,SetRefreshToken } from "../../api/jwtDecodeToken";
 
-const baseURL ='https://localhost:5034';
+const baseURL ='https://10.10.10.150:5034';
 
 interface UserState{
     user:any;
