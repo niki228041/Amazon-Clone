@@ -60,7 +60,7 @@ const Header=()=> {
   }
 
 
-    return <>
+  return <>
 
 <div className="flex flex-col">
     <div className="header">
@@ -121,9 +121,9 @@ const Header=()=> {
         </svg>
       </div>
 
-      <div className="header__nav">
+        <div className="header__nav">
           <nav className="bg-white border-gray-200 dark:bg-gray-900 mt-1 mr-1">
-            
+
             <div className="flex items-center md:order-2">
                 <button type="button" data-dropdown-toggle="language-dropdown-menu" className="inline-flex items-center font-medium justify-center px-4 py-2 text-sm text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
                   <svg className="w-5 h-5 mr-2 rounded-full" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 3900 3900"><path fill="#b22234" d="M0 0h7410v3900H0z"/>
@@ -177,40 +177,40 @@ const Header=()=> {
           <Link to="/login">
             <div id="dropdownSmallButton" data-dropdown-toggle="dropdownSmall" className="header__option">
               <span className="header__optionLineOne" >Hello, sign in </span>
-              
+
               <span className="header__optionLineTwo">Account & Lists</span>
             </div>
           </Link>
-          
-        
+
+
 
           <div className="header__option">
 
-            <span className="header__optionLineOne">Returns</span>
-            <span className="header__optionLineTwo">& Orders</span>
-          </div>
-      
-        
+              <span className="header__optionLineOne">Returns</span>
+              <span className="header__optionLineTwo">& Orders</span>
+            </div>
+          </a>
+
 
           <Link to="orders">
-          <div className="header__optionBasket mr-1">
-            <img className="cartIcon" src={cart}  />
-            <span className="numberOfOrders" >
-              {orders.orders.length}
-            </span>
-          </div>
+            <div className="header__optionBasket mr-1">
+              <img className="cartIcon" src={cart} />
+              <span className="numberOfOrders" >
+                {orders.orders.length}
+              </span>
+            </div>
           </Link>
+
+
+        </div>
+
 
 
       </div>
 
-      
-      
-    </div>
-
-    <div className="bg-slate-500 w-full h-10 flex flex-row text-sm text-center items-center">
-        <div onClick={()=>navigate("/products")} className=" ml-3 text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">All</div>
-        <div onClick={()=>navigate("/admin")} className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Admin</div>
+      <div className="bg-slate-500 w-full h-10 flex flex-row text-sm text-center items-center">
+        <div onClick={() => navigate("/products")} className=" ml-3 text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">All</div>
+        <div onClick={() => navigate("/admin")} className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Admin</div>
         <div className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Best Sellers</div>
         <div className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Amazon Basic</div>
         <div className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Today's Deals</div>
