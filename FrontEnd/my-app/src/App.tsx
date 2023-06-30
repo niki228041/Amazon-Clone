@@ -5,13 +5,16 @@ import Footer from './components/Footer';
 import Main from './components/Main';
 import OneProduct from './components/OneProduct';
 import Profile from './components/Profile';
-import LoginScreen from './components/Auth/Login/Login';
+import LoginScreen from './components/Auth/Login';
 import AdminSite from './components/Admin/AdminSite';
 import CreateProduct from './components/Admin/CreateProduct';
 import CreateCategory from './components/Admin/CreateCategory';
 import Orders from './components/Orders';
+import Player from './components/Player';
 
 const App:React.FC =()=> {
+
+  
   return (
     <BrowserRouter>
         <Routes>
@@ -42,6 +45,10 @@ const App:React.FC =()=> {
           
             <Route path="/products" element={<><Main /></>} >
               <Route path="products" element={<Profile />} />
+            </Route>
+
+            <Route path='/player' element={<Player/>}>
+
             </Route>
 
             <Route path='orders' element={<Orders/>}/>

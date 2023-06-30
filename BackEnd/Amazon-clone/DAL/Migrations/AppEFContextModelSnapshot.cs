@@ -81,9 +81,7 @@ namespace DAL.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasColumnType("text");
 
                     b.Property<int?>("ParentId")
                         .HasColumnType("integer");
@@ -106,8 +104,14 @@ namespace DAL.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<int>("Dislikes")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("Likes")
                         .HasColumnType("integer");
@@ -116,6 +120,9 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
 
                     b.Property<int?>("ProductId")
                         .HasColumnType("integer");
@@ -151,13 +158,14 @@ namespace DAL.Migrations
                     b.Property<int?>("CommentId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Image")
-                        .HasColumnType("integer");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("character varying(25)");
+                        .HasColumnType("text");
 
                     b.Property<int>("Priority")
                         .HasColumnType("integer");
@@ -313,7 +321,6 @@ namespace DAL.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("NumberOfDaysForDelivery")
@@ -362,7 +369,6 @@ namespace DAL.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("Priority")

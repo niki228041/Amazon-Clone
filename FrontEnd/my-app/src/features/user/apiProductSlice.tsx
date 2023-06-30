@@ -39,6 +39,22 @@ export const apiProductSlice:any = createApi({
           }),
           invalidatesTags:['Product']
         }),
+        getProductsByCategoryId:builder.mutation<any,any>({
+        query:(todo)=>({
+          url:'/api/Products/GetProductByCategoryId',
+          method:"POST",
+          body:todo
+        }),
+        invalidatesTags:['Product']
+        }),
+        getLinksForProduct:builder.mutation<any, any>({
+          query:(todo)=>({
+            url:'/api/Products/UploadImage',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Product']
+        })
     })
 })
 

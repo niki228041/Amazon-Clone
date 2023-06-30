@@ -7,13 +7,6 @@ namespace DAL.Entities
     [Table("tblCategories")]
     public class Category : BaseEntity<int>
 	{
-        [Key]
-        public int Id { get; set; }
-
-        [MaxLength(255)]
-        [Required(ErrorMessage = "Field name is required")]
-        public string Name { get; set; }
-
         public int? ParentId { get; set; }
         public Category Parent { get; set; }
 
