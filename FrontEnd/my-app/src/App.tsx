@@ -5,12 +5,12 @@ import Footer from './components/Footer';
 import Main from './components/Main';
 import OneProduct from './components/OneProduct';
 import Profile from './components/Profile';
-import LoginScreen from './components/Auth/Login';
 import AdminSite from './components/Admin/AdminSite';
 import CreateProduct from './components/Admin/CreateProduct';
 import CreateCategory from './components/Admin/CreateCategory';
 import Orders from './components/Orders';
 import Player from './components/Player';
+import LoginScreen from './components/Auth/Login';
 
 const App:React.FC =()=> {
 
