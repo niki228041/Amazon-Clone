@@ -3,18 +3,46 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { apiProductSlice, useGetProductsQuery } from '../features/user/apiProductSlice';
 import img from '../images/t-shirt-png.webp'
 import { useParams} from 'react-router-dom'
-import star from "../images/Gold_Star.png"
+import star from "../images/star (2).png"
+import empty_star from "../images/star (3).png"
 import { Product, categorySequence } from './types';
 import { apiCategorySlice, useGetCategoriesQuery, useGetMainCategoriesQuery } from '../features/user/apiCategorySlice';
+import "../css/stars.css";
 
 const Product_Component=(data:Product)=>{
+  var stars = 0;
+
+  const handleStarsFunctionality=()=>{
+    var sumOfStars = 0;
+    data.comments.map(com=>sumOfStars += com.stars);
+    stars = Math.round(sumOfStars/(data.comments.length));
+  }
+
+  const getStarts=()=>{
+    var jsx_stars: JSX.Element[] = [];
+    handleStarsFunctionality();
+    for(var i = 0;i<5;i++)
+    {
+      if(i<stars)
+      {
+        jsx_stars.push(<div key={i} className='star-small ml-0.5'/>);
+      }
+      else
+      {
+        jsx_stars.push(<div key={i} className='empty_star-small h-3 ml-0.5' />);
+      }
+    }
+
+    return jsx_stars;
+  }
+
 
   return<>
   <div >
   <Link to={"/product/" + data.id}>
     <div className='pb-2 px-3 mt-20 w-full'>
       <div>
-          <div className='w-full h-[160px]' style={{ backgroundImage: `url(${'data:image/gif;base64,' + data?.image})`,backgroundPosition:"center",backgroundSize:"cover"}}>
+          <div className='w-full h-[160px]' style={{ backgroundImage: `url(${'data:image/gif;base64,' + data?.image})`,backgroundPosition:"center",backgroundSize:"contain",backgroundRepeat:"no-repeat"}}>
 
           </div>
           {/* <img src={data?.image ? "data:image/png;base64," + data?.image : img} className=' w-full h-[100px] ' />         */}
@@ -27,12 +55,10 @@ const Product_Component=(data:Product)=>{
           </div>
 
           <div className='flex'>
-            <img className='h-4' src={star}/>
-            <img className='h-4' src={star}/>
-            <img className='h-4' src={star}/>
-            <img className='h-4' src={star}/>
-            <span className='ml-1 text-blue-950 hover:text-red-700 cursor-pointer hover:underline text-[12px] font-medium'>144</span>
+            {getStarts()}
+            <span className='ml-1 text-blue-950 hover:text-red-700 cursor-pointer hover:underline text-[12px] font-medium'>{data.comments.length}</span>
           </div>
+
           <p className='text-sm text-red-700 font-medium'>$ {data.price}</p>
         </div>
       </div>
@@ -79,8 +105,6 @@ const Main=()=>{
   // console.log("products");
   // console.log(products);
 
-
-  
 
   useEffect(()=>{
     if(categories)

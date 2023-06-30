@@ -17,7 +17,7 @@ namespace DAL.Entities.DTO_s
         public bool IsInTheStock { get; set; }
         public int NumberOfDaysForDelivery { get; set; }
         public string Address { get; set; }
-        public IList<ProductImageUploadDTO> Images_ { get; set; }
+        public IList<ImageUploadDTO> Images_ { get; set; }
         public int CategoryId { get; set; }
     }
 }

@@ -1,23 +1,68 @@
 import { Link, useNavigate } from "react-router-dom";
 import "../index.css"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../images/amazon.png"
 import cart from "../images/cart.svg"
 import "../css/MainPage.css"
-import "../css/header.css"
 import { useAppSelector } from "../app/hooks";
+import { apiProductSlice } from "../features/user/apiProductSlice";
+import { Product } from "./types";
 
 
 const Header=()=> {
+    const orders = useAppSelector((state)=>state.orders);
+
+    const [onSearch,setSearch]= useState(false);
+    const [inputText, setInputText] = useState("");
+    const [dropdown, setDropdown] = useState(false);
+    var [products,setProducts] = useState<Product[]>([]);
+
     const navigate = useNavigate();
 
-    const orders = useAppSelector((state)=>state.orders);
+    const [getProductsByCategory,{}] = apiProductSlice.useGetProductsByCategoryIdMutation();
+
+    useEffect(()=>{
+        setDropdown(inputText.length != 0 );
+        getProducts();
+    },[inputText])
+
+
+    const getProducts=async()=>{
+      let response:any = await getProductsByCategory({id:-1});
+      setProducts((prevProducts) => response.data.payload);
+    }
+
+    const handleGo=(e:string)=>{
+        // sortArr();
+        setInputText(e);
+        console.log(e);
+
+        if(e == '' || e == null){
+            setSearch(false);
+            // navigate("posts")
+        }
+        else{
+            setSearch(true);
+            // navigate("search");
+        }
+    }
+
+    const openFoundedModel=(id:any)=>{
+        let path = "/product/"+ id;
+        navigate(path);
+    }
+
+    const sortProductsByInput=()=>{
+      // products = products?.filter(
+      //     (item:any)=>{
+      //         return inputText.toLowerCase() === ' ' ? item : item.name.toLowerCase().includes(inputText) });
+      // console.log(isSuccess);
+  }
 
 
     return <>
 
 <div className="flex flex-col">
-
     <div className="header">
       <div onClick={()=>navigate("#")} >
         <img className="headerLogo" src={logo} />
@@ -28,10 +73,51 @@ const Header=()=> {
         <span className="header__optionLineTwo">Select your address</span>
       </div>
 
-      <div className="header__search">
-        <input className="headerSearchInput" type="text" placeholder="Search on Amazon.com" /> 
+      <div className="header__search w-full relative">
+        <input value={inputText} onChange={event => handleGo(event.target.value)} className="headerSearchInput" type="text" placeholder="Search on Amazon.com" /> 
+        
+        {dropdown ?
+            // <ul style={{}} className='font-normal shadow-md chatSection example absolute mt-20 bg-white'>
+            //     {/*  */}
+            //     {orders.orders?.filter(
+            //         (item:any)=>{
+            //             return inputText.toLowerCase() === ' ' ? item : item.name.toLowerCase().includes(inputText) })
+            //             .map((product:any,it:any=0)=>
+            //             <li className='searchBar_selector bg-neutral-500/[.22] hover:bg-slate-600 cursor-pointer' key={(it++).toString()} 
+            //             onClick={()=>openFoundedModel(product.id)}>
+            //                 {product.name}
+            //             </li>
+
+            //             )}
+            // </ul>
+            <div className=" absolute w-full my-5">
+            {products.length > 0 && (
+              <div className="absolute left-6 right-6 mt-5 bg-white border border-gray-300 shadow-md">
+                {/* {orders.orders.map((item:any) => (
+                  <div
+                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                  >
+                    {item.name}
+                  </div>
+                ))} */}
+
+                {products?.filter(
+                     (item:any)=>{
+                         return inputText.toLowerCase() === ' ' ? item : item.name.toLowerCase().includes(inputText) })
+                         .map((product:any,it:any=0)=>
+                         <div className='searchBar_selector px-4  bg-white border-gray-300 hover:bg-gray-400 cursor-pointer' key={(it++).toString()} 
+                         onClick={()=>openFoundedModel(product.id)}>
+                             {product.name}
+                         </div>
+
+                )}
+              </div>
+            )}
+          </div>
+        :""}
+        
         <svg aria-hidden="true" className="searchIcon" fill="none" stroke="currentColor" viewBox="0 0 25 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
         </svg>
       </div>
 
@@ -41,7 +127,7 @@ const Header=()=> {
             <div className="flex items-center md:order-2">
                 <button type="button" data-dropdown-toggle="language-dropdown-menu" className="inline-flex items-center font-medium justify-center px-4 py-2 text-sm text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
                   <svg className="w-5 h-5 mr-2 rounded-full" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 3900 3900"><path fill="#b22234" d="M0 0h7410v3900H0z"/>
-                  <path d="M0 450h7410m0 600H0m0 600h7410m0 600H0m0 600h7410m0 600H0" stroke="#fff" stroke-width="300"/><path fill="#3c3b6e" d="M0 0h2964v2100H0z"/><g fill="#fff"><g id="d"><g id="c"><g id="e"><g id="b"><path id="a" d="M247 90l70.534 217.082-184.66-134.164h228.253L176.466 307.082z"/><use xlinkHref="#a" y="420"/><use xlinkHref="#a" y="840"/><use xlinkHref="#a" y="1260"/></g><use xlinkHref="#a" y="1680"/></g><use xlinkHref="#b" x="247" y="210"/></g><use xlinkHref="#c" x="494"/></g><use xlinkHref="#d" x="988"/><use xlinkHref="#c" x="1976"/><use xlinkHref="#e" x="2470"/></g></svg>
+                  <path d="M0 450h7410m0 600H0m0 600h7410m0 600H0m0 600h7410m0 600H0" stroke="#fff" strokeWidth="300"/><path fill="#3c3b6e" d="M0 0h2964v2100H0z"/><g fill="#fff"><g id="d"><g id="c"><g id="e"><g id="b"><path id="a" d="M247 90l70.534 217.082-184.66-134.164h228.253L176.466 307.082z"/><use xlinkHref="#a" y="420"/><use xlinkHref="#a" y="840"/><use xlinkHref="#a" y="1260"/></g><use xlinkHref="#a" y="1680"/></g><use xlinkHref="#b" x="247" y="210"/></g><use xlinkHref="#c" x="494"/></g><use xlinkHref="#d" x="988"/><use xlinkHref="#c" x="1976"/><use xlinkHref="#e" x="2470"/></g></svg>
                   English (US)
                 </button>
                 <div className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700" id="language-dropdown-menu">
@@ -98,7 +184,6 @@ const Header=()=> {
           
         
 
-          <a href="/Auth/Login/Login.tsx">
           <div className="header__option">
 
             <span className="header__optionLineOne">Returns</span>
@@ -130,8 +215,9 @@ const Header=()=> {
         <div className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Amazon Basic</div>
         <div className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Today's Deals</div>
         <div className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Prime Video</div>
-        <div className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Music</div>
+        <div onClick={()=>navigate("/player")} className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Music</div>
     </div>
+    
 </div>
     </>;
   }

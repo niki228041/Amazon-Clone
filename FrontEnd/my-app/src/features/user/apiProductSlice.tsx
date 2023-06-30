@@ -46,7 +46,15 @@ export const apiProductSlice:any = createApi({
           body:todo
         }),
         invalidatesTags:['Product']
-      }),
+        }),
+        getLinksForProduct:builder.mutation<any, any>({
+          query:(todo)=>({
+            url:'/api/Products/UploadImage',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Product']
+        })
     })
 })
 

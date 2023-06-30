@@ -7,14 +7,6 @@ namespace DAL.Entities
     [Table("tblProducts")]
     public class Product : BaseEntity<int>
 	{
-        [Key]
-        public int Id { get; set; }
-
-        [Required(ErrorMessage = "The Name field is required.")]
-        public string Name { get; set; }
-
-
-
         [Required(ErrorMessage = "The Price field is required.")]
         [Range(1, float.MaxValue, ErrorMessage = "Min price is 1 and max price is 3.402823E+38")]
         public float Price { get; set; }

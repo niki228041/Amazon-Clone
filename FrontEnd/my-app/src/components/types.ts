@@ -10,7 +10,12 @@ export interface Product{
     isInTheStock: String,
     numberOfDaysForDelivery: String,
     address: String,
-    image: string,
+    image: any,
+    comments: Comment[],
+}
+
+export interface Comment{
+    stars:number
 }
 
 export interface Order{
