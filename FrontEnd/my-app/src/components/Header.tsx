@@ -218,7 +218,6 @@ const Header=()=> {
         <div onClick={()=>navigate("/player")} className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Music</div>
     </div>
     
-</div>
     </>;
   }
   
