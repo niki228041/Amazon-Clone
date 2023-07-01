@@ -2,7 +2,6 @@
 
 public class ProductVM
 {
-   
     public int Id { get; set; }
     public string Name { get; set; }
     public float Price { get; set; }
@@ -12,6 +11,7 @@ public class ProductVM
     public bool IsInTheStock { get; set; }
     public int NumberOfDaysForDelivery { get; set; }
     public string Address { get; set; }
-
+    public object Image { get; set; }
     public string Category { get; set; }
+    public List<CommentVM> Comments { get; set; }
 }

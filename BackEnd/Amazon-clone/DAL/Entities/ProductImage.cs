@@ -5,15 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace DAL.Entities
 {
     [Table("tblProductImages")]
-    public class ProductImage
-	{
-        [Key]
-        public int Id { get; set; }
-
-        [MaxLength(25)]
-        [Required(ErrorMessage = "Field name is required")]
-        public string Name { get; set; }
-
+    public class ProductImage : BaseEntity<int>
+    {
         public int Priority { get; set; }
 
         public bool IsMainImage { get; set; }

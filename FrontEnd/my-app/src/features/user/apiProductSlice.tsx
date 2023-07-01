@@ -4,7 +4,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
 
 export const apiProductSlice:any = createApi({
     reducerPath:"product",
-    baseQuery:fetchBaseQuery({baseUrl:"http://10.10.10.150:5034"}),
+    baseQuery:fetchBaseQuery({baseUrl:"http://localhost:5034"}),
     tagTypes:['Product'],
     endpoints:(builder)=>({
         getProducts:builder.query<any,any>({
@@ -39,6 +39,22 @@ export const apiProductSlice:any = createApi({
           }),
           invalidatesTags:['Product']
         }),
+        getProductsByCategoryId:builder.mutation<any,any>({
+        query:(todo)=>({
+          url:'/api/Products/GetProductByCategoryId',
+          method:"POST",
+          body:todo
+        }),
+        invalidatesTags:['Product']
+        }),
+        getLinksForProduct:builder.mutation<any, any>({
+          query:(todo)=>({
+            url:'/api/Products/UploadImage',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Product']
+        })
     })
 })
 

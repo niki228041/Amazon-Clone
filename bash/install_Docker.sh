@@ -24,3 +24,4 @@ sudo usermod -aG docker $USER
 # Install Docker Compose
 sudo curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep 'tag_name' | cut -d'"' -f4)/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
+docker run --name postgres-container -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=asdfgh123 -e POSTGRES_DB=asdd -p 5432:5432 -d --restart=always postgres

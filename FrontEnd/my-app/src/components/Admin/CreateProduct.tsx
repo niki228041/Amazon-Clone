@@ -1,17 +1,25 @@
+import { useState } from "react";
 import { useGetCategoriesQuery } from "../../features/user/apiCategorySlice";
 import { apiProductSlice } from "../../features/user/apiProductSlice";
 import { Category, createProduct } from "./types";
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css';
 
 const CreateProduct=()=> {
-
+  const [value, setValue] = useState('');
     
     var [createProduct,{}] = apiProductSlice.useCreateProductMutation();
+    var [imagesToShow,setImagesToShow] = useState([]);
+    var [filesToSend,setFilesToSend] = useState([]);
 
     const {data:categories,isSuccess} = useGetCategoriesQuery();
 
-    const handleCreate=(data:React.FormEvent<HTMLFormElement>)=>{
+    var [getLinksFromServer,{}]= apiProductSlice.useGetLinksForProductMutation();
 
+
+    const handleCreate=async (data:React.FormEvent<HTMLFormElement>)=>{
       data.preventDefault();
+
       var curentData = new FormData(data.currentTarget);
 
       var e:any = document.getElementById("Category");
@@ -20,7 +28,7 @@ const CreateProduct=()=> {
       var name = curentData?.get("name")?.toString()!;
       var price = parseFloat(curentData?.get("price")?.toString()!);
       var discount = parseInt(curentData?.get("discount")?.toString()!);
-      var description = curentData?.get("description")?.toString()!;
+      var description = value;
       var quantity = parseInt(curentData?.get("quantity")?.toString()!);
       var isInTheStock = curentData?.get("isInTheStock");
       var numberOfDaysForDelivery = parseInt(curentData?.get("numberOfDaysForDelivery")?.toString()!);
@@ -31,124 +39,172 @@ const CreateProduct=()=> {
       if(isInTheStock == null)
       isInTheStock_bool = false;
 
-      
+      var {files}:any = document?.getElementById("Images");
+
+      var imagesBytes = [];
 
       
-      var newProduct:createProduct = {
-        name:name,
-        price: price,
-        discount: discount,
-        description: description,
-        quantity: quantity,
-        isInTheStock: isInTheStock_bool,
-        numberOfDaysForDelivery: numberOfDaysForDelivery,
-        address: address,
-        categoryId:categoryId
-      };
+      for(var it =0;it<files.length;it++){
+        imagesBytes.push(files[it]);
+      } 
 
-      console.log(newProduct);
+      const promises = filesToSend.map((img: any) => {
+        return new Promise((resolve) => {
+          let byte_img = toBase64(img);
+          byte_img.then((res: any) => {
+            let res_byte_img = res.split(',')[1];
+            let ext = getFileExtension(img.name);
+            
+            resolve({ data: res_byte_img, extension: ext });
+          });
+        });
+      });
 
-      createProduct(newProduct);
+      console.log(filesToSend);
 
-      // if(file.size.length < 7) return `${Math.round(file.size/1024).toFixed(2)}kb`
-      //     var sizeInMb = `${(Math.round(file.size.toString()/1024)/1000).toFixed(2)}MB`;
+      Promise.all(promises).then((imagesBytes_toSend) => {
+        var newProduct: createProduct = {
+          name: name,
+          price: price,
+          discount: discount,
+          description: description,
+          quantity: quantity,
+          isInTheStock: isInTheStock_bool,
+          numberOfDaysForDelivery: numberOfDaysForDelivery,
+          address: address,
+          categoryId: categoryId,
+          images_: imagesBytes_toSend
+        };
+        console.log(newProduct);
       
+        createProduct(newProduct);
+      });
 
-      // var re:any = /(?:\.([^.]+))?$/;
-      // var ext = re.exec(file.name)[1];
+  }
 
+  const toBase64:any = (file:File) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
 
-      // var e:any = document.getElementById("Company");
-      // var companyId = e.value;
+  });
 
-      // var fileBytes = toBase64(file);
+  function getFileExtension(filename:any){
+    // get file extension
+    const extension = "." + filename.split('.').pop();
+    return extension;
+  }
 
-      // var imagesBytes = [];
-      // var imagesBytes_toSend:any = [];
-      
-      // for(var it =0;it<files.length;it++){
-      //   imagesBytes.push(files[it]);
-      // } 
+  const handleDeleteImg=(img:any)=>{
+    var index = imagesToShow.findIndex((img_:any)=>img_==img);
+    var imagesToShow_tmp = imagesToShow.filter((img_:any)=>{return img_!=img});
+    setImagesToShow(imagesToShow_tmp);
 
+    setFilesToSend(filesToSend.filter((file:any)=>{return filesToSend.findIndex((file_2:any)=>file_2 == file) != index}));
+  }
 
+  const HandleFileSelection = async (event:any)=>{
+    const files = event.target.files;
 
-      // imagesBytes.forEach((img:any)=>{
-      //   let byte_img = toBase64(img);
-      //   byte_img.then((res:any)=>{
-      //     var res_byte_img = res.split(',')[1];
-      //     imagesBytes_toSend.push({Data:res_byte_img,extension:'.' + getFileExtension(img.name)});
-      //   })
-      // })
-      
-
-      // fileBytes.then((res:any)=>{
-      //     var bytesToRequest = res.split(',')[1];
-      //     let newAsset:INewAsset = {
-      //         name:Name,
-      //         inWhichPrograms:InWhichPrograms,
-      //         licenseType:LicenseType,
-      //         extension:ext,uploadDate: new Date(Date.now()),
-      //         userId:user.data.id,
-      //         companyId:companyId,
-      //         data:bytesToRequest,
-      //         size:sizeInMb,
-      //         price:Price,
-      //         version:Version,
-      //         images_:imagesBytes_toSend
-      //     };
-      //     console.log(newAsset);
-
-      //     createProduct(newAsset);
-      // })
+    console.log(files);
 
 
+    // let byte_img = toBase64(files[0]);
+    //       byte_img.then((res: any) => {
+    //         let res_byte_img = res.split(',')[1];
+    //         // let ext = getFileExtension(img.name);
+    //         console.log(res_byte_img);
+            
+    //         // resolve({ data: res_byte_img, extension: ext });
+    //         // resolve({ data: res_byte_img, extension: ext });
+    //       });
+    // // var response = await getLinksFromServer({images:images});
 
-      
+    var imagesBytes:any = [];
+    for(var it = 0;it<files.length;it++){
+      imagesBytes.push(files[it]);
+    } 
+    setFilesToSend(imagesBytes);
+    console.log("files_to_send");
+    console.log(filesToSend);
+
+    const promises = imagesBytes.map((img: any) => {
+      return new Promise((resolve) => {
+          let byte_img = toBase64(img);
+          byte_img.then((res: any) => {
+          let res_byte_img = res.split(',')[1];
+          let ext = getFileExtension(img.name);
+          
+          resolve(res_byte_img);
+        });
+      });
+    });
+
+    try {
+      const imagesBytes_toSend = await Promise.all(promises);
+      console.log(imagesBytes_toSend);
+      var response = await getLinksFromServer({ images: imagesBytes_toSend });
+      setImagesToShow(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+
+    // console.log(response?.data);
   }
     
     return <>
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-gray-500/40">
+      <div className=" bg-slate-50 p-10 w-6/12 m-auto">
+
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+          <h2 className="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
            CREATE PRODUCT
           </h2>
         </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="mt-10 ">
           <form className="space-y-6" action="#" method="POST" onSubmit={handleCreate}>
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
-                Name
-              </label>
-              <div className="mt-2">
-                <input
-                  id="name"
-                  name="name"
-                  autoComplete="name"
-                  required
-                  className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+            
+            <div className="flex">
+              <div className=" w-full  mr-1">
+                <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
+                  Name
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="name"
+                    name="name"
+                    autoComplete="name"
+                    required
+                    className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+  
+              <div className=" w-full ml-1">
+                <label htmlFor="discount" className="block text-sm font-medium leading-6 text-gray-900">
+                  Discount
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="discount"
+                    name="discount"
+                    type="number"
+                    autoComplete="discount"
+                    required
+                    className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
               </div>
             </div>
+            
 
-            <div>
-              <label htmlFor="discount" className="block text-sm font-medium leading-6 text-gray-900">
-                Discount
-              </label>
-              <div className="mt-2">
-                <input
-                  id="discount"
-                  name="discount"
-                  type="number"
-                  autoComplete="discount"
-                  required
-                  className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
 
-            <div>
+            <div className="flex">
+            <div className=" w-full mr-1">
               <label htmlFor="price" className="block text-sm font-medium leading-6 text-gray-900">
                 Price
               </label>
@@ -156,7 +212,6 @@ const CreateProduct=()=> {
                 <input
                   id="price"
                   name="price"
-                  type="number"
                   autoComplete="price"
                   required
                   className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -164,22 +219,25 @@ const CreateProduct=()=> {
               </div>
             </div>
 
-            <div>
-              <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">
-                Description
+            <div  className=" w-full ml-1">
+              <label htmlFor="address" className="block text-sm font-medium leading-6 text-gray-900">
+                Address
               </label>
               <div className="mt-2">
                 <input
-                  id="description"
-                  name="description"
-                  autoComplete="description"
+                  id="address"
+                  name="address"
+                  autoComplete="address"
                   required
                   className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
+            </div>
 
-            <div>
+
+            <div className="flex">
+            <div className=" w-full mr-1">
               <label htmlFor="quantity" className="block text-sm font-medium leading-6 text-gray-900">
                 Quantity
               </label>
@@ -195,7 +253,7 @@ const CreateProduct=()=> {
               </div>
             </div>
 
-            <div>
+            <div className=" w-full ml-1">
               <label htmlFor="numberOfDaysForDelivery" className="block text-sm font-medium leading-6 text-gray-900">
                 Number Of Days For Delivery
               </label>
@@ -210,20 +268,25 @@ const CreateProduct=()=> {
                 />
               </div>
             </div>
+            </div>
 
-            <div>
-              <label htmlFor="address" className="block text-sm font-medium leading-6 text-gray-900">
-                Address
+
+            
+            <div className=" w-full ml-1">
+              <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">
+                Description
               </label>
               <div className="mt-2">
-                <input
-                  id="address"
-                  name="address"
-                  autoComplete="address"
+                {/* <textarea
+                  id="description"
+                  name="description"
+                  autoComplete="description"
                   required
                   className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+                /> */}
+              <ReactQuill theme="snow" value={value} onChange={setValue} />
               </div>
+
             </div>
 
             <div>
@@ -238,6 +301,21 @@ const CreateProduct=()=> {
                     {isSuccess ? categories.payload?.map((a:Category)=>{return <option value={a.id} key={a.id}>{a.name}</option>;}) : ""}
                   </select>
                 </div>
+            </div>
+
+            <div className=' rounded-full flex flex-col mb-4'>
+              <span>Select Images</span>
+      
+              <input onChange={HandleFileSelection} name="Images" id="Images" multiple type="file" className='hidden' />
+              <label htmlFor='Images' className=' bg-yellowForInputs hover:opacity-90 text-[15px] mediumFont outline-none rounded-full h-10 pl-3 pr-3 flex justify-center items-center cursor-pointer' >
+                  Upload Images
+              </label>
+            </div>
+            Click to delete image
+            <div className="grid grid-cols-5 gap-5 transition-all">
+              {imagesToShow.map((img:any,it:any)=><div onClick={()=>{handleDeleteImg(img)}} key={it} className="h-20 w-full  bg-contain bg-no-repeat rounded-xl hover:scale-[1.05] transition-all" style={{ backgroundImage:"url("+img+")", backgroundPosition:"center"}}>
+
+              </div>)}
             </div>
 
             
@@ -280,6 +358,8 @@ const CreateProduct=()=> {
 
           
         </div>
+      </div>
+
       </div>
     </>;
   }

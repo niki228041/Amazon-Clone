@@ -1,4 +1,6 @@
-﻿using DAL.Entities.DTO_s;
+﻿using DAL.Constants;
+using DAL.Entities.DTO_s;
+using Infrastructure.Enum_s;
 using Infrastructure.Interfaces;
 using Infrastructure.Models;
 using Microsoft.AspNetCore.Http;
@@ -11,10 +13,12 @@ namespace ShopApi.Controllers
     public class ProductsController : ControllerBase
     { 
         private readonly IProductService _productService;
+        private readonly IImageService _imageService; 
 
-        public ProductsController(IProductService productService)
+        public ProductsController(IProductService productService, IImageService imageService)
         {
             _productService = productService;
+            _imageService = imageService;
         }
 
 
@@ -44,17 +48,16 @@ namespace ShopApi.Controllers
             return BadRequest(res);
         }
 
-
-        [HttpPost("CreateProduct")]
-        public async Task<IActionResult> CreateProductAsync([FromBody] CreateProductDTO model)
+        [HttpPost]
+        [Route("CreateProduct")]
+        [DisableRequestSizeLimit]
+        public async Task<IActionResult> CreateProductAsync(CreateProductDTO model) // я ЕБУ ЧОГО СЮДИ НЕ ПРИХОДЯТЬ КАРТИНКИ :)
         {
-            
             var res = await _productService.CreateProductAsync(model);
             if (res.IsSuccess)
             {
                 return Ok(res);
             }
-
             return BadRequest(res);
         }
 
@@ -77,28 +80,36 @@ namespace ShopApi.Controllers
             return BadRequest(res);
         }
 
+        [HttpPost("GetProductByCategoryId")]
+        public async Task<IActionResult> GetProductByCategoryIdAsync([FromBody] FindByIdVM Id)
+        {
+            var res = await _productService.GetProductByCategoryId(Id.Id);
+            if (res.IsSuccess)
+            {
+                return Ok(res);
+            }
+
+            return BadRequest(res);
+        }
+
         [HttpPost]
         [Route("UploadImage")]
-        public async Task<IActionResult> UploadImage([FromForm] ProductUploadImageViewModel model)
+        public async Task<IActionResult> UploadImage([FromBody] UploadImageDTO model)
         {
-            string fileName = string.Empty;
-        
-            if(model.Image!=null)
+            List<string> images = new List<string>();
+            foreach (var Image in model.images)
             {
-                var fileExp = Path.GetExtension(model.Image.FileName);
-                var dir = Path.Combine(Directory.GetCurrentDirectory(), "images");
-                fileName = Path.GetRandomFileName() + fileExp;
+                string fileName = await _imageService.SaveImageAsync(Image,DirectoriesInProject.ProductImages);
 
-                using (var stream = System.IO.File.Create(Path.Combine(dir, fileName)))
-                {
-                    await model.Image.CopyToAsync(stream);
-                }
+
+
+                string port = string.Empty;
+                if (Request.Host.Port != null)
+                    port = ":" + Request.Host.Port.ToString();
+                var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/images/{fileName + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
+                images.Add(url);
             }
-            string port=string.Empty;
-            if(Request.Host.Port!=null)
-                port= ":"+Request.Host.Port.ToString();
-            var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/images/{fileName}";
-            return Ok(url);
+            return Ok(images);
         }
     }
 }

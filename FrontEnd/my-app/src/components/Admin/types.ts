@@ -8,7 +8,14 @@ export interface createProduct{
     isInTheStock: Boolean,
     numberOfDaysForDelivery: number,
     address: String,
-    categoryId: number
+    categoryId: number,
+    images_:any,
+}
+
+
+export interface imgDTO{
+    data: String,
+    extension: String
 }
 
 export interface createCategory{

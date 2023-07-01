@@ -9,11 +9,22 @@ export interface Product{
     quantity: String,
     isInTheStock: String,
     numberOfDaysForDelivery: String,
-    address: String
+    address: String,
+    image: any,
+    comments: Comment[],
+}
+
+export interface Comment{
+    stars:number
 }
 
 export interface Order{
     id:any;
     name:any;
     product_id:any;
+}
+
+export interface categorySequence{
+    id:any;
+    name:any;
 }
