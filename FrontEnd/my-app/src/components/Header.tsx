@@ -29,7 +29,7 @@ const Header=()=> {
 
     const getProducts=async()=>{
       let response:any = await getProductsByCategory({id:-1});
-      setProducts((prevProducts) => response.data.payload);
+      setProducts((prevProducts) => response?.data?.payload);
     }
 
     const handleGo=(e:string)=>{
@@ -91,7 +91,7 @@ const Header=()=> {
             //             )}
             // </ul>
             <div className=" absolute w-full my-5">
-            {products.length > 0 && (
+            {products?.length > 0 && (
               <div className="absolute left-6 right-6 mt-5 bg-white border border-gray-300 shadow-md">
                 {/* {orders.orders.map((item:any) => (
                   <div
@@ -188,8 +188,7 @@ const Header=()=> {
 
               <span className="header__optionLineOne">Returns</span>
               <span className="header__optionLineTwo">& Orders</span>
-            </div>
-          </a>
+          </div>
 
 
           <Link to="orders">
@@ -216,6 +215,7 @@ const Header=()=> {
         <div className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Today's Deals</div>
         <div className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Prime Video</div>
         <div onClick={()=>navigate("/player")} className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Music</div>
+    </div>
     </div>
     
     </>;
