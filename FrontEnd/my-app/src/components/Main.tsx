@@ -108,7 +108,7 @@ const Main = () => {
 
   useEffect(()=>{
     if(categories)
-      setCategoriesToView(categories.payload);
+      setCategoriesToView(categories?.payload);
 
     // console.log("categoriesToView");
     // console.log(categoriesToView);
@@ -136,7 +136,7 @@ const Main = () => {
     // console.log("RESPONSE:");
     // console.log(response.data.payload);
 
-    setProducts((prevProducts) => response.data.payload);
+    setProducts((prevProducts) => response?.data?.payload);
   }
 
 
@@ -148,9 +148,9 @@ const Main = () => {
 
     url = `/products?category=${encodeURIComponent(name)}&id=${encodeURIComponent(id)}`
     navigate(url);
-    if (response.data.payload.subcategories.length != 0) {
+    if (response?.data?.payload?.subcategories?.length != 0) {
 
-      setCategoriesToView(response.data.payload.subcategories);
+      setCategoriesToView(response?.data?.payload?.subcategories);
 
       const newCategoriesSequence = [...categoriesSequence];
 
@@ -174,7 +174,7 @@ const Main = () => {
     url = `/products`;
     navigate(url);
 
-    setCategoriesToView(categories.payload);
+    setCategoriesToView(categories?.payload);
     setCategoriesSequence([]);
 
 
@@ -196,13 +196,13 @@ const Main = () => {
           <div onClick={() => { setMainCategories() }} className='font-medium text-sm cursor-pointer'>All Categories</div>
 
           <div className='ml-1 font-medium text-sm'>
-            {categoriesSequence ? categoriesSequence.map((category: any, id: number) => (
+            {categoriesSequence ? categoriesSequence?.map((category: any, id: number) => (
               <div className=' cursor-pointer hover:underline' style={{ marginLeft: id * 6 }} onClick={() => { changeCategory(category.id, category.name) }} key={category.id}>{category.name}</div>
             )) : ""}
           </div>
 
           <div className='ml-3 text-sm'>
-            {categoriesToView.map((category: any) => (
+            {categoriesToView?.map((category: any) => (
               <div className=' cursor-pointer hover:underline' onClick={() => { changeCategory(category.id, category.name) }} key={category.id}>{category.name}</div>
             ))}
           </div>
@@ -231,7 +231,7 @@ const Main = () => {
         {/* grid */}
 
 
-        {products.map((a: any, id: number) => { return <div key={id}>{Product_Component(a)}</div> })}
+        {products?.map((a: any, id: number) => { return <div key={id}>{Product_Component(a)}</div> })}
 
 
 
