@@ -22,14 +22,15 @@ namespace Infrastructure.Services
     {
         private readonly IConfiguration _configuration;
         private readonly UserManager<User> _userManager;
-        private readonly GoogleAuthSettings _googleAuthSettings;
+        //private readonly GoogleAuthSettings _googleAuthSettings;
         public JwtTokenService(IConfiguration configuration,
-            UserManager<User> userManager,
-            GoogleAuthSettings googleAuthSettings)
+            UserManager<User> userManager)
         {
             _configuration = configuration;
             _userManager = userManager;
-            _googleAuthSettings = googleAuthSettings;
+            //,GoogleAuthSettings googleAuthSettings
+
+            //_googleAuthSettings = googleAuthSettings;
         }
 
         public async Task<string> CreateToken(User user)
@@ -45,7 +46,8 @@ namespace Infrastructure.Services
             foreach (var role in roles)
                 claims.Add(new Claim("roles", role));
 
-            var key = _configuration.GetValue<string>("JwtKey");
+            var key = _configuration["JwtConfig:Secret"];
+
             var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
             var signinCredentials = new SigningCredentials(signinKey,
                 SecurityAlgorithms.HmacSha256);

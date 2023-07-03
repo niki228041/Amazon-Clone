@@ -35,6 +35,15 @@ public class ProductService : IProductService
         _commentService = commentService;
     }
 
+
+    public async Task DeleteProductAsync(int id)
+    {
+        var toDelete = _productImageRepository.GetAll().Where(img => img.ProductId == id).ToList();
+        toDelete.ForEach(img => _productImageRepository.Delete(img.Id));
+
+        await _productRepository.Delete(id);
+    }
+
     public async Task<ServiceResponse> GetProductAsync(string name)
     {
         var res = await _productRepository.GetByName(name);
@@ -218,13 +227,6 @@ public class ProductService : IProductService
         };
     }
 
-    public async Task DeleteProductAsync(int id)
-    {
-        var toDelete = _productImageRepository.GetAll().Where(img => img.ProductId == id).ToList();
-        toDelete.ForEach(img => _productImageRepository.Delete(img.Id));
-
-        await _productRepository.Delete(id);
-    }
 
     public async Task<ServiceResponse> GetProductByCategoryId(int id)
     {

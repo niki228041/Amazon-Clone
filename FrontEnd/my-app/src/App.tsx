@@ -9,7 +9,7 @@ import AdminSite from './components/Admin/AdminSite';
 import CreateProduct from './components/Admin/CreateProduct';
 import CreateCategory from './components/Admin/CreateCategory';
 import Orders from './components/Orders';
-import Player from './components/Player';
+import Player from './components/Player/Player';
 import LoginScreen from './components/Auth/Login';
 
 const App:React.FC =()=> {
