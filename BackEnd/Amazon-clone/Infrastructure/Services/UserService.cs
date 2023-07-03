@@ -25,11 +25,11 @@ namespace Infrastructure.Services
         private readonly IMapper _mapper;
         private TokenValidationParameters _tokenValidationParameters;
 
+
         public UserService(IUserRepository userRepository, IJwtTokenService jwtService, IConfiguration configuration, EmailService emailService, IMapper mapper, TokenValidationParameters tokenValidationParameters)
         {
             _userRepository = userRepository;
             _configuration = configuration;
-            _emailService = emailService;
             _jwtService = jwtService;
             _mapper = mapper;
         }
@@ -63,7 +63,8 @@ namespace Infrastructure.Services
                 string url = $"{_configuration["HostSettings:URL"]}/api/User/confirmemail?userid={newUser.Id}&token={validEmailToken}";
 
                 string emailBody = $"<h1>Confirm your email</h1> <a href='{url}'>Confirm now</a>";
-                //await _emailService.SendEmailAsync(newUser.Email, "Email confirmation.", emailBody);    // доробити
+                //await _emailService.SendEmailAsync(newUser.Email, "Email confirmation.", emailBody);
+
 
                 var tokens = await _jwtService.CreateToken(newUser);
 
