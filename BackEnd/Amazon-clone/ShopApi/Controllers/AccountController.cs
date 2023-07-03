@@ -1,13 +1,19 @@
 ﻿using DAL.Entities;
 using DAL.Entities.Identity;
+using DAL.Validation;
+using Google.Apis.Auth.OAuth2.Requests;
 using Infrastructure.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Services;
 using ShopApi.Constants;
-using ShopApi.Services;
+using Infrastructure.Services;
+using ExternalLoginRequest = DAL.Entities.ExternalLoginRequest;
+using LoginViewModel = DAL.Entities.LoginViewModel;
 
 namespace ShopApi.Controllers
 {
@@ -17,33 +23,32 @@ namespace ShopApi.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly IJwtTokenService _jwtTokenService;
+        private UserService _userService;
 
         public AccountController(UserManager<User> userManager,
-            IJwtTokenService jwtTokenService)
+            IJwtTokenService jwtTokenService, UserService userService)
         {
             _userManager = userManager;
             _jwtTokenService = jwtTokenService;
+            _userService = userService;
         }
 
-        [HttpPost]
-        [Route("login")]
-        public async Task<IActionResult> LoginAsync([FromBody] LoginViewModel model)
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginUserAsync([FromBody] LoginViewModel model)
         {
-            var user = await _userManager.FindByNameAsync(model.email);
-            if (user == null)
+            var validator = new LoginUserValidation();
+            var validationResult = validator.Validate(model);
+            if (validationResult.IsValid)
             {
-                return BadRequest(new { error = "Дані вказано не вірно" });
+                var result = await _userService.LoginUserAsync(model);
+                return Ok(result);
             }
-
-            var checkPassword = await _userManager.CheckPasswordAsync(user, model.password);
-
-            if (!checkPassword)
+            else
             {
-                return BadRequest(new { error = "Дані вказано не вірно" });
+                return BadRequest(validationResult.Errors);
             }
-
-            string token = await _jwtTokenService.CreateToken(user);
-            return Ok(new { token });
+      
         }
 
         [HttpPost]
@@ -75,6 +80,17 @@ namespace ShopApi.Controllers
                 return BadRequest(new ServiceResponse { Message = "Виникла якась проблема" });
             }
             return Ok(new ServiceResponse { Message = "Реєстрація успішна" });
+        }
+
+        [HttpGet("GetAllUsers")]
+        public async Task<IActionResult> GetAllUsersAsync()
+        {
+            var result = await _userService.GetAllUsersAsync();
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpPost("GoogleExternalLogin")]
