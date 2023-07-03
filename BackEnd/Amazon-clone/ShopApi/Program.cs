@@ -11,8 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.FileProviders;
 using ShopApi;
-using ShopApi.Services;
-using ShopApi.Settings;
+using Infrastructure.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,10 +38,14 @@ builder.Services.AddSingleton(googleAuthSettings);
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
-
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductImageRepository, ProductImageRepository>();
+builder.Services.AddTransient<UserService>();
+builder.Services.AddTransient<EmailService>();
+builder.Services.AddTransient<JwtTokenService>();
+
 
 
 builder.Services.AddScoped<ICategoryService, CategoryService>();
@@ -61,7 +64,7 @@ var app = builder.Build();
     app.UseSwagger();
     app.UseSwaggerUI();
 //}
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 var dir = Path.Combine(Directory.GetCurrentDirectory(), "images");

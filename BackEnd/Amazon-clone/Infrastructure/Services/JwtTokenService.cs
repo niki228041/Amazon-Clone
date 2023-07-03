@@ -2,15 +2,16 @@
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using ShopApi.Settings;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Infrastructure.Models;
-using ShopApi.Constants;
 using DAL.Entities;
+using ExternalLoginRequest = DAL.Entities.ExternalLoginRequest;
+using Microsoft.Extensions.Configuration;
+using Infrastructure.Settings;
 
-namespace ShopApi.Services
+namespace Infrastructure.Services
 {
     public interface IJwtTokenService
     {
@@ -59,7 +60,7 @@ namespace ShopApi.Services
 
         public async Task<GoogleJsonWebSignature.Payload> VerifyGoogleToken(ExternalLoginRequest request)
         {
-            string clientID= _configuration["GoogleAuthSettings:ClientId"];
+            string clientID = _configuration["GoogleAuthSettings:ClientId"];
             var settings = new GoogleJsonWebSignature.ValidationSettings()
             {
                 Audience = new List<string>() { clientID }
@@ -68,5 +69,10 @@ namespace ShopApi.Services
             var payload = await GoogleJsonWebSignature.ValidateAsync(request.Token, settings);
             return payload;
         }
+    }
+    public class Tokens
+    {
+        public string token { get; set; }
+        public RefreshToken refreshToken { get; set; }
     }
 }
