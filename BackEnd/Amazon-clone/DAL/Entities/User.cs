@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using DAL.Entities.Identity;
+using DAL.Entities.Music;
 
 namespace DAL.Entities
 {
@@ -48,6 +49,7 @@ namespace DAL.Entities
         public virtual ICollection<Order> Orders { get; set; }
 
         public virtual ICollection<UserRoleEntity> UserRoles { get; set; }
+        public virtual ICollection<Track> Tracks { get; set; }
     }
 }
 

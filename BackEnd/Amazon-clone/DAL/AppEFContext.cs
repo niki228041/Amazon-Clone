@@ -1,5 +1,6 @@
 ﻿using DAL.Entities;
 using DAL.Entities.Identity;
+using DAL.Entities.Music;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,10 @@ namespace DAL
         public DbSet<ProductImage> ProductImage { get; set; }
         public DbSet<User> User { get; set; }
         public DbSet<Subcategory> Subcategories { get; set; }
+        public DbSet<Track> Track { get; set; }
+        public DbSet<TrackGenre> TrackGenre { get; set; }
+        public DbSet<Genre> Genre { get; set; }
+        public DbSet<Album> Album { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

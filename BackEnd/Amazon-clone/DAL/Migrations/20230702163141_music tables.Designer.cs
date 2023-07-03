@@ -3,6 +3,7 @@ using System;
 using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppEFContext))]
-    partial class AppEFContextModelSnapshot : ModelSnapshot
+    [Migration("20230702163141_music tables")]
+    partial class musictables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,7 +65,7 @@ namespace DAL.Migrations
                     b.HasIndex("OrderId")
                         .IsUnique();
 
-                    b.ToTable("tblAddresses", (string)null);
+                    b.ToTable("tblAddresses");
                 });
 
             modelBuilder.Entity("DAL.Entities.Category", b =>
@@ -90,7 +92,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("tblCategories", (string)null);
+                    b.ToTable("tblCategories");
                 });
 
             modelBuilder.Entity("DAL.Entities.Comment", b =>
@@ -144,7 +146,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("tblComments", (string)null);
+                    b.ToTable("tblComments");
                 });
 
             modelBuilder.Entity("DAL.Entities.CommentImage", b =>
@@ -174,7 +176,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("CommentId");
 
-                    b.ToTable("tblCommentImages", (string)null);
+                    b.ToTable("tblCommentImages");
                 });
 
             modelBuilder.Entity("DAL.Entities.Company", b =>
@@ -192,7 +194,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tblCompanies", (string)null);
+                    b.ToTable("tblCompanies");
                 });
 
             modelBuilder.Entity("DAL.Entities.Identity.RoleEntity", b =>
@@ -264,7 +266,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tblAlbum", (string)null);
+                    b.ToTable("tblAlbum");
                 });
 
             modelBuilder.Entity("DAL.Entities.Music.Genre", b =>
@@ -292,7 +294,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tblGenre", (string)null);
+                    b.ToTable("tblGenre");
                 });
 
             modelBuilder.Entity("DAL.Entities.Music.Track", b =>
@@ -339,7 +341,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("tblTrack", (string)null);
+                    b.ToTable("tblTrack");
                 });
 
             modelBuilder.Entity("DAL.Entities.Music.TrackGenre", b =>
@@ -371,7 +373,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("TrackId");
 
-                    b.ToTable("tblTrackGenre", (string)null);
+                    b.ToTable("tblTrackGenre");
                 });
 
             modelBuilder.Entity("DAL.Entities.Order", b =>
@@ -415,7 +417,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("tblOrders", (string)null);
+                    b.ToTable("tblOrders");
                 });
 
             modelBuilder.Entity("DAL.Entities.Product", b =>
@@ -483,7 +485,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("SubcategoryId");
 
-                    b.ToTable("tblProducts", (string)null);
+                    b.ToTable("tblProducts");
                 });
 
             modelBuilder.Entity("DAL.Entities.ProductImage", b =>
@@ -516,7 +518,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("tblProductImages", (string)null);
+                    b.ToTable("tblProductImages");
                 });
 
             modelBuilder.Entity("DAL.Entities.Subcategory", b =>
@@ -537,7 +539,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Subcategories", (string)null);
+                    b.ToTable("Subcategories");
                 });
 
             modelBuilder.Entity("DAL.Entities.User", b =>
