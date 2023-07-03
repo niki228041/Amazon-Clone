@@ -47,7 +47,6 @@ builder.Services.AddTransient<EmailService>();
 builder.Services.AddTransient<JwtTokenService>();
 
 
-
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductImageService, ProductImageService>();
