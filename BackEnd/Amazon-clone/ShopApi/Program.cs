@@ -91,8 +91,9 @@ app.UseStaticFiles(new StaticFileOptions
     FileProvider = new PhysicalFileProvider(dir),
     RequestPath="/images"
 });
+
 app.UseCors(options => options
-    .WithOrigins("http://localhost:3000")
+    .WithOrigins("http://localhost:3000", "http://localhost:4200")
     .AllowAnyHeader()
     .AllowCredentials()
     .AllowAnyMethod()
