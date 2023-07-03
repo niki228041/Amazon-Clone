@@ -14,6 +14,7 @@ using ShopApi.Constants;
 using Infrastructure.Services;
 using ExternalLoginRequest = DAL.Entities.ExternalLoginRequest;
 using LoginViewModel = DAL.Entities.LoginViewModel;
+using Infrastructure.Interfaces;
 
 namespace ShopApi.Controllers
 {
@@ -23,10 +24,10 @@ namespace ShopApi.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly IJwtTokenService _jwtTokenService;
-        private UserService _userService;
+        private IUserService _userService;
 
         public AccountController(UserManager<User> userManager,
-            IJwtTokenService jwtTokenService, UserService userService)
+            IJwtTokenService jwtTokenService, IUserService userService)
         {
             _userManager = userManager;
             _jwtTokenService = jwtTokenService;
@@ -55,31 +56,22 @@ namespace ShopApi.Controllers
         [Route("register")]
         public async Task<IActionResult> RegisterAsync([FromBody] RegisterViewModel model)
         {
-            var user = await _userManager.FindByNameAsync(model.email);
+            var user = await _userManager.FindByNameAsync(model.Email);
+            var resp = await _userService.RegisterUserAsync(model);
+
             if (user != null)
             {
                 return BadRequest(new ServiceResponse { Message = "Ви вже зареєстровані" });
             }
 
-            user = new User
-            {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Email = model.email
-            };
         
 
-            var  res = await _userManager.CreateAsync(user, model.password);
-            if (!res.Succeeded)
+            if (!resp.IsSuccess)
             {
                 return BadRequest(new ServiceResponse { Message = "Виникла якась проблема" });
             }
-            res = await _userManager.AddToRoleAsync(user, Roles.User);
-            if (!res.Succeeded)
-            {
-                return BadRequest(new ServiceResponse { Message = "Виникла якась проблема" });
-            }
-            return Ok(new ServiceResponse { Message = "Реєстрація успішна" });
+           
+            return Ok(resp);
         }
 
         [HttpGet("GetAllUsers")]

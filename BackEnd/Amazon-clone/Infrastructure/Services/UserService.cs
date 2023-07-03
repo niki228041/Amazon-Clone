@@ -16,15 +16,16 @@ using Infrastructure.Interfaces;
 
 namespace Infrastructure.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
         private IConfiguration _configuration;
         private EmailService _emailService;
-        private JwtTokenService _jwtService;
+        private IJwtTokenService _jwtService;
         private readonly IMapper _mapper;
+        private TokenValidationParameters _tokenValidationParameters;
 
-        public UserService(IUserRepository userRepository, JwtTokenService jwtService, IConfiguration configuration, EmailService emailService, IMapper mapper, TokenValidationParameters tokenValidationParameters)
+        public UserService(IUserRepository userRepository, IJwtTokenService jwtService, IConfiguration configuration, EmailService emailService, IMapper mapper, TokenValidationParameters tokenValidationParameters)
         {
             _userRepository = userRepository;
             _configuration = configuration;
@@ -32,6 +33,7 @@ namespace Infrastructure.Services
             _jwtService = jwtService;
             _mapper = mapper;
         }
+
         public async Task<ServiceResponse> RegisterUserAsync(RegisterViewModel model)
         {
             if (model == null)
@@ -39,7 +41,7 @@ namespace Infrastructure.Services
                 throw new NullReferenceException("Register model is null.");
             }
 
-            if (model.password != model.CheckPassword)
+            if (model.Password != model.CheckPassword)
             {
                 return new ServiceResponse
                 {
@@ -50,7 +52,7 @@ namespace Infrastructure.Services
 
             var newUser = _mapper.Map<RegisterViewModel, User>(model);
 
-            var result = await _userRepository.RegisterUserAsync(newUser, model.password);
+            var result = await _userRepository.RegisterUserAsync(newUser, model.Password);
             if (result.Succeeded)
             {
                 var token = await _userRepository.GenerateEmailConfirmationTokenAsync(newUser);
@@ -61,13 +63,14 @@ namespace Infrastructure.Services
                 string url = $"{_configuration["HostSettings:URL"]}/api/User/confirmemail?userid={newUser.Id}&token={validEmailToken}";
 
                 string emailBody = $"<h1>Confirm your email</h1> <a href='{url}'>Confirm now</a>";
-                await _emailService.SendEmailAsync(newUser.Email, "Email confirmation.", emailBody);
+                //await _emailService.SendEmailAsync(newUser.Email, "Email confirmation.", emailBody);    // доробити
 
                 var tokens = await _jwtService.CreateToken(newUser);
 
                 return new ServiceResponse
                 {
                     Message = "User successfully created.",
+                    Payload= tokens,
                     IsSuccess = true
                 };
             }
@@ -85,6 +88,7 @@ namespace Infrastructure.Services
         public async Task<ServiceResponse> LoginUserAsync(LoginViewModel model)
         {
             var user = await _userRepository.LoginUserAsync(model);
+
 
             if (user == null)
             {
@@ -110,6 +114,7 @@ namespace Infrastructure.Services
             return new ServiceResponse
             {
                 Message = "Logged in successfully",
+                Payload= tokens,
                 IsSuccess = true,
             };
         }
@@ -133,7 +138,9 @@ namespace Infrastructure.Services
                 IsSuccess = true,
                 Payload = usersVM
             };
+
         }
+
     }
 }
 
