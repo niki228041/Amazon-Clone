@@ -27,7 +27,4 @@
   <ItemGroup>
     <None Remove="images\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="images\" />
-  </ItemGroup>
 </Project>

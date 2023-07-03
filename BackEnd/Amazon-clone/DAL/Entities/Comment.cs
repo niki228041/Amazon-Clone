@@ -6,10 +6,8 @@ using DAL.Entities.Identity;
 namespace DAL.Entities
 {
     [Table("tblComments")]
-    public class Comment
+    public class Comment : BaseEntity<int>
 	{
-        [Key]
-        public int Id { get; set; }
 
         [Required(ErrorMessage = "The Title field is required.")]
         [MaxLength(100, ErrorMessage = "The Title field cannot exceed 100 characters.")]

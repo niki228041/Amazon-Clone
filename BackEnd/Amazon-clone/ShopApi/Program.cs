@@ -40,16 +40,28 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductImageRepository, ProductImageRepository>();
 builder.Services.AddTransient<UserService>();
 builder.Services.AddTransient<EmailService>();
 builder.Services.AddTransient<JwtTokenService>();
 
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<ICommentImageRepository, CommentImageRepository>();
 
+
+
+//Services
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductImageService, ProductImageService>();
+
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<ICommentImageService, CommentImageService>();
+
+builder.Services.AddScoped<IImageService, ImageService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -65,10 +77,15 @@ var app = builder.Build();
 //}
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseAuthentication();
 
 var dir = Path.Combine(Directory.GetCurrentDirectory(), "images");
 if (!Directory.Exists(dir))
     Directory.CreateDirectory(dir);
+
+var dir_2 = Path.Combine(Directory.GetCurrentDirectory(), "comment_images");
+if (!Directory.Exists(dir_2))
+    Directory.CreateDirectory(dir_2);
 
 app.UseStaticFiles(new StaticFileOptions
 {

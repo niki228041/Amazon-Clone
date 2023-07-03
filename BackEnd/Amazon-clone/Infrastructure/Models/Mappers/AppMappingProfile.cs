@@ -24,7 +24,16 @@ public class AppMappingProfile : Profile
         CreateMap<CategoryCreateVM, Category>();
         CreateMap<Category, CategoryCreateVM>();
 
+        CreateMap<ProductImageVM,ProductImage>();
+        CreateMap<ProductImage, ProductImageVM>();
+
+        CreateMap<Comment,CreateCommentDTO>();
+        CreateMap<CreateCommentDTO, Comment>();
+
+        CreateMap<CommentVM, Comment>();
+        CreateMap<Comment,CommentVM>();
+
     }
 
-    
+
 }

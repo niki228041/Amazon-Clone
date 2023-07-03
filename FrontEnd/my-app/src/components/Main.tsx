@@ -2,19 +2,47 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { apiProductSlice, useGetProductsQuery } from '../features/user/apiProductSlice';
 import img from '../images/t-shirt-png.webp'
-import { useParams } from 'react-router-dom'
-import star from "../images/Gold_Star.png"
+import { useParams} from 'react-router-dom'
+import star from "../images/star (2).png"
+import empty_star from "../images/star (3).png"
 import { Product, categorySequence } from './types';
 import { apiCategorySlice, useGetCategoriesQuery, useGetMainCategoriesQuery } from '../features/user/apiCategorySlice';
+import "../css/stars.css";
 
-const Product_Component = (data: Product) => {
+const Product_Component=(data:Product)=>{
+  var stars = 0;
 
-  return <>
-    <div >
-      <Link to={"/product/" + data.id}>
-        <div className='pb-2 px-3 mt-20 w-full'>
-          <div>
-            <div className='w-full h-[160px]' style={{ backgroundImage: `url(${'data:image/gif;base64,' + data?.image})`, backgroundPosition: "center", backgroundSize: "cover" }}>
+  const handleStarsFunctionality=()=>{
+    var sumOfStars = 0;
+    data.comments.map(com=>sumOfStars += com.stars);
+    stars = Math.round(sumOfStars/(data.comments.length));
+  }
+
+  const getStarts=()=>{
+    var jsx_stars: JSX.Element[] = [];
+    handleStarsFunctionality();
+    for(var i = 0;i<5;i++)
+    {
+      if(i<stars)
+      {
+        jsx_stars.push(<div key={i} className='star-small ml-0.5'/>);
+      }
+      else
+      {
+        jsx_stars.push(<div key={i} className='empty_star-small h-3 ml-0.5' />);
+      }
+    }
+
+    return jsx_stars;
+  }
+
+
+  return<>
+  <div >
+  <Link to={"/product/" + data.id}>
+    <div className='pb-2 px-3 mt-20 w-full'>
+      <div>
+          <div className='w-full h-[160px]' style={{ backgroundImage: `url(${'data:image/gif;base64,' + data?.image})`,backgroundPosition:"center",backgroundSize:"contain",backgroundRepeat:"no-repeat"}}>
 
             </div>
             {/* <img src={data?.image ? "data:image/png;base64," + data?.image : img} className=' w-full h-[100px] ' />         */}
@@ -26,18 +54,16 @@ const Product_Component = (data: Product) => {
               </p>
             </div>
 
-            <div className='flex'>
-              <img className='h-4' src={star} />
-              <img className='h-4' src={star} />
-              <img className='h-4' src={star} />
-              <img className='h-4' src={star} />
-              <span className='ml-1 text-blue-950 hover:text-red-700 cursor-pointer hover:underline text-[12px] font-medium'>144</span>
-            </div>
-            <p className='text-sm text-red-700 font-medium'>$ {data.price}</p>
+          <div className='flex'>
+            {getStarts()}
+            <span className='ml-1 text-blue-950 hover:text-red-700 cursor-pointer hover:underline text-[12px] font-medium'>{data.comments.length}</span>
           </div>
+
+          <p className='text-sm text-red-700 font-medium'>$ {data.price}</p>
         </div>
-      </Link>
-    </div>
+      </div>
+    </Link>
+  </div>
   </>
 }
 
@@ -80,11 +106,9 @@ const Main = () => {
   // console.log(products);
 
 
-
-
-  useEffect(() => {
-    if (categories)
-      setCategoriesToView(categories.payload);
+  useEffect(()=>{
+    if(categories)
+      setCategoriesToView(categories?.payload);
 
     // console.log("categoriesToView");
     // console.log(categoriesToView);
@@ -112,7 +136,7 @@ const Main = () => {
     // console.log("RESPONSE:");
     // console.log(response.data.payload);
 
-    setProducts((prevProducts) => response.data.payload);
+    setProducts((prevProducts) => response?.data?.payload);
   }
 
 
@@ -124,9 +148,9 @@ const Main = () => {
 
     url = `/products?category=${encodeURIComponent(name)}&id=${encodeURIComponent(id)}`
     navigate(url);
-    if (response.data.payload.subcategories.length != 0) {
+    if (response?.data?.payload?.subcategories?.length != 0) {
 
-      setCategoriesToView(response.data.payload.subcategories);
+      setCategoriesToView(response?.data?.payload?.subcategories);
 
       const newCategoriesSequence = [...categoriesSequence];
 
@@ -150,7 +174,7 @@ const Main = () => {
     url = `/products`;
     navigate(url);
 
-    setCategoriesToView(categories.payload);
+    setCategoriesToView(categories?.payload);
     setCategoriesSequence([]);
 
 
@@ -172,13 +196,13 @@ const Main = () => {
           <div onClick={() => { setMainCategories() }} className='font-medium text-sm cursor-pointer'>All Categories</div>
 
           <div className='ml-1 font-medium text-sm'>
-            {categoriesSequence ? categoriesSequence.map((category: any, id: number) => (
+            {categoriesSequence ? categoriesSequence?.map((category: any, id: number) => (
               <div className=' cursor-pointer hover:underline' style={{ marginLeft: id * 6 }} onClick={() => { changeCategory(category.id, category.name) }} key={category.id}>{category.name}</div>
             )) : ""}
           </div>
 
           <div className='ml-3 text-sm'>
-            {categoriesToView.map((category: any) => (
+            {categoriesToView?.map((category: any) => (
               <div className=' cursor-pointer hover:underline' onClick={() => { changeCategory(category.id, category.name) }} key={category.id}>{category.name}</div>
             ))}
           </div>
@@ -207,7 +231,7 @@ const Main = () => {
         {/* grid */}
 
 
-        {products.map((a: any, id: number) => { return <div key={id}>{Product_Component(a)}</div> })}
+        {products?.map((a: any, id: number) => { return <div key={id}>{Product_Component(a)}</div> })}
 
 
 
