@@ -1,5 +1,6 @@
 ﻿using DAL.Entities;
 using Infrastructure.Models;
+using Microsoft.AspNetCore.Identity;
 using Services;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,6 @@ namespace Infrastructure.Interfaces
         public Task<ServiceResponse> LoginUserAsync(LoginViewModel model);
         public Task<ServiceResponse> GetAllUsersAsync();
         public Task<ServiceResponse> RegisterUserAsync(RegisterViewModel model);
-
+        public Task<ServiceResponse> ConfirmEmailAsync(String userId, string token);
     }
 }

@@ -40,29 +40,29 @@ namespace DAL.Repositories
             return result;
         }
 
-        //public async Task<User> GetUserByIdAsync(string id)
-        //{
-        //    var result = await _userManager.FindByIdAsync(id);
-        //    return result;
-        //}
+        public async Task<User> GetUserByIdAsync(string id)
+        {
+            var result = await _userManager.FindByIdAsync(id);
+            return result;
+        }
 
-        //public async Task<IdentityResult> ConfirmEmailAsync(User model, string token)
-        //{
-        //    var result = await _userManager.ConfirmEmailAsync(model, token);
-        //    return result;
-        //}
+        public async Task<IdentityResult> ConfirmEmailAsync(User model, string token)
+        {
+            var result = await _userManager.ConfirmEmailAsync(model, token);
+            return result;
+        }
 
-        //public async Task<User> GetUserByEmailAsync(string email)
-        //{
-        //    var result = await _userManager.FindByEmailAsync(email);
-        //    return result;
-        //}
+        public async Task<User> GetUserByEmailAsync(string email)
+        {
+            var result = await _userManager.FindByEmailAsync(email);
+            return result;
+        }
 
-        //public async Task<string> GeneratePasswordResetTokenAsync(User model)
-        //{
-        //    var result = await _userManager.GeneratePasswordResetTokenAsync(model);
-        //    return result;
-        //}
+        public async Task<string> GeneratePasswordResetTokenAsync(User model)
+        {
+            var result = await _userManager.GeneratePasswordResetTokenAsync(model);
+            return result;
+        }
 
         async Task<IList<string>> IUserRepository.GetRolesAsync(User model)
         {
