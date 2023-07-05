@@ -11,6 +11,6 @@ namespace Infrastructure.Models
     {
         [Required]
         [EmailAddress]
-        public string email { get; set; }
+        public string Email { get; set; }
     }
 }

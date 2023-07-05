@@ -63,7 +63,7 @@ namespace DAL.Migrations
                     b.HasIndex("OrderId")
                         .IsUnique();
 
-                    b.ToTable("tblAddresses");
+                    b.ToTable("tblAddresses", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Category", b =>
@@ -81,9 +81,7 @@ namespace DAL.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasColumnType("text");
 
                     b.Property<int?>("ParentId")
                         .HasColumnType("integer");
@@ -92,7 +90,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("tblCategories");
+                    b.ToTable("tblCategories", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Comment", b =>
@@ -106,8 +104,14 @@ namespace DAL.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<int>("Dislikes")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("Likes")
                         .HasColumnType("integer");
@@ -116,6 +120,9 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
 
                     b.Property<int?>("ProductId")
                         .HasColumnType("integer");
@@ -137,7 +144,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("tblComments");
+                    b.ToTable("tblComments", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.CommentImage", b =>
@@ -151,13 +158,14 @@ namespace DAL.Migrations
                     b.Property<int?>("CommentId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Image")
-                        .HasColumnType("integer");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("character varying(25)");
+                        .HasColumnType("text");
 
                     b.Property<int>("Priority")
                         .HasColumnType("integer");
@@ -166,7 +174,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("CommentId");
 
-                    b.ToTable("tblCommentImages");
+                    b.ToTable("tblCommentImages", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Company", b =>
@@ -184,7 +192,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tblCompanies");
+                    b.ToTable("tblCompanies", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Identity.RoleEntity", b =>
@@ -231,6 +239,141 @@ namespace DAL.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
+            modelBuilder.Entity("DAL.Entities.Music.Album", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Background")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("tblAlbum", (string)null);
+                });
+
+            modelBuilder.Entity("DAL.Entities.Music.Genre", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("tblGenre", (string)null);
+                });
+
+            modelBuilder.Entity("DAL.Entities.Music.Track", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AlbumId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Background")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<int>("NumberOfPlays")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("likes")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlbumId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("tblTrack", (string)null);
+                });
+
+            modelBuilder.Entity("DAL.Entities.Music.TrackGenre", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("GenreId")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("TrackId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GenreId");
+
+                    b.HasIndex("TrackId");
+
+                    b.ToTable("tblTrackGenre", (string)null);
+                });
+
             modelBuilder.Entity("DAL.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -272,7 +415,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("tblOrders");
+                    b.ToTable("tblOrders", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Product", b =>
@@ -313,7 +456,6 @@ namespace DAL.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("NumberOfDaysForDelivery")
@@ -341,7 +483,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("SubcategoryId");
 
-                    b.ToTable("tblProducts");
+                    b.ToTable("tblProducts", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.ProductImage", b =>
@@ -362,7 +504,6 @@ namespace DAL.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("Priority")
@@ -375,7 +516,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("tblProductImages");
+                    b.ToTable("tblProductImages", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Subcategory", b =>
@@ -396,7 +537,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Subcategories");
+                    b.ToTable("Subcategories", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.User", b =>
@@ -631,6 +772,34 @@ namespace DAL.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("DAL.Entities.Music.Track", b =>
+                {
+                    b.HasOne("DAL.Entities.Music.Album", "Album")
+                        .WithMany("Tracks")
+                        .HasForeignKey("AlbumId");
+
+                    b.HasOne("DAL.Entities.User", null)
+                        .WithMany("Tracks")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Album");
+                });
+
+            modelBuilder.Entity("DAL.Entities.Music.TrackGenre", b =>
+                {
+                    b.HasOne("DAL.Entities.Music.Genre", "Genre")
+                        .WithMany("TrackGenre")
+                        .HasForeignKey("GenreId");
+
+                    b.HasOne("DAL.Entities.Music.Track", "Track")
+                        .WithMany("TrackGenre")
+                        .HasForeignKey("TrackId");
+
+                    b.Navigation("Genre");
+
+                    b.Navigation("Track");
+                });
+
             modelBuilder.Entity("DAL.Entities.Order", b =>
                 {
                     b.HasOne("DAL.Entities.Company", "Company")
@@ -760,6 +929,21 @@ namespace DAL.Migrations
                     b.Navigation("UserRoles");
                 });
 
+            modelBuilder.Entity("DAL.Entities.Music.Album", b =>
+                {
+                    b.Navigation("Tracks");
+                });
+
+            modelBuilder.Entity("DAL.Entities.Music.Genre", b =>
+                {
+                    b.Navigation("TrackGenre");
+                });
+
+            modelBuilder.Entity("DAL.Entities.Music.Track", b =>
+                {
+                    b.Navigation("TrackGenre");
+                });
+
             modelBuilder.Entity("DAL.Entities.Order", b =>
                 {
                     b.Navigation("Address");
@@ -784,6 +968,8 @@ namespace DAL.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Orders");
+
+                    b.Navigation("Tracks");
 
                     b.Navigation("UserRoles");
                 });

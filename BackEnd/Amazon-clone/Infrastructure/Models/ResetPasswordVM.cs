@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Models
 {
-    public class ResetPasswordVM
-    {
+	public class ResetPasswordVM
+	{
         [Required]
         [EmailAddress]
-        public string email { get; set; }
+        public string Email { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "Password must be at least 6 characters long", MinimumLength = 6)]

@@ -24,7 +24,7 @@ namespace ShopApi
                 var roleManaager = scope.ServiceProvider.GetRequiredService<RoleManager<RoleEntity>>();
                 var categoryRepository = scope.ServiceProvider.GetRequiredService<ICategoryRepository>();
                 var productRepository = scope.ServiceProvider.GetRequiredService<IProductRepository>();
-                dbcontext.Database.Migrate();
+                //dbcontext.Database.Migrate();
                 if (!roleManaager.Roles.Any())
                 {
                     var result = roleManaager.CreateAsync(new RoleEntity
