@@ -74,6 +74,22 @@ namespace ShopApi.Controllers
             return Ok(resp);
         }
 
+        [AllowAnonymous]
+        [HttpGet("ConfirmEmail")]
+        public async Task<IActionResult> ConfirmEmailAsync(string userId, string token)
+        {
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
+                return NotFound();
+
+            var result = await _userService.ConfirmEmailAsync(userId, token);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpGet("GetAllUsers")]
         public async Task<IActionResult> GetAllUsersAsync()
         {

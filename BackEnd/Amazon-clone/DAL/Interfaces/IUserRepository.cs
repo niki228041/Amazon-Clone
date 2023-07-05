@@ -10,11 +10,11 @@ namespace DAL.Interfaces
         Task<IdentityResult> RegisterUserAsync(User model, string password);
         Task<User> LoginUserAsync(LoginViewModel model);
         Task<bool> ValidatePasswordAsync(LoginViewModel model, string password);
-        //Task<User> GetUserByIdAsync(string id);
-        //Task<User> GetUserByEmailAsync(string email);
+        Task<User> GetUserByIdAsync(string id);
+        Task<User> GetUserByEmailAsync(string email);
         Task<IList<string>> GetRolesAsync(User model);
-        //Task<IdentityResult> ConfirmEmailAsync(User model, string token);
-        //Task<string> GeneratePasswordResetTokenAsync(User model);
+        Task<IdentityResult> ConfirmEmailAsync(User model, string token);
+        Task<string> GeneratePasswordResetTokenAsync(User model);
         Task<string> GenerateEmailConfirmationTokenAsync(User appUser);
         Task<List<User>> GetAllUsersAsync();
     }

@@ -120,16 +120,46 @@ namespace Infrastructure.Services
             };
         }
 
+        public async Task<ServiceResponse> ConfirmEmailAsync(string userId, string token)
+        {
+            var user = await _userRepository.GetUserByIdAsync(userId);
+            if (user == null)
+                return new ServiceResponse
+                {
+                    IsSuccess = false,
+                    Message = "User not found"
+                };
+
+            var decodedToken = WebEncoders.Base64UrlDecode(token);
+            string normalToken = Encoding.UTF8.GetString(decodedToken);
+
+            var result = await _userRepository.ConfirmEmailAsync(user, normalToken);
+
+            if (result.Succeeded)
+                return new ServiceResponse
+                {
+                    Message = "Email confirmed successfully!",
+                    IsSuccess = true,
+                };
+
+            return new ServiceResponse
+            {
+                IsSuccess = false,
+                Message = "Email did not confirm",
+                Errors = result.Errors.Select(e => e.Description)
+            };
+        }
+
         public async Task<ServiceResponse> GetAllUsersAsync()
         {
             var users = await _userRepository.GetAllUsersAsync();
             var usersVM = new List<AllUsersVM>();
-
+            Console.WriteLine("Count Users = " + users.Count());
             foreach (var user in users)
             {
                 var userVM = _mapper.Map<AllUsersVM>(user);
-                var roles = await _userRepository.GetRolesAsync(user);
-                userVM.Role = roles.First();
+                //var roles = await _userRepository.GetRolesAsync(user);
+                //userVM.Role = roles.First();
                 usersVM.Add(userVM);
             }
 
