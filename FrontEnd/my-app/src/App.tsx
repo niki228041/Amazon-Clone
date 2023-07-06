@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route,Router,Routes,BrowserRouter,Outlet, Link} from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -11,9 +11,22 @@ import CreateCategory from './components/Admin/CreateCategory';
 import Orders from './components/Orders';
 import Player from './components/Player/Player';
 import LoginScreen from './components/Auth/Login';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetAccessToken } from './api/jwtDecodeToken';
+import { AuthUser } from './features/user/user-slice';
 
 const App:React.FC =()=> {
+  var dispatch = useDispatch();
+  const token = GetAccessToken();
 
+  var isAuth = useSelector((state:any)=>state.user.isAuth);
+
+
+  useEffect(()=>{
+      if(token){
+          dispatch(AuthUser(token));
+      }
+  },[])
   
   return (
     <BrowserRouter>
@@ -22,12 +35,14 @@ const App:React.FC =()=> {
             path='/'
             element={
               <>
-                <div className="flex flex-col" style={{ minHeight: "120vh" }}>
+                <div className="flex flex-col" style={{ minHeight: "180vh" }}>
                   <Header />
-                  <div style={{ flex: "1" }}>
                     <Outlet />
-                  </div>
+                <div className='mt-auto'>
+
                   <Footer />
+                </div>
+
                 </div>
               </>
             }

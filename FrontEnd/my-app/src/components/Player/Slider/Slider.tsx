@@ -14,11 +14,10 @@ function Slider({ percentage = 0, onChange }:any) {
   const thumbRef:any = useRef()
 
   useEffect(() => {
-    const rangeWidth = rangeRef.current.getBoundingClientRect().width
-    const thumbWidth = thumbRef.current.getBoundingClientRect().width
-    const centerThumb = (thumbWidth / 100) * percentage * - 1
-    const centerProgressBar =
-      thumbWidth + (rangeWidth / 100) * percentage - (thumbWidth / 100) * percentage
+    const rangeWidth = rangeRef.current.getBoundingClientRect().width;
+    const thumbWidth = thumbRef.current.getBoundingClientRect().width;
+    const centerThumb = (thumbWidth / 100) * percentage * -1;
+    const centerProgressBar = ((rangeWidth-16) / 100) * percentage ; 
     setPosition(percentage)
     setMarginLeft(centerThumb)
     setProgressBarWidth(centerProgressBar)
@@ -55,7 +54,7 @@ function Slider({ percentage = 0, onChange }:any) {
         value={position}
         ref={rangeRef}
         step='0.01'
-        className='range'
+        className='range '
         onChange={onChange}
         onMouseEnter={()=>handleVisibleThumb(true)}
         onMouseLeave={()=>handleVisibleThumb(false)}
