@@ -15,6 +15,8 @@ using Infrastructure.Services;
 using ExternalLoginRequest = DAL.Entities.ExternalLoginRequest;
 using LoginViewModel = DAL.Entities.LoginViewModel;
 using Infrastructure.Interfaces;
+using System.Net.Mail;
+using System.Net;
 
 namespace ShopApi.Controllers
 {
@@ -49,7 +51,7 @@ namespace ShopApi.Controllers
             {
                 return BadRequest(validationResult.Errors);
             }
-      
+
         }
 
         [HttpPost]
@@ -64,14 +66,30 @@ namespace ShopApi.Controllers
                 return BadRequest(new ServiceResponse { Message = "Ви вже зареєстровані" });
             }
 
-        
+
 
             if (!resp.IsSuccess)
             {
                 return BadRequest(new ServiceResponse { Message = "Виникла якась проблема" });
             }
-           
+
             return Ok(resp);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("ConfirmEmail")]
+        public async Task<IActionResult> ConfirmEmailAsync(string userId, string token)
+        {
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
+                return NotFound();
+
+            var result = await _userService.ConfirmEmailAsync(userId, token);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpGet("GetAllUsers")]
@@ -108,7 +126,7 @@ namespace ShopApi.Controllers
                             FirstName = payload.GivenName,
                             LastName = payload.FamilyName,
                             Email = payload.Email
-                            
+
                         };
                         var resultCreate = await _userManager.CreateAsync(user);
                         if (!resultCreate.Succeeded)
@@ -132,5 +150,53 @@ namespace ShopApi.Controllers
                 return BadRequest(ex);
             }
         }
+
+        [HttpPost("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordVM model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            var callbackUrl = Url.Action("ResetPassword", "Account", new { email = user.Email, code = resetToken }, Request.Scheme);
+
+            var smtpHost = "smtp.example.com";
+            var smtpPort = 587;
+            var smtpUsername = "amazoneclone0@gmail.com";
+            var smtpPassword = "123456Qwe_";
+
+            using (var smtpClient = new SmtpClient(smtpHost, smtpPort))
+            {
+                smtpClient.EnableSsl = true;
+                smtpClient.Credentials = new NetworkCredential(smtpUsername, smtpPassword);
+
+                var from = new MailAddress("amazoneclone0@gmail.com", "Amazone Clone");
+                var to = new MailAddress(user.Email);
+                var subject = "Reset Your Password";
+                var body = $"Please reset your password by clicking the link: {callbackUrl}";
+
+                using (var mailMessage = new MailMessage(from, to))
+                {
+                    mailMessage.Subject = subject;
+                    mailMessage.Body = body;
+                    mailMessage.IsBodyHtml = true;
+
+                    try
+                    {
+                        smtpClient.Send(mailMessage);
+                    }
+                    catch (SmtpException ex)
+                    {
+                        return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+                    }
+                }
+            }
+            return Ok();
+        }
+
     }
 }

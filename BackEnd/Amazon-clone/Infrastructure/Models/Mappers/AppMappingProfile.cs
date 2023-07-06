@@ -32,6 +32,7 @@ public class AppMappingProfile : Profile
 
         CreateMap<CommentVM, Comment>();
         CreateMap<Comment,CommentVM>();
+        CreateMap<User, AllUsersVM>();
 
         CreateMap<RegisterViewModel, User>();
         CreateMap<User, RegisterViewModel>();
