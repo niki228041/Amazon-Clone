@@ -4,11 +4,12 @@ import axios from "axios"
 import parseJwt from "../../api/jwtDecodeToken";
 
 import { SetAccessToken,SetRefreshToken } from "../../api/jwtDecodeToken";
+import { LoginRequest } from "../../components/Auth/types";
+import { baseURL } from "../../api/axios";
 
-const baseURL ='https://localhost:5034';
 
-interface UserState{
-    user:any;
+export interface UserState{
+    user:User;
     loading:boolean;
     accessToken:string;
     refreshToken:string;
@@ -18,10 +19,17 @@ interface UserState{
     allUsers:any;
 }
 
+interface User{
+    email:string,
+    name:string,
+    surname:string,
+    roles:string,
+}
+
 
 // UserState :
 const initialState:UserState= {
-    user:{},
+    user:{email:"",name:"",surname:"",roles:""},
     accessToken:"",
     refreshToken:"",
     loading:false,
@@ -40,8 +48,14 @@ export const postRegistration:any = createAsyncThunk('/api/Account/registration'
     }
 })
 
-
-
+export const postLogin:any = createAsyncThunk('/api/Account/login',async(dateFromFrontend:LoginRequest)=>{
+    try{
+        const response = await axios.post(baseURL + '/api/Account/login',dateFromFrontend);
+        return response.data;
+    }catch(err:any){
+        return err.message;
+    }
+})
 
 
 export const AuthUser:any = createAsyncThunk('',(token:string)=>{
@@ -77,6 +91,26 @@ const userSlice = createSlice(
                 state.user = parseJwt(action.payload);
                 state.isAuth = true;
 
+            })
+            .addCase(postLogin.pending,(state,action)=>{
+                console.log("bro");
+                state.loading = true;
+            })
+            .addCase(postLogin.fulfilled,(state,action)=>{
+                state.loading = false;
+                state.accessToken = action.payload;
+                SetAccessToken(action.payload.payload);
+                console.log(action.payload.payload);
+
+                if(action.payload.payload != undefined)
+                {
+                    state.user = parseJwt(action.payload.payload);
+                }
+                else{
+                    state.user = {email:"",name:"",surname:"",roles:""};
+                }
+                console.log(action.payload);
+                state.isAuth = true;
             })
             .addCase(AuthUser.fulfilled,(state,action)=>{
                 if(action.payload == "")

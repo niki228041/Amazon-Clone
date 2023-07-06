@@ -54,10 +54,18 @@ export const apiProductSlice:any = createApi({
             body:todo
           }),
           invalidatesTags:['Product']
+        }),
+        getLinksForProductByProductsIds:builder.query<any, any>({
+          query:(todo)=>({
+            url:'/api/ProductImage/GetImageLinksByProductsIds',
+            method:"POST",
+            body:todo
+          }),
+          providesTags:result=>['Product']
         })
     })
 })
 
 
-export const {useGetProductsQuery,useGetProductByIdQuery,useDeleteProductQuery} = apiProductSlice
+export const {useGetProductsQuery,useGetProductByIdQuery,useDeleteProductQuery,useGetLinksForProductByProductsIdsQuery} = apiProductSlice
 

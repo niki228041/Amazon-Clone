@@ -10,7 +10,7 @@ export const store = configureStore({
   reducer: {
     [apiProductSlice.reducerPath]:apiProductSlice.reducer,
     [apiCategorySlice.reducerPath]:apiCategorySlice.reducer,
-    // user: userSlice,
+    user: userSlice,
     orders: ordersStateSlice,
   },
   middleware: (getDefaultMiddleware) =>

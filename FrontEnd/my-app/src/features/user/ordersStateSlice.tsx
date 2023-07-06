@@ -7,7 +7,7 @@ const baseURL ='https://localhost:5034';
 
 
 
-interface Orders{
+export interface Orders{
     orders:Order[];
 }
 
