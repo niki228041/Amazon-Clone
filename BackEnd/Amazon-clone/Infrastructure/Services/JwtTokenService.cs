@@ -2,15 +2,16 @@
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using ShopApi.Settings;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Infrastructure.Models;
-using ShopApi.Constants;
 using DAL.Entities;
+using ExternalLoginRequest = DAL.Entities.ExternalLoginRequest;
+using Microsoft.Extensions.Configuration;
+using Infrastructure.Settings;
 
-namespace ShopApi.Services
+namespace Infrastructure.Services
 {
     public interface IJwtTokenService
     {
@@ -21,14 +22,15 @@ namespace ShopApi.Services
     {
         private readonly IConfiguration _configuration;
         private readonly UserManager<User> _userManager;
-        private readonly GoogleAuthSettings _googleAuthSettings;
+        //private readonly GoogleAuthSettings _googleAuthSettings;
         public JwtTokenService(IConfiguration configuration,
-            UserManager<User> userManager,
-            GoogleAuthSettings googleAuthSettings)
+            UserManager<User> userManager)
         {
             _configuration = configuration;
             _userManager = userManager;
-            _googleAuthSettings = googleAuthSettings;
+            //,GoogleAuthSettings googleAuthSettings
+
+            //_googleAuthSettings = googleAuthSettings;
         }
 
         public async Task<string> CreateToken(User user)
@@ -44,7 +46,8 @@ namespace ShopApi.Services
             foreach (var role in roles)
                 claims.Add(new Claim("roles", role));
 
-            var key = _configuration.GetValue<string>("JwtKey");
+            var key = _configuration["JwtConfig:Secret"];
+
             var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
             var signinCredentials = new SigningCredentials(signinKey,
                 SecurityAlgorithms.HmacSha256);
@@ -59,7 +62,7 @@ namespace ShopApi.Services
 
         public async Task<GoogleJsonWebSignature.Payload> VerifyGoogleToken(ExternalLoginRequest request)
         {
-            string clientID= _configuration["GoogleAuthSettings:ClientId"];
+            string clientID = _configuration["GoogleAuthSettings:ClientId"];
             var settings = new GoogleJsonWebSignature.ValidationSettings()
             {
                 Audience = new List<string>() { clientID }
@@ -68,5 +71,10 @@ namespace ShopApi.Services
             var payload = await GoogleJsonWebSignature.ValidateAsync(request.Token, settings);
             return payload;
         }
+    }
+    public class Tokens
+    {
+        public string token { get; set; }
+        public RefreshToken refreshToken { get; set; }
     }
 }

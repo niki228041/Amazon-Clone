@@ -1,39 +1,27 @@
 import { SyntheticEvent, useState, useEffect } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+import { LoginRequest } from './types'
+import { postLogin } from '../../features/user/user-slice'
 
-// import { RouteComponentProps } from 'react-router'
-// import FormContainer from '../components/FormContainer'
-// import { login } from '../actions/userActions'
-// import { UserState } from '../reducers/userReducers'
-// import { RootState } from '../store'
-
-// interface Props {
-//   history: RouteComponentProps['history']
-// }
 
 const LoginScreen = () => {
-  // { history }: Props
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
 
-  // const dispatch = useDispatch()
-  // const userLogin = useSelector<RootState, UserState>(
-  //   (state: RootState) => state.userLogin
-  // )
+  const dispatch = useDispatch();
 
-  
-  // const { userInfo } = userLogin
-  // useEffect(() => {
-  //   if (userInfo !== undefined && userInfo.firstName) {
-  //     history.push('/')
-  //   }
-  // }, [userInfo, history])
+  const submitHandler = async (data:React.FormEvent<HTMLFormElement>) => {
+    data.preventDefault()
+    var curentData = new FormData(data.currentTarget);
 
-  const submitHandler = async (e: SyntheticEvent) => {
-    e.preventDefault()
-    // dispatch(login(email, password))
+    var email = curentData?.get("email")?.toString()!;
+    var password = curentData?.get("password")?.toString()!;
+
+    var request:LoginRequest = {email:email,password:password};
+    dispatch(postLogin(request));
+    console.log(request);
   }
+
+
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -45,7 +33,7 @@ const LoginScreen = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" action="#" method="POST" onSubmit={submitHandler}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                 Email address

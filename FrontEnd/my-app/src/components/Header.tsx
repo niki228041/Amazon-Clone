@@ -7,10 +7,15 @@ import "../css/MainPage.css"
 import { useAppSelector } from "../app/hooks";
 import { apiProductSlice } from "../features/user/apiProductSlice";
 import { Product } from "./types";
+import { useSelector } from "react-redux";
+import { UserState } from "../features/user/user-slice";
+import { Orders } from "../features/user/ordersStateSlice";
 
 
 const Header=()=> {
     const orders = useAppSelector((state)=>state.orders);
+    var user = useAppSelector(((state: { user: UserState; orders: Orders })=>state.user.user));
+    console.log(user);
 
     const [onSearch,setSearch]= useState(false);
     const [inputText, setInputText] = useState("");
@@ -69,8 +74,8 @@ const Header=()=> {
       </div>
       
       <div className="header__option ">
-        <span className="header__optionLineOne">Hello</span>
-        <span className="header__optionLineTwo">Select your address</span>
+        <span className="header__optionLineOne"> Hello {user.name}</span>
+        <span className="header__optionLineTwo"> Select your address </span>
       </div>
 
       <div className="header__search w-full relative">
