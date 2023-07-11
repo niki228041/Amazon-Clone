@@ -34,7 +34,7 @@ pipeline  {
             steps {
                 echo " ============== pushing image =================="
                 sh '''
-                docker push alkaponees/amazon-clone-frontend:#version
+                docker push alkaponees/amazon-clone-frontend:$version
                 '''
             }
         }
