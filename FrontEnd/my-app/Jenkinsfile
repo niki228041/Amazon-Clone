@@ -19,24 +19,12 @@ pipeline  {
                 }
             }
         }
-        stage('Input version') {
-            steps {
-                script {
-                def version = input(
-                        id: 'version',
-                        message: 'Enter the Docker image tag:',
-                        parameters: [
-                            string(defaultValue: 'latest', description: 'Docker image tag', name: 'version')
-                        ]
-                    )
-                }
-            }
-    }
+        
         stage("docker push") {
             steps {
                 echo " ============== pushing image =================="
                 sh '''
-                docker push alkaponees/amazon-clone-frontend:${version}
+                docker push alkaponees/amazon-clone-frontend
                 '''
             }
         }
