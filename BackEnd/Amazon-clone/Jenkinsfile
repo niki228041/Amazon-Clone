@@ -21,22 +21,12 @@ pipeline  {
                 }
             }
         }
-        stage('input') {
-            steps {
-                script {
-                version = input (
-                    message: 'Enter version of amazon-clone-backend image', 
-                    ok: 'Submit', 
-                    parameters: [string(defaultValue: 'latest', name: 'version', trim: true)]
-                )
-                }
-            }
-    }
+        
         stage("docker push") {
             steps {
                 echo " ============== pushing image =================="
                 sh '''
-                docker push alkaponees/amazon-clone-backend:$version
+                docker push alkaponees/amazon-clone-backend
                 '''
             }
         }
