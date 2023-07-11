@@ -1,0 +1,51 @@
+#!groovy
+//  groovy Jenkinsfile
+pipeline  {
+    agent any;
+    stages {
+        stage("Create docker image") {
+            steps {
+                echo 'Creating docker image ...'
+                    sh "cd FrontEnd/my-app && docker build --no-cache -t alkaponees/amazon-clone-frontend   . "                
+            }
+        }
+        stage("docker login") {
+            steps {
+                echo " ============== docker login =================="
+                withCredentials([usernamePassword(credentialsId: 'DockerHub-Credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh '''
+                    docker login -u $USERNAME -p $PASSWORD
+                    '''
+                }
+            }
+        }
+        stage('Input version') {
+            steps {
+                script {
+                version = input (
+                    message: 'Enter version of amazon-clone-frontend image', 
+                    ok: 'Submit', 
+                    parameters: [string(defaultValue: 'latest', name: 'version', trim: true)]
+                )
+                }
+            }
+    }
+        stage("docker push") {
+            steps {
+                echo " ============== pushing image =================="
+                sh '''
+                docker push alkaponees/amazon-clone-frontend:#version
+                '''
+            }
+        }
+    }
+    post{
+        always{
+            
+                echo "=========== Log out from Docker Hub =================="
+                sh '''
+                docker logout
+                '''
+        }
+    }
+}
