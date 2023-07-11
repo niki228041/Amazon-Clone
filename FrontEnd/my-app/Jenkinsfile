@@ -22,11 +22,13 @@ pipeline  {
         stage('Input version') {
             steps {
                 script {
-                version = input (
-                    message: 'Enter version of amazon-clone-frontend image', 
-                    ok: 'Submit', 
-                    parameters: [string(defaultValue: 'latest', name: 'version', trim: true)]
-                )
+                def version = input(
+                        id: 'version',
+                        message: 'Enter the Docker image tag:',
+                        parameters: [
+                            string(defaultValue: 'latest', description: 'Docker image tag', name: 'version')
+                        ]
+                    )
                 }
             }
     }
