@@ -7,7 +7,7 @@ pipeline  {
             steps {
                 echo 'Creating docker image ...'
                 dir('.'){
-                    sh "docker build --no-cache -t alkaponees/amazon-clone-frontend  . "
+                    sh "docker build --no-cache -t alkaponees/amazon-clone-frontend  -f /FrontEnd/my-app/Dockerfile . "
                 }
             }
         }
