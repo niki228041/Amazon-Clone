@@ -6,7 +6,8 @@ pipeline  {
         stage("Create docker image") {
             steps {
                 echo 'Creating docker image ...'
-                    sh "docker build --no-cache -t alkaponees/amazon-clone-frontend  -f /FrontEnd/my-app/Dockerfile . "                
+                    sh "pwd && ls -la"
+                    sh "docker build --no-cache -t alkaponees/amazon-clone-frontend  -f Amazon-clone/FrontEnd/my-app/Dockerfile . "                
             }
         }
         stage("docker login") {
