@@ -1,4 +1,3 @@
-//find Amazon-Clone/ -type f -exec sed  -i 's/localhost/0.0.0.0/g' {} +
 #!groovy
 //  groovy Jenkinsfile
 pipeline  {
