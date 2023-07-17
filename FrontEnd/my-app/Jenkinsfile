@@ -3,12 +3,7 @@
 pipeline  {
     agent any;
     stages {
-         stage("Input tag for docekr image") {
-            steps {
-                echo 'Creating docker image ...'
-                    sh "cd FrontEnd/my-app && docker build --no-cache -t alkaponees/amazon-clone-frontend   . "                
-            }
-        }
+         
         stage("Create docker image") {
             steps {
                 echo 'Creating docker image ...'
