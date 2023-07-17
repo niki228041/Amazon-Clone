@@ -5,11 +5,11 @@ import img from '../images/t-shirt-png.webp'
 import { useParams} from 'react-router-dom'
 import star from "../images/star (2).png"
 import empty_star from "../images/star (3).png"
-import { Product, categorySequence } from './types';
+import { ImageLink, Product, categorySequence } from './types';
 import { apiCategorySlice, useGetCategoriesQuery, useGetMainCategoriesQuery } from '../features/user/apiCategorySlice';
 import "../css/stars.css";
 
-const Product_Component=(data:Product)=>{
+const Product_Component=({ data , productsImages}: { data: Product ,productsImages:ImageLink})=>{
   var stars = 0;
 
   const handleStarsFunctionality=()=>{
@@ -42,7 +42,7 @@ const Product_Component=(data:Product)=>{
   <Link to={"/product/" + data.id}>
     <div className='pb-2 px-3 mt-20 w-full'>
       <div>
-          <div className='w-full h-[160px]' style={{ backgroundImage: `url(${'data:image/gif;base64,' + data?.image})`,backgroundPosition:"center",backgroundSize:"contain",backgroundRepeat:"no-repeat"}}>
+          <div className='w-full h-[160px]' style={{ backgroundImage:"url("+ productsImages.image +")",backgroundPosition:"center",backgroundSize:"contain",backgroundRepeat:"no-repeat"}}>
 
             </div>
             {/* <img src={data?.image ? "data:image/png;base64," + data?.image : img} className=' w-full h-[100px] ' />         */}
@@ -85,6 +85,18 @@ const Main = () => {
 
   const [getProductsByCategory, { }] = apiProductSlice.useGetProductsByCategoryIdMutation();
 
+  var request:any=[];
+  data?.payload?.forEach((data:any) => {
+    request.push({id:data.id});
+  });
+
+  const { data: imagesLinks, isSuccess: isSuccessImagesLinks } = apiProductSlice.useGetLinksForProductByProductsIdsQuery(request) as {
+    data: ImageLink[];
+    isSuccess: boolean;
+  };;  
+
+  console.log(imagesLinks);
+
   const navigate = useNavigate();
 
   const getSearchParams = () => {
@@ -117,9 +129,22 @@ const Main = () => {
 
     // const category = searchParams.get('category');
     getProducts();
+    getLinks();
     // setProducts();
 
   }, [categories, categoryId])
+
+  const getLinks= async ()=>{
+    try {
+      var products = data.map((product:any)=>product.id);
+      console.log(products);
+      // var response = await getImageLinksByProductIds({ images: imagesBytes_toSend });
+      // setImagesToShow(response.data);
+      // console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
 
 
@@ -231,9 +256,9 @@ const Main = () => {
         {/* grid */}
 
 
-        {products?.map((a: any, id: number) => { return <div key={id}>{Product_Component(a)}</div> })}
-
-
+        {products?.map((product: Product, id: number) => {
+          const b: Product = product;
+          return <div key={id}>{<Product_Component  data={b} productsImages={imagesLinks?.find((img:ImageLink)=>img.productId==product.id)!} />}</div> })}
 
       </div>
     </div>

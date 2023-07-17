@@ -51,7 +51,7 @@ namespace ShopApi.Controllers
         [HttpPost]
         [Route("CreateProduct")]
         [DisableRequestSizeLimit]
-        public async Task<IActionResult> CreateProductAsync(CreateProductDTO model) // я ЕБУ ЧОГО СЮДИ НЕ ПРИХОДЯТЬ КАРТИНКИ :)
+        public async Task<IActionResult> CreateProductAsync(CreateProductDTO model) 
         {
             var res = await _productService.CreateProductAsync(model);
             if (res.IsSuccess)

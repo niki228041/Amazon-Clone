@@ -2,7 +2,6 @@
 using AutoMapper;
 using DAL.Interfaces;
 using Google.Apis.Auth.OAuth2.Requests;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Services;
@@ -13,6 +12,7 @@ using LoginViewModel = DAL.Entities.LoginViewModel;
 using Microsoft.Extensions.Configuration;
 using SixLabors.ImageSharp.Formats.Webp;
 using Infrastructure.Interfaces;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace Infrastructure.Services
 {
