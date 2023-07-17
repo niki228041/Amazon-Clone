@@ -12,14 +12,14 @@ pipeline  {
         stage("Create frontend docker image") {
             steps {
                 echo 'Creating docker image ...'
-                    sh " cd /var/lib/jenkins/workspace/Amazon-Clone/Amazon-Clone/FrontEnd/my-app && docker build --no-cache -t alkaponees/amazon-clone-frontend   . "                
+                    sh " cd /var/lib/jenkins/workspace/Amazon-Clone/FrontEnd/my-app && docker build --no-cache -t alkaponees/amazon-clone-frontend   . "                
             }
         }
         stage("Create backend docker image") {
             steps {
                 echo 'Creating docker image ...'
                 dir('.'){
-                    sh " cd /var/lib/jenkins/workspace/Amazon-Clone/Amazon-Clone/BackEnd/Amazon-clone/ && docker build --no-cache -t alkaponees/amazon-clone-backend  . "
+                    sh " cd /var/lib/jenkins/workspace/Amazon-Clone/BackEnd/Amazon-clone/ && docker build --no-cache -t alkaponees/amazon-clone-backend  . "
                 }
             }
         }
