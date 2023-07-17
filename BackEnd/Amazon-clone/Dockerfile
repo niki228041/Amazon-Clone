@@ -18,4 +18,4 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
 WORKDIR /app
 COPY --from=build /app/build .
 EXPOSE 5034
-ENTRYPOINT ["dotnet", "ShopApi.dll", "--urls", "http://0.0.0.0:5034"]
+ENTRYPOINT ["dotnet", "ShopApi.dll"]
