@@ -6,21 +6,19 @@ pipeline  {
         stage("Change IP in configs")
         {
             steps{
-                sh "cd .. && find Amazon-Clone/ -type f -exec sed  -i 's/localhost/0.0.0.0/g' {} +"
+                sh "cd .. && find Amazon-Clone/ -type f -exec sed  -i 's/localhost/172.20.10.2/g' {} +"
             }
         } 
         stage("Create frontend docker image") {
             steps {
                 echo 'Creating docker image ...'
-                    sh " cd /var/lib/jenkins/workspace/Amazon-Clone/FrontEnd/my-app && docker build --no-cache -t alkaponees/amazon-clone-frontend   . "                
+                sh " cd /var/lib/jenkins/workspace/Amazon-Clone/FrontEnd/my-app && docker build --no-cache -t alkaponees/amazon-clone-frontend   . "                
             }
         }
         stage("Create backend docker image") {
             steps {
                 echo 'Creating docker image ...'
-                dir('.'){
-                    sh " cd /var/lib/jenkins/workspace/Amazon-Clone/BackEnd/Amazon-clone/ && docker build --no-cache -t alkaponees/amazon-clone-backend  . "
-                }
+                sh " cd /var/lib/jenkins/workspace/Amazon-Clone/BackEnd/Amazon-clone/ && docker build --no-cache -t alkaponees/amazon-clone-backend  . "
             }
         }
         stage("docker login") {
