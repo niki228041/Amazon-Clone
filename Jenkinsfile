@@ -34,11 +34,19 @@ pipeline  {
             }
         }
         
-        stage("docker push") {
+        stage("docker frontend push") {
             steps {
-                echo " ============== pushing image =================="
+                echo " ============== pushing amazon-clone-frontend image =================="
                 sh '''
                 docker push alkaponees/amazon-clone-frontend
+                '''
+            }
+        }
+        stage("docker backend push") {
+            steps {
+                echo " ============== pushing amazon-clone-backend image =================="
+                sh '''
+                docker push alkaponees/amazon-clone-backend
                 '''
             }
         }
