@@ -27,7 +27,6 @@ namespace DAL
         public DbSet<Order> Order { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<ProductImage> ProductImage { get; set; }
-        public DbSet<User> User { get; set; }
         public DbSet<Subcategory> Subcategories { get; set; }
         public DbSet<Track> Track { get; set; }
         public DbSet<TrackGenre> TrackGenre { get; set; }

@@ -167,12 +167,13 @@ const Player=()=>{
   
 
     return<>
-      <div className="bg-cover h-[80vh] w-full"  style={{backgroundImage:`url(${img})`,backgroundPosition:"center"}}>
-      <audio src={currentSong.song} ref={audioRef} onTimeUpdate={onPlaying} onTimeUpdateCapture={getCurrDuration}/>
+    <audio src={currentSong.song} ref={audioRef} onTimeUpdate={onPlaying} onTimeUpdateCapture={getCurrDuration}/>
+      <div className="bg-cover h-[90vh] w-full"  style={{backgroundImage:`url(${img})`,backgroundPosition:"center"}}>
+      
       <div className="flex content-center justify-center px-40 flex-col m-auto self-center w-full" >
         <div className="w-full flex self-center justify-center m-auto content-center p-10">
 
-            <div className="flex justify-center h-[500px] w-[500px] hover:w-full self-auto hover:h-[500px] bg-gray-700 rounded-xl shadow-2xl bg-cover transition-all duration-200 m-auto" style={{backgroundImage:`url(${img})`,backgroundPosition:"center"}} >
+            <div className="flex justify-center h-[500px] w-[500px] self-auto  bg-gray-700 rounded-xl shadow-2xl bg-cover transition-all duration-200 m-auto" style={{backgroundImage:`url(${img})`,backgroundPosition:"center"}} >
                 <div className="flex flex-col justify-end self-end w-[80%]">
 
                   <div className=" flex self-center mt-2">
@@ -205,7 +206,7 @@ const Player=()=>{
         </div>
         
       </div>
-      <div className="px-3 m-0 my-0 py-0 bottom-0 fixed w-full h-[20px]  bg-slate-800 transition-all">
+      <div className="px-3 m-0 my-0 py-0 bottom-0 fixed w-full h-[20px] bg-slate-800 transition-all">
           <Slider percentage={percentage} onChange={onChange} />
             {/* <div className=" flex self-center justify-center">
               <div onClick={skipBack} className=" h-[35px] w-[35px] rounded-[50px] hover:bg-slate-400/[.82]  shadow-indigo-600/[.50] self-center  flex justify-center">
