@@ -11,13 +11,11 @@ namespace DAL.Entities
     public class User : IdentityUser<int>
     {
 
-        [Required]
-        [MaxLength(25)]
+        [StringLength(25)]
         public string FirstName { get; set; }
 
 
-        [Required]
-        [MaxLength(25)]
+        [StringLength(25)]
         public string LastName { get; set; }
 
 
@@ -42,13 +40,12 @@ namespace DAL.Entities
         [ForeignKey(nameof(Company))]
         public int? CompanyId { get; set; }
 
-
-
         public virtual ICollection<Comment> Comments { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
 
         public virtual ICollection<UserRoleEntity> UserRoles { get; set; }
+
         public virtual ICollection<Track> Tracks { get; set; }
     }
 }

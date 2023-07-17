@@ -28,3 +28,8 @@ export interface categorySequence{
     id:any;
     name:any;
 }
+
+export interface ImageLink {
+  image: string;
+  productId: number;
+}
