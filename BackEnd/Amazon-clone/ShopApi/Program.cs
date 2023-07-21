@@ -54,11 +54,16 @@ builder.Services.AddTransient<EmailService>();
 
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<ICommentImageRepository, CommentImageRepository>();
-builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddScoped<IVariantRepository,VariantRepository>();
+builder.Services.AddScoped<IOptionsRepository,OptionsRepository>();
+builder.Services.AddScoped<IOptionsCategoryRepository,OptionsCategoryRepository>();
+builder.Services.AddScoped<IVariantProductRepository, VariantProductRepository>();
 
 
 
 //Services
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 builder.Services.AddScoped<IProductService, ProductService>();

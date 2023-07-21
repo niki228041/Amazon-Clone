@@ -1,0 +1,78 @@
+﻿using AutoMapper;
+using DAL.Entities;
+using DAL.Entities.FilterEntities;
+using DAL.Interfaces;
+using DAL.Repositories;
+using Infrastructure.Interfaces;
+using Infrastructure.Models;
+using Infrastructure.Services;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace ShopApi.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class OptionsController : ControllerBase
+    {
+        private readonly IVariantRepository _variantRepository;
+        private readonly IOptionsRepository _optionsRepository;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IMapper _mapper;
+
+        public OptionsController(IVariantRepository variantRepository, IOptionsRepository optionsRepository, IMapper mapper, ICategoryRepository categoryRepository)
+        {
+            _optionsRepository = optionsRepository;
+            _variantRepository = variantRepository;
+            _mapper = mapper;
+            _categoryRepository = categoryRepository;
+        }
+
+
+        [HttpGet]
+        [Route("GetAllOptions")]
+        public async Task<IActionResult> GetAllAsync()
+        {
+            var res = _optionsRepository.GetAll().Include(c => c.Variants).ToList();
+            var optionsVms = _mapper.Map<List<Options>,List<OptionsVM>>(res);
+
+            return Ok(optionsVms);
+        }
+
+        [HttpPost]
+        [Route("GetOptionsByCategoryId")]
+        public async Task<IActionResult> GetOptionsByCategoryIdAsync(FindByIdVM model)
+        {
+            var categories = _categoryRepository.Categories.Include(category => category.Options).FirstOrDefault(category=>category.Id == model.Id);
+            var optionsList = new List<Options>();
+
+            foreach(var opt in categories.Options)
+            {
+                var res = _optionsRepository.GetAll().Include(op=>op.Variants).FirstOrDefault(op=>op.Id==opt.Id);
+                optionsList.Add(res);
+            }
+
+            var optionsVms = _mapper.Map<List<Options>, List<OptionsVM>>(optionsList);
+
+            return Ok(optionsVms);
+        }
+
+        [HttpPost]
+        [Route("CreateOptions")]
+        public async Task<IActionResult> CreateOptionsAsync(CreateOptionsVM model)
+        {
+            var newOptions = new Options { Title = model.Title };
+            await _optionsRepository.Create(newOptions);
+
+            foreach (var variant in model.Variants)
+            {
+                await _variantRepository.Create(new Variant { Title = variant.Title, OptionsId = newOptions.Id});
+            }
+            
+            return Ok("OK");
+        }
+
+    }
+}

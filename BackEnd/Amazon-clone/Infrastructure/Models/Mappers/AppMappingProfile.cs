@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DAL.Entities;
 using DAL.Entities.DTO_s;
+using DAL.Entities.FilterEntities;
 using DAL.Interfaces;
 using DAL.Repositories;
 using Infrastructure.Models.Caterories;
@@ -36,6 +37,15 @@ public class AppMappingProfile : Profile
 
         CreateMap<RegisterViewModel, User>();
         CreateMap<User, RegisterViewModel>();
+
+        CreateMap<VariantVM, Variant>();
+        CreateMap<Variant, VariantVM>();
+
+        CreateMap<OptionsVM, Options>();
+        CreateMap<Options, OptionsVM>();
+
+        CreateMap<VariantDTO, Variant>();
+        CreateMap<Variant,VariantDTO>();
 
     }
 
