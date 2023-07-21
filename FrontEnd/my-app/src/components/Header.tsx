@@ -15,7 +15,6 @@ import { Orders } from "../features/user/ordersStateSlice";
 const Header=()=> {
     const orders = useAppSelector((state)=>state.orders);
     var user = useAppSelector(((state: { user: UserState; orders: Orders })=>state.user.user));
-    console.log(user);
 
     const [onSearch,setSearch]= useState(false);
     const [inputText, setInputText] = useState("");
@@ -40,7 +39,6 @@ const Header=()=> {
     const handleGo=(e:string)=>{
         // sortArr();
         setInputText(e);
-        console.log(e);
 
         if(e == '' || e == null){
             setSearch(false);
@@ -53,8 +51,13 @@ const Header=()=> {
     }
 
     const openFoundedModel=(id:any)=>{
+        setDropdown(false);
         let path = "/product/"+ id;
         navigate(path);
+    }
+
+    const handleToSearchPage=()=>{
+      
     }
 
     const sortProductsByInput=()=>{
@@ -79,7 +82,7 @@ const Header=()=> {
       </div>
 
       <div className="header__search w-full relative">
-        <input value={inputText} onChange={event => handleGo(event.target.value)} className="headerSearchInput" type="text" placeholder="Search on Amazon.com" /> 
+        <input value={inputText} onChange={event => handleGo(event.target.value)}  className="headerSearchInput" type="text" placeholder="Search on Amazon.com" /> 
         
         {dropdown ?
             // <ul style={{}} className='font-normal shadow-md chatSection example absolute mt-20 bg-white'>
@@ -121,7 +124,7 @@ const Header=()=> {
           </div>
         :""}
         
-        <svg aria-hidden="true" className="searchIcon" fill="none" stroke="currentColor" viewBox="0 0 25 24">
+        <svg onClick={()=>handleToSearchPage()} aria-hidden="true" className="searchIcon" fill="none" stroke="currentColor" viewBox="0 0 25 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
         </svg>
       </div>

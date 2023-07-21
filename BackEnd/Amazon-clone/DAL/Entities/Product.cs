@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DAL.Entities.FilterEntities;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -69,6 +70,8 @@ namespace DAL.Entities
 
         [ForeignKey(nameof(Category))]
         public int? CategoryId { get; set; }
+
+        public List<Variant> Variants { get; set; } = new List<Variant>();
 
         public virtual ICollection<Comment> Comments { get; set; }
 

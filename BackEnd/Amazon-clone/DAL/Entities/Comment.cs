@@ -22,10 +22,6 @@ namespace DAL.Entities
         [Range(0, 5, ErrorMessage = "The Stars field must be between 0 and 5.")]
         public int Stars { get; set; }
 
-
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; } 
-
         public int Likes { get; set; }
 
         public int Dislikes { get; set; }

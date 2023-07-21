@@ -1,13 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { apiProductSlice, useGetProductsQuery } from '../features/user/apiProductSlice';
-import img from '../images/t-shirt-png.webp'
-import { useParams} from 'react-router-dom'
-import star from "../images/star (2).png"
-import empty_star from "../images/star (3).png"
-import { ImageLink, Product, categorySequence } from './types';
-import { apiCategorySlice, useGetCategoriesQuery, useGetMainCategoriesQuery } from '../features/user/apiCategorySlice';
-import "../css/stars.css";
+import { apiProductSlice, useGetProductsQuery } from '../../features/user/apiProductSlice';
+import { ImageLink, Product, categorySequence } from '../types';
+import { apiCategorySlice, useGetCategoriesQuery, useGetMainCategoriesQuery } from '../../features/user/apiCategorySlice';
+import "../../css/stars.css";
 
 const Product_Component=({ data , productsImages}: { data: Product ,productsImages:ImageLink})=>{
   var stars = 0;
@@ -42,7 +38,7 @@ const Product_Component=({ data , productsImages}: { data: Product ,productsImag
   <Link to={"/product/" + data.id}>
     <div className='pb-2 px-3 mt-20 w-full'>
       <div>
-          <div className='w-full h-[160px]' style={{ backgroundImage:"url("+ productsImages.image +")",backgroundPosition:"center",backgroundSize:"contain",backgroundRepeat:"no-repeat"}}>
+          <div className='w-full h-[160px]' style={{ backgroundImage:"url("+ productsImages?.image +")",backgroundPosition:"center",backgroundSize:"contain",backgroundRepeat:"no-repeat"}}>
 
             </div>
             {/* <img src={data?.image ? "data:image/png;base64," + data?.image : img} className=' w-full h-[100px] ' />         */}
@@ -129,24 +125,11 @@ const Main = () => {
 
     // const category = searchParams.get('category');
     getProducts();
-    getLinks();
     // setProducts();
 
   }, [categories, categoryId])
 
-  const getLinks= async ()=>{
-    try {
-      var products = data.map((product:any)=>product.id);
-      console.log(products);
-      // var response = await getImageLinksByProductIds({ images: imagesBytes_toSend });
-      // setImagesToShow(response.data);
-      // console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-
+  
 
   const getProducts = async () => {
     var id = parseInt(getSearchParams().get('id')!);
