@@ -197,27 +197,99 @@ public class ProductService : IProductService
         };
     }
 
+    enum FindPreis
+    {
+        MIN,
+        MAX
+    }
+
     public async Task<ServiceResponse> GetProductByFiltersAsync(FilterVM model)
     {
         var res =  await GetProductByCategoryId(model.CategoryId);
         var res_2 = (List<ProductVM>)res.Payload;
+        var res_3 = new List<ProductVM>();
         //var category_options = await _categoryService.GetCategoryOptionsAsyncByCategoryId(model.CategoryId);
         var productVMs = new List<ProductVM>();
 
+        
+        var findPreisBy = new List<FindPreis>();
 
-        //foreach (var product in res_2)
-        //{
-        //    foreach(var variant in product.Variants)
-        //    {
-        //        foreach(var chousedVariants in model.Variants)
-        //        {
-        //            if (variant.Title == chousedVariants.Title)
-        //            {
-        //                productVMs.Add(product);
-        //            }
-        //        }
-        //    }
-        //}
+        if (model.Min_Preis > 0)
+        {
+            findPreisBy.Add(FindPreis.MIN);
+        }
+
+        if (model.Max_Preis > 0)
+        {
+            findPreisBy.Add(FindPreis.MAX);
+        }
+
+        if(model.Max_Preis < model.Min_Preis)
+        {
+            findPreisBy.Clear();
+        }
+
+
+
+        if (findPreisBy.Count > 0)
+        {
+            foreach (var productVM in res_2)
+            {
+                if (findPreisBy.Contains(FindPreis.MAX) && findPreisBy.Contains(FindPreis.MIN))
+                {
+                    if (model.Min_Preis <= productVM.Price && model.Max_Preis >= productVM.Price)
+                    {
+                        res_3.Add(productVM);
+                    }
+                }
+                else if (findPreisBy.Contains(FindPreis.MAX))
+                {
+                    if (model.Max_Preis <= productVM.Price)
+                    {
+                        res_3.Add(productVM);
+                    }
+                }
+                else if (findPreisBy.Contains(FindPreis.MIN))
+                {
+                    if (model.Min_Preis >= productVM.Price)
+                    {
+                        res_3.Add(productVM);
+                    }
+                }
+            }
+        }
+        else
+        {
+            res_3 = res_2;
+        }
+
+
+        foreach (var product in res_3)
+        {
+            bool isValid = false;
+            if(product.Options != null)
+                foreach (var variant in product.Options)
+                {
+                    if (isValid) { break; }
+
+                    foreach (var chousedVariants in model.Variants)
+                    {
+                        if (isValid) { break;}
+
+                        if (variant.VariantId == chousedVariants.Id)
+                        {
+                            productVMs.Add(product);
+                            isValid= true;
+                        }
+                    }
+                }
+            else
+            {
+                productVMs.Add(product);
+            }
+        }
+
+
 
         return new ServiceResponse
         {

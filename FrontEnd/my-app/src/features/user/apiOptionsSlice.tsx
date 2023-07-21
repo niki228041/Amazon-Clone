@@ -1,10 +1,11 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
+import { baseURL } from "../../api/axios";
 
 
 
 export const apiOptionsSlice:any = createApi({
     reducerPath:"options",
-    baseQuery:fetchBaseQuery({baseUrl:"http://localhost:5034"}),
+    baseQuery:fetchBaseQuery({baseUrl:baseURL}),
     tagTypes:['Options'],
     endpoints:(builder)=>({
         createOptions:builder.mutation<any,any>({

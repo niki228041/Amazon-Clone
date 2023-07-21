@@ -1,15 +1,21 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { apiProductSlice, useGetProductsQuery } from '../features/user/apiProductSlice';
-import img from '../images/t-shirt-png.webp'
+import { apiProductSlice, useGetProductsQuery } from '../../features/user/apiProductSlice';
 import { useParams} from 'react-router-dom'
-import star from "../images/star (2).png"
-import empty_star from "../images/star (3).png"
-import { ImageLink, Product, categorySequence } from './types';
-import { apiCategorySlice, useGetCategoriesQuery, useGetMainCategoriesQuery } from '../features/user/apiCategorySlice';
-import "../css/stars.css";
-import search from "../images/search.png";
-import './NumberFieldWithoutArrows.css';
+import { ImageLink, Product, categorySequence } from '../types';
+import { apiCategorySlice, useGetCategoriesQuery, useGetMainCategoriesQuery } from '../../features/user/apiCategorySlice';
+import "../../css/stars.css";
+import search from "../../images/search.png";
+import '../NumberFieldWithoutArrows.css';
+import { VariantDTO } from '../Admin/types';
+
+interface AllFilters{
+  categoryId:number,
+  min_Preis:number,
+  max_Preis:number,
+  stars:number,
+  variants:VariantDTO[]
+}
 
 const Product_Component=({ data , productsImages}: { data: Product ,productsImages:ImageLink})=>{
   var stars = 0;
@@ -44,7 +50,7 @@ const Product_Component=({ data , productsImages}: { data: Product ,productsImag
   <Link to={"/product/" + data.id}>
     <div className='pb-2 mt-20 w-full border border-1 border-gray-100 h-[450px]'>
       <div>
-          <div className='w-full h-[300px] m-0 py-10' style={{ backgroundImage:"url("+ productsImages.image +")",backgroundPosition:"center",backgroundSize:"contain",backgroundRepeat:"no-repeat"}}>
+          <div className='w-full h-[300px] m-0 py-10' style={{ backgroundImage:"url("+ productsImages?.image +")",backgroundPosition:"center",backgroundSize:"contain",backgroundRepeat:"no-repeat"}}>
 
             </div>
             {/* <img src={data?.image ? "data:image/png;base64," + data?.image : img} className=' w-full h-[100px] ' />         */}
@@ -80,11 +86,7 @@ const PageWithOptions = () => {
   const searchParams = new URLSearchParams(location.search);
 
 
-  const filters = {
-    min_price: 50, 
-    max_price: 100, 
-    stars: 5, 
-  };
+
 
 
   const { data, isSuccess, error } = useGetProductsQuery();
@@ -115,11 +117,14 @@ const PageWithOptions = () => {
   };
 
   var [categoryId, setcategoryId] = useState(getSearchParams().get('id'));
+  var [getProductsByFilter,{}] = apiProductSlice.useGetProductWithFiltersMutation();
 
 
 
 
   var [categoriesToView, setCategoriesToView] = useState([]);
+  var allFilters:AllFilters = ({categoryId:-1,min_Preis:-1,max_Preis:-1,stars:-1,variants:[]});
+
   var [products, setProducts] = useState([]);
 
   var [categoriesSequence, setCategoriesSequence] = useState<categorySequence[]>([]);
@@ -204,6 +209,31 @@ const PageWithOptions = () => {
     await getProducts();
   }
 
+  const handlePriceFilter = async (data:React.FormEvent<HTMLFormElement>)=>{
+    data.preventDefault();
+    var curentData = new FormData(data.currentTarget);
+    var maxPrice = parseInt(curentData?.get("max-price")?.toString()!);
+    var minPrice = parseInt(curentData?.get("min-price")?.toString()!);
+
+    if(Number.isNaN(maxPrice))
+      maxPrice=-1;
+    
+    if(Number.isNaN(minPrice))
+      minPrice=-1;
+
+    allFilters= ({
+      ...allFilters, 
+      max_Preis: maxPrice,
+      min_Preis:minPrice 
+    });
+
+    console.log(allFilters);
+    let response: any = await getProductsByFilter(allFilters);
+    // ?.payload
+    console.log(response?.data);
+    setProducts(response?.data?.payload);
+  }
+
   return (
     <div className='flex p-2 '>
 
@@ -218,18 +248,18 @@ const PageWithOptions = () => {
         <div className='ml-3 mt-10'>
           <div className='font-medium text-sm cursor-pointer'>Filters</div>
 
-          <div className='ml-1 text-sm '>
-              <div className=' cursor-pointer ' >Price</div>
+          <form className='ml-1 text-sm ' onSubmit={handlePriceFilter}>
+              <div className=' cursor-pointer '>Price</div>
               <div className=''>
-                <input id='min-price'
+                <input id='min-price' name='min-price' 
                 className='border w-8 mr-1 outline-none rounded-md p-1 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent' type='number'></input>
                 <span>-</span>
-                <input id='max-price' className='border w-8 ml-1 outline-none rounded-md p-1 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent' type='number'></input>
-                <button className=' self-center absolute ml-2 border p-1.5'>
-                    <img className='h-4 self-center ' src={search}></img>
+                <input id='max-price'  name='max-price' className='border w-8 ml-1 outline-none rounded-md p-1 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent' type='number'></input>
+                <button type='submit' className=' self-center absolute ml-2 border p-1.5'>
+                    <img className='h-4 self-center' src={search}></img>
                 </button>
               </div>
-          </div>
+          </form>
 
          
         </div>

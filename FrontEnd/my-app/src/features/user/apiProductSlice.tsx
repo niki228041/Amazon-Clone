@@ -1,10 +1,11 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
+import { baseURL } from "../../api/axios";
 
 
 
 export const apiProductSlice:any = createApi({
     reducerPath:"product",
-    baseQuery:fetchBaseQuery({baseUrl:"http://localhost:5034"}),
+    baseQuery:fetchBaseQuery({baseUrl:baseURL}),
     tagTypes:['Product'],
     endpoints:(builder)=>({
         getProducts:builder.query<any,any>({
@@ -62,7 +63,15 @@ export const apiProductSlice:any = createApi({
             body:todo
           }),
           providesTags:result=>['Product']
-        })
+        }),
+        getProductWithFilters:builder.mutation<any, any>({
+          query:(todo)=>({
+            url:'/api/Products/GetProductWithFilters',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Product']
+        }),
     })
 })
 

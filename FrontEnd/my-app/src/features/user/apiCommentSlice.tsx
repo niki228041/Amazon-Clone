@@ -1,10 +1,11 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
+import { baseURL } from "../../api/axios";
 
 
 
 export const apiCommentSlice:any = createApi({
     reducerPath:"comment",
-    baseQuery:fetchBaseQuery({baseUrl:"http://localhost:5034"}),
+    baseQuery:fetchBaseQuery({baseUrl:baseURL}),
     tagTypes:['comment'],
     endpoints:(builder)=>({
         createComment:builder.mutation<any,any>({

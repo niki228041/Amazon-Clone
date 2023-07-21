@@ -57,7 +57,7 @@ const Header=()=> {
     }
 
     const handleToSearchPage=()=>{
-      
+      navigate("/findProducts");
     }
 
     const sortProductsByInput=()=>{

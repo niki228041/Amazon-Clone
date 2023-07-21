@@ -16,7 +16,7 @@ import { GetAccessToken } from './api/jwtDecodeToken';
 import { AuthUser } from './features/user/user-slice';
 import CreateOptions from './components/Options/CreateOptions';
 import GetOptionsByCategory from './components/Options/GetOptionsByCategory';
-import PageWithOptions from './components/PageWithOptions';
+import PageWithOptions from './components/Options/FindProductsPage';
 
 
 const App:React.FC =()=> {

@@ -13,6 +13,6 @@ namespace Infrastructure.Models
         public int Min_Preis { get; set; }
         public int Max_Preis { get; set; }
         public int Stars { get; set; }
-        public List<VariantVM> Variants { get; set; }
+        public List<VariantDTO> Variants { get; set; }
     }
 }
