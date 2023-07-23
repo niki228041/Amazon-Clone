@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities.DTO_s
 {
-    public class UploadImageDTO
+    public class UploadImagesDTO
     {
         public string[] images { get; set; }
     }

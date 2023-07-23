@@ -10,7 +10,7 @@ export const apiPlayerSlice:any = createApi({
     endpoints:(builder)=>({
         createGenre:builder.mutation<any,any>({
           query:(todo)=>({
-            url:'/api/Player/CreateGenre',
+            url:'/api/Genre/CreateGenre',
             method:"POST",
             body:todo
           }),
@@ -18,15 +18,39 @@ export const apiPlayerSlice:any = createApi({
         }),
         getGenres:builder.query<any,any>({
           query:(todo)=>({
-            url:'/api/Player/GetAllGenres',
+            url:'/api/Genre/GetAllGenres',
+            method:"GET",
+            body:todo
+          }),
+          providesTags:result=>['Player']
+        }),
+        getMainImageLinkForTrack:builder.query<any,any>({
+          query:(todo)=>({
+            url:'/api/Track/GetImageLinksByTrackId',
             method:"POST",
             body:todo
           }),
           providesTags:result=>['Player']
         }),
+        getImageLinkByBase64:builder.mutation<any,any>({
+          query:(todo)=>({
+            url:'/api/Track/UploadImage',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Player']
+        }),
+        createTrack:builder.mutation<any,any>({
+          query:(todo)=>({
+            url:'/api/Track/CreateTrack',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Player']
+        }),
     })
 })
 
 
-export const {usegetGenresQuery} = apiPlayerSlice
+export const {useGetGenresQuery} = apiPlayerSlice
 

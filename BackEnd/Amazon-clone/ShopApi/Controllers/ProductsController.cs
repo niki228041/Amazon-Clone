@@ -106,7 +106,7 @@ namespace ShopApi.Controllers
 
         [HttpPost]
         [Route("UploadImage")]
-        public async Task<IActionResult> UploadImage([FromBody] UploadImageDTO model)
+        public async Task<IActionResult> UploadImage([FromBody] UploadImagesDTO model)
         {
             List<string> images = new List<string>();
             foreach (var Image in model.images)

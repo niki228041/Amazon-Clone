@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DAL.Constants;
+using DAL.Entities.DTO_s;
 using DAL.Interfaces;
 using Infrastructure.Enum_s;
 using Infrastructure.Interfaces;
@@ -16,11 +17,13 @@ namespace ShopApi.Controllers
     {
         private readonly ITrackService _trackService;
         private readonly IMapper _mapper;
+        private readonly IImageService _imageService;
 
-        public TrackController(IMapper mapper, ITrackService trackService)
+        public TrackController(IMapper mapper, ITrackService trackService, IImageService imageService)
         {
             _mapper = mapper;
             _trackService = trackService;
+            _imageService = imageService;
         }
 
 
@@ -52,6 +55,21 @@ namespace ShopApi.Controllers
                 port = ":" + Request.Host.Port.ToString();
             var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/{DirectoriesInProject.MusicImages}/{image + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
             return Ok(new ImageLinkVM { Link = url, Id = model.Id });
+        }
+
+        [HttpPost]
+        [Route("UploadImage")]
+        public async Task<IActionResult> UploadImage([FromBody] UploadImageDTO model)
+        {
+            string fileName = await _imageService.SaveImageAsync(model.Image, DirectoriesInProject.MusicImages);
+
+
+            string port = string.Empty;
+            if (Request.Host.Port != null)
+            port = ":" + Request.Host.Port.ToString();
+
+            var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/{DirectoriesInProject.MusicImages}/{fileName + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
+            return Ok(new ImageLinkVM { Link = url, Id = 0 });
         }
     }
 }

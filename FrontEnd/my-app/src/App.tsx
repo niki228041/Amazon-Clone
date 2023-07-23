@@ -23,6 +23,8 @@ import ResetPasswordScreen from './components/Auth/Reset-Password';
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 import CreateGenre from './components/Player/CreateGenre';
 import CreateTrack from './components/Player/CreateTrack';
+import Registration from './components/Auth/Registration';
+import MusicHeader from './components/Player/MusicHeader';
 
 
 const App: React.FC = () => {
@@ -41,7 +43,12 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
+            <Route path='/music' element={<><MusicHeader/><div className="flex flex-col bg-black" style={{ minHeight: "100vh" }}><Outlet/></div></>} >
+              <Route path='' element={<Player/>} />
+              <Route path='createGenre' element={<CreateGenre/>} />
+              <Route path='createTrack' element={<CreateTrack/>} />
+            </Route>
+          <Route
           path='/'
           element={
             <>
@@ -80,13 +87,9 @@ const App: React.FC = () => {
 
             </Route>
 
-            <Route path='/player' >
-              <Route path='' element={<Player/>} />
-              <Route path='createGenre' element={<CreateGenre/>} />
-              <Route path='createTrack' element={<CreateTrack/>} />
-            </Route>
+            
 
-          <Route path='/player' element={<Player/>}/>
+          
       
           <Route path="/products" element={<><Main /></>} >
             <Route path="products" element={<Profile />} />
@@ -98,6 +101,7 @@ const App: React.FC = () => {
           <Route path="product/:productId" element={<OneProduct />} />
           <Route path="profile" element={<Profile />} />
           <Route path="login" element={<LoginScreen />} />
+          <Route path="registration" element={<Registration/>} />
           <Route path="forgotpassword" element={<ForgotPasswordScreen />} />
           {/* <Route path="resetpassword/:userId" element={<ResetPasswordScreen />} /> */}
           <Route path="resetpassword/" element={<ResetPasswordScreen />} />
