@@ -10,6 +10,7 @@ export interface createProduct{
     address: String,
     categoryId: number,
     images_:any,
+    Variants_:VariantDTO[]
 }
 
 
@@ -20,10 +21,28 @@ export interface imgDTO{
 
 export interface createCategory{
     name: String,
-    categoryId: number
+    categoryId: number,
+    optionsIds:number[]
 }
 
 export interface Category{
     id: number,
     name: String,
 }
+
+
+export interface Options{
+    id:number;
+    title:string;
+    variants:Variant[];
+}
+  
+export interface Variant{
+  id:number,
+  title:string
+}
+
+export interface VariantDTO{
+    id:number
+}
+

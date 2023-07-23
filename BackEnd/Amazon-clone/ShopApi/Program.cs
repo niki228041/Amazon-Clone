@@ -54,11 +54,16 @@ builder.Services.AddTransient<EmailService>();
 
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<ICommentImageRepository, CommentImageRepository>();
-builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddScoped<IVariantRepository,VariantRepository>();
+builder.Services.AddScoped<IOptionsRepository,OptionsRepository>();
+builder.Services.AddScoped<IOptionsCategoryRepository,OptionsCategoryRepository>();
+builder.Services.AddScoped<IVariantProductRepository, VariantProductRepository>();
 
 
 
 //Services
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -100,6 +105,17 @@ builder.Services.AddAuthentication(options => {
     jwt.TokenValidationParameters = tokenValidationParameters;
 });
 
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowAllOrigins",
+//        builder =>
+//        {
+//            builder.AllowAnyOrigin()
+//                   .AllowAnyHeader()
+//                   .AllowAnyMethod()
+//                   .AllowCredentials();
+//        });
+//});
 
 
 var app = builder.Build();
@@ -129,11 +145,15 @@ app.UseStaticFiles(new StaticFileOptions
 });
 
 app.UseCors(options => options
-    .WithOrigins("http://localhost:3000", "http://localhost:4200")
+    //.WithOrigins("http://localhost:3000", "http://localhost:4200")
+    .AllowAnyOrigin()
     .AllowAnyHeader()
-    .AllowCredentials()
+    //.AllowCredentials()
     .AllowAnyMethod()
 );
+
+app.UseCors("AllowAllOrigins");
+
 app.MapControllers();
 
 app.SeedData();

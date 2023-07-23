@@ -24,12 +24,13 @@ interface User{
     name:string,
     surname:string,
     roles:string,
+    id:string,
 }
 
 
 // UserState :
 const initialState:UserState= {
-    user:{email:"",name:"",surname:"",roles:""},
+    user:{email:"",name:"",surname:"",roles:"",id:""},
     accessToken:"",
     refreshToken:"",
     loading:false,
@@ -107,7 +108,7 @@ const userSlice = createSlice(
                     state.user = parseJwt(action.payload.payload);
                 }
                 else{
-                    state.user = {email:"",name:"",surname:"",roles:""};
+                    state.user = {email:"",name:"",surname:"",roles:"",id:""};
                 }
                 console.log(action.payload);
                 state.isAuth = true;

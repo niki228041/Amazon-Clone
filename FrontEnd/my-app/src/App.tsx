@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 // import { BrowserRouter as Router, Route, Routes, Outlet } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Main from './components/Main';
-import OneProduct from './components/OneProduct';
+import Main from './components/InteractionWithProducts/Main';
+import OneProduct from './components/InteractionWithProducts/OneProduct';
 import Profile from './components/Profile';
 import AdminSite from './components/Admin/AdminSite';
 import CreateProduct from './components/Admin/CreateProduct';
@@ -14,9 +14,14 @@ import LoginScreen from './components/Auth/Login';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetAccessToken } from './api/jwtDecodeToken';
 import { AuthUser } from './features/user/user-slice';
+
+import CreateOptions from './components/Options/CreateOptions';
+import GetOptionsByCategory from './components/Options/GetOptionsByCategory';
+import PageWithOptions from './components/Options/FindProductsPage';
 import ForgotPasswordScreen from './components/Auth/Forgot-Password';
 import ResetPasswordScreen from './components/Auth/Reset-Password';
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
+
 
 const App: React.FC = () => {
   var dispatch = useDispatch();
@@ -61,13 +66,18 @@ const App: React.FC = () => {
           </Route>
 
 
+          <Route path="/findProducts" element={<PageWithOptions/>}/>
+              
+
+          <Route path='/get-options-by-category/:categoryId' element={<GetOptionsByCategory/>}/>
+
+          <Route path='/player' element={<Player/>}/>
+      
           <Route path="/products" element={<><Main /></>} >
             <Route path="products" element={<Profile />} />
           </Route>
 
-          <Route path='/player' element={<Player />}>
-
-          </Route>
+          <Route path='createOptions' element={<CreateOptions/>}/>
 
           <Route path='orders' element={<Orders />} />
           <Route path="product/:productId" element={<OneProduct />} />

@@ -1,4 +1,6 @@
-﻿namespace Infrastructure.Models;
+﻿using DAL.Entities.FilterEntities;
+
+namespace Infrastructure.Models;
 
 public class ProductVM
 {
@@ -13,5 +15,6 @@ public class ProductVM
     public string Address { get; set; }
     public object Image { get; set; }
     public string Category { get; set; }
+    public List<SelectedOptionVM> Options { get; set; }
     public List<CommentVM> Comments { get; set; }
 }
