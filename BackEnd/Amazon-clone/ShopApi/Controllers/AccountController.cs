@@ -21,6 +21,8 @@ using MailKit.Security;
 using MimeKit;
 using Google.Apis.Gmail.v1;
 using Google.Apis.Gmail.v1.Data;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Util.Store;
 
 namespace ShopApi.Controllers
 {
@@ -211,75 +213,5 @@ namespace ShopApi.Controllers
             return Ok();
         }
 
-        //[HttpPost("ResetPassword")]
-        //public async Task<IActionResult> ResetPassword(ForgotPasswordVM model)
-        //{
-        //    var user = await _userManager.FindByEmailAsync(model.Email);
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
-        //    var callbackUrl = Url.Action("ResetPassword", "Account", new { email = user.Email, code = resetToken }, Request.Scheme);
-
-        //    var smtpHost = "smtp.gmail.com";
-        //    var smtpPort = 587;
-        //    var smtpUsername = "amazoneclone0@gmail.com";
-        //    var clientId = "493638506551-54e4aklr5bcq02vi6fllgk9oc2q3ua2i.apps.googleusercontent.com";
-        //    var clientSecret = "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";
-
-        //    try
-        //    {
-        //        var credential = await GetGmailCredentialsAsync(clientId, clientSecret);
-        //        var accessToken = credential.Token.AccessToken;
-
-        //        var message = new MimeMessage();
-        //        message.From.Add(new MailboxAddress("Amazone Clone", smtpUsername));
-        //        message.To.Add(new MailboxAddress(user.Email, user.Email));
-
-        //        message.Subject = "Reset Your Password";
-
-        //        message.Body = new TextPart("plain")
-        //        {
-        //            Text = $"Please reset your password by clicking the link: {callbackUrl}"
-        //        };
-
-        //        using (var smtpClient = new SmtpClient())
-        //        {
-        //            smtpClient.Connect(smtpHost, smtpPort, SecureSocketOptions.StartTls);
-
-        //            // Use OAuth 2.0 authentication
-        //            var oauth2 = new SaslMechanismOAuth2(smtpUsername, accessToken);
-        //            smtpClient.Authenticate(oauth2);
-
-        //            smtpClient.Send(message);
-        //            smtpClient.Disconnect(true);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode((int)HttpStatusCode.InternalServerError, "Failed to send the email.");
-        //    }
-
-        //    return Ok("Password reset email sent successfully. Please check your inbox.");
-        //}
-        //[HttpGet("GetGmailCredentials")]
-        //public async Task<UserCredential> GetGmailCredentialsAsync(string clientId, string clientSecret)
-        //{
-        //    UserCredential credential;
-
-        //    using (var stream = new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
-        //    {
-        //        credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
-        //            GoogleClientSecrets.Load(stream).Secrets,
-        //            Scopes,
-        //            "user",
-        //            CancellationToken.None,
-        //            new FileDataStore("token.json", true));
-        //    }
-
-        //    return credential;
-        //}
     }   
 }
