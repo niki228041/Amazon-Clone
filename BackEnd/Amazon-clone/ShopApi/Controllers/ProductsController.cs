@@ -92,6 +92,18 @@ namespace ShopApi.Controllers
             return BadRequest(res);
         }
 
+        [HttpPost("GetProductWithFilters")]
+        public async Task<IActionResult> GetProductWithFiltersAsync([FromBody] FilterVM model)
+        {
+            var res = await _productService.GetProductByFiltersAsync(model);
+            if (res.IsSuccess)
+            {
+                return Ok(res);
+            }
+
+            return BadRequest(res);
+        }
+
         [HttpPost]
         [Route("UploadImage")]
         public async Task<IActionResult> UploadImage([FromBody] UploadImageDTO model)

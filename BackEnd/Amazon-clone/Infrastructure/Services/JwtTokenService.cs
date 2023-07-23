@@ -39,6 +39,7 @@ namespace Infrastructure.Services
             List<Claim> claims = new List<Claim>()
             {
                 new Claim("name", user.FirstName),
+                new Claim("id", user.Id.ToString()),
                 new Claim("surname", user.LastName),
                 new Claim("email", user.Email),
             };
