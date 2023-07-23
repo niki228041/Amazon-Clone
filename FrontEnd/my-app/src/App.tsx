@@ -74,7 +74,8 @@ const App: React.FC = () => {
           <Route path="profile" element={<Profile />} />
           <Route path="login" element={<LoginScreen />} />
           <Route path="forgotpassword" element={<ForgotPasswordScreen />} />
-          <Route path="resetpassword/:userId" element={<ResetPasswordScreen />} />
+          {/* <Route path="resetpassword/:userId" element={<ResetPasswordScreen />} /> */}
+          <Route path="resetpassword/" element={<ResetPasswordScreen />} />
         </Route>
       </Routes>
     </BrowserRouter>
