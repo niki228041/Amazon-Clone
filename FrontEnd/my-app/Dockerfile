@@ -1,12 +1,12 @@
-FROM node:16
+FROM node:16-alpine
 
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install -g npm@9.7.2
+RUN npm install -g npm
 RUN npm install
 COPY . .
 RUN npm run build
 
-EXPOSE 3000
-CMD ["npm","start"]
+EXPOSE 80
+CMD ["npm","start","--","--host","http://0.0.0.0"]
