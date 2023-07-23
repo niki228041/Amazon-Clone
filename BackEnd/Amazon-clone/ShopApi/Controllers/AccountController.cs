@@ -1,7 +1,6 @@
 ﻿using DAL.Entities;
 using DAL.Entities.Identity;
 using DAL.Validation;
-using Google.Apis.Auth.OAuth2.Requests;
 using Infrastructure.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -15,8 +14,13 @@ using Infrastructure.Services;
 using ExternalLoginRequest = DAL.Entities.ExternalLoginRequest;
 using LoginViewModel = DAL.Entities.LoginViewModel;
 using Infrastructure.Interfaces;
-using System.Net.Mail;
 using System.Net;
+using System.Net.Mail;
+using MailKit;
+using MailKit.Security;
+using MimeKit;
+using Google.Apis.Gmail.v1;
+using Google.Apis.Gmail.v1.Data;
 
 namespace ShopApi.Controllers
 {
@@ -27,13 +31,17 @@ namespace ShopApi.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IJwtTokenService _jwtTokenService;
         private IUserService _userService;
+        private static string[] Scopes = { GmailService.Scope.GmailSend };
+        private static string ApplicationName = "Amazone-Clone";
+        private static IConfiguration _configuration;
 
         public AccountController(UserManager<User> userManager,
-            IJwtTokenService jwtTokenService, IUserService userService)
+            IJwtTokenService jwtTokenService, IUserService userService, IConfiguration configuration)
         {
             _userManager = userManager;
             _jwtTokenService = jwtTokenService;
             _userService = userService;
+            _configuration = configuration;
         }
 
         [AllowAnonymous]
@@ -152,51 +160,126 @@ namespace ShopApi.Controllers
         }
 
         [HttpPost("ForgotPassword")]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordVM model)
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordVM forgotPasswordVM) // тільки емейл
         {
-            var user = await _userManager.FindByEmailAsync(model.Email);
+            //string server = "smtp.gmail.com"; // sets the server address
+            //int port = 587; // int.Parse(ConfigurationManager.AppSettings["gmail_port"]); //sets the server port
+
+            var server = _configuration.GetValue<string>("EmailSettings:SMTP");
+            var port = _configuration.GetValue<int>("EmailSettings:PORT");
+
+            var username = _configuration.GetValue<string>("EmailSettings:User");
+            var password = _configuration.GetValue<string>("EmailSettings:Password");
+            
+            var user = await _userManager.FindByEmailAsync(forgotPasswordVM.Email);
             if (user == null)
-            {
-                return NotFound();
-            }
+                return BadRequest("Користувача не існує");
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-            var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var frontEndURL = _configuration.GetValue<string>("FrontEndURL");
 
-            var callbackUrl = Url.Action("ResetPassword", "Account", new { email = user.Email, code = resetToken }, Request.Scheme);
+            var callbackUrl =
+                $"{frontEndURL}/resetpassword?userId={user.Id}&" +
+                $"code={WebUtility.UrlEncode(token)}";
 
-            var smtpHost = "smtp.example.com";
-            var smtpPort = 587;
-            var smtpUsername = "amazoneclone0@gmail.com";
-            var smtpPassword = "123456Qwe_";
+            //Url.Action(nameof(ResetPassword), "AccountController", new { token, email = user.Email }, Request.Scheme);
+            //var message1 = new Message(new string[] { forgotPasswordVM.Email }, "Reset password token",
+            //    $"Please reset password by clicking here: " +
+            //   $"<a href='{callbackUrl}'>Відновити</a>");
+            //_emailSender.SendEmail(message1);
+            string to = forgotPasswordVM.Email;
+            string subject = "Reset password token";
+            string message = $"Please reset password by clicking here: " + $"<a href='{callbackUrl}'>Відновити</a>";
+            //var sendMessage = new Message(to, subject, message);
+            MailMessage mailMessage = new MailMessage(username, to, subject, message);
+            mailMessage.Priority = MailPriority.High;
+            mailMessage.IsBodyHtml = true;
+            SmtpClient client = new SmtpClient(server, port);
+            client.EnableSsl = true;
+            client.Credentials = new NetworkCredential(username, password);
 
-            using (var smtpClient = new SmtpClient(smtpHost, smtpPort))
-            {
-                smtpClient.EnableSsl = true;
-                smtpClient.Credentials = new NetworkCredential(smtpUsername, smtpPassword);
+            client.SendAsync(mailMessage, token);
 
-                var from = new MailAddress("amazoneclone0@gmail.com", "Amazone Clone");
-                var to = new MailAddress(user.Email);
-                var subject = "Reset Your Password";
-                var body = $"Please reset your password by clicking the link: {callbackUrl}";
-
-                using (var mailMessage = new MailMessage(from, to))
-                {
-                    mailMessage.Subject = subject;
-                    mailMessage.Body = body;
-                    mailMessage.IsBodyHtml = true;
-
-                    try
-                    {
-                        smtpClient.Send(mailMessage);
-                    }
-                    catch (SmtpException ex)
-                    {
-                        return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
-                    }
-                }
-            }
             return Ok();
         }
 
-    }
+        [HttpPost("ChangePassword")]
+        public async Task<IActionResult> ChangePassword([FromBody] ResetPasswordVM model) // айді юзера, токен, пароль
+        {
+            var user = await _userManager.FindByIdAsync(model.UserId);
+            var res = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+            return Ok();
+        }
+
+        //[HttpPost("ResetPassword")]
+        //public async Task<IActionResult> ResetPassword(ForgotPasswordVM model)
+        //{
+        //    var user = await _userManager.FindByEmailAsync(model.Email);
+        //    if (user == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+        //    var callbackUrl = Url.Action("ResetPassword", "Account", new { email = user.Email, code = resetToken }, Request.Scheme);
+
+        //    var smtpHost = "smtp.gmail.com";
+        //    var smtpPort = 587;
+        //    var smtpUsername = "amazoneclone0@gmail.com";
+        //    var clientId = "493638506551-54e4aklr5bcq02vi6fllgk9oc2q3ua2i.apps.googleusercontent.com";
+        //    var clientSecret = "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";
+
+        //    try
+        //    {
+        //        var credential = await GetGmailCredentialsAsync(clientId, clientSecret);
+        //        var accessToken = credential.Token.AccessToken;
+
+        //        var message = new MimeMessage();
+        //        message.From.Add(new MailboxAddress("Amazone Clone", smtpUsername));
+        //        message.To.Add(new MailboxAddress(user.Email, user.Email));
+
+        //        message.Subject = "Reset Your Password";
+
+        //        message.Body = new TextPart("plain")
+        //        {
+        //            Text = $"Please reset your password by clicking the link: {callbackUrl}"
+        //        };
+
+        //        using (var smtpClient = new SmtpClient())
+        //        {
+        //            smtpClient.Connect(smtpHost, smtpPort, SecureSocketOptions.StartTls);
+
+        //            // Use OAuth 2.0 authentication
+        //            var oauth2 = new SaslMechanismOAuth2(smtpUsername, accessToken);
+        //            smtpClient.Authenticate(oauth2);
+
+        //            smtpClient.Send(message);
+        //            smtpClient.Disconnect(true);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode((int)HttpStatusCode.InternalServerError, "Failed to send the email.");
+        //    }
+
+        //    return Ok("Password reset email sent successfully. Please check your inbox.");
+        //}
+        //[HttpGet("GetGmailCredentials")]
+        //public async Task<UserCredential> GetGmailCredentialsAsync(string clientId, string clientSecret)
+        //{
+        //    UserCredential credential;
+
+        //    using (var stream = new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
+        //    {
+        //        credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
+        //            GoogleClientSecrets.Load(stream).Secrets,
+        //            Scopes,
+        //            "user",
+        //            CancellationToken.None,
+        //            new FileDataStore("token.json", true));
+        //    }
+
+        //    return credential;
+        //}
+    }   
 }

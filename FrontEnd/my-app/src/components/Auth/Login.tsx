@@ -3,6 +3,7 @@ import { Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { LoginRequest } from './types'
 import { postLogin } from '../../features/user/user-slice'
+import { Link } from 'react-router-dom'
 
 
 const LoginScreen = () => {
@@ -56,9 +57,9 @@ const LoginScreen = () => {
                   Password
                 </label>
                 <div className="text-sm">
-                  <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                  <Link to="/forgotpassword" className="font-semibold text-indigo-600 hover:text-indigo-500">
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
               </div>
               <div className="mt-2">
