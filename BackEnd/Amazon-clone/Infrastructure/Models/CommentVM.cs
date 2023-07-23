@@ -19,6 +19,7 @@ namespace Infrastructure.Models
         public int Likes { get; set; }
         public int Dislikes { get; set; }
         public int? UserId { get; set; }
+        public string UserName { get; set; }
         public int? ProductId { get; set; }
     }
 }
