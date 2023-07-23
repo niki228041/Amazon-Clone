@@ -4,6 +4,26 @@ import { apiProductSlice, useGetProductsQuery } from '../../features/user/apiPro
 import { ImageLink, Product, categorySequence } from '../types';
 import { apiCategorySlice, useGetCategoriesQuery, useGetMainCategoriesQuery } from '../../features/user/apiCategorySlice';
 import "../../css/stars.css";
+import { Oval } from  'react-loader-spinner'
+
+const loader=()=> {
+  return(
+    <div className='m-auto pt-32'>
+    <Oval
+      height={80}
+      width={80}
+      color="#46424f"
+      wrapperStyle={{}}
+      wrapperClass=""
+      visible={true}
+      ariaLabel='oval-loading'
+      secondaryColor="#424a4f"
+      strokeWidth={2}
+      strokeWidthSecondary={2}/>
+</div>
+
+  )
+}
 
 const Product_Component=({ data , productsImages}: { data: Product ,productsImages:ImageLink})=>{
   var stars = 0;
@@ -79,7 +99,7 @@ const Main = () => {
   const { data: categories, isSuccess: isSuccessCategory } = useGetMainCategoriesQuery();
   const [getSubcategories, { }] = apiCategorySlice.useGetAllSubcategoriesByCategoryIdMutation();
 
-  const [getProductsByCategory, { }] = apiProductSlice.useGetProductsByCategoryIdMutation();
+  const [getProductsByCategory, { isLoading }] = apiProductSlice.useGetProductsByCategoryIdMutation();
 
   var request:any=[];
   data?.payload?.forEach((data:any) => {
@@ -233,17 +253,14 @@ const Main = () => {
         {/* <div className='text-blue-950 cursor-pointer hover:underline'>sdfds</div> */}
       </div>
 
-
+      {!isLoading?
       <div className='grid grid-cols-6 gap-1 pr-44 pl-24 w-full'>
-
         {/* grid */}
-
-
         {products?.map((product: Product, id: number) => {
           const b: Product = product;
           return <div key={id}>{<Product_Component  data={b} productsImages={imagesLinks?.find((img:ImageLink)=>img.productId==product.id)!} />}</div> })}
-
       </div>
+      :loader()}
     </div>
   )
 }

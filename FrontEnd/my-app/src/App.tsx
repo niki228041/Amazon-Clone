@@ -17,6 +17,8 @@ import { AuthUser } from './features/user/user-slice';
 import CreateOptions from './components/Options/CreateOptions';
 import GetOptionsByCategory from './components/Options/GetOptionsByCategory';
 import PageWithOptions from './components/Options/FindProductsPage';
+import CreateGenre from './components/Player/CreateGenre';
+import CreateTrack from './components/Player/CreateTrack';
 
 
 const App:React.FC =()=> {
@@ -54,7 +56,7 @@ const App:React.FC =()=> {
 
 
             <Route path='admin' element={<Outlet/>}>
-              <Route path='' element={<><AdminSite/></>}/>
+                <Route path='' element={<><AdminSite/></>}/>
               <Route path='create'>
                 <Route path='products' element={<CreateProduct/>} />
                 <Route path='categories' element={<CreateCategory/>} />
@@ -74,13 +76,17 @@ const App:React.FC =()=> {
 
             </Route>
 
-            <Route path='/player' element={<Player/>}>
-
+            <Route path='/player' >
+              <Route path='' element={<Player/>} />
+              <Route path='createGenre' element={<CreateGenre/>} />
+              <Route path='createTrack' element={<CreateTrack/>} />
             </Route>
 
             <Route path='createOptions' element={<CreateOptions/>}>
 
             </Route>
+
+            
 
 
             <Route path='orders' element={<Orders/>}/>
