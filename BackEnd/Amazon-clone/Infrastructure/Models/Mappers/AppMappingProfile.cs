@@ -53,7 +53,10 @@ public class AppMappingProfile : Profile
 
         CreateMap<Track, TrackVM>();
         CreateMap<TrackVM, Track>();
+        
 
+        CreateMap<Track, TrackDTO>();
+        CreateMap<TrackDTO, Track>();
     }
 
 

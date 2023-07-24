@@ -29,16 +29,16 @@ namespace Infrastructure.Services
             _imageService = imageService;
         }
 
-        public async Task<Track> CreateTrackAsync(TrackVM model)
+        public async Task<Track> CreateTrackAsync(TrackDTO model)
         {
-            var track = _mapper.Map<TrackVM, Track>(model);
+            var track = _mapper.Map<TrackDTO, Track>(model);
             var mainImage = await _imageService.SaveImageAsync(model.Image,DirectoriesInProject.MusicImages);
             var backgroundImage = await _imageService.SaveImageAsync(model.Background,DirectoriesInProject.MusicImages);
 
             track.Background = backgroundImage;
             track.Image = mainImage;
 
-            track.Song = SaveSong(model.SongBase64);
+            track.Song = SaveSong(model.Song);
 
             await _trackRepository.Create(track);
             return track;
@@ -57,9 +57,20 @@ namespace Infrastructure.Services
             return filename;
         }
 
-        public async Task<List<Track>> GetAllAsync()
+        public string GetSong(string name)
         {
-            return _trackRepository.GetAll().ToList();   
+            //var filename = string.Format(@"{0}", name + ".mp3");
+
+            var dir = Path.Combine(Directory.GetCurrentDirectory(), DirectoriesInProject.MusicFiles);
+            var path = Path.Combine(dir, name);
+
+            if (File.Exists(path))
+            {
+                var song = File.ReadAllBytes(path);
+                var base64song = Convert.ToBase64String(song);
+                return base64song;
+            }
+            return "";
         }
 
         public async Task<string> GetMainImageByIdAsync(int id)
@@ -72,6 +83,14 @@ namespace Infrastructure.Services
         {
             var track = await _trackRepository.GetById(id);
             return track.Background;
+        }
+
+        public async Task<List<TrackVM>> GetAllAsync()
+        {
+            var tracks = _trackRepository.GetAll().ToList();
+            var tracksVMs = _mapper.Map<List<Track>, List<TrackVM>>(tracks);
+
+            return tracksVMs;
         }
     }
 }
