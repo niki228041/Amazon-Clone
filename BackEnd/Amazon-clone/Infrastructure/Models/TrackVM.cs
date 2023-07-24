@@ -10,12 +10,14 @@ namespace Infrastructure.Models
 {
     public class TrackVM
     {
+        public int Id { get; set; }
         public string Title { get; set; }
         public string Background { get; set; }
         public string Image { get; set; }
         public int AlbumId_ { get; set; }
         public List<int> GenresIds { get; set; }
-        public string SongBase64 { get; set; }
+        public string Song { get; set; }
+        public DateTime DateCreated { get; set; }
 
     }
 }

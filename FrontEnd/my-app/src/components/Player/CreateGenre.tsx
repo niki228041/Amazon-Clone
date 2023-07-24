@@ -27,7 +27,7 @@ const CreateGenre=()=>{
     }
 
     return<>
-    <div className="pt-16 h-[90vh]" style={{backgroundImage:`url(${img})`,backgroundPosition:"center"}}>
+    <div className="pt-16 h-[100vh]" style={{backgroundImage:`url(${img})`,backgroundPosition:"center"}}>
 
     <div className=" bg-gray-200 w-1/3 m-auto rounded-md p-10" >
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">

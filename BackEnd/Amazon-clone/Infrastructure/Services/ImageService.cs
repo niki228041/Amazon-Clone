@@ -67,5 +67,40 @@ namespace Infrastructure.Services
 
             return fileName;
         }
+
+        //public async Task<string> GetImageByFilenameAsync(string name, string path)
+        //{
+        //    string fileName = string.Empty;
+
+        //    try
+        //    {
+        //        if (name != null)
+        //        {
+        //            var fileExp = ".jpg"; // Используйте расширение файла, подходящее для JPEG
+        //            var dir = Path.Combine(Directory.GetCurrentDirectory(), path);
+
+
+        //            List<Qualities.QualitiesSelector> list = new List<Qualities.QualitiesSelector>
+        //            {
+        //                Qualities.QualitiesSelector.LOW,
+        //                Qualities.QualitiesSelector.NORMAL,
+        //                Qualities.QualitiesSelector.HIGH
+        //            };
+
+        //            string port = string.Empty;
+        //            if (.Host.Port != null)
+        //                port = ":" + Request.Host.Port.ToString();
+        //            var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/images/{fileName + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
+
+        //            return name;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Обработайте исключения по вашему усмотрению
+        //    }
+
+        //    return fileName;
+        //}
     }
 }
