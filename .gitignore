@@ -1,1 +1,4 @@
 .DS_Store
+Terraform/variables.tf
+Terraform/.terraform*
+Terraform/terraform*

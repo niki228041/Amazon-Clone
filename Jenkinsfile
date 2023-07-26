@@ -3,12 +3,12 @@
 pipeline  {
     agent any;
     stages {
-        // stage("Change IP in configs")
-        // {
-        //     steps{
-        //         sh "cd .. && find Amazon-Clone/ -type f -exec sed  -i 's/localhost/0.0.0.0/g' {} +"
-        //     }
-        // } 
+         stage("Change IP in configs")
+         {
+             steps{
+                sh "cd .. && find Amazon-Clone/ -type f -exec sed  -i 's/localhost/172.20.10.3/g' {} +"
+             }
+         } 
         stage("Create frontend docker image") {
             steps {
                 echo 'Creating docker image ...'
