@@ -2,13 +2,20 @@ import React, { useEffect } from 'react';
 // import { BrowserRouter as Router, Route, Routes, Outlet } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Profile from './components/Profile/profile';
 import Main from './components/InteractionWithProducts/Main';
 import OneProduct from './components/InteractionWithProducts/OneProduct';
-import Profile from './components/Profile';
+
 import AdminSite from './components/Admin/AdminSite';
 import CreateProduct from './components/Admin/CreateProduct';
 import CreateCategory from './components/Admin/CreateCategory';
 import Orders from './components/Orders';
+
+
+import Payment from './components/Profile/Payment';
+import Address from './components/Profile/Address';
+import Order from './components/Profile/Order';
+import EditProfile from './components/Profile/EditProfile';
 import Player from './components/Player/Player';
 import LoginScreen from './components/Auth/Login';
 import { useDispatch, useSelector } from 'react-redux';
@@ -75,9 +82,19 @@ const App: React.FC = () => {
             </Route>
 
           
-            <Route path="/products" element={<><Main /></>} >
+            {/* <Route path="/products" element={<><Main /></>} >
               <Route path="products" element={<Profile />} />
-            </Route>
+            </Route> */}
+
+
+            <Route path='orders' element={<Orders/>}/>
+            <Route path="product/:productId" element={<OneProduct />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="login" element={<LoginScreen />} />
+            <Route path="/payment" element={<Payment  />} />
+            <Route path="/address" element={<Address />} />
+            <Route path="/proforder" element={<Order />} />
+            <Route path="/editprofile" element={<EditProfile />} />
 
             <Route path="/findProducts" element={<PageWithOptions/>}>
               
@@ -93,6 +110,7 @@ const App: React.FC = () => {
       
           <Route path="/products" element={<><Main /></>} >
             <Route path="products" element={<Profile />} />
+
           </Route>
 
           <Route path='createOptions' element={<CreateOptions/>}/>
