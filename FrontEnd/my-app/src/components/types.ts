@@ -10,7 +10,19 @@ export interface Product{
     isInTheStock: String,
     numberOfDaysForDelivery: String,
     address: String,
-    image: string,
+    image: any,
+    comments: Comment[],
+    options: SelectedOption[],
+}
+
+export interface SelectedOption{
+    title:string,
+    variant:string,
+    variantId:number
+}
+
+export interface Comment{
+    stars:number
 }
 
 export interface Order{
@@ -23,6 +35,7 @@ export interface categorySequence{
     id:any;
     name:any;
 }
+
 export interface User {
     name: string,
     surname: string,
@@ -46,4 +59,9 @@ export interface UserState {
     loading: boolean,
     isAuth: boolean,
     message: ''
+}
+
+export interface ImageLink {
+  image: string;
+  productId: number;
 }

@@ -1,4 +1,5 @@
 ﻿using DAL.Entities;
+using DAL.Entities.FilterEntities;
 using Infrastructure.Models;
 using Infrastructure.Models.Caterories;
 using Services;
@@ -14,5 +15,7 @@ namespace Infrastructure.Interfaces
         Task<ServiceResponse> GetMainCategoriesAsync();
         Task<ServiceResponse> GetNearSubcategoriesByCategoryId(int id);
         Task<List<CategoryVM>> GetAllSubcategoriesByCategoryId(int id);
+        public Task<ICollection<Options>> GetCategoryOptionsAsyncByCategoryId(int id);
+
     }
 }

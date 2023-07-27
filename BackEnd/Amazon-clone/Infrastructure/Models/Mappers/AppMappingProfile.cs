@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using DAL.Entities;
 using DAL.Entities.DTO_s;
+using DAL.Entities.FilterEntities;
+using DAL.Entities.Music;
 using DAL.Interfaces;
 using DAL.Repositories;
 using Infrastructure.Models.Caterories;
@@ -9,8 +11,6 @@ namespace Infrastructure.Models.Mappers;
 
 public class AppMappingProfile : Profile
 {
-  
-
     public AppMappingProfile()
     {
      
@@ -26,7 +26,38 @@ public class AppMappingProfile : Profile
         CreateMap<CategoryCreateVM, Category>();
         CreateMap<Category, CategoryCreateVM>();
 
+        CreateMap<ProductImageVM,ProductImage>();
+        CreateMap<ProductImage, ProductImageVM>();
+
+        CreateMap<Comment,CreateCommentDTO>();
+        CreateMap<CreateCommentDTO, Comment>();
+
+        CreateMap<CommentVM, Comment>();
+        CreateMap<Comment,CommentVM>();
+        CreateMap<User, AllUsersVM>();
+
+        CreateMap<RegisterViewModel, User>();
+        CreateMap<User, RegisterViewModel>();
+
+        CreateMap<VariantVM, Variant>();
+        CreateMap<Variant, VariantVM>();
+
+        CreateMap<OptionsVM, Options>();
+        CreateMap<Options, OptionsVM>();
+
+        CreateMap<VariantDTO, Variant>();
+        CreateMap<Variant,VariantDTO>();
+
+        CreateMap<GenreVM, Genre>();
+        CreateMap<Genre,GenreVM> ();
+
+        CreateMap<Track, TrackVM>();
+        CreateMap<TrackVM, Track>();
+        
+
+        CreateMap<Track, TrackDTO>();
+        CreateMap<TrackDTO, Track>();
     }
 
-    
+
 }

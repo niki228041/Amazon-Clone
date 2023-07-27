@@ -1,5 +1,7 @@
 ﻿using DAL.Entities;
+using DAL.Entities.FilterEntities;
 using DAL.Entities.Identity;
+using DAL.Entities.Music;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -26,8 +28,16 @@ namespace DAL
         public DbSet<Order> Order { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<ProductImage> ProductImage { get; set; }
-        public DbSet<User> User { get; set; }
         public DbSet<Subcategory> Subcategories { get; set; }
+        public DbSet<Track> Track { get; set; }
+        public DbSet<TrackGenre> TrackGenre { get; set; }
+        public DbSet<Genre> Genre { get; set; }
+        public DbSet<Album> Album { get; set; }
+        public DbSet<Options> Options { get; set; }
+        public DbSet<Variant> Variant { get; set; }
+        public DbSet<OptionsCategory> OptionCategory { get; set; }
+        public DbSet<VariantProduct> VariantProduct { get; set; }
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -47,9 +57,6 @@ namespace DAL
                     .HasForeignKey(r => r.UserId)
                     .IsRequired();
             });
-
-
-
         }
       
     }

@@ -6,27 +6,19 @@ using DAL.Entities.Identity;
 namespace DAL.Entities
 {
     [Table("tblComments")]
-    public class Comment
+    public class Comment : BaseEntity<int>
 	{
-        [Key]
-        public int Id { get; set; }
 
         [Required(ErrorMessage = "The Title field is required.")]
-        [MaxLength(100, ErrorMessage = "The Title field cannot exceed 100 characters.")]
         public string Title { get; set; }
 
 
         [Required(ErrorMessage = "The message field is required.")]
-        [MaxLength(500, ErrorMessage = "The message field cannot exceed 500 characters.")]
         public string Message { get; set; }
 
 
         [Range(0, 5, ErrorMessage = "The Stars field must be between 0 and 5.")]
         public int Stars { get; set; }
-
-
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; } 
 
         public int Likes { get; set; }
 
