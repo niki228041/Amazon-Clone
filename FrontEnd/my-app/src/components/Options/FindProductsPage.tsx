@@ -243,6 +243,12 @@ const PageWithOptions = () => {
     setSearch(search_);
     funcs();
 
+    if(stars==-1)
+    {
+      search_.delete("stars");
+      setSearch(search_);
+    }
+
     // setAllFilters(prev=>({...prev,stars:stars}));
     // let response: any = await getProductsByFilter(allFilters);
     // console.log(response?.data);
