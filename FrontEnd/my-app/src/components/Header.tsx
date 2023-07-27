@@ -79,10 +79,12 @@ const Header=()=> {
         setDropdown(false);
         let path = "/product/"+ id;
         navigate(path);
+        setDropdown(false);
     }
 
     const handleToSearchPage=()=>{
-      navigate("/findProducts");
+      navigate("/findProducts" + `?productName=${encodeURIComponent(inputText)}`);
+      setDropdown(false);
     }
 
     const sortProductsByInput=()=>{
@@ -136,7 +138,8 @@ const Header=()=> {
 
                 {products?.filter(
                      (item:any)=>{
-                         return inputText.toLowerCase() === ' ' ? item : item.name.toLowerCase().includes(inputText) })
+                      console.log(item);
+                         return inputText.toLowerCase() === ' ' ? item : item.name.toLowerCase().includes(inputText.toLowerCase()) })
                          .map((product:any,it:any=0)=>
                          <div className='searchBar_selector px-4  bg-white border-gray-300 hover:bg-gray-400 cursor-pointer' key={(it++).toString()} 
                          onClick={()=>openFoundedModel(product.id)}>

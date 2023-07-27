@@ -22,6 +22,7 @@ const MusicHeader=()=>{
           <div className="bg-stone-950 rounded-md col-start-11 flex justify-center m-auto h-full w-full items-center cursor-pointer hover:translate-y-1 hover:bg-indigo-600 font-medium text-sm select-none hover:scale-105  transition-all">New Album</div>
           <div className="bg-stone-950 rounded-md col-start-12 flex justify-center m-auto h-full w-full items-center cursor-pointer hover:translate-y-1 hover:bg-indigo-600 font-medium text-sm select-none hover:scale-105  transition-all" onClick={()=>navigate("/music")}>Home</div>
         </div>
+        
       </div>
     )
 }
