@@ -4,12 +4,16 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Main from './components/Main';
 import OneProduct from './components/OneProduct';
-import Profile from './components/Profile';
+import Profile from './components/Profile/profile';
 import LoginScreen from './components/Auth/Login/Login';
 import AdminSite from './components/Admin/AdminSite';
 import CreateProduct from './components/Admin/CreateProduct';
 import CreateCategory from './components/Admin/CreateCategory';
 import Orders from './components/Orders';
+import Payment from './components/Profile/Payment';
+import Address from './components/Profile/Address';
+import Order from './components/Profile/Order';
+import EditProfile from './components/Profile/EditProfile';
 
 const App:React.FC =()=> {
   return (
@@ -40,14 +44,18 @@ const App:React.FC =()=> {
             </Route>
 
           
-            <Route path="/products" element={<><Main /></>} >
+            {/* <Route path="/products" element={<><Main /></>} >
               <Route path="products" element={<Profile />} />
-            </Route>
+            </Route> */}
 
             <Route path='orders' element={<Orders/>}/>
             <Route path="product/:productId" element={<OneProduct />} />
-            <Route path="profile" element={<Profile />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="login" element={<LoginScreen />} />
+            <Route path="/payment" element={<Payment  />} />
+            <Route path="/address" element={<Address />} />
+            <Route path="/proforder" element={<Order />} />
+            <Route path="/editprofile" element={<EditProfile />} />
           </Route>
         </Routes>
     </BrowserRouter>
