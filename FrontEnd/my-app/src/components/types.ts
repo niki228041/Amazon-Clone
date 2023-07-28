@@ -2,14 +2,14 @@
 
 export interface Product{
     id: number,
-    name: String,
-    price: String,
-    discount: String,
-    description: String,
-    quantity: String,
-    isInTheStock: String,
-    numberOfDaysForDelivery: String,
-    address: String,
+    name: string,
+    price: number,
+    discount: string,
+    description: string,
+    quantity: string,
+    isInTheStock: string,
+    numberOfDaysForDelivery: string,
+    address: string,
     image: any,
     comments: Comment[],
     options: SelectedOption[],
@@ -27,8 +27,15 @@ export interface Comment{
 
 export interface Order{
     id:any;
-    name:any;
+    name:string;
+    price:number;
+    count:number;
     product_id:any;
+}
+
+export interface ChangeOrderCount{
+    index:any;
+    count:number;
 }
 
 export interface categorySequence{
@@ -65,3 +72,36 @@ export interface ImageLink {
   image: string;
   productId: number;
 }
+
+export interface FindById{
+    id:number
+  }
+
+export interface addCard{
+  ownerName:string ,
+  cardNumber:string ,
+  year:string ,
+  month:string ,
+  userId:string 
+}
+
+export interface Card{
+    ownerName:string ,
+    cardNumber:string ,
+    year:string ,
+    month:string ,
+    userId:string ,
+    id:string ,
+  }
+
+  
+export interface Address{
+    street:string,
+    city:string,
+    phone :string,
+    fullName :string,
+    country :string,
+    postcode :string,
+    userId :number,
+    id :number,
+  }

@@ -4,10 +4,10 @@
 import { useParams} from 'react-router-dom'
 import img from '../../images/t-shirt-png.webp'
 import { useGetProductByIdQuery, useGetProductsQuery } from '../../features/user/apiProductSlice';
-import { Order, Product, SelectedOption } from '../types';
+import { ChangeOrderCount, Order, Product, SelectedOption } from '../types';
 import { useAppSelector } from '../../app/hooks';
 import { useDispatch } from 'react-redux';
-import { addOrder } from '../../features/user/ordersStateSlice';
+import { addOrder, updateOrder } from '../../features/user/ordersStateSlice';
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 import star from "../../images/star (2).png"
@@ -56,9 +56,22 @@ const OneProduct=()=>{
       };
     
 
-    const handleAddNewOrder=(data:any)=>{
-        const newOrder:Order = {id:uuidv4(), name:data.name,product_id:data.id};
-        dispatch(addOrder(newOrder));
+    const handleAddNewOrder=(data:Product)=>{
+        console.log(orders.orders);
+        var order = orders.orders.find(ord=>ord.product_id==data.id);
+        if(!order)
+        {
+            const newOrder:Order = {id:uuidv4(), name:data.name,product_id:data.id,price:data.price,count:1};
+            dispatch(addOrder(newOrder));
+        }
+        else{
+            var index = orders.orders.findIndex(order_=>order_.id==order?.id);
+            if(order.count<5)
+            {
+                var changeOrderCount:ChangeOrderCount = {index:index,count:order.count+1}; 
+                dispatch(updateOrder(changeOrderCount));
+            }
+        }
     }
 
     const changeStars=(star_id:string)=>{
@@ -151,7 +164,7 @@ const OneProduct=()=>{
 
                 </div>
                 <div className='w-full col-span-2 justify-center'>
-                    <button  onClick={()=>{handleAddNewOrder(data?.payload)}} className='bg-yellow-300 w-full p-2 rounded-xl'>Add to cart</button>
+                    <button  onClick={()=>{handleAddNewOrder(data?.payload!)}} className='bg-yellow-300 w-full p-2 rounded-xl'>Add to cart</button>
                     <div className='mt-10'>
                         {data?.payload.options.map((opt:SelectedOption,index:number)=><div key={index} className='flex justify-between'>
                             <div className=' font-medium'>
