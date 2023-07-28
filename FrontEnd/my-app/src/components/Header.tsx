@@ -136,8 +136,13 @@ const Header=()=> {
 
       <Link to="/orders">
         <div className="cartdiv">
+
           <img src={cart} />
           <a className="alang">Кошик</a>
+
+          {/*<GrCart className="cartIcon" />
+          <a className="alang">Кошик ({orders.orders.length})</a> */}
+
         </div>
       </Link>
       

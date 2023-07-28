@@ -62,6 +62,8 @@ builder.Services.AddScoped<IOptionsCategoryRepository,OptionsCategoryRepository>
 builder.Services.AddScoped<IVariantProductRepository, VariantProductRepository>();
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddScoped<ITrackRepository, TrackRepository>();
+builder.Services.AddScoped<ICardRepository, CardRepository>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 
 
 
@@ -78,6 +80,8 @@ builder.Services.AddScoped<ICommentImageService, CommentImageService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<ITrackService, TrackService>();
+builder.Services.AddScoped<ICardService, CardService>();
+builder.Services.AddScoped<IAddressService, AddressService>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -37,7 +37,8 @@ namespace DAL
         public DbSet<Variant> Variant { get; set; }
         public DbSet<OptionsCategory> OptionCategory { get; set; }
         public DbSet<VariantProduct> VariantProduct { get; set; }
-        
+        public DbSet<Card> Card { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

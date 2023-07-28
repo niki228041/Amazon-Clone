@@ -57,6 +57,15 @@ public class AppMappingProfile : Profile
 
         CreateMap<Track, TrackDTO>();
         CreateMap<TrackDTO, Track>();
+
+        CreateMap<Card, CardVM>();
+        CreateMap<CardVM, Card>();
+
+        CreateMap<Card, CardDTO>();
+        CreateMap<CardDTO, Card>();
+
+        CreateMap<Address, AddressDTO>();
+        CreateMap<AddressDTO, Address>();
     }
 
 

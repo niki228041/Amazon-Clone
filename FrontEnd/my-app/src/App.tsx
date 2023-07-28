@@ -9,7 +9,7 @@ import OneProduct from './components/InteractionWithProducts/OneProduct';
 import AdminSite from './components/Admin/AdminSite';
 import CreateProduct from './components/Admin/CreateProduct';
 import CreateCategory from './components/Admin/CreateCategory';
-import Orders from './components/Orders';
+import Orders from './components/BuyProduct/Orders';
 
 
 import Payment from './components/Profile/Payment';
@@ -32,6 +32,8 @@ import CreateGenre from './components/Player/CreateGenre';
 import CreateTrack from './components/Player/CreateTrack';
 import Registration from './components/Auth/Registration';
 import MusicHeader from './components/Player/MusicHeader';
+import BuyProduct from './components/BuyProduct/BuyProduct';
+import OrdersList from './components/BuyProduct/OrdersList';
 
 
 const App: React.FC = () => {
@@ -115,7 +117,9 @@ const App: React.FC = () => {
 
           <Route path='createOptions' element={<CreateOptions/>}/>
 
-          <Route path='orders' element={<Orders />} />
+          <Route path='/orders' element={<Orders />} />
+          
+
           <Route path="product/:productId" element={<OneProduct />} />
           <Route path="profile" element={<Profile />} />
           <Route path="login" element={<LoginScreen />} />
