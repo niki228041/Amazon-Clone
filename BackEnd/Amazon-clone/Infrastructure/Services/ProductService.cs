@@ -224,7 +224,7 @@ public class ProductService : IProductService
             findPreisBy.Add(FindPreis.MAX);
         }
 
-        if(model.Max_Preis < model.Min_Preis)
+        if(findPreisBy.Count > 1 && model.Max_Preis < model.Min_Preis)
         {
             findPreisBy.Clear();
         }
@@ -244,14 +244,14 @@ public class ProductService : IProductService
                 }
                 else if (findPreisBy.Contains(FindPreis.MAX))
                 {
-                    if (model.Max_Preis <= productVM.Price)
+                    if (model.Max_Preis >= productVM.Price)
                     {
                         res_3.Add(productVM);
                     }
                 }
                 else if (findPreisBy.Contains(FindPreis.MIN))
                 {
-                    if (model.Min_Preis >= productVM.Price)
+                    if (model.Min_Preis <= productVM.Price)
                     {
                         res_3.Add(productVM);
                     }
@@ -263,6 +263,13 @@ public class ProductService : IProductService
             res_3 = res_2;
         }
 
+        var tmp = 0;
+
+        if(model.Stars> 0)
+        res_3 = res_3.FindAll(prod => prod.Comments.Any() && prod.Comments.Average(c => c.stars) >= model.Stars).ToList();
+        
+        if(!string.IsNullOrWhiteSpace(model.ProductName))
+        res_3 = res_3.FindAll(prod => prod.Name.Contains(model.ProductName));
 
         foreach (var product in res_3)
         {

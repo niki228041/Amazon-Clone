@@ -8,11 +8,11 @@ namespace DAL.Entities.Music
     public class Track : BaseEntity<int>
 	{
         public string Title { get; set; }
+        public string Song { get; set; }
         public string Background { get; set; }
         public string Image { get; set; }
         public int NumberOfPlays { get; set; }
         public int likes { get; set; }
-
 
         //Foreign keys:
 

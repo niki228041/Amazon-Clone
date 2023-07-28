@@ -2,13 +2,20 @@ import React, { useEffect } from 'react';
 // import { BrowserRouter as Router, Route, Routes, Outlet } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Profile from './components/Profile/profile';
 import Main from './components/InteractionWithProducts/Main';
 import OneProduct from './components/InteractionWithProducts/OneProduct';
-import Profile from './components/Profile';
+
 import AdminSite from './components/Admin/AdminSite';
 import CreateProduct from './components/Admin/CreateProduct';
 import CreateCategory from './components/Admin/CreateCategory';
 import Orders from './components/Orders';
+
+
+import Payment from './components/Profile/Payment';
+import Address from './components/Profile/Address';
+import Order from './components/Profile/Order';
+import EditProfile from './components/Profile/EditProfile';
 import Player from './components/Player/Player';
 import LoginScreen from './components/Auth/Login';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,6 +28,10 @@ import PageWithOptions from './components/Options/FindProductsPage';
 import ForgotPasswordScreen from './components/Auth/Forgot-Password';
 import ResetPasswordScreen from './components/Auth/Reset-Password';
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
+import CreateGenre from './components/Player/CreateGenre';
+import CreateTrack from './components/Player/CreateTrack';
+import Registration from './components/Auth/Registration';
+import MusicHeader from './components/Player/MusicHeader';
 
 
 const App: React.FC = () => {
@@ -39,7 +50,12 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
+            <Route path='/music' element={<><MusicHeader/><div className="flex flex-col bg-black" style={{ minHeight: "100vh" }}><Outlet/></div></>} >
+              <Route path='' element={<Player/>} />
+              <Route path='createGenre' element={<CreateGenre/>} />
+              <Route path='createTrack' element={<CreateTrack/>} />
+            </Route>
+          <Route
           path='/'
           element={
             <>
@@ -57,24 +73,44 @@ const App: React.FC = () => {
         >
 
 
-          <Route path='admin' element={<Outlet />}>
-            <Route path='' element={<><AdminSite /></>} />
-            <Route path='create'>
-              <Route path='products' element={<CreateProduct />} />
-              <Route path='categories' element={<CreateCategory />} />
+            <Route path='admin' element={<Outlet/>}>
+                <Route path='' element={<><AdminSite/></>}/>
+              <Route path='create'>
+                <Route path='products' element={<CreateProduct/>} />
+                <Route path='categories' element={<CreateCategory/>} />
+              </Route>
             </Route>
-          </Route>
+
+          
+            {/* <Route path="/products" element={<><Main /></>} >
+              <Route path="products" element={<Profile />} />
+            </Route> */}
 
 
-          <Route path="/findProducts" element={<PageWithOptions/>}/>
+            <Route path='orders' element={<Orders/>}/>
+            <Route path="product/:productId" element={<OneProduct />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="login" element={<LoginScreen />} />
+            <Route path="/payment" element={<Payment  />} />
+            <Route path="/address" element={<Address />} />
+            <Route path="/proforder" element={<Order />} />
+            <Route path="/editprofile" element={<EditProfile />} />
+
+            <Route path="/findProducts" element={<PageWithOptions/>}>
               
+            </Route>
 
-          <Route path='/get-options-by-category/:categoryId' element={<GetOptionsByCategory/>}/>
+            <Route path='/get-options-by-category/:categoryId' element={<GetOptionsByCategory/>}>
 
-          <Route path='/player' element={<Player/>}/>
+            </Route>
+
+            
+
+          
       
           <Route path="/products" element={<><Main /></>} >
             <Route path="products" element={<Profile />} />
+
           </Route>
 
           <Route path='createOptions' element={<CreateOptions/>}/>
@@ -83,6 +119,7 @@ const App: React.FC = () => {
           <Route path="product/:productId" element={<OneProduct />} />
           <Route path="profile" element={<Profile />} />
           <Route path="login" element={<LoginScreen />} />
+          <Route path="registration" element={<Registration/>} />
           <Route path="forgotpassword" element={<ForgotPasswordScreen />} />
           {/* <Route path="resetpassword/:userId" element={<ResetPasswordScreen />} /> */}
           <Route path="resetpassword/" element={<ResetPasswordScreen />} />

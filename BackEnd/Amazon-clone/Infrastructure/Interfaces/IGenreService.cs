@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DAL.Entities.Music;
+using Infrastructure.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,7 @@ namespace Infrastructure.Interfaces
 {
     public interface IGenreService
     {
-
+        Task<Genre> CreateGenreAsync(GenreVM model);
+        Task<List<Genre>> GetAllGenresAsync();
     }
 }

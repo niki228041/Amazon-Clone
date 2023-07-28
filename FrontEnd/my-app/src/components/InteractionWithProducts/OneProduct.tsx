@@ -36,6 +36,7 @@ interface Comment{
     likes: number,
     dislikes: number,
     userId: number,
+    userName: string,
     productId: number,
     images: [],
 }
@@ -87,11 +88,11 @@ const OneProduct=()=>{
       {
         if(i<stars_)
         {
-          jsx_stars.push(<div key={i} className='star-small ml-0.5'/>);
+          jsx_stars.push(<div key={i} className='star-small'/>);
         }
         else
         {
-          jsx_stars.push(<div key={i} className='empty_star-small h-3 ml-0.5' />);
+          jsx_stars.push(<div key={i} className='empty_star-small h-3' />);
         }
       }
       return jsx_stars;
@@ -245,29 +246,32 @@ const OneProduct=()=>{
                         const dateTime = new Date(comm.dateCreated);
                         const dateOnly = new Date(dateTime.getFullYear(), dateTime.getMonth(), dateTime.getDate());
 
-                        return <div className='flex p-2' key={comm.id}>
-                        <div className='mr-3'>
-                            <img className='h-12' src={circle} />
+                        return <div className='p-2 flex' key={comm.id}>
+                        <div className='mr-3 h-8 w-10'>
+                            <img className='h-8 w-8' src={circle} />
                         </div>
-                        <div className='col-span-3'>
-                            <div className='flex content-center self-center text-[14px]'>
-                                Name of Profile {comm.userId}
-                            </div>
-                            <div className=' text-[20px] font-medium '>
-                                <div className=''>
-                                    {comm.title}
+                        <div className=' w-full'>
+                            <div>
+                                <div className='flex content-center self-center text-[14px]'>
+                                    {comm.userName}
                                 </div>
-                                <div className='mt-1 w-full flex rounded-full self-end'>
-                                    {getStarts(comm.stars)}
+                                <div className=' text-[18px] font-medium '>
+                                    <div className=' font-normal text-[11px]  '>{dateOnly.toLocaleDateString()}</div> 
+
+                                    <div className=''>
+                                        {comm.title}
+                                    </div>
+                                    <div className='mt-1 w-full flex rounded-full self-end'>
+                                        {getStarts(comm.stars)}
+                                    </div>
+
+
                                 </div>
-                                <div className=' font-normal text-sm mt-1'>{dateOnly.toLocaleDateString()}</div> 
-                                
-                                
                             </div>
-                            <div className='mt-3'>
+                            <div className=' text-[13px] mb-5'>
                                 {comm.message}
                             </div>
-                            <div className='grid gap-3 grid-cols-6 mt-2 mb-7'>
+                            {/* <div className='grid gap-3 grid-cols-6 mt-2 mb-7'>
                                 <div className='h-20 w-20 border rounded-md'>
                                     <div className='h-20 w-20 bg-cover hover:scale-105 transition-all' style={{backgroundImage:`url(${img})`,backgroundPosition:"center",backgroundRepeat:"no-repeat"}} />
                                 </div>
@@ -280,7 +284,7 @@ const OneProduct=()=>{
                                 <div className='h-20 w-20 border rounded-md flex justify-center self-center text-center content-center m-auto py-6'>
                                     <p>3+...</p>
                                 </div>
-                            </div>
+                            </div> */}
                             
                         </div>
                     </div>

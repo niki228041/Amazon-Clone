@@ -1,0 +1,595 @@
+/* side bar css */
+
+.sidebar {
+    background-color: white;
+    height: 520px;
+    width: 300px;
+    margin-top: 50px;
+    margin-left: 400px;
+    border-radius: 5px;
+    margin-bottom: 50px;
+
+}
+
+.overlisttdiv {
+
+    color: black;
+    height: 30px;
+    width: 10px;
+
+
+}
+
+.lisidebar {
+    height: 30px;
+    width: 270px;
+    display: inline-flex;
+
+}
+
+.listdiv {
+    height: 30px;
+    width: 10px;
+    background-color: white;
+    display: inline-flex;
+}
+
+.listspan {
+    margin-bottom: 3px;
+    margin-left: 10px;
+}
+
+.lisidebar:hover {
+    .listdiv {
+        background-color: #FF9A02;
+    }
+
+    background-color: #dfddda;
+}
+
+/* profile css */
+
+/* profile */
+.profileheader {
+    flex-wrap: wrap;
+    display: flex;
+    margin-top: 50px;
+    height: 180px;
+    width: 800px;
+    margin-left: 20px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.wishlist {
+    color: black;
+    height: 30px;
+    width: 30px;
+    margin-left: 15px;
+}
+
+.wishlistdiv {
+
+    /* margin-top: 30px; */
+    margin-left: 200px;
+}
+
+.coupon {
+    color: black;
+    height: 30px;
+    width: 30px;
+    margin-left: 15px;
+}
+
+.coupondiv {
+    /* margin-top: 30px; */
+    margin-left: 100px;
+}
+
+.coments {
+    color: black;
+    height: 30px;
+    width: 30px;
+    margin-left: 15px;
+}
+
+.comentsdiv {
+    /* margin-top: 30px; */
+    margin-left: 100px;
+}
+
+.overoptions {
+    display: inline-flex;
+    margin-top: 30px;
+    height: 30px;
+    width: 800px;
+}
+
+.nickname {
+    font-size: 30px;
+    font-weight: 600;
+    margin-left: 50px;
+    margin-top: 20px;
+    width: 800px;
+}
+
+.headerdiv {
+    width: 800px;
+}
+
+/* prof body */
+.profilebody {
+    flex-wrap: wrap;
+    margin-top: 20px;
+    height: 320px;
+    width: 800px;
+    margin-left: 20px;
+    background-color: white;
+    border-radius: 5px;
+    display: inline-flex;
+}
+
+.unpaid {
+    color: #FF9A02;
+    height: 50px;
+    width: 50px;
+    margin-right: 120px;
+
+
+
+}
+
+.shipped {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    color: #FF9A02;
+    height: 50px;
+    width: 50px;
+    margin-right: 120px;
+}
+
+.tobeshipped {
+    color: #FF9A02;
+    height: 50px;
+    width: 50px;
+    margin-right: 120px;
+}
+
+.tobereviewd {
+    color: #FF9A02;
+    height: 50px;
+    width: 50px;
+
+
+}
+
+.orders {
+    display: block;
+    width: 800px;
+    height: 70px;
+    font-size: 25px;
+    font-weight: 700;
+    margin-top: 20px;
+    margin-left: 20px;
+
+
+
+}
+
+.divlist {
+    margin-left: 100px;
+    margin-top: 10px;
+    width: 800px;
+    height: 70px;
+    display: inline-flex;
+
+}
+
+.headerofbody {
+    width: 300px;
+    height: 50px;
+}
+
+a {
+    color: black;
+
+}
+
+/* .line
+{
+    color: black;
+    width: 700px;
+    background-color: black;
+    height: 3px;
+    margin-top: 200px;
+}  */
+
+/* orders */
+.ordersheader {
+    flex-wrap: wrap;
+    display: flex;
+    margin-top: 50px;
+    height: 120px;
+    width: 800px;
+    margin-left: 20px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.orderbody {
+    flex-wrap: wrap;
+    margin-top: 20px;
+    height: 380px;
+    width: 800px;
+    margin-left: 20px;
+    background-color: white;
+    border-radius: 5px;
+    display: inline-flex;
+}
+
+.divorderlist {
+    display: flex;
+    height: 30px;
+    width: 800px;
+    margin-top: 10px;
+}
+
+.ordersa {
+    font-weight: 500;
+    font-size: 17px;
+    margin-left: 25px;
+}
+
+.ordersa:hover {
+    color: #FF9A02;
+}
+
+.deleted {
+    display: inline-flex;
+    margin-top: 2px;
+}
+
+.deleteico {
+    margin-left: 190px;
+    height: 18px;
+    width: 18px;
+}
+
+.dela {
+    font-size: 15px;
+    margin-left: 10px;
+}
+
+th,
+td {
+    margin-left: 50px;
+}
+
+.orderselect {
+
+    height: 30px;
+    width: 120px;
+}
+
+.overselec {
+    width: 130px;
+
+}
+
+.ordersearcher {
+    border-width: 2px;
+    border-style: solid;
+    border-color: black;
+    height: 33px;
+    width: 500px;
+
+}
+
+
+/* payment */
+
+
+.paymentheader {
+    height: 60px;
+    width: 800px;
+    background-color: white;
+    margin-top: 50px;
+    border-radius: 5px;
+    margin-left: 20px;
+    display: inline-flex;
+}
+
+.paymentbody {
+    flex-wrap: wrap;
+    margin-top: 20px;
+    height: 380px;
+    width: 800px;
+    margin-left: 20px;
+    background-color: white;
+    border-radius: 5px;
+    display: inline-flex;
+}
+
+.paymenta {
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 10px;
+    margin-left: 30px;
+}
+
+.cardsbody {
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 10px;
+    margin-left: 30px;
+}
+
+.ADD {
+    flex-wrap: wrap;
+    height: 250px;
+    width: 700px;
+    display: flex;
+    margin-left: 70px;
+}
+
+.headerofpay {
+
+    height: 30px;
+}
+
+.inputcardnumb {
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(201, 195, 195);
+}
+
+.cardnumb {
+    width: 300px;
+}
+
+.namecard {
+    width: 300px;
+    margin-left: 50px;
+
+}
+
+.inputnamecard {
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(201, 195, 195);
+}
+
+.year {
+    width: 140px;
+    margin-left: 20;
+}
+
+.month {
+
+    width: 140px;
+    margin-right: 20px;
+}
+
+.yearinput {
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(201, 195, 195);
+}
+
+.monthinput {
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(201, 195, 195);
+}
+
+.inputsdiv {
+    width: 800px;
+    height: 100px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.cvvinput {
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(201, 195, 195);
+}
+
+.cvv {
+    width: 300px;
+    margin-left: 50px;
+}
+
+.savebutton {
+    width: 150px;
+    height: 40px;
+    color: white;
+    font-weight: 500;
+    background-color: #FF9A02;
+    font-size: 18px;
+    border-radius: 20px;
+    margin-left: 500px;
+
+}
+
+
+
+/* shiping address */
+.shipingheader {
+    height: 60px;
+    width: 800px;
+    background-color: white;
+    margin-top: 50px;
+    border-radius: 5px;
+    margin-left: 20px;
+    display: flex;
+}
+
+.shipinga {
+    font-size: 20px;
+    font-weight: 400;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+
+.shipingbody {
+    flex-wrap: wrap;
+    margin-top: 20px;
+    height: 435px;
+    width: 800px;
+    margin-left: 20px;
+    background-color: white;
+    border-radius: 5px;
+    display: flex;
+}
+
+.countryinput {
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(201, 195, 195);
+}
+
+.country {
+    width: 300px;
+    margin-left: 50px;
+    margin-top: 20px;
+}
+
+.emaild {
+    width: 300px;
+    margin-left: 50px;
+    margin-top: 20px;
+}
+
+.emailinput {
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(201, 195, 195);
+}
+.overaddinputs{
+    height: 200px;
+    width: 800px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.phoneinput{
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(201, 195, 195);
+}
+.phonenumb{
+    width: 300px;
+   
+    margin-top: 20px;
+}
+
+.phonenumbcodes
+{
+    width: 70px;
+    margin-left: 50px;
+    margin-top: 20px;
+}
+.phoneinputcod{
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(201, 195, 195);
+}
+
+.Zipinput{
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(201, 195, 195);
+}
+.Zip{
+    width: 230px;
+    margin-left: 50px;
+    margin-top: 20px;
+}
+
+.contactinput{
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(201, 195, 195);
+}
+.contact{
+    width: 300px;
+    margin-left: 50px;
+    margin-top: 20px;
+}
+
+.streetinput{
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(201, 195, 195);
+}
+
+.street{
+    width: 300px;
+    margin-left: 50px;
+    margin-top: 20px;
+}
+
+.regioninput{
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(201, 195, 195);
+}
+
+.region{
+    width: 300px;
+    margin-left: 50px;
+    margin-top: 20px;
+}
+
+.cityinput{
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(201, 195, 195);
+}
+
+.city{
+    width: 300px;
+    margin-left: 50px;
+    margin-top: 20px;
+}
+
+.confirmbutton{
+    width: 150px;
+    height: 40px;
+    color: white;
+    font-weight: 500;
+    background-color: #FF9A02;
+    font-size: 18px;
+    border-radius: 20px;
+    margin-left: 380px;
+    
+}
+.cancelbutton{
+    width: 150px;
+    height: 40px;
+    color: white;
+    font-weight: 500;
+    background-color: #bdae99;
+    font-size: 18px;
+    border-radius: 20px;
+   margin-left: 20px;
+}
+.butons{
+    margin-top: 20px;
+    height: 40px;
+    width: 800px;
+}
+
+
+.passw{
+    width: 300px;
+    margin-left: 50px;
+    margin-top: 20px;
+}
+.passwinput{
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(201, 195, 195);
+}

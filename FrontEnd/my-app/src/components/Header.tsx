@@ -4,6 +4,14 @@ import { useEffect, useState } from "react";
 import logo from "../images/amazon.png"
 import cart from "../images/cart.svg"
 import "../css/MainPage.css"
+
+import { LiaSistrix } from "react-icons/lia";
+
+import { LiaLanguageSolid } from "react-icons/lia";
+import { AiOutlineLogin } from "react-icons/ai";
+import { GrCart } from "react-icons/gr";
+// import "../css/header.css"
+
 import { useAppSelector } from "../app/hooks";
 import { apiProductSlice } from "../features/user/apiProductSlice";
 import { Product } from "./types";
@@ -31,6 +39,7 @@ const Header=()=> {
     },[inputText])
 
 
+
     const getProducts=async()=>{
       let response:any = await getProductsByCategory({id:-1});
       setProducts((prevProducts) => response?.data?.payload);
@@ -54,10 +63,12 @@ const Header=()=> {
         setDropdown(false);
         let path = "/product/"+ id;
         navigate(path);
+        setDropdown(false);
     }
 
     const handleToSearchPage=()=>{
-      navigate("/findProducts");
+      navigate("/findProducts" + `?productName=${encodeURIComponent(inputText)}`);
+      setDropdown(false);
     }
 
     const sortProductsByInput=()=>{
@@ -68,50 +79,84 @@ const Header=()=> {
   }
 
 
-  return <>
+  
 
-<div className="flex flex-col">
+  return(<div>
     <div className="header">
+
       <div onClick={()=>navigate("#")} >
         <img className="headerLogo" src={logo} />
       </div>
-      
-      <div className="header__option ">
-        <span className="header__optionLineOne"> Hello {user.name}</span>
-        <span className="header__optionLineTwo"> Select your address </span>
+
+      <div className="header__search" style={{ position: "relative" }}>
+  {/* Ваш іконка для пошуку тут */}
+  <LiaSistrix onClick={()=>handleToSearchPage()} className="searchico cursor-pointer h-full p-0" />
+  <input value={inputText} onChange={event => handleGo(event.target.value)}  className="headerSearchInput w-full" type="text" placeholder="Пошук" />
+
+  {/* Батьківський контейнер з position: relative для результатів пошуку */}
+  {dropdown &&
+    <div className="absolute w-full my-5">
+      {/* Результати пошуку тут */}
+      {products?.length > 0 && (
+        <div className="absolute left-6 right-6 mt-5 bg-white border border-gray-300 shadow-md">
+          {/* Контент результатів пошуку тут */}
+          {products?.filter((item:any) => {
+            console.log(item);
+            return inputText.toLowerCase() === ' ' ? item : item.name.toLowerCase().includes(inputText.toLowerCase());
+          }).map((product:any, it:any=0) => (
+            <div className="searchBar_selector px-4 bg-white border-gray-300 hover:bg-gray-400 cursor-pointer" key={(it++).toString()} onClick={() => openFoundedModel(product.id)}>
+              {product.name}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  }
+</div>
+
+      <div className="languagediv">
+        <LiaLanguageSolid className="languageico"/>
+        <a className="alang">UA</a>
       </div>
 
-      <div className="header__search w-full relative">
+      <Link to="/login">
+        <div className="singindiv">
+          <AiOutlineLogin className="loginico"/>
+          <a className="alang">Вхід</a>
+        </div>
+      </Link>
+
+      <Link to="/orders">
+        <div className="cartdiv">
+          <GrCart className="cartIcon" />
+            <a className="alang">Кошик</a>
+        </div>
+      </Link>
+
+    </div>
+
+  <div className="flex flex-col">
+  {/* header  */}
+    <div className="flex flex-col">
+      <div>
+
+      
+      {/* <div className="header__option ">
+        <span className="header__optionLineOne"> Hello {user.name}</span>
+        <span className="header__optionLineTwo"> Select your address </span>
+      </div> */}
+
+      {/* <div className="header__search w-full relative">
         <input value={inputText} onChange={event => handleGo(event.target.value)}  className="headerSearchInput" type="text" placeholder="Search on Amazon.com" /> 
         
         {dropdown ?
-            // <ul style={{}} className='font-normal shadow-md chatSection example absolute mt-20 bg-white'>
-            //     {/*  */}
-            //     {orders.orders?.filter(
-            //         (item:any)=>{
-            //             return inputText.toLowerCase() === ' ' ? item : item.name.toLowerCase().includes(inputText) })
-            //             .map((product:any,it:any=0)=>
-            //             <li className='searchBar_selector bg-neutral-500/[.22] hover:bg-slate-600 cursor-pointer' key={(it++).toString()} 
-            //             onClick={()=>openFoundedModel(product.id)}>
-            //                 {product.name}
-            //             </li>
-
-            //             )}
-            // </ul>
             <div className=" absolute w-full my-5">
             {products?.length > 0 && (
               <div className="absolute left-6 right-6 mt-5 bg-white border border-gray-300 shadow-md">
-                {/* {orders.orders.map((item:any) => (
-                  <div
-                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-                  >
-                    {item.name}
-                  </div>
-                ))} */}
-
                 {products?.filter(
                      (item:any)=>{
-                         return inputText.toLowerCase() === ' ' ? item : item.name.toLowerCase().includes(inputText) })
+                      console.log(item);
+                         return inputText.toLowerCase() === ' ' ? item : item.name.toLowerCase().includes(inputText.toLowerCase()) })
                          .map((product:any,it:any=0)=>
                          <div className='searchBar_selector px-4  bg-white border-gray-300 hover:bg-gray-400 cursor-pointer' key={(it++).toString()} 
                          onClick={()=>openFoundedModel(product.id)}>
@@ -124,12 +169,10 @@ const Header=()=> {
           </div>
         :""}
         
-        <svg onClick={()=>handleToSearchPage()} aria-hidden="true" className="searchIcon" fill="none" stroke="currentColor" viewBox="0 0 25 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-        </svg>
-      </div>
+        
+      </div> */}
 
-        <div className="header__nav">
+        {/* <div className="header__nav">
           <nav className="bg-white border-gray-200 dark:bg-gray-900 mt-1 mr-1">
 
             <div className="flex items-center md:order-2">
@@ -181,53 +224,31 @@ const Header=()=> {
             </div>
           </nav>
 
+        
 
-          <Link to="/login">
-            <div id="dropdownSmallButton" data-dropdown-toggle="dropdownSmall" className="header__option">
-              <span className="header__optionLineOne" >Hello, sign in </span>
+         */}
+        
 
-              <span className="header__optionLineTwo">Account & Lists</span>
-            </div>
-          </Link>
-
-
-
-          <div className="header__option">
-
-              <span className="header__optionLineOne">Returns</span>
-              <span className="header__optionLineTwo">& Orders</span>
-          </div>
-
-
-          <Link to="orders">
-            <div className="header__optionBasket mr-1">
-              <img className="cartIcon" src={cart} />
-              <span className="numberOfOrders" >
-                {orders.orders.length}
-              </span>
-            </div>
-          </Link>
-
-
-        </div>
 
 
 
       </div>
 
-      <div className="bg-slate-500 w-full h-10 flex flex-row text-sm text-center items-center">
+
+      <div className="underheader">
         <div onClick={() => navigate("/products")} className=" ml-3 text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">All</div>
         <div onClick={() => navigate("/admin")} className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Admin</div>
         <div className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Best Sellers</div>
         <div className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Amazon Basic</div>
         <div className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Today's Deals</div>
         <div className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Prime Video</div>
-        <div onClick={()=>navigate("/player")} className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Music</div>
+        <div onClick={()=>navigate("/music")} className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Music</div>
     </div>
     </div>
-    
-    </>;
-  }
+    </div>
+    </div>
+  );
+}
   
-  export default Header;
+export default Header;
   

@@ -40,9 +40,9 @@ const initialState:UserState= {
     allUsers:[]
 };
 
-export const postRegistration:any = createAsyncThunk('/api/Account/registration',async(dateFromFrontend:any)=>{
+export const postRegistration:any = createAsyncThunk('/api/Account/register',async(dateFromFrontend:any)=>{
     try{
-        const response = await axios.post(baseURL + '/api/Account/registration',dateFromFrontend);
+        const response = await axios.post(baseURL + '/api/Account/register',dateFromFrontend);
         return response.data;
     }catch(err:any){
         return err.message;
@@ -92,13 +92,24 @@ const userSlice = createSlice(
     extraReducers(builder){
         builder
             .addCase(postRegistration.pending,(state,action)=>{
+                console.log("bro");
                 state.loading = true;
             })
             .addCase(postRegistration.fulfilled,(state,action)=>{
                 state.loading = false;
                 state.accessToken = action.payload;
-                SetAccessToken(action.payload);
-                state.user = parseJwt(action.payload);
+                SetAccessToken(action.payload.payload);
+                console.log(action.payload.payload);
+
+                if(action.payload.payload != undefined)
+                {
+                    state.user = parseJwt(action.payload.payload);
+                }
+                else{
+                    state.user = {email:"",name:"",surname:"",roles:"",id:""};
+                }
+                console.log(action.payload);
+                console.log(action.error);
                 state.isAuth = true;
 
             })

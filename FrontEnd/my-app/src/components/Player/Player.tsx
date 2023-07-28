@@ -17,24 +17,45 @@ import blackCircle from "../../images/black-circle.png";
 import Slider from "./Slider/Slider";
 
 import "./Player.css"
+import { useNavigate } from "react-router-dom";
+import { useGetTracksQuery } from "../../features/user/apiPlayerSlice";
+import classNames from "classnames";
 
 interface Track{
   song:any,
   title:string,
   progress:any,
-  length:any
+  length:any,
+  image:string,
+  background:string,
+  id:number
 }
 
+interface TrackFromServer{
+  song:any,
+  title:string,
+  image:string,
+  background:string,
+  likes:string,
+  id:number,
+  dateCreated:string,
+}
+
+
 const Player=()=>{
-  const [songsdata, setSongs] = useState<Track[]>([{song:song,title:"1",progress:0,length:0},{song:song_2,title:"2",progress:0,length:0},{song:song_3,title:"3",progress:0,length:0}]);
+  const [songsdata, setSongs] = useState<Track[]>([{song:song,title:"1",progress:0,length:0,image:"",background:"",id:0},{song:song_2,title:"2",progress:0,length:0,image:"",background:"",id:0},{song:song_3,title:"3",progress:0,length:0,image:"",background:"",id:0}]);
 
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentSong, setCurrentSong] = useState<any>(songsdata[1]);
+  const [currentSong, setCurrentSong] = useState<Track>(songsdata[1]);
   const audioRef:any = useRef<HTMLAudioElement>(null);
   const clickRef:any = useRef();
-  const [percentage, setPercentage] = useState(0)
+  const [percentage, setPercentage] = useState(0);
+
+  const {data:tracks,isSuccess:isSuccessTracks}:{data:TrackFromServer[],isSuccess:boolean} = useGetTracksQuery();
 
   const [isRewinding, setIsRewinding] = useState(false);
+
+  const navigate = useNavigate();
 
   const onChange = (e:any) => {
 
@@ -43,8 +64,17 @@ const Player=()=>{
     // setPercentage(e.target.value)
   }
 
+  const scrollToTop = () => {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: "smooth" // Чтобы страница плавно перемещалась к верху
+    });
+  };
+
   const handlePlayPause = () => {
     setIsPlaying(!isPlaying);
+    scrollToTop();
   };
 
   const getCurrDuration = (e:any) => {
@@ -66,10 +96,10 @@ const Player=()=>{
       audioRef.current.pause();
     }
 
+
   }, [isPlaying,currentSong.song])
     
   useEffect(() => {
-    let rewindTimeout:any;
     const handleKeyDown = (event:any) => {
       if (event.key === "ArrowRight") {
         skipForward();
@@ -82,6 +112,7 @@ const Player=()=>{
       }
       
     };
+
 
     const skipForward = () => {
       // Код для перемотки песни вперед на 5 секунд
@@ -163,74 +194,143 @@ const Player=()=>{
     return `${formattedMinutes}:${formattedSeconds}`;
   };
 
-  
-  
+  const getNormalTime = (dateCreated:any)=>{
+    const dateTime = new Date(dateCreated);
+    return dateTime.toLocaleString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+  }
+
+  const handleSetAnotherSong = async (track:TrackFromServer)=>{
+    // var obj = URL.createObjectURL(track.song);
+    console.log(currentSong.song);
+    var newTrack:Track = {song:track.song,title:track.title,progress:0,length:0,image:track.image,background:track.background,id:track.id};
+    setCurrentSong(newTrack);
+    setIsPlaying(true);
+    scrollToTop();
+    console.log(newTrack);
+  }
+
+  const handleSongEnd = ()=>{
+    var Index = tracks.findIndex(track=>Number(track.id)==currentSong.id);
+    
+    
+    
+    if(tracks[Index]==null || tracks[Index] == undefined)
+    {
+      console.log(tracks[0]);
+      var newTrack:Track = {song:tracks[0].song,title:tracks[0].title,progress:0,length:0,image:tracks[0].image,background:tracks[0].background,id:tracks[0].id};
+      setCurrentSong(newTrack);
+    }
+    else
+    {
+      var newTrack:Track = {song:tracks[Index+1].song,title:tracks[Index+1].title,progress:0,length:0,image:tracks[Index+1].image,background:tracks[Index+1].background,id:tracks[Index+1].id};
+      console.log(Index);
+      console.log(tracks);
+      setCurrentSong(newTrack);
+    }
+    // setCurrentSong((prevIndex) => (prevIndex + 1) % songs.length);
+    
+  }
+
+  const playerClass = classNames('h-44 w-44 bg-gray-700 rounded-xl shadow-2xl bg-cover transition-all duration-200 bg-gray-200', 
+  {
+    '': isPlaying, // Класс 'scale-130' будет добавлен, если isPlaying === true
+  });
 
     return<>
-    <audio src={currentSong.song} ref={audioRef} onTimeUpdate={onPlaying} onTimeUpdateCapture={getCurrDuration}/>
-      <div className="bg-cover h-[90vh] w-full"  style={{backgroundImage:`url(${img})`,backgroundPosition:"center"}}>
-
-        <div className="w-full h-8 grid grid-cols-12 bg-stone-950 text-white px-2 gap-2">
-          <div className="bg-stone-950 rounded-md col-start-9  flex justify-center m-auto h-full w-full items-center cursor-pointer hover:translate-y-1 hover:bg-blue-600 font-medium text-sm select-none hover:scale-105  transition-all">New Track</div>
-          <div className="bg-stone-950 rounded-md col-start-10 flex justify-center m-auto h-full w-full items-center cursor-pointer hover:translate-y-1 hover:bg-blue-600 font-medium text-sm select-none hover:scale-105  transition-all">New Genre</div>
-          <div className="bg-stone-950 rounded-md col-start-11 flex justify-center m-auto h-full w-full items-center cursor-pointer hover:translate-y-1 hover:bg-indigo-600 font-medium text-sm select-none hover:scale-105  transition-all">New Album</div>
-          <div className="bg-stone-950 rounded-md col-start-12 flex justify-center m-auto h-full w-full items-center cursor-pointer hover:translate-y-1 hover:bg-indigo-600 font-medium text-sm select-none hover:scale-105  transition-all"></div>
+    <audio onEnded={handleSongEnd} src={currentSong.song} ref={audioRef} onTimeUpdate={onPlaying} onTimeUpdateCapture={getCurrDuration}/>
+      <div className="px-20" >
+      <div className="flex content-center justify-center px-52 flex-col m-auto self-center w-full" >
+        
+        <div className="w-full self-center justify-center content-center p-7 bg-slate-500 " style={{backgroundImage:`url(${currentSong.background})`,backgroundPosition:"center"}}>
+            <div className="flex w-full">
+              <div className={playerClass} style={{backgroundImage:`url(${currentSong.image})`,backgroundPosition:"center"}} />
+              
+              <div className=" rounded-xl p-4 text-white">
+                <div className=" text-[18px]  font-medium ">
+                    {currentSong.title}
+                </div>
+                <div className=" font-light  text-[13px] ">
+                  {/* ddfsopffffffffffsd */}
+                </div>
+              </div>
+            </div>
         </div>
-      
-      <div className="flex content-center justify-center px-40 flex-col m-auto self-center w-full" >
-        <div className="w-full flex self-center justify-center m-auto content-center p-10">
 
-            <div className="flex justify-center h-[500px] w-[500px] self-auto  bg-gray-700 rounded-xl shadow-2xl bg-cover transition-all duration-200 m-auto" style={{backgroundImage:`url(${img})`,backgroundPosition:"center"}} >
-                <div className="flex flex-col justify-end self-end w-[80%]">
+            {/* play pause etc */}
+        <div className="flex justify-center self-end h-full w-full m-auto relative">
 
-                  <div className=" flex self-center mt-2">
-                      <div onClick={skipBack} className=" h-[35px] w-[35px] rounded-[50px] hover:bg-slate-400/[.82]  shadow-indigo-600/[.50] self-center  flex justify-center">
-                          <img className="h-4 w-4 self-center" src={arrowLeft} />
-                      </div>
+          {/* song time */}
+          <div className="flex justify-between text-white text-[12px] w-full px-10 h-2 bottom-0 mb-8 absolute">
+            <div className="left-0">{formatTime(Math.trunc(audioRef.current?.currentTime))}</div>
+            <div className="rifht-0">{formatTime(Math.trunc(audioRef?.current?.duration))}</div>
+          </div>
+          
 
-                      <div onClick={handlePlayPause} className="cursor-pointer h-[60px] w-[60px] rounded-[50px] hover:bg-slate-500/[.82] shadow-indigo-600/[.50] mx-10 self-center flex justify-center">
-                          <img className="h-7 w-7 self-center" src={!isPlaying ? play : pause} />
-                          {/* {!isPlaying ? <IconPlay/> : pause} */}
-                      </div>
+          <div className="flex flex-col justify-end self-end w-[80%]">
+            
+            <div className=" flex self-center mt-2">
+                
+                <div onClick={skipBack} className=" h-[35px] w-[35px] rounded-[50px] hover:bg-slate-400/[.82]  shadow-indigo-600/[.50] self-center  flex justify-center">
+                    <img className="h-4 w-4 self-center" src={arrowLeft} />
+                </div>
 
-                      <div onClick={skiptoNext} className=" h-[35px] w-[35px] rounded-[50px] hover:bg-slate-500/[.82] shadow-indigo-600/[.50] self-center  flex justify-center">
-                          <img className="h-4 w-4 self-center" src={arrowRight} />
-                      </div>
-                  </div>
+                <div onClick={handlePlayPause} className="cursor-pointer h-[60px] w-[60px] rounded-[50px] hover:bg-slate-500/[.82] shadow-indigo-600/[.50] mx-10 self-center flex justify-center">
+                    <img className="h-7 w-7 self-center" src={!isPlaying ? play : pause} />
+                    {/* {!isPlaying ? <IconPlay/> : pause} */}
+                </div>
 
-                  <div className="flex justify-between text-white text-[12px] h-2 relative mt-[-55px] mb-5">
-                    <div>{formatTime(Math.trunc(audioRef.current?.currentTime))}</div>
-                    <div>{formatTime(Math.trunc(audioRef?.current?.duration))}</div>
-                  </div>
-                  <div className="mb-8"></div>
-                  
-                  
+                <div onClick={skiptoNext} className=" h-[35px] w-[35px] rounded-[50px] hover:bg-slate-500/[.82] shadow-indigo-600/[.50] self-center  flex justify-center">
+                    <img className="h-4 w-4 self-center" src={arrowRight} />
                 </div>
                 
             </div>
 
             
+            {/* fixed w-full  */}
+            
+
+          </div>
+          
         </div>
+            <div className="px-3 m-0 my-0 py-0 bottom-0 rounded-full w-full h-[20px] transition-all mt-[-6px]">
+              
+              <Slider percentage={percentage} onChange={onChange} />
+            </div>
+            
         
       </div>
-      <div className="px-3 m-0 my-0 py-0 bottom-0 fixed w-full h-[20px] bg-slate-800 transition-all">
-          <Slider percentage={percentage} onChange={onChange} />
-            {/* <div className=" flex self-center justify-center">
-              <div onClick={skipBack} className=" h-[35px] w-[35px] rounded-[50px] hover:bg-slate-400/[.82]  shadow-indigo-600/[.50] self-center  flex justify-center">
-                  <img className="h-4 w-4 self-center" src={arrowLeft} />
-              </div>
-
-              <div onClick={handlePlayPause} className="cursor-pointer h-[60px] w-[60px] rounded-[50px] hover:bg-slate-500/[.82] shadow-indigo-600/[.50] mx-10 self-center flex justify-center">
-                  <img className="h-7 w-7 self-center" src={!isPlaying ? play : pause} />
-                  
-              </div>
-
-              <div onClick={skiptoNext} className=" h-[35px] w-[35px] rounded-[50px] hover:bg-slate-500/[.82] shadow-indigo-600/[.50] self-center  flex justify-center">
-                  <img className="h-4 w-4 self-center" src={arrowRight} />
-              </div>
-            </div> */}
-        </div>
       </div>
+
+
+      <div className=" m-auto w-full px-72 pb-20 mt-2">
+        <p className=" font-bold text-white text-xl pb-10">You can like it</p>
+        <div className=" text-white grid-cols-6 gap-2 gap-y-16 grid">
+
+          {isSuccessTracks ? tracks?.map((track: TrackFromServer, id: number) => (
+            
+            <div key={id} onClick={()=>handleSetAnotherSong(track)} className="w-[200px]  active:transition-shadow select-none m-auto bg-slate-300/10 hover:bg-slate-300/20 rounded-xl py-3">
+                <div className=' w-[180px] h-[180px] flex justify-center content-end self-end bg-cover rounded-xl hover:pb-0 transition-all m-auto' style={{backgroundImage:"url("+track.image+")",backgroundPosition:"center"}}>
+
+                </div>
+                <div className=' px-2 self-end w-48 overflow-hidden h-[20px] mt-4'>
+                  <p className=' font-medium text-sm cursor-pointer '>
+                  {track.title}
+                  </p>
+                </div>
+                <div className=' px-2 self-end w-48 overflow-hidden h-[20px]'>
+                  <p className='text-[12px] cursor-pointer text-gray-400 '>
+                  {getNormalTime(track.dateCreated)}
+                  </p>
+                </div>
+                
+            </div>
+
+              )) : ""}
+        </div>
+
+      </div>
+
+      
     </>
 }
 

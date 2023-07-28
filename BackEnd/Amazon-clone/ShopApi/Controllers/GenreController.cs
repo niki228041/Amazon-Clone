@@ -4,6 +4,7 @@ using DAL.Entities.Music;
 using DAL.Interfaces;
 using Infrastructure.Interfaces;
 using Infrastructure.Models;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,40 +14,31 @@ namespace ShopApi.Controllers
     [ApiController]
     public class GenreController : ControllerBase
     {
-        private readonly IGenreService _genreRepository;
+        private readonly IGenreService _genreService;
         private readonly IMapper _mapper;
 
-        public GenreController(IMapper mapper,IGenreRepository genreRepository)
+        public GenreController(IMapper mapper, IGenreService genreRepository)
         {
             _mapper = mapper;
-            //_genreRepository = genreRepository;
+            _genreService = genreRepository;
         }
 
 
+        [HttpPost]
+        [Route("CreateGenre")]
+        public async Task<IActionResult> CreateGenreAsync(GenreVM model)
+        {
+            var genre = await _genreService.CreateGenreAsync(model);
+            return Ok(genre);
+        }
 
-        //[HttpGet]
-        //[Route("GetAll")]
-        //public async Task<IActionResult> GetAllAsync()
-        //{
-        //    //var res = await _commentService.GetAllAsync();
-        //    return Ok(res);
-        //}
-
-        //[HttpPost]
-        //[Route("CreateGenre")]
-        //public async Task<IActionResult> CreateOptionsAsync(CreateGenreVM model)
-        //{
-        //    var genre = new Genre();
-
-        //    await _genreRepository.Create();
-
-        //    foreach (var variant in model.Variants)
-        //    {
-        //        await _variantRepository.Create(new Variant { Title = variant.Title, OptionsId = newOptions.Id });
-        //    }
-
-        //    return Ok("OK");
-        //}
+        [HttpGet]
+        [Route("GetAllGenres")]
+        public async Task<IActionResult> GetAllGenresAsync()
+        {
+            var genres = await _genreService.GetAllGenresAsync();
+            return Ok(genres);
+        }
 
     }
 }

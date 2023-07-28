@@ -2,6 +2,7 @@
 using DAL.Entities;
 using DAL.Entities.DTO_s;
 using DAL.Entities.FilterEntities;
+using DAL.Entities.Music;
 using DAL.Interfaces;
 using DAL.Repositories;
 using Infrastructure.Models.Caterories;
@@ -47,6 +48,15 @@ public class AppMappingProfile : Profile
         CreateMap<VariantDTO, Variant>();
         CreateMap<Variant,VariantDTO>();
 
+        CreateMap<GenreVM, Genre>();
+        CreateMap<Genre,GenreVM> ();
+
+        CreateMap<Track, TrackVM>();
+        CreateMap<TrackVM, Track>();
+        
+
+        CreateMap<Track, TrackDTO>();
+        CreateMap<TrackDTO, Track>();
     }
 
 
