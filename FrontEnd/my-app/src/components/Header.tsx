@@ -1,7 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import "../index.css"
 import { useEffect, useState } from "react";
-import logo from "../images/amazon.png"
+import logo from "../images/logo.svg"
+import langlogo from "../images/language.svg";
+import loginlogo from "../images/login.svg"
 import cart from "../images/cart.svg"
 import "../css/MainPage.css"
 
@@ -84,7 +86,11 @@ const Header=()=> {
   return(<div>
     <div className="header">
 
-      <div onClick={()=>navigate("#")} >
+      {/* <div className="div_span" style={{ backgroundColor: "#2B2B2B" }} onClick={()=>navigate("#")}>
+        <span style={{ color: "#FF9A02" }}>ALL</span>
+        <span style={{ color: "#BABABA"}}>mart</span>
+      </div> */}
+      <div onClick={()=>navigate("/")}>
         <img className="headerLogo" src={logo} />
       </div>
 
@@ -114,24 +120,33 @@ const Header=()=> {
   }
 </div>
 
+      <div className="logodiv">
+        
       <div className="languagediv">
-        <LiaLanguageSolid className="languageico"/>
+        <img src={langlogo}/>
         <a className="alang">UA</a>
       </div>
 
       <Link to="/login">
         <div className="singindiv">
-          <AiOutlineLogin className="loginico"/>
+        <img src={loginlogo}/>
           <a className="alang">Вхід</a>
         </div>
       </Link>
 
       <Link to="/orders">
         <div className="cartdiv">
-          <GrCart className="cartIcon" />
-            <a className="alang">Кошик ({orders.orders.length})</a>
+
+          <img src={cart} />
+          <a className="alang">Кошик</a>
+
+          {/*<GrCart className="cartIcon" />
+          <a className="alang">Кошик ({orders.orders.length})</a> */}
+
         </div>
       </Link>
+      
+      </div>
 
     </div>
 

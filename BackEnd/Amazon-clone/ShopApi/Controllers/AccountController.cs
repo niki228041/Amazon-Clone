@@ -213,5 +213,11 @@ namespace ShopApi.Controllers
             return Ok();
         }
 
+
+    //    <div onClick = { () => navigate("#") } >
+    //    <img className = "headerLogo" src={logo
+    //} />
+    //  </div>
+
     }   
 }
