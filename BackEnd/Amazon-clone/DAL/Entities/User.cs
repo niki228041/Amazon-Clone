@@ -41,12 +41,10 @@ namespace DAL.Entities
         public int? CompanyId { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
-
         public virtual ICollection<Order> Orders { get; set; }
-
         public virtual ICollection<UserRoleEntity> UserRoles { get; set; }
-
         public virtual ICollection<Track> Tracks { get; set; }
+        public virtual ICollection<Card> Cards { get; set; }
     }
 }
 

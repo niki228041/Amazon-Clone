@@ -129,7 +129,7 @@ const Header=()=> {
       <Link to="/orders">
         <div className="cartdiv">
           <GrCart className="cartIcon" />
-            <a className="alang">Кошик</a>
+            <a className="alang">Кошик ({orders.orders.length})</a>
         </div>
       </Link>
 
