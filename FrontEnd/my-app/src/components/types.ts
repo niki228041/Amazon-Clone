@@ -93,3 +93,15 @@ export interface Card{
     userId:string ,
     id:string ,
   }
+
+  
+export interface Address{
+    street:string,
+    city:string,
+    phone :string,
+    fullName :string,
+    country :string,
+    postcode :string,
+    userId :number,
+    id :number,
+  }

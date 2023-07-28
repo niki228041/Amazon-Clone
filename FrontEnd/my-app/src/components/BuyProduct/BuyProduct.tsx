@@ -5,7 +5,8 @@ import { useAppSelector } from "../../app/hooks";
 
 import { UserState } from '../../features/user/user-slice';
 import { Orders } from '../../features/user/ordersStateSlice';
-import { Card } from "../types";
+import { Address, Card } from "../types";
+import { apiAddressSlice, useGetAddressByUserIdQuery } from "../../features/user/apiAddressSlice";
 
 const BuyProduct=({setAdressOpen,setCardOpen}:{setAdressOpen:(prop:boolean)=>void,setCardOpen:(prop:boolean)=>void})=>{
 
@@ -16,6 +17,19 @@ const BuyProduct=({setAdressOpen,setCardOpen}:{setAdressOpen:(prop:boolean)=>voi
         data: Card[];
         isSuccess: boolean;
     };;  
+
+    
+    const { data: address, isSuccess: isAddressSuccess } = useGetAddressByUserIdQuery({id:user.id}) as {
+        data: Address;
+        isSuccess: boolean;
+    };;  
+
+    
+    const [deleteAddress,{}]= apiAddressSlice.useDeleteAddressMutation();
+
+    const handleDeleteAddress=()=>{
+        deleteAddress({id:user.id});
+    }
 
     function hideStringWithAsterisks(str:string) {
       const length = str.length;
@@ -40,7 +54,10 @@ const BuyProduct=({setAdressOpen,setCardOpen}:{setAdressOpen:(prop:boolean)=>voi
                     </button>
                     
 
-                    <span className="ml-5">Your adress 45/2 street and etc...</span>
+                    <span className="ml-5">{address?.country} {address?.street} {address?.postcode}</span>
+                </div>
+                <div>
+                    <span className="ml-5 text-sm">Is this not your address anymore? <span onClick={()=>handleDeleteAddress()} className=" text-black font-medium hover:text-red-500 select-none cursor-pointer">delete</span></span>
                 </div>
             </div>
             <div className="mx-auto  p-3">
@@ -55,9 +72,8 @@ const BuyProduct=({setAdressOpen,setCardOpen}:{setAdressOpen:(prop:boolean)=>voi
 
                     <p className="font-medium mt-2">Or chosse your card:</p>
                     <div className="flex mt-2">
-                        {isCardsSuccess ? cards.map((card:Card)=>{return <div onClick={()=>setSelectedCard(card)} className=" bg-yellow-300 rounded-md h-6 px-3 hover:bg-yellow-400 select-none cursor-pointer mr-2">{hideStringWithAsterisks(card.cardNumber)}</div>;}) : ""}
+                        {isCardsSuccess ? cards.map((card:Card)=>{return <div key={card.id} onClick={()=>setSelectedCard(card)} className=" bg-yellow-300 rounded-md h-6 px-3 hover:bg-yellow-400 select-none cursor-pointer mr-2">{hideStringWithAsterisks(card.cardNumber)}</div>;}) : ""}
                     </div>
-
                 </div>
             </div>
             <div className="mx-auto  p-3">

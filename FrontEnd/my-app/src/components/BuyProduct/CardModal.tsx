@@ -12,6 +12,7 @@ import { useAppSelector } from '../../app/hooks';
 import { UserState } from '../../features/user/user-slice';
 import { Orders } from '../../features/user/ordersStateSlice';
 import { addCard } from '../types';
+import { useGetAddressByUserIdQuery } from '../../features/user/apiAddressSlice';
 
 
 
@@ -77,7 +78,7 @@ export const CardModal=({ isOpen,onClose }: { isOpen: boolean,onClose:(prop:bool
       };
 
       console.log(request);
-      
+      onClose(false);
       addCard(request);
     }
   }

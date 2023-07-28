@@ -1,17 +1,65 @@
 
 import InputMask from 'react-input-mask';
 import close from "../../images/close.png"
+import { UserState } from '../../features/user/user-slice';
+import { Orders } from '../../features/user/ordersStateSlice';
+import { useAppSelector } from '../../app/hooks';
+import { useState } from 'react';
+import { apiAddressSlice} from '../../features/user/apiAddressSlice';
+
+interface addAddress{
+  street:string,
+  city:string,
+  phone :string,
+  fullName :string,
+  country :string,
+  postcode :string,
+  userId :number,
+}
 
 
 export const AdressModal=({ isOpen,onClose }: { isOpen: boolean,onClose:(prop:boolean)=>void })=>{
 
+  var user = useAppSelector(((state: { user: UserState; orders: Orders })=>state.user.user));
+  const [country, setCountry] = useState('');
+
+  const [addAddress,{}] = apiAddressSlice.useAddAddressMutation();
+
+
+
+
   const handleAddAdress=(data:React.FormEvent<HTMLFormElement>)=>{
+    data.preventDefault();
+    var curentData = new FormData(data.currentTarget);
+
+    var fullName = curentData?.get("fullName")?.toString()!;
+    var phone = curentData?.get("phone")?.toString()!;
+    var address = curentData?.get("address")?.toString()!;
+    var plz = curentData?.get("plz")?.toString()!;
+    var city = curentData?.get("city")?.toString()!;
+
+    if(country!='')
+    {
+      var request:addAddress={
+        street:address,
+        city:city,
+        phone:phone,
+        fullName:fullName,
+        country:country,
+        postcode:plz,
+        userId:Number(user.id)
+      }
+      addAddress(request);
+      onClose(false);
+      console.log(request);
+    }
     
+
   }
 
 
     return( 
-        <div>
+        <form onSubmit={handleAddAdress}>
         {isOpen?
         <div className="flex justify-center absolute w-full h-full bg-black/30 transition-all">
             <div className=" absolute w-2/4 mt-20 rounded-xl bg-gray-100">
@@ -39,12 +87,13 @@ export const AdressModal=({ isOpen,onClose }: { isOpen: boolean,onClose:(prop:bo
                         name='country'
                         id="country"
                         className='w-full bg-slate-200 text-[15px] mediumFont outline-none rounded-md h-8 px-2 mt-2'
+                        onChange={(e)=>setCountry(e.currentTarget.value)}
                       >
                     <option value=''>-</option>
-                    <option value=''>Ukraine</option>
-                    <option value=''>Germany</option>
-                    <option value=''>USA</option>
-                    <option value=''>Itali</option>
+                    <option value='Ukraine'>Ukraine</option>
+                    <option value='Germany'>Germany</option>
+                    <option value='USA'>USA</option>
+                    <option value='Itali'>Itali</option>
                     {/* {availableCounts.map((count) => (
                       <option  key={count} value={count}>{count}</option>
                     ))} */}
@@ -167,7 +216,7 @@ export const AdressModal=({ isOpen,onClose }: { isOpen: boolean,onClose:(prop:bo
                     </fieldset>
                 </div>
                 <div className="w-full flex justify-center mt-5">
-                <button className=" text-sm bg-yellow-400 rounded-xl w-full py-1 hover:bg-yellow-300 font-medium">
+                <button type='submit' className=" text-sm bg-yellow-400 rounded-xl w-full py-1 hover:bg-yellow-300 font-medium">
                   Save Address
                 </button>
               </div>
@@ -176,6 +225,6 @@ export const AdressModal=({ isOpen,onClose }: { isOpen: boolean,onClose:(prop:bo
             </div>
         </div>
         :""}
-        </div>
+        </form>
     );
 }

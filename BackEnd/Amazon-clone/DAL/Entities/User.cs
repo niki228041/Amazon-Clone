@@ -34,11 +34,16 @@ namespace DAL.Entities
 
         //Foreign keys:
 
-        //Every User have a company
+            //Every User have a company
         public Company Company { get; set; }
 
         [ForeignKey(nameof(Company))]
         public int? CompanyId { get; set; }
+
+
+            //Every User have an Adress
+        public Address Address { get; set; }
+
 
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Order> Orders { get; set; }

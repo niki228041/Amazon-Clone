@@ -63,6 +63,9 @@ public class AppMappingProfile : Profile
 
         CreateMap<Card, CardDTO>();
         CreateMap<CardDTO, Card>();
+
+        CreateMap<Address, AddressDTO>();
+        CreateMap<AddressDTO, Address>();
     }
 
 

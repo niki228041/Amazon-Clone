@@ -9,6 +9,7 @@ import ordersStateSlice from "../features/user/ordersStateSlice";
 import { apiCommentSlice } from "../features/user/apiCommentSlice";
 import { apiPlayerSlice } from "../features/user/apiPlayerSlice";
 import { apiCardSlice } from "../features/user/apiCardSlice";
+import { apiAddressSlice } from "../features/user/apiAddressSlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     [apiCommentSlice.reducerPath]:apiCommentSlice.reducer,
     [apiPlayerSlice.reducerPath]:apiPlayerSlice.reducer,
     [apiCardSlice.reducerPath]:apiCardSlice.reducer,
+    [apiAddressSlice.reducerPath]:apiAddressSlice.reducer,
     user: userSlice,
     orders: ordersStateSlice,
   },
@@ -28,7 +30,8 @@ export const store = configureStore({
       apiOptionsSlice.middleware,
       apiCommentSlice.middleware,
       apiPlayerSlice.middleware,
-      apiCardSlice.middleware),
+      apiCardSlice.middleware,
+      apiAddressSlice.middleware),
 });
 
 
