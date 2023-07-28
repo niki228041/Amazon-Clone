@@ -4,7 +4,7 @@ import axios from "axios"
 import parseJwt from "../../api/jwtDecodeToken";
 
 import { SetAccessToken,SetRefreshToken } from "../../api/jwtDecodeToken";
-import { LoginRequest } from "../../components/Auth/types";
+import { ForgotPasswordRequest, LoginRequest } from "../../components/Auth/types";
 import { baseURL } from "../../api/axios";
 
 
@@ -50,6 +50,15 @@ export const postRegistration:any = createAsyncThunk('/api/Account/registration'
 })
 
 export const postLogin:any = createAsyncThunk('/api/Account/login',async(dateFromFrontend:LoginRequest)=>{
+    try{
+        const response = await axios.post(baseURL + '/api/Account/login',dateFromFrontend);
+        return response.data;
+    }catch(err:any){
+        return err.message;
+    }
+})
+// ----------------------------- Доробити під forgotpassword -----------------------------
+export const postForgotPassword:any = createAsyncThunk('/api/Account/login',async(dateFromFrontend:ForgotPasswordRequest)=>{
     try{
         const response = await axios.post(baseURL + '/api/Account/login',dateFromFrontend);
         return response.data;
