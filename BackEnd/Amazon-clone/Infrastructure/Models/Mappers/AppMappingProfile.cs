@@ -66,6 +66,23 @@ public class AppMappingProfile : Profile
 
         CreateMap<Address, AddressDTO>();
         CreateMap<AddressDTO, Address>();
+        
+        CreateMap<OrderDTO, Order>();
+        CreateMap<Order, OrderDTO>();
+
+        CreateMap<OrderedProduct, OrderedProductDTO>();
+        CreateMap<OrderedProductDTO, OrderedProduct>();
+
+        CreateMap<OrderedProduct, OrderedProductVM>();
+        CreateMap<OrderedProductVM, OrderedProduct>();
+
+        CreateMap<OrderVM, Order>();
+        CreateMap<Order, OrderVM>();
+
+        CreateMap<ProductOneVM, Product>();
+        CreateMap<Product, ProductOneVM>();
+        
+
     }
 
 

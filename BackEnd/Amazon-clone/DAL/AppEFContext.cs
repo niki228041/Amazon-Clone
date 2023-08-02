@@ -38,6 +38,7 @@ namespace DAL
         public DbSet<OptionsCategory> OptionCategory { get; set; }
         public DbSet<VariantProduct> VariantProduct { get; set; }
         public DbSet<Card> Card { get; set; }
+        public DbSet<OrderedProduct> OrderedProducts { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -58,7 +59,84 @@ namespace DAL
                     .HasForeignKey(r => r.UserId)
                     .IsRequired();
             });
+
+            //START Many to many
+            modelBuilder.Entity<OptionsCategory>()
+            .HasOne(t => t.Options)
+            .WithMany(c => c.OptionsCategories)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            
+            modelBuilder.Entity<OptionsCategory>()
+            .HasOne(t => t.Category)
+            .WithMany(c => c.OptionsCategories)
+            .OnDelete(DeleteBehavior.Cascade);
+            //END
+
+
+
+
+
+            //START Many to one
+            modelBuilder.Entity<Category>()
+            .HasMany(categ => categ.Products)
+            .WithOne(prod => prod.Category)
+            .HasForeignKey(prod => prod.CategoryId)
+            .OnDelete(DeleteBehavior.Cascade);
+            //END
+
+
+
+
+
+            //START Many to many
+            modelBuilder.Entity<VariantProduct>()
+            .HasOne(vp => vp.Variant)
+            .WithMany(prod => prod.VariantProducts)
+            .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<VariantProduct>()
+            .HasOne(vp => vp.Product)
+            .WithMany(c => c.VariantProducts)
+            .OnDelete(DeleteBehavior.Cascade);
+            //END
+
+
+
+
+
+
+            //START Many to one
+            modelBuilder.Entity<Product>()
+            .HasMany(prod => prod.ProductImages)
+            .WithOne(img => img.Product)
+            .HasForeignKey(prod => prod.ProductId)
+            .OnDelete(DeleteBehavior.Cascade);
+            //END
+
+            //START Many to many
+            modelBuilder.Entity<OrderedProduct>()
+            .HasOne(prod => prod.Product)
+            .WithMany(prod => prod.OrderedProducts)
+            .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<OrderedProduct>()
+            .HasOne(vp => vp.Order)
+            .WithMany(c => c.OrderedProducts)
+            .OnDelete(DeleteBehavior.Cascade);
+            //END
+
+
+            ////START Many to one
+            //modelBuilder.Entity<Category>()
+            //.HasMany(cat => cat.Subcategories)
+            //.WithOne()
+            //.HasForeignKey(cat => cat.ParentId)
+            //.OnDelete(DeleteBehavior.Cascade);
+            ////END
         }
-      
+
     }
 }

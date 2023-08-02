@@ -48,10 +48,9 @@ public class ProductService : IProductService
 
     public async Task DeleteProductAsync(int id)
     {
-        var toDelete = _productImageRepository.GetAll().Where(img => img.ProductId == id).ToList();
-        toDelete.ForEach(img => _productImageRepository.Delete(img.Id));
+        var toDelete = _productRepository.GetAll().Where(prod => prod.Id == id).Include(prod => prod.Comments).Include(prod => prod.VariantProducts).Include(prod=>prod.ProductImages).Include(prod=>prod.OrderedProducts).FirstOrDefault();
 
-        await _productRepository.Delete(id);
+        await _productRepository.Delete(toDelete);
     }
 
     public async Task<ServiceResponse> GetProductAsync(string name)
@@ -90,7 +89,7 @@ public class ProductService : IProductService
             foreach (var variant in model.Variants_)
             {
                 var tmp_variant = await _variantRepository.GetById(variant.Id);
-                product.Variants.Add(tmp_variant);
+                //product.Variants.Add(tmp_variant);
                 
                 await _variantProductRepository.Create(new VariantProduct { VariantId=variant.Id,ProductId=product.Id});
                 await _productRepository.Update(product);
@@ -160,33 +159,38 @@ public class ProductService : IProductService
 
     public async Task<ServiceResponse> GetProductByIdAsync(int id)
     {
-        var res = _productRepository.GetAll().Include(prod=>prod.Variants).FirstOrDefault(prod=>prod.Id==id);
+        var res = _productRepository.GetAll().Include(prod=>prod.VariantProducts).FirstOrDefault(prod=>prod.Id==id);
         var optionsToSend = new List<SelectedOptionVM>();
 
-        foreach (var variant in res.Variants)
+        foreach (var variantProduct in res.VariantProducts)
         {
+            var variant = await _variantRepository.GetById((int)variantProduct.VariantId);
             var options = _optionsRepository.GetAll().FirstOrDefault(opt=>opt.Id==variant.OptionsId);
-            if(options!=null)
+            if (options!=null)
             optionsToSend.Add(new SelectedOptionVM { Title = options.Title, Variant = variant.Title, VariantId = variant.Id });
         }
 
-        var item = _mapper.Map<Product, ProductVM>(res);
+        var item = _mapper.Map<Product, ProductOneVM>(res);
         item.Options= optionsToSend;
 
-        var images = await _productImageService.GetAllImageByProductIdAsync(item.Id);
-        var images_with_base64_list = new List<ProductImageVM>();
+        //var images = await _productImageService.GetAllImageByProductIdAsync(item.Id);
+        //var images_with_base64_list = new List<ProductImageVM>();
 
-        foreach (var img in images)
-        {
-            var img_base64 = _productImageService.GetBase64ByName(img.Name,Qualities.QualitiesSelector.HIGH);
-            ProductImageVM img_vm = _mapper.Map<ProductImage, ProductImageVM>(img);
-            img_vm.Image = img_base64;
-            images_with_base64_list.Add(img_vm);
-        }
+        //foreach (var img in images)
+        //{
+        //    var img_base64 = _productImageService.GetBase64ByName(img.Name,Qualities.QualitiesSelector.HIGH);
+        //    ProductImageVM img_vm = _mapper.Map<ProductImage, ProductImageVM>(img);
+        //    img_vm.Image = img_base64;
+        //    images_with_base64_list.Add(img_vm);
+        //}
 
 
-        if (images != null)
-            item.Image = images_with_base64_list;
+        //if (images != null)
+        //    item.Image = images_with_base64_list;
+
+
+
+
         //item.Category = res.Category.Name;
 
         return new ServiceResponse
@@ -374,7 +378,7 @@ public class ProductService : IProductService
         var categories_vms = categories;
 
 
-        List<Product> res = _productRepository.GetAll().Include(prod=>prod.Variants).ToList();
+        List<Product> res = _productRepository.GetAll().Include(prod=>prod.VariantProducts).ToList();
         List<ProductVM> res_to_send = new List<ProductVM>();
 
 
@@ -389,12 +393,12 @@ public class ProductService : IProductService
                     var comments = await _commentService.GetCommentsByProductIdAsync(product.Id);
                     var item = _mapper.Map<Product, ProductVM>(product);
 
-                    var mainImage = await _productImageService.GetMainImageByIdAsync(item.Id);
+                    //var mainImage = await _productImageService.GetMainImageByIdAsync(item.Id);
 
                     item.Comments = comments;
 
-                    if (mainImage != null)
-                        item.Image = _productImageService.GetBase64ByName(mainImage.Name,Qualities.QualitiesSelector.LOW);
+                    //if (mainImage != null)
+                    //    item.Image = _productImageService.GetBase64ByName(mainImage.Name,Qualities.QualitiesSelector.LOW);
 
                     res_to_send.Add(item);
                 }
@@ -413,11 +417,11 @@ public class ProductService : IProductService
             foreach (var p in list_with_prod_vms)
             {
                 var comments = await _commentService.GetCommentsByProductIdAsync(p.Id);
-                var mainImage = await _productImageService.GetMainImageByIdAsync(p.Id);
+                //var mainImage = await _productImageService.GetMainImageByIdAsync(p.Id);
 
                 p.Comments = comments;
-                if (mainImage != null)
-                    p.Image = _productImageService.GetBase64ByName(mainImage.Name, Qualities.QualitiesSelector.LOW);
+                //if (mainImage != null)
+                //    p.Image = _productImageService.GetBase64ByName(mainImage.Name, Qualities.QualitiesSelector.LOW);
             }
 
             return new ServiceResponse

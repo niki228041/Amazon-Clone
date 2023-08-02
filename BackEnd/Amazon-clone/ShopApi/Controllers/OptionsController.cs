@@ -45,12 +45,12 @@ namespace ShopApi.Controllers
         [Route("GetOptionsByCategoryId")]
         public async Task<IActionResult> GetOptionsByCategoryIdAsync(FindByIdVM model)
         {
-            var categories = _categoryRepository.Categories.Include(category => category.Options).FirstOrDefault(category=>category.Id == model.Id);
+            var categories = _categoryRepository.Categories.Include(category => category.OptionsCategories).FirstOrDefault(category=>category.Id == model.Id);
             var optionsList = new List<Options>();
 
-            foreach(var opt in categories.Options)
+            foreach(var opt in categories.OptionsCategories)
             {
-                var res = _optionsRepository.GetAll().Include(op=>op.Variants).FirstOrDefault(op=>op.Id==opt.Id);
+                var res = _optionsRepository.GetAll().Include(op=>op.Variants).FirstOrDefault(op=>op.Id==opt.OptionsId);
                 optionsList.Add(res);
             }
 

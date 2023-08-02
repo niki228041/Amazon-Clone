@@ -7,11 +7,29 @@ import { UserState } from '../../features/user/user-slice';
 import { Orders } from '../../features/user/ordersStateSlice';
 import { Address, Card } from "../types";
 import { apiAddressSlice, useGetAddressByUserIdQuery } from "../../features/user/apiAddressSlice";
+import { apiOrderSlice } from "../../features/user/apiOrderSlice";
+import { useNavigate } from "react-router-dom";
+
+interface OrderedProducts{
+    productId:number,
+    count:number
+}
+
+interface OrderDTO{
+    fullName:string,
+    userId:number,
+    cardId:number,
+    addressId:number,
+    orderedProducts:OrderedProducts[]
+}
 
 const BuyProduct=({setAdressOpen,setCardOpen}:{setAdressOpen:(prop:boolean)=>void,setCardOpen:(prop:boolean)=>void})=>{
 
     var user = useAppSelector(((state: { user: UserState; orders: Orders })=>state.user.user));
+    var orders = useAppSelector(((state: { user: UserState; orders: Orders })=>state.orders.orders));
     const [selectedCard,setSelectedCard] = useState<Card>();
+
+    var navigate = useNavigate();
 
     const { data: cards, isSuccess: isCardsSuccess } = useGetCardsByUserIdQuery({id:user.id}) as {
         data: Card[];
@@ -26,6 +44,7 @@ const BuyProduct=({setAdressOpen,setCardOpen}:{setAdressOpen:(prop:boolean)=>voi
 
     
     const [deleteAddress,{}]= apiAddressSlice.useDeleteAddressMutation();
+    const [addOrder,{}]= apiOrderSlice.useAddOrderMutation();
 
     const handleDeleteAddress=()=>{
         deleteAddress({id:user.id});
@@ -42,14 +61,53 @@ const BuyProduct=({setAdressOpen,setCardOpen}:{setAdressOpen:(prop:boolean)=>voi
       return hiddenPart + visiblePart;
     }
 
+    const createOrder=(data:React.FormEvent<HTMLFormElement>)=>{
+        // data.preventDefault();
+        // var curentData = new FormData(data.currentTarget);
+        
+        var orderedProducts:OrderedProducts[] = [];
+
+        orders.forEach(order => {
+            orderedProducts.push({productId:order.product_id,count:order.count});
+        });
+        
+        var request:OrderDTO = {
+            fullName:selectedCard?.ownerName!,
+            userId:Number(user.id),
+            cardId:Number(selectedCard?.id),
+            addressId:Number(address.id),
+            orderedProducts:orderedProducts
+        }
+    
+        console.log(selectedCard);
+        console.log(address);
+        console.log(request);
+
+        addOrder(request);
+        navigate("/successful-purchase")
+    }
+
+    // {
+    //     "fullName": "string",
+    //     "userId": 0,
+    //     "cardId": 0,
+    //     "addressId": 0,
+    //     "orderedProducts": [
+    //       {
+    //         "productId": 0,
+    //         "count": 0
+    //       }
+    //     ]
+    // }
+
     return <>
     
-        <div className="w-full mx-auto mt-5 col-span-10">
+        <form className="w-full mx-auto mt-5 col-span-10" onSubmit={createOrder}>
             <div className="mx-auto  p-3">
                 <label className="text-[22px] font-medium ">Your addresses</label>
                 <br></br>
                 <div className="pl-4">
-                    <button onClick={()=>setAdressOpen(true)} className=" bg-orange-300 rounded-xl px-4 py-2 mt-2 text-sm hover:bg-orange-200 select-none">
+                    <button type="button" onClick={()=>setAdressOpen(true)} className=" bg-orange-300 rounded-xl px-4 py-2 mt-2 text-sm hover:bg-orange-200 select-none">
                         Select Adress
                     </button>
                     
@@ -65,7 +123,7 @@ const BuyProduct=({setAdressOpen,setCardOpen}:{setAdressOpen:(prop:boolean)=>voi
                 <br></br>
                 <div className="pl-4">
                     <p className="font-medium">Add a credit or debit card</p>
-                    <button onClick={()=>setCardOpen(true)} className=" bg-orange-300 rounded-xl px-4 py-2 mt-2 text-sm hover:bg-orange-200 select-none">
+                    <button type="button" onClick={()=>setCardOpen(true)} className=" bg-orange-300 rounded-xl px-4 py-2 mt-2 text-sm hover:bg-orange-200 select-none">
                         +
                     </button>
                     <span className="ml-5 bg-green-300 rounded-md p-1">{selectedCard?.ownerName} {selectedCard?.month}/{selectedCard?.year}</span>
@@ -78,12 +136,12 @@ const BuyProduct=({setAdressOpen,setCardOpen}:{setAdressOpen:(prop:boolean)=>voi
             </div>
             <div className="mx-auto  p-3">
                 <div className="pl-4">
-                    <button className=" bg-orange-300 rounded-xl px-4 py-2 mt-2 text-sm w-full hover:bg-orange-200 select-none">
+                    <button type="submit" className=" bg-orange-300 rounded-xl px-4 py-2 mt-2 text-sm w-full hover:bg-orange-200 select-none">
                         Buy Products
                     </button>
                 </div>
             </div>
-        </div>
+        </form>
         
     </>
 }

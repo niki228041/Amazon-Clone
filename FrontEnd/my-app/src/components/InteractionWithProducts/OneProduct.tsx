@@ -4,12 +4,12 @@
 import { useParams} from 'react-router-dom'
 import img from '../../images/t-shirt-png.webp'
 import { useGetProductByIdQuery, useGetProductsQuery } from '../../features/user/apiProductSlice';
-import { ChangeOrderCount, Order, Product, SelectedOption } from '../types';
+import { ChangeOrderCount, OneProductVM, Order, Product, SelectedOption } from '../types';
 import { useAppSelector } from '../../app/hooks';
 import { useDispatch } from 'react-redux';
 import { addOrder, updateOrder } from '../../features/user/ordersStateSlice';
 import { v4 as uuidv4 } from 'uuid';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import star from "../../images/star (2).png"
 import empty_star from "../../images/star (3).png"
 import circle from "../../images/black-circle.png"
@@ -47,8 +47,11 @@ const OneProduct=()=>{
     const orders = useAppSelector((state)=>state.orders);
     var [stars,setStars] = useState(5);
 
+
+    var [mainImage,setMainImage] = useState("");
     const user = useAppSelector((state)=>state.user.user);
     var [createComment,{}] = apiCommentSlice.useCreateCommentMutation();
+
 
     const {data:comments,isSuccess:isCommentsSuccess} = useGetCommentsByProductIdQuery({id:params.productId}) as {
         data: Comment[];
@@ -56,7 +59,7 @@ const OneProduct=()=>{
       };
     
 
-    const handleAddNewOrder=(data:Product)=>{
+    const handleAddNewOrder=(data:OneProductVM)=>{
         console.log(orders.orders);
         var order = orders.orders.find(ord=>ord.product_id==data.id);
         if(!order)
@@ -125,7 +128,17 @@ const OneProduct=()=>{
 
     // const { data, isSuccess } = useGetProductByIdQuery({ Id: params.productId });
     
-    const { data, isSuccess }: { data?: { payload: Product }, isSuccess: boolean } = useGetProductByIdQuery({ Id: params.productId });
+    const { data, isSuccess }: { data?: { payload: OneProductVM }, isSuccess: boolean } = useGetProductByIdQuery({ Id: params.productId });
+
+    useEffect(()=>{
+        console.log("dfss");
+        if(isSuccess)
+        {
+            setMainImage(data?.payload.images[0]!);
+        }
+    },[isSuccess])
+
+
 
     // Now you can access the payload directly
 
@@ -136,9 +149,16 @@ const OneProduct=()=>{
         <div className='mt-10 mb-20'>
             <div className='grid grid-cols-12 gap-2 '>
                 <div className=' w-full col-span-5 h-[400px] px-12'>
-                    <div className=' w-full h-[400px]' style={{backgroundImage: `url(${'data:image/gif;base64,' + data?.payload.image[0].image})`,backgroundPosition:"center",backgroundSize:"contain",backgroundRepeat:'no-repeat' }}>
+                    <div className=' w-full h-[400px]' style={{backgroundImage: `url(${mainImage})`,backgroundPosition:"center",backgroundSize:"contain",backgroundRepeat:'no-repeat' }}>
 
                     </div>
+                    <div className='grid grid-cols-6 mt-4 gap-3 '>
+                        {data?.payload.images.map((image:string)=>{return<div>
+                            <div onMouseEnter={()=>setMainImage(image)} className='border block hover:scale-105 h-[80px] rounded-xl' style={{backgroundImage: `url(${image})`,backgroundPosition:"center",backgroundSize:"contain",backgroundRepeat:'no-repeat' }} />
+                        </div>})}
+                        
+                    </div>
+
                 </div>
                 
                 <div className='w-full col-span-5 flex flex-col '>
@@ -163,6 +183,7 @@ const OneProduct=()=>{
                     
 
                 </div>
+
                 <div className='w-full col-span-2 justify-center'>
                     <button  onClick={()=>{handleAddNewOrder(data?.payload!)}} className='bg-yellow-300 w-full p-2 rounded-xl'>Add to cart</button>
                     <div className='mt-10'>
@@ -180,7 +201,7 @@ const OneProduct=()=>{
             </div>
         </div>
 
-        <form className='pl-40 pr-40' onSubmit={createNewComment}>
+        <form className='pl-40 pr-40 pt-20' onSubmit={createNewComment}>
             <div className='mb-10'>
             <div className="flex items-center justify-between">
                 <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">

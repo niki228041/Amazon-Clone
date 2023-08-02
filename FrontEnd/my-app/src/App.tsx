@@ -34,6 +34,7 @@ import Registration from './components/Auth/Registration';
 import MusicHeader from './components/Player/MusicHeader';
 import BuyProduct from './components/BuyProduct/BuyProduct';
 import OrdersList from './components/BuyProduct/OrdersList';
+import SuccessfulPurchase from './components/BuyProduct/SuccessfulPurchase';
 
 
 const App: React.FC = () => {
@@ -90,6 +91,8 @@ const App: React.FC = () => {
 
 
             <Route path='orders' element={<Orders/>}/>
+            <Route path='successful-purchase' element={<SuccessfulPurchase/>} />
+
             <Route path="product/:productId" element={<OneProduct />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="login" element={<LoginScreen />} />
@@ -112,7 +115,6 @@ const App: React.FC = () => {
       
           <Route path="/products" element={<><Main /></>} >
             <Route path="products" element={<Profile />} />
-
           </Route>
 
           <Route path='createOptions' element={<CreateOptions/>}/>

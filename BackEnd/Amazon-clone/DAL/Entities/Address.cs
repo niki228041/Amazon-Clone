@@ -30,11 +30,8 @@ namespace DAL.Entities
 
 
         //Foreign keys:
-            //Every Address have a Order
-        public Order Order { get; set; }
-
-        [ForeignKey(nameof(Order))]
-        public int? OrderId { get; set; }
+            //Every Address have a Orders
+        public virtual ICollection<Order> Orders { get; set; }
 
 
         //Foreign keys:

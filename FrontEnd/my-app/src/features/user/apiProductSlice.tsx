@@ -58,7 +58,7 @@ export const apiProductSlice:any = createApi({
         }),
         getLinksForProductByProductsIds:builder.query<any, any>({
           query:(todo)=>({
-            url:'/api/ProductImage/GetImageLinksByProductsIds',
+            url:'/api/Products/GetImageLinksByProductsIds',
             method:"POST",
             body:todo
           }),

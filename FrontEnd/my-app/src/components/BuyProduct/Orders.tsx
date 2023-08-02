@@ -15,11 +15,20 @@ import { CardModal } from "./CardModal";
 const Orders=()=>{
   const navigate = useNavigate();
     
+    
+
+
   
     const orders = useAppSelector((state)=>state.orders.orders);
     var request:FindById[] = [];
     orders.forEach(order => {
       request.push({id:order.product_id});
+    });
+
+    var totalCount:number = 0;
+
+    orders.forEach(order => {
+      totalCount += order.count;
     });
 
     const [isAdressModalOpen,setAdressModalOpen]= useState(false);
@@ -29,9 +38,6 @@ const Orders=()=>{
     const toggleCardModal = (prop:boolean)=>{setCardModalOpen(prop)};
 
 
-    const handleBuyProducts=()=>{
-      navigate("buy");
-    }
 
     
     return <>
@@ -63,7 +69,7 @@ const Orders=()=>{
             <div className=" p-3">
 
               <div className="w-full flex mb-2">
-                All item ({orders.length}) preis <span className="font-medium ml-1"> ${orders.map((order) => order.price*order.count).reduce((sum, price) => sum + price, 0).toFixed(2)}</span>
+                All item ({totalCount}) preis <span className="font-medium ml-1"> ${orders.map((order) => order.price*order.count).reduce((sum, price) => sum + price, 0).toFixed(2)}</span>
               </div>
 
               <div className="w-full flex justify-center">
@@ -84,3 +90,25 @@ const Orders=()=>{
 }
     
 export default Orders
+
+
+// {
+//   "fullName": "Some mega bad order by some admin",
+//   "userId": 1,
+//   "cardId": 4,
+//   "addressId": 7,
+//   "orderedProducts": [
+//     {
+//       "productId": 6,
+//       "count": 2
+//     },
+//     {
+//       "productId": 24,
+//       "count": 1
+//     },
+//     {
+//       "productId": 1020,
+//       "count": 1
+//     }
+//   ]
+// }
