@@ -10,10 +10,26 @@ export interface Product{
     isInTheStock: string,
     numberOfDaysForDelivery: string,
     address: string,
-    image: any,
+    image: string,
     comments: Comment[],
     options: SelectedOption[],
 }
+
+export interface OneProductVM{
+    id: number,
+    name: string,
+    price: number,
+    discount: string,
+    description: string,
+    quantity: string,
+    isInTheStock: string,
+    numberOfDaysForDelivery: string,
+    address: string,
+    images: string[],
+    comments: Comment[],
+    options: SelectedOption[],
+}
+
 
 export interface SelectedOption{
     title:string,
@@ -33,6 +49,13 @@ export interface Order{
     product_id:any;
 }
 
+export interface OrderedOrder{
+    id:any;
+    fullName:string;
+    cardId:number;
+    addressId:number;
+    dateCreated:number;
+}
 export interface ChangeOrderCount{
     index:any;
     count:number;

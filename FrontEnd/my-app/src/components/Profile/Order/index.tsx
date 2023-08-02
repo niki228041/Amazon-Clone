@@ -1,33 +1,32 @@
 import React, { useRef, useState } from 'react';
 import SideBar from '.././SideBarProf';
 import { RiDeleteBin6Line } from "react-icons/ri";
-import Order from "./orderitem";
-
+import { apiOrderSlice, useGetOrdersByUserIdQuery } from '../../../features/user/apiOrderSlice';
+import { useAppSelector } from '../../../app/hooks';
+import { UserState } from '../../../features/user/user-slice';
+import { Orders } from '../../../features/user/ordersStateSlice';
+import { Order, OrderedOrder } from '../../types';
 
 const ProfOrders: React.FC = () => {
-  interface Order {
-    id: number;
-    data: string;
-    isDelivered: boolean;
-    productName: string;
-  }
 
-  const initialOrders: Order[] = [
-    { id: 1, data: '2023-07-10', isDelivered: true, productName: 'Смартфон Samsung S21' },
-    { id: 2, data: '2023-07-15', isDelivered: false, productName: 'Навушники AirPods' },
-    { id: 3, data: '2023-07-18', isDelivered: true, productName: 'Планшет Lenovo Tab 5' },
-    { id: 4, data: '2023-07-20', isDelivered: true, productName: 'Книга "Майстер і Маргарита"' },
-    { id: 5, data: '2023-07-22', isDelivered: false, productName: 'Камера GoPro Hero 9' },
-  ];
-  const [orders, setOrders] = useState<Order[]>(initialOrders);
+  var user = useAppSelector(((state: { user: UserState; orders: Orders })=>state.user.user));
+  
+  // const {data:orders,isSuccess:isOrderSuccess} = useGetOrdersByUserIdQuery({id:user.id}) as {
+  //   data: Order[];
+  //   isSuccess: boolean;
+  // };
+  const { data:orders, isSuccess:isOrderSuccess }: { data:OrderedOrder[] , isSuccess: boolean } = useGetOrdersByUserIdQuery({id:user.id});
 
-  const handleToggleDelivered = (id: number) => {
-    setOrders((prevOrders) =>
-      prevOrders.map((order) =>
-        order.id === id ? { ...order, isDelivered: !order.isDelivered } : order
-      )
-    );
-  };
+
+  // const [orders, setOrders] = useState<Order[]>(initialOrders);
+
+  // const handleToggleDelivered = (id: number) => {
+  //   setOrders((prevOrders) =>
+  //     prevOrders.map((order) =>
+  //       order.id === id ? { ...order, isDelivered: !order.isDelivered } : order
+  //     )
+  //   );
+  // };
 
   return (
     <div className="flex bg-slate-100" >
@@ -64,38 +63,23 @@ const ProfOrders: React.FC = () => {
 
 
         </div>
-        <div className="orderbody">
+        <div>
+          
+        </div>
+        <div className="orderbody p-5 overflow-y-auto grid gap-2">
 
-          <div>
+          {orders?.map((order:OrderedOrder) => {
+            const dateTime = new Date(order.dateCreated);
+            const dateOnly = new Date(dateTime.getFullYear(), dateTime.getMonth(), dateTime.getDate());
 
-            <table>
-              <thead>
-                <tr>
-                  <th className="ordertableth">ID</th>
-                  <th className="ordertableth">Data</th>
-                  <th className="ordertableth">Назва товару</th>
-                  <th className="ordertableth">Доставлено</th>
-                </tr>
-              </thead>
-              <tbody>
-                {orders.map((order) => (
-                  <tr key={order.id}>
-                    <td className="ordertabletd">{order.id}</td>
-                    <td className="ordertabletd">{order.data}</td>
+            return <div key={order.id} className='flex-nowrap flex py-3 px-2 bg-orange-300 hover:bg-orange-200 select-none rounded-md'>
+              <div className="ordertabletd">{order.id}</div>
+              <div className="ordertabletd">{order.fullName}</div>
 
-                    <td className="ordertabletd">{order.productName}</td>
-                    <td className="ordertabletd">
-                      <input
-                        type="checkbox"
-                        checked={order.isDelivered}
-                        onChange={() => handleToggleDelivered(order.id)}
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              <div className="ordertabletd">{dateOnly.toLocaleDateString()}</div>
+              
+            </div>
+            })}
 
 
 

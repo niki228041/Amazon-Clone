@@ -5,6 +5,7 @@ import { Category, createProduct, Options, Variant, VariantDTO } from "./types";
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import { useGetOptionsQuery } from "../../features/user/apiOptionsSlice";
+import { useNavigate } from "react-router-dom";
 
 const CreateProduct=()=> {
   const [value, setValue] = useState('');
@@ -13,12 +14,16 @@ const CreateProduct=()=> {
     var [imagesToShow,setImagesToShow] = useState([]);
     var [filesToSend,setFilesToSend] = useState([]);
 
+    var navigate = useNavigate();
+
     const {data:categories,isSuccess} = useGetCategoriesQuery();
 
     const {data:options,isSuccess:isOptionsSuccess} = useGetOptionsQuery() as {
       data: Options[];
       isSuccess: boolean;
     };
+
+    console.log(options);
 
     var [getLinksFromServer,{}]= apiProductSlice.useGetLinksForProductMutation();
 
@@ -95,7 +100,7 @@ const CreateProduct=()=> {
       
         createProduct(newProduct);
       });
-
+      navigate("/products");
   }
 
   const toBase64:any = (file:File) => new Promise((resolve, reject) => {
@@ -169,18 +174,20 @@ const CreateProduct=()=> {
     var e:any = document.getElementById("OptionsTitle");
     var value:number = e.value;
     console.log(e);
+    console.log("options");
+    console.log(options);
     if(e.value != "-")
     {
     const newElement = (
-      <div key={value.toString()} >
-        <p>{options[value-1].title} </p>
+      <div key={value} >
+        <p>{options.find(opt=>opt.id==value)?.title} </p>
         <div className="flex">
 
         <div className='rounded-full flex flex-col w-full'>
         <select name='Category' id={value.toString()} className=' bg-yellowForInputs text-[15px] mediumFont outline-none rounded-full h-10 pl-3 pr-3 bg-slate-100'>
           <option>-</option>
           {/* {companys.data.map} */}
-          {isSuccess ? options[value-1].variants.map((a:Variant)=>{return <option value={a.id} key={a.id}>{a.title}</option>;}) : ""}
+          {isSuccess ? options.find(opt=>opt.id==value)?.variants.map((a:Variant)=>{return <option value={a.id} key={a.id}>{a.title}</option>;}) : ""}
         </select>
         </div>
         <button

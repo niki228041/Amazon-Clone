@@ -25,7 +25,7 @@ const loader=()=> {
   )
 }
 
-const Product_Component=({ data , productsImages}: { data: Product ,productsImages:ImageLink})=>{
+const Product_Component=({ data , productsImages}: { data: Product ,productsImages:string})=>{
   var stars = 0;
 
   const handleStarsFunctionality=()=>{
@@ -58,7 +58,7 @@ const Product_Component=({ data , productsImages}: { data: Product ,productsImag
   <Link to={"/product/" + data.id}>
     <div className='pb-2 px-3 mt-20 w-full'>
       <div>
-          <div className='w-full h-[160px]' style={{ backgroundImage:"url("+ productsImages?.image +")",backgroundPosition:"center",backgroundSize:"contain",backgroundRepeat:"no-repeat"}}>
+          <div className='w-full h-[160px]' style={{ backgroundImage:"url("+ productsImages +")",backgroundPosition:"center",backgroundSize:"contain",backgroundRepeat:"no-repeat"}}>
 
             </div>
             {/* <img src={data?.image ? "data:image/png;base64," + data?.image : img} className=' w-full h-[100px] ' />         */}
@@ -90,28 +90,23 @@ const Main = () => {
 
 
 
-
-
-  const { data, isSuccess, error } = useGetProductsQuery();
-
-
-
   const { data: categories, isSuccess: isSuccessCategory } = useGetMainCategoriesQuery();
   const [getSubcategories, { }] = apiCategorySlice.useGetAllSubcategoriesByCategoryIdMutation();
 
   const [getProductsByCategory, { isLoading }] = apiProductSlice.useGetProductsByCategoryIdMutation();
 
-  var request:any=[];
-  data?.payload?.forEach((data:any) => {
-    request.push({id:data.id});
-  });
+  // var request:any=[];
+  // data?.payload?.forEach((data:any) => {
+  //   request.push({id:data.id});
+  // });
 
-  const { data: imagesLinks, isSuccess: isSuccessImagesLinks } = apiProductSlice.useGetLinksForProductByProductsIdsQuery(request) as {
-    data: ImageLink[];
-    isSuccess: boolean;
-  };;  
+  // const { data: imagesLinks, isSuccess: isSuccessImagesLinks } = apiProductSlice.useGetLinksForProductByProductsIdsQuery(request) as {
+  //   data: ImageLink[];
+  //   isSuccess: boolean;
+  // };;  
 
-  console.log(imagesLinks);
+  // console.log(imagesLinks);
+
 
   const navigate = useNavigate();
 
@@ -126,6 +121,7 @@ const Main = () => {
 
   var [categoriesToView, setCategoriesToView] = useState([]);
   var [products, setProducts] = useState([]);
+  console.log(products);
 
   var [categoriesSequence, setCategoriesSequence] = useState<categorySequence[]>([]);
   var url = `/products?category=${encodeURIComponent("")}`;
@@ -163,6 +159,7 @@ const Main = () => {
     // console.log(categoryId);
     // console.log("RESPONSE:");
     // console.log(response.data.payload);
+    console.log(response?.data);
 
     setProducts((prevProducts) => response?.data?.payload);
   }
@@ -258,7 +255,7 @@ const Main = () => {
         {/* grid */}
         {products?.map((product: Product, id: number) => {
           const b: Product = product;
-          return <div key={id}>{<Product_Component  data={b} productsImages={imagesLinks?.find((img:ImageLink)=>img.productId==product.id)!} />}</div> })}
+          return <div key={id}>{<Product_Component  data={b} productsImages={product?.image!} />}</div> })}
       </div>
       :loader()}
     </div>

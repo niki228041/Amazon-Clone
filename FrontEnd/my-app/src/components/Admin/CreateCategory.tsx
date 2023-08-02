@@ -65,14 +65,14 @@ const CreateCategory=()=> {
     var id = uuidv4();
     const newElement = (
       <div key={value.toString()} >
-        <p>{options[value-1].title} </p>
+        <p>{options.find(opt=>opt.id==value)?.title} </p>
         <div className="flex">
 
         <div className='rounded-full flex flex-col w-full'>
         <select name='Category' id={value.toString()} className=' bg-yellowForInputs text-[15px] mediumFont outline-none rounded-full h-10 pl-3 pr-3 bg-slate-100'>
           <option>-</option>
           {/* {companys.data.map} */}
-          {isSuccess ? options[value-1].variants.map((a:Variant)=>{return <option value={a.id} key={a.id}>{a.title}</option>;}) : ""}
+          {isSuccess ? options.find(opt=>opt.id==value)?.variants.map((a:Variant)=>{return <option value={a.id} key={a.id}>{a.title}</option>;}) : ""}
         </select>
         </div>
         <button

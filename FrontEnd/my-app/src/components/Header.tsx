@@ -33,6 +33,12 @@ const Header=()=> {
 
     const navigate = useNavigate();
 
+    var totalCount:number = 0;
+
+    orders.orders.forEach(order => {
+      totalCount += order.count;
+    });
+
     const [getProductsByCategory,{}] = apiProductSlice.useGetProductsByCategoryIdMutation();
 
     useEffect(()=>{
@@ -97,7 +103,7 @@ const Header=()=> {
       <div className="header__search" style={{ position: "relative" }}>
   {/* Ваш іконка для пошуку тут */}
   <LiaSistrix onClick={()=>handleToSearchPage()} className="searchico cursor-pointer h-full p-0" />
-  <input value={inputText} onChange={event => handleGo(event.target.value)}  className="headerSearchInput w-full" type="text" placeholder="Пошук" />
+  <input value={inputText} onChange={event => handleGo(event.target.value)}  className="headerSearchInput " type="text" placeholder="Пошук" />
 
   {/* Батьківський контейнер з position: relative для результатів пошуку */}
   {dropdown &&
@@ -138,7 +144,7 @@ const Header=()=> {
         <div className="cartdiv">
 
           <img src={cart} />
-          <a className="alang">Кошик</a>
+          <a className="alang">Кошик({totalCount})</a>
 
           {/*<GrCart className="cartIcon" />
           <a className="alang">Кошик ({orders.orders.length})</a> */}
