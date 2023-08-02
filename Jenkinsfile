@@ -1,0 +1,61 @@
+#!groovy
+//  groovy Jenkinsfile
+pipeline  {
+    agent any;
+    stages {
+         stage("Change IP in configs")
+         {
+             steps{
+                sh "cd .. && find Amazon-Clone/ -type f -exec sed  -i 's/localhost/172.20.10.3/g' {} +"
+             }
+         } 
+        stage("Create frontend docker image") {
+            steps {
+                echo 'Creating docker image ...'
+                sh " cd /var/lib/jenkins/workspace/Amazon-Clone/FrontEnd/my-app && docker build --no-cache -t alkaponees/amazon-clone-frontend   . "                
+            }
+        }
+        stage("Create backend docker image") {
+            steps {
+                echo 'Creating docker image ...'
+                sh " cd /var/lib/jenkins/workspace/Amazon-Clone/BackEnd/Amazon-clone/ && docker build --no-cache -t alkaponees/amazon-clone-backend  . "
+            }
+        }
+        stage("docker login") {
+            steps {
+                echo " ============== docker login =================="
+                withCredentials([usernamePassword(credentialsId: 'DockerHub-Credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh '''
+                    docker login -u $USERNAME -p $PASSWORD
+                    '''
+                }
+            }
+        }
+        
+        stage("docker frontend push") {
+            steps {
+                echo " ============== pushing amazon-clone-frontend image =================="
+                sh '''
+                docker push alkaponees/amazon-clone-frontend
+                '''
+            }
+        }
+        stage("docker backend push") {
+            steps {
+                echo " ============== pushing amazon-clone-backend image =================="
+                sh '''
+                docker push alkaponees/amazon-clone-backend
+                '''
+            }
+        }
+    }
+    post{
+        always{
+            
+                echo "=========== Log out from Docker Hub =================="
+                sh '''
+                docker logout
+                '''
+        }
+    }
+}

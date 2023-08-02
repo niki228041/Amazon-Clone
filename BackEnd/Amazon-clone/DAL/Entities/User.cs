@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using DAL.Entities.Identity;
+using DAL.Entities.Music;
 
 namespace DAL.Entities
 {
@@ -10,13 +11,11 @@ namespace DAL.Entities
     public class User : IdentityUser<int>
     {
 
-        [Required]
-        [MaxLength(25)]
+        [StringLength(25)]
         public string FirstName { get; set; }
 
 
-        [Required]
-        [MaxLength(25)]
+        [StringLength(25)]
         public string LastName { get; set; }
 
 
@@ -35,19 +34,22 @@ namespace DAL.Entities
 
         //Foreign keys:
 
-        //Every User have a company
+            //Every User have a company
         public Company Company { get; set; }
 
         [ForeignKey(nameof(Company))]
         public int? CompanyId { get; set; }
 
 
+            //Every User have an Adress
+        public Address Address { get; set; }
+
 
         public virtual ICollection<Comment> Comments { get; set; }
-
         public virtual ICollection<Order> Orders { get; set; }
-
         public virtual ICollection<UserRoleEntity> UserRoles { get; set; }
+        public virtual ICollection<Track> Tracks { get; set; }
+        public virtual ICollection<Card> Cards { get; set; }
     }
 }
 

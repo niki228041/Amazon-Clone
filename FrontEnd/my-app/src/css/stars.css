@@ -1,0 +1,19 @@
+
+
+.star-small {
+    background-image: url(https://m.media-amazon.com/images/S/sash/ouR9NRElwmzAIev.png);
+    background-size: 512px 512px;
+    background-repeat: no-repeat;
+    background-position: -2px -42px;
+    height: 20px;
+    width: 15px;
+}
+
+.empty_star-small {
+    background-image: url(https://m.media-amazon.com/images/S/sash/ouR9NRElwmzAIev.png);
+    background-size: 512px 512px;
+    background-repeat: no-repeat;
+    background-position: -2px -182px;
+    height: 20px;
+    width: 15px;
+}

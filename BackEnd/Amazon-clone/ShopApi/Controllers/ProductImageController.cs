@@ -1,4 +1,6 @@
-﻿using Infrastructure.Interfaces;
+﻿using DAL.Constants;
+using Infrastructure.Enum_s;
+using Infrastructure.Interfaces;
 using Infrastructure.Models;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
@@ -11,10 +13,12 @@ namespace ShopApi.Controllers
     public class ProductImageController : ControllerBase
     {
         private readonly IProductImageService _productImageService;
+        private readonly IProductService _productService;
 
-        public ProductImageController(IProductImageService productImageService)
+        public ProductImageController(IProductImageService productImageService, IProductService productService)
         {
             _productImageService = productImageService;
+            _productService = productService;
         }
 
         [HttpPost("GetImageById")]
@@ -22,7 +26,7 @@ namespace ShopApi.Controllers
         {
             //[FromBody] GetProductsVM model
             var res = await _productImageService.GetMainImageByIdAsync(model.Id);
-            var base64 = _productImageService.GetBase64ByName(res.Name);
+            var base64 = _productImageService.GetBase64ByName(res.Name, Qualities.QualitiesSelector.HIGH);
             if (base64 != null)
             {
                 return Ok(base64);
@@ -30,6 +34,7 @@ namespace ShopApi.Controllers
 
             return BadRequest();
         }
+
 
     }
 }

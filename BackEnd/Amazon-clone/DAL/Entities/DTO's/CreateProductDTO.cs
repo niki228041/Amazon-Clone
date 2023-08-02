@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DAL.Entities.FilterEntities;
+using Infrastructure.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -17,7 +19,8 @@ namespace DAL.Entities.DTO_s
         public bool IsInTheStock { get; set; }
         public int NumberOfDaysForDelivery { get; set; }
         public string Address { get; set; }
-        public IList<ProductImageUploadDTO> Images_ { get; set; }
+        public IList<ImageUploadDTO> Images_ { get; set; }
         public int CategoryId { get; set; }
+        public List<VariantDTO> Variants_ { get; set; }
     }
 }

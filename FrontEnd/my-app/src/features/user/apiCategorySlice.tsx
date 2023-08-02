@@ -1,10 +1,11 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
+import { baseURL } from "../../api/axios";
 
 
 
 export const apiCategorySlice:any = createApi({
     reducerPath:"category",
-    baseQuery:fetchBaseQuery({baseUrl:"http://localhost:5034"}),
+    baseQuery:fetchBaseQuery({baseUrl:baseURL}),
     tagTypes:['Category'],
     endpoints:(builder)=>({
         getCategories:builder.query<any,any>({
