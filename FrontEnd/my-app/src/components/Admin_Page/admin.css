@@ -1,0 +1,21 @@
+.adminhead{
+    background-color: black;
+    width: 100%;
+    height: 100px;
+    display:inline-flex;
+    color: white;
+}
+.adminsidebar
+{
+    height: 800px;
+    background-color: black;
+    width: 300px;
+}
+.mainpage{
+   
+   margin-left: 0px;
+    display: flex;
+    background-color: rgb(231, 238, 240);
+    
+   
+} 
