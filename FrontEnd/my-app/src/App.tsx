@@ -105,13 +105,13 @@ const App: React.FC = () => {
         >
 
 
-            {/* <Route path='admin' element={<Outlet/>}>
+            <Route path='admin' element={<Outlet/>}>
                 <Route path='' element={<><AdminSite/></>}/>
               <Route path='create'>
                 <Route path='products' element={<CreateProduct/>} />
                 <Route path='categories' element={<CreateCategory/>} />
               </Route>
-            </Route> */}
+            </Route>
 
           
             {/* <Route path="/products" element={<><Main /></>} >
