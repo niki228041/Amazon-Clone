@@ -47,11 +47,8 @@
     "react-input-mask": "^2.0.4",
     "react-loader-spinner": "^5.3.4",
     "react-modal": "^3.16.1",
-<<<<<<< HEAD
     "react-pro-sidebar": "^1.1.0-alpha.1",
-=======
     "react-quill": "^2.0.0",
->>>>>>> 95b6fedb1947089a23f5ca28ad7a51acf9e8298a
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.11.2",
     "react-scripts": "5.0.1",
