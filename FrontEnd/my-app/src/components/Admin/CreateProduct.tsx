@@ -231,7 +231,7 @@ const CreateProduct=()=> {
   }
     
     return <>
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-gray-500/40">
+    <div className="flex flex-col justify-center px-6 py-12 lg:px-8">
       <div className=" bg-slate-50 p-10 w-6/12 m-auto">
 
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
