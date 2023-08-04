@@ -260,26 +260,26 @@ const Player=()=>{
         <div className="flex justify-center self-end h-full w-full m-auto relative">
 
           {/* song time */}
-          <div className="flex justify-between text-white text-[12px] w-full px-10 h-2 bottom-0 mb-8 absolute">
-            <div className="left-0">{formatTime(Math.trunc(audioRef.current?.currentTime))}</div>
-            <div className="rifht-0">{formatTime(Math.trunc(audioRef?.current?.duration))}</div>
+          <div className="flex justify-between text-white text-[12px] w-full px-10 bottom-0 mb-8 absolute">
+            <div className="left-0 h-2 z-10 ">{formatTime(Math.trunc(audioRef.current?.currentTime))}</div>
+            <div className="rifht-0 h-2 z-10 ">{formatTime(Math.trunc(audioRef?.current?.duration))}</div>
           </div>
           
 
-          <div className="flex flex-col justify-end self-end w-[80%]">
+          <div className="flex flex-col justify-end self-end w-[80%] z-50">
             
-            <div className=" flex self-center mt-2">
+            <div className=" flex self-center mt-2 ">
                 
-                <div onClick={skipBack} className=" h-[35px] w-[35px] rounded-[50px] hover:bg-slate-400/[.82]  shadow-indigo-600/[.50] self-center  flex justify-center">
+                <div onClick={skipBack} className="cursor-pointer h-[52px] w-[52px] rounded-[50px] hover:bg-slate-400/[.82]  shadow-indigo-600/[.50] self-center  flex justify-center">
                     <img className="h-4 w-4 self-center" src={arrowLeft} />
                 </div>
 
-                <div onClick={handlePlayPause} className="cursor-pointer h-[60px] w-[60px] rounded-[50px] hover:bg-slate-500/[.82] shadow-indigo-600/[.50] mx-10 self-center flex justify-center">
+                <div onClick={handlePlayPause} className="cursor-pointer h-[60px] w-[60px] rounded-[60px] hover:bg-slate-500/[.82] shadow-indigo-600/[.50] mx-10 self-center flex justify-center">
                     <img className="h-7 w-7 self-center" src={!isPlaying ? play : pause} />
                     {/* {!isPlaying ? <IconPlay/> : pause} */}
                 </div>
 
-                <div onClick={skiptoNext} className=" h-[35px] w-[35px] rounded-[50px] hover:bg-slate-500/[.82] shadow-indigo-600/[.50] self-center  flex justify-center">
+                <div onClick={skiptoNext} className="cursor-pointer h-[52px] w-[52px] rounded-[50px] hover:bg-slate-500/[.82] shadow-indigo-600/[.50] self-center  flex justify-center">
                     <img className="h-4 w-4 self-center" src={arrowRight} />
                 </div>
                 
