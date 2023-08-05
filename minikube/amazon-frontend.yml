@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment    
+metadata:
+  name: amazon-frontend
+  labels:
+    app: amazon-frontend
+spec:
+  replicas: 3
+  minReadySeconds: 10
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: amazon-frontend
+  template:
+    metadata:
+      labels:
+        app: amazon-frontend
+    spec:
+      containers:
+        - name: amazon-frontend
+          image: alkaponees/amazon-clone-frontend:latest
+          ports:
+            - containerPort: 80
+---
+
+apiVersion: v1
+kind: Service    
+metadata:
+  name: amazon-frontend
+spec:
+  selector:
+    app: amazon-frontend
+  type: NodePort
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 80
