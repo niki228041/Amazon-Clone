@@ -102,7 +102,7 @@ const Header=()=> {
     </div>
 
     <div className="relative col-span-7">
-      <div className="col-start-3 col-span-3 flex justify-center py-1 relative my-auto w-full ">
+      <div className="col-start-3 col-span-3 flex justify-center relative my-auto ">
         <input value={inputText} onChange={event => handleGo(event.target.value)}  className="h-10 pl-12 bg-white rounded-full w-full text-black text-[12px] px-4 pr-8" type="text" placeholder="Пошук" />
         <div className=" w-9 rounded-l-full h-8 absolute  cursor-pointer  active:transition-none select-none ml-1 hover:bg-orange-300 left-0 flex  justify-center transition-all self-center m-auto">
           <LiaSistrix onClick={()=>handleToSearchPage()} className="self-center" />
@@ -113,10 +113,10 @@ const Header=()=> {
 
   {/* Батьківський контейнер з position: relative для результатів пошуку */}
   {dropdown &&
-    <div className="absolute w-full my-5">
+    <div className="absolute w-full">
       {/* Результати пошуку тут */}
       {products?.length > 0 && (
-        <div className="absolute left-6 right-6 mt-5 bg-white border border-gray-300 shadow-md">
+        <div className="absolute left-6 right-6 mt-1 bg-white border border-gray-300 shadow-md">
           {/* Контент результатів пошуку тут */}
           {products?.filter((item:any) => {
             console.log(item);
