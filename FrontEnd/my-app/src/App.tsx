@@ -33,7 +33,6 @@ const App:React.FC =()=> {
             }
           >
 
-
             <Route path='admin' element={<Outlet/>}>
               <Route path='' element={<><AdminSite/></>}/>
               <Route path='create'>
