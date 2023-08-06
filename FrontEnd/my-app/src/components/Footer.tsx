@@ -1,7 +1,7 @@
 
 import logo from "../images/amazon.png"
 
-const Footer=()=> <>
+const Footer = () => <>
     <a href="#" className="footerBackToTop" aria-label="Back To Top">
         <span className="text-white">ВГОРУ</span>
     </a>
@@ -37,7 +37,7 @@ const Footer=()=> <>
                 <div>
                     <h2 className="mb-6 text-sm font-semibold uppercase dark:text-white">МИ У СОЦІАЛЬНИХ МЕРЕЖАХ</h2>
                     <ul className=" font-medium">
-                       
+
                         <li className="mb-4">
                             <a href="#" className="hover:underline">FACEBOOK</a>
                         </li>
@@ -47,13 +47,13 @@ const Footer=()=> <>
                         <li className="mb-4">
                             <a href="#" className="hover:underline">TWITTER</a>
                         </li>
-                       
+
                     </ul>
                 </div>
                 <div>
                     <h2 className="mb-6 text-sm font-semibold  uppercase dark:text-white">ДОПОМОГА ТА ЗВОРОТНІЙ ЗВЯЗОК</h2>
                     <ul className=" font-medium">
-                       
+
                         <li className="mb-4">
                             <a href="#" className="hover:underline">ПРОДАЖ СВОЇХ ТОВАРІВ В ALLmart</a>
                         </li>
@@ -74,17 +74,17 @@ const Footer=()=> <>
                 <div>
                     <h2 className="mb-6 text-sm font-semibold  uppercase dark:text-white">МІЙ АКАУНТ</h2>
                     <ul className="t  font-medium">
-                       
+
                         <li className="mb-4">
                             <a href="#" className="hover:underline">МАЇ ЗАМОВЛЕННЯ</a>
                         </li>
                         <li className="mb-4">
-                            <a href="#" className="hover:underline">ВСТАНОВИТИ ДОДАТОК<br/>ALLmart</a>
+                            <a href="#" className="hover:underline">ВСТАНОВИТИ ДОДАТОК<br />ALLmart</a>
                         </li>
                         <li className="mb-4">
                             <a href="#" className="hover:underline">ДОПОМОГА</a>
                         </li>
-                       
+
                     </ul>
                 </div>
 
@@ -97,7 +97,7 @@ const Footer=()=> <>
 
 
         <div className="navFooterLine">
-           
+
 
 
 
@@ -107,13 +107,12 @@ const Footer=()=> <>
                 <ul>
                     <span>© 2023 ALLmart ALL right reversed</span>
                 </ul>
-            </div> 
-            
+            </div>
+
         </div>
     </footer>
 
 
 </>
-  
-  export default Footer;
-  
+
+export default Footer;
