@@ -42,6 +42,12 @@ namespace DAL.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task Delete(TEntity entity)
+        {
+            _dbContext.Set<TEntity>().Remove(entity);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public IQueryable<TEntity> GetAll()
         {
             return _dbContext.Set<TEntity>().AsNoTracking();

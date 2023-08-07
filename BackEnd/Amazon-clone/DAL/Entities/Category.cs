@@ -14,7 +14,7 @@ namespace DAL.Entities
 
         //Foreign keys:
         public ICollection<Product> Products { get; set; }
-        public ICollection<Options> Options { get; set; } = new List<Options>();
+        public ICollection<OptionsCategory> OptionsCategories { get; set; } = new List<OptionsCategory>();
         public ICollection<Category> Subcategories { get; set; } = new List<Category>();
     }
 }

@@ -52,7 +52,7 @@ namespace Infrastructure.Services
                     var real_option = await _optionsRepository.GetById(options);
                     if (real_option != null)
                     {
-                        category_child.Options.Add(real_option);
+                        //category_child.Options.Add(real_option);
                         await _optionsCategoryRepository.Create(new OptionsCategory { CategoryId = category_child.Id, OptionsId = real_option.Id });
                     }
                 }
@@ -62,7 +62,7 @@ namespace Infrastructure.Services
             }
             else
             {
-                category_child.Options = new List<Options>();
+                //category_child.Options = new List<Options>();
                 await _categoryRepository.Create(category_child);
                 //adding options to category
                 foreach (var options in model.OptionsIds)
@@ -70,7 +70,7 @@ namespace Infrastructure.Services
                     var real_option = await _optionsRepository.GetById(options);
                     if (real_option != null)
                     {
-                        category_child.Options.Add(real_option);
+                        //category_child.Options.Add(real_option);
                         await _optionsCategoryRepository.Create(new OptionsCategory
                         {
                             CategoryId = category_child.Id,
@@ -118,21 +118,31 @@ namespace Infrastructure.Services
 
         public async Task DeleteCategoryAsync(int id)
         {
-            var request = _productRepository.GetProductsAsync();
-            var products = (List<Product>)request;
-            
-            foreach(var product in products)
-            {
-                _productRepository.Delete(product.Id);
-            }
+            var category = _categoryRepository.Categories.Where(cat=>cat.Id==id).Include(cat=>cat.OptionsCategories).Include(cat=>cat.Products).Include(cat=>cat.Subcategories).FirstOrDefault();
 
-            await _categoryRepository.Delete(id);
+             await _categoryRepository.Delete(category);
         }
 
         public async Task<ICollection<Options>> GetCategoryOptionsAsyncByCategoryId(int id)
         {
-            var category = await _categoryRepository.GetById(id);
-            return category.Options;
+            //var category = _categoryRepository.Categories.Include(cat=>cat.OptionsCategories).FirstOrDefault(cat=>cat.Id==id);
+            //var options = new List<Options>();
+            //foreach (var opt_ in category.OptionsCategories)
+            //{
+            //    if(opt_.OptionsId != null)
+            //    options.Add(await _optionsRepository.GetById((int)opt_.OptionsId));
+            //}
+
+            //return options;
+
+            var options = await _categoryRepository.Categories
+            .Where(cat => cat.Id == id)
+            .SelectMany(cat => cat.OptionsCategories)
+            .Where(oc => oc.OptionsId != null)
+            .Select(oc => oc.Options)
+            .ToListAsync();
+
+            return options;
         }
 
         public async Task<ServiceResponse> GetAllAsync()
@@ -144,7 +154,7 @@ namespace Infrastructure.Services
                 var categories = await _categoryRepository.Categories
                     .Include(c => c.Parent)
                     .Include(c => c.Subcategories)
-                    .Include(c=>c.Options)
+                    .Include(c=>c.OptionsCategories)
                     .ToListAsync();
                 //var categoriesWithParents = _categoryRepository.Categories.Include(c => c.Parent).ToList();
 

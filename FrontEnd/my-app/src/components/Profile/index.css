@@ -217,14 +217,12 @@ a {
 }
 
 .orderbody {
-    flex-wrap: wrap;
     margin-top: 20px;
     height: 380px;
     width: 800px;
     margin-left: 20px;
     background-color: white;
     border-radius: 5px;
-    display: inline-flex;
 }
 
 .divorderlist {

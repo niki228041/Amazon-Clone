@@ -47,6 +47,6 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
     }
     public ICollection<Product> GetProductsAsync()
     {
-        return GetAll().Include(i => i.Category).Include(i=>i.Variants).ToList();
+        return GetAll().Include(i => i.Category).Include(i=>i.VariantProducts).ToList();
     }
 }

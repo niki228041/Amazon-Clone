@@ -80,7 +80,7 @@ namespace ShopApi.Controllers
 
             if (!resp.IsSuccess)
             {
-                return BadRequest(new ServiceResponse { Message = "Виникла якась проблема" });
+                return BadRequest(resp);
             }
 
             return Ok(resp);

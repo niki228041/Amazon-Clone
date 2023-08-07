@@ -14,9 +14,10 @@ const OrdersList=()=>{
       });
 
     const { data: productsImages, isSuccess: isProductsImages } = useGetLinksForProductByProductsIdsQuery(request);
+    console.log(productsImages);
     const handleCountChange=(id:string,count:any)=>{
         var index = orders.findIndex(ord=>ord.id == id);
-        var changeOrderCount:ChangeOrderCount = {index:index,count:count.value}; 
+        var changeOrderCount:ChangeOrderCount = {index:index,count:Number(count.value)}; 
         console.log(changeOrderCount);
         dispatch(updateOrder(changeOrderCount));
     }

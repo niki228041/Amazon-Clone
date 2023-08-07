@@ -12,7 +12,7 @@ namespace DAL.Entities.FilterEntities
     {
         public string Title { get; set; }
         public List<Variant> Variants { get; set; }
-        public ICollection<Category> Categories { get; set; }
+        public ICollection<OptionsCategory> OptionsCategories { get; set; }
 
     }
 }
