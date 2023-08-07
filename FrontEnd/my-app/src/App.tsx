@@ -53,6 +53,8 @@ import TempProfile from './components/Temp/TempProfile';
 import BecomeASeller from './components/Temp/BecomeASeller';
 import ViewMyOrders from './components/Temp/ViewMyOrders';
 import CardsSite from './components/Temp/CardsSite';
+import AddressSite from './components/Temp/AddressSite';
+import MyCompany from './components/Temp/MyCompany';
 
 
 const App: React.FC = () => {
@@ -165,6 +167,8 @@ const App: React.FC = () => {
             <Route path='becomeASeller' element={<BecomeASeller/>} />
             <Route path='viewMyOrders' element={<ViewMyOrders/>} />
             <Route path='cardsSite' element={<CardsSite/>} />
+            <Route path='addressSite' element={<AddressSite/>} />
+            <Route path='myCompany' element={<MyCompany/>} />
           </Route>
 
           <Route path="/findProducts" element={<PageWithOptions />}>

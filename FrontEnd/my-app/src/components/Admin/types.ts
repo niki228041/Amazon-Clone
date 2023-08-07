@@ -50,5 +50,6 @@ export interface Company{
   description:string,
   users: any,
   id: number,
-  name:string
+  name:string,
+  creatorId:number,
 }

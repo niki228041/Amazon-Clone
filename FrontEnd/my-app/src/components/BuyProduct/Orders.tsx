@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../app/hooks";
 import { deleteAllOrder, deleteOrder, updateOrder } from "../../features/user/ordersStateSlice";
 import { apiProductSlice, useGetLinksForProductByProductsIdsQuery } from "../../features/user/apiProductSlice";
-import { ChangeOrderCount, FindById, ImageLink, Order } from "../types";
+import { Card, ChangeOrderCount, FindById, ImageLink, Order, OrderDTO, OrderedProducts } from "../types";
 import { Outlet, useNavigate } from "react-router-dom";
 import OrdersList from "./OrdersList";
 import { AdressModal } from "./AdressModal";
@@ -24,6 +24,9 @@ import message from "../../images/message.png"
 import tablet from "../../images/tablet.svg"
 import basket from "../../images/Basket_.png"
 import bigBasket from "../../images/BigBasket.png"
+import { useGetDefaultCardByUserIdQuery } from "../../features/user/apiCardSlice";
+import { useGetAddressByUserIdQuery } from "../../features/user/apiAddressSlice";
+import { apiOrderSlice } from "../../features/user/apiOrderSlice";
 
 export const BuyLater=()=>{
   return<>
@@ -111,6 +114,7 @@ export const Orders=()=>{
     const dispatch = useDispatch();
   
     const orders = useAppSelector((state)=>state.orders.orders);
+    const user = useAppSelector((state)=>state.user.user);
 
     var request:FindById[] = [];
     orders.forEach(order => {
@@ -118,6 +122,10 @@ export const Orders=()=>{
     });
 
     const { data: productsImages, isSuccess: isProductsImages } = useGetLinksForProductByProductsIdsQuery(request);
+    const { data: defaultCard, isSuccess: isDefaultCard }:{data:Card,isSuccess:boolean} = useGetDefaultCardByUserIdQuery({id:user.id});
+    const { data: address, isSuccess: isAddress }:{data:Card,isSuccess:boolean} = useGetAddressByUserIdQuery({id:user.id});
+    const [addOrder,{}]= apiOrderSlice.useAddOrderMutation();
+    
 
     var totalCount:number = 0;
 
@@ -126,11 +134,36 @@ export const Orders=()=>{
     });
 
     const [isAdressModalOpen,setAdressModalOpen]= useState(false);
+    const toggleModal = (prop:boolean)=>{setAdressModalOpen(prop)};
     const [isCardModalOpen,setCardModalOpen]= useState(false);
     const [isBuy,setBuy]= useState(false);
-    const toggleModal = (prop:boolean)=>{setAdressModalOpen(prop)};
     const toggleCardModal = (prop:boolean)=>{setCardModalOpen(prop)};
 
+    const createOrder=()=>{
+      // data.preventDefault();
+      // var curentData = new FormData(data.currentTarget);
+      
+      var orderedProducts:OrderedProducts[] = [];
+
+      orders.forEach(order => {
+          orderedProducts.push({productId:order.product_id,count:order.count});
+      });
+      
+      var request:OrderDTO = {
+          fullName:defaultCard.ownerName!,
+          userId:Number(user.id),
+          cardId:Number(defaultCard.id),
+          addressId:Number(address.id),
+          orderedProducts:orderedProducts
+      }
+  
+      console.log(defaultCard);
+      console.log(address);
+      console.log(request);
+
+      addOrder(request);
+      navigate("/successful-purchase")
+  }
 
     
     return <>
@@ -226,7 +259,7 @@ export const Orders=()=>{
                 <span className=" ">${orders.map((order) => order.price*order.count).reduce((sum, price) => sum + price, 0).toFixed(2)}</span>
               </div>
 
-              <button className="  font-medium hover:bg-orange-300 transition-all active:shadow-lg active:transition-none bg-mainYellowColor text-white px-2 w-full py-3 rounded-lg mt-3">
+              <button onClick={()=>{createOrder()}} type="submit" className="  font-medium hover:bg-orange-300 transition-all active:shadow-lg active:transition-none bg-mainYellowColor text-white px-2 w-full py-3 rounded-lg mt-3">
                 Оплатити
               </button>
 

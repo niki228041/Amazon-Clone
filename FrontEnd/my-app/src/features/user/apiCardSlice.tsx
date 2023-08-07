@@ -31,9 +31,25 @@ export const apiCardSlice:any = createApi({
               body:todo
             }),
             providesTags:result=>['Card']
+          }),
+        setDefaultCard:builder.mutation<any,any>({
+            query:(todo)=>({
+              url:'/api/Card/SetDefaultCard',
+              method:"POST",
+              body:todo
+            }),
+            invalidatesTags:['Card']
+          }),
+        getDefaultCardByUserId:builder.query<any,any>({
+            query:(todo)=>({
+              url:'/api/Card/FindDefaultCardByUserId',
+              method:"POST",
+              body:todo
+            }),
+            providesTags:result=>['Card']
           })
     })
 })
 
 
-export const {useGetCardsByUserIdQuery} = apiCardSlice
+export const {useGetCardsByUserIdQuery,useGetDefaultCardByUserIdQuery} = apiCardSlice

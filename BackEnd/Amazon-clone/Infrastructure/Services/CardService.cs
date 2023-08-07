@@ -27,6 +27,15 @@ namespace Infrastructure.Services
         public async Task<Card> AddCardAsync(CardDTO model)
         {
             var card = _mapper.Map<CardDTO, Card>(model);
+            var otherCards = _cardRepository.GetAll().Where(card_ => card_.UserId == card.UserId).ToList();
+            
+            if(otherCards.Any() && card.IsDefault)
+            foreach (var otherCard in otherCards)
+            {
+                otherCard.IsDefault = false;
+                await _cardRepository.Update(otherCard);
+            }
+
             await _cardRepository.Create(card);
 
             return card;
@@ -50,6 +59,33 @@ namespace Infrastructure.Services
                 return null;
             }
 
+        }
+
+        public async Task SetDefaultCardAsync(int cardId, int userId)
+        {
+            // Update other cards to set IsDefault to false
+            var otherCards = _cardRepository.GetAll().Where(card => card.UserId == userId).ToList();
+            foreach (var otherCard in otherCards)
+            {
+                if(otherCard.Id == cardId)
+                {
+                    otherCard.IsDefault = true;
+                }
+                else
+                {
+                    otherCard.IsDefault = false;
+                }
+                await _cardRepository.Update(otherCard);
+            }
+        }
+
+        public async Task<Card> FindDefaultCardAsync(int userId)
+        {
+            // Update other cards to set IsDefault to false
+            var card = _cardRepository.GetAll().Where(card => card.UserId == userId && card.IsDefault).FirstOrDefault();
+            //var cardVm = _mapper.Map<Card, CardVM>(card);
+
+            return card;
         }
     }
 }

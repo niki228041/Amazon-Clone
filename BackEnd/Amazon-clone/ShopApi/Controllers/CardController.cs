@@ -33,6 +33,14 @@ namespace ShopApi.Controllers
             return Ok(result);
         }
 
+        [HttpPost("SetDefaultCard")]
+        public async Task<IActionResult> SetDefaultCardAsync(SetDefaultCardDTO model)
+        {
+            await _cardService.SetDefaultCardAsync(model.CardId,model.UserId);
+            return Ok();
+        }
+
+
         [HttpPost("GetCardByUserId")]
         public async Task<IActionResult> GetCardByUserIdAsync(FindByIdVM model)
         {
@@ -40,6 +48,12 @@ namespace ShopApi.Controllers
             return Ok(result);
         }
 
+        [HttpPost("FindDefaultCardByUserId")]
+        public async Task<IActionResult> FindDefaultCardByUserIdAsync(FindByIdVM model)
+        {
+            var result = await _cardService.FindDefaultCardAsync(model.Id);
+            return Ok(result);
+        }
 
     }
 }

@@ -13,5 +13,6 @@ namespace Infrastructure.Models
         public string CardNumber { get; set; }
         public string Year { get; set; }
         public string Month { get; set; }
+        public bool IsDefault { get; set; }
     }
 }

@@ -43,6 +43,7 @@ namespace Infrastructure.Services
         public async Task<CompanyVM> AddCompanyAsync(CompanyDTO model)
         {
             var company = _mapper.Map<CompanyDTO, Company>(model);
+            company.CreatorId = model.UserId;
             await _companyRepository.Create(company);
 
             var user = await _userRepository.GetUserByIdAsync(model.UserId.ToString());

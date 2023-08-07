@@ -9,6 +9,12 @@ namespace DAL.Entities
 	{
         public string Description { get; set; }
 
+        //Every User have a company
+        public User Creator { get; set; }
+
+        [ForeignKey(nameof(Creator))]
+        public int? CreatorId { get; set; }
+
         public ICollection<User> Users { get; set; }
         public ICollection<Product> Products { get; set; }
         public ICollection<Order> Orders { get; set; }
