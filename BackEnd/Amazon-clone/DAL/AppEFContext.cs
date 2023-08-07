@@ -128,6 +128,13 @@ namespace DAL
             .OnDelete(DeleteBehavior.Cascade);
             //END
 
+            //START Many to one
+            modelBuilder.Entity<Company>()
+            .HasMany(comp => comp.Users)
+            .WithOne(user => user.Company)
+            .HasForeignKey(user => user.CompanyId)
+            .OnDelete(DeleteBehavior.Cascade);
+            //END
 
             ////START Many to one
             //modelBuilder.Entity<Category>()

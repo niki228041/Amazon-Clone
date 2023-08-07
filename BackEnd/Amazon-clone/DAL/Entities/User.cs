@@ -40,8 +40,10 @@ namespace DAL.Entities
         [ForeignKey(nameof(Company))]
         public int? CompanyId { get; set; }
 
+        public bool isBossOfCompany { get; set; }
 
-            //Every User have an Adress
+
+        //Every User have an Adress
         public Address Address { get; set; }
 
 

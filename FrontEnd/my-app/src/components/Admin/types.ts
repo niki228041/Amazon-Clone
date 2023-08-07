@@ -46,3 +46,9 @@ export interface VariantDTO{
     id:number
 }
 
+export interface Company{
+  description:string,
+  users: any,
+  id: number,
+  name:string
+}

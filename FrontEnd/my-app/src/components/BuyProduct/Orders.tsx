@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../app/hooks";
-import { deleteOrder, updateOrder } from "../../features/user/ordersStateSlice";
+import { deleteAllOrder, deleteOrder, updateOrder } from "../../features/user/ordersStateSlice";
 import { apiProductSlice, useGetLinksForProductByProductsIdsQuery } from "../../features/user/apiProductSlice";
 import { ChangeOrderCount, FindById, ImageLink, Order } from "../types";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -23,6 +23,7 @@ import message from "../../images/message.png"
 
 import tablet from "../../images/tablet.svg"
 import basket from "../../images/Basket_.png"
+import bigBasket from "../../images/BigBasket.png"
 
 export const BuyLater=()=>{
   return<>
@@ -107,6 +108,7 @@ export const OrderComponent:React.FC<OrderComponentProps>=({ order,productsImage
 
 export const Orders=()=>{
     const navigate = useNavigate();
+    const dispatch = useDispatch();
   
     const orders = useAppSelector((state)=>state.orders.orders);
 
@@ -143,20 +145,28 @@ export const Orders=()=>{
         <div className="grid grid-cols-4 gap-5 mt-5">
 
           <div className="col-span-3">
-
             <div className="w-full border border-grayColorForBorder rounded-lg pb-4 px-1">
-            
-              {orders.map((order:Order) => (<OrderComponent order={order} productsImages={productsImages} />))}
-
-
-              <div className=" flex justify-between p-2 mx-4">
-                <button className=" hover:bg-orange-300 transition-all active:shadow-lg active:transition-none bg-mainYellowColor text-white px-5 py-1 rounded-lg mt-3">
-                  Повернутися
-                </button>
-                <button className=" transition-all active:shadow-lg active:transition-none border border-grayColorForBorder text-mainYellowColor px-4 py-2 rounded-lg mt-3">
-                  Видалити все
-                </button>
+            {/* ВИВІД ПРОДУКТІВ */}
+            { orders.length>0 ?
+              <div>
+                {orders.map((order:Order) => (<OrderComponent order={order} productsImages={productsImages} />))}
+              
+                <div className=" flex justify-between p-2 mx-4">
+                  <button onClick={()=>navigate("/products")} className=" hover:bg-orange-300 transition-all active:shadow-lg active:transition-none bg-mainYellowColor text-white px-5 py-1 rounded-lg mt-3">
+                    Повернутися
+                  </button>
+                  <button onClick={()=>dispatch(deleteAllOrder())} className=" transition-all active:shadow-lg active:transition-none border border-grayColorForBorder text-mainYellowColor px-4 py-2 rounded-lg mt-3">
+                    Видалити все
+                  </button>
+                </div> 
               </div> 
+            :
+            <div className="m-auto">
+              <img className="m-auto mt-24 mb-10" src={bigBasket} />
+              <button onClick={()=>navigate("/products")} className=" hover:bg-blue-700 bg-darkBlueColor text-white py-3 px-6 rounded-xl m-auto flex mb-16">ПОВЕРНУТИСЬ ДО ПОКУПОК</button>
+            </div> 
+
+            }
             </div> 
 
             <div className="grid grid-cols-3 mt-7">

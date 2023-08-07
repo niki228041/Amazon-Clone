@@ -11,6 +11,7 @@ import { apiPlayerSlice } from "../features/user/apiPlayerSlice";
 import { apiCardSlice } from "../features/user/apiCardSlice";
 import { apiAddressSlice } from "../features/user/apiAddressSlice";
 import { apiOrderSlice } from "../features/user/apiOrderSlice";
+import { apiCompanySlice } from "../features/user/apiCompanySlice";
 
 export const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ export const store = configureStore({
     [apiCardSlice.reducerPath]:apiCardSlice.reducer,
     [apiAddressSlice.reducerPath]:apiAddressSlice.reducer,
     [apiOrderSlice.reducerPath]:apiOrderSlice.reducer,
+    [apiCompanySlice.reducerPath]:apiCompanySlice.reducer,
     user: userSlice,
     orders: ordersStateSlice,
   },
@@ -34,7 +36,8 @@ export const store = configureStore({
       apiPlayerSlice.middleware,
       apiCardSlice.middleware,
       apiOrderSlice.middleware,
-      apiAddressSlice.middleware),
+      apiAddressSlice.middleware,
+      apiCompanySlice.middleware),
 });
 
 

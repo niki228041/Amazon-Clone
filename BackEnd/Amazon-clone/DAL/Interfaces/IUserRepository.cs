@@ -11,6 +11,7 @@ namespace DAL.Interfaces
         Task<User> LoginUserAsync(LoginViewModel model);
         Task<bool> ValidatePasswordAsync(LoginViewModel model, string password);
         Task<User> GetUserByIdAsync(string id);
+        Task<User> UpdateUserAsync(User model);
         Task<User> GetUserByEmailAsync(string email);
         Task<IList<string>> GetRolesAsync(User model);
         Task<IdentityResult> ConfirmEmailAsync(User model, string token);

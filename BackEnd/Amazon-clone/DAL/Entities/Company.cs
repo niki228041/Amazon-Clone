@@ -5,14 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace DAL.Entities
 {
     [Table("tblCompanies")]
-    public class Company
+    public class Company : BaseEntity<int>
 	{
-        [Key]
-        public int Id { get; set; }
-
-        [MaxLength(25)]
-        [Required(ErrorMessage = "Field name is required")]
-        public string Name { get; set; }
+        public string Description { get; set; }
 
         public ICollection<User> Users { get; set; }
         public ICollection<Product> Products { get; set; }

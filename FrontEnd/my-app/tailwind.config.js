@@ -22,6 +22,7 @@ module.exports = {
         grayForText:'#8B96A5',
         mainYellowColor:"#FF9A02",
         darkBlueColor:"#002A42",
+        lightOrangeColor:"#FFF0DF",
       }
     },
   },
