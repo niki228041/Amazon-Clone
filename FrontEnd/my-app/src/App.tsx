@@ -49,6 +49,10 @@ import CustomersTable from './components/Admin_Page/customers-table';
 import { ProductList } from './components/Admin/ProductList';
 import { CategoryList } from './components/Admin/CategoryList';
 import { CompanyList } from './components/Admin/CompanyList';
+import TempProfile from './components/Temp/TempProfile';
+import BecomeASeller from './components/Temp/BecomeASeller';
+import ViewMyOrders from './components/Temp/ViewMyOrders';
+import CardsSite from './components/Temp/CardsSite';
 
 
 const App: React.FC = () => {
@@ -139,7 +143,7 @@ const App: React.FC = () => {
                 <Route path='products' element={<CreateProduct/>} />
                 <Route path='categories' element={<CreateCategory/>} />
               </Route>
-            </Route> */}
+            </Route> 
 
 
 
@@ -156,7 +160,11 @@ const App: React.FC = () => {
           <Route path="/proforder" element={<Order />} />
           <Route path="/editprofile" element={<EditProfile />} />
 
-
+          <Route path='/tempProfile' element={<TempProfile/>} >
+            <Route path='becomeASeller' element={<BecomeASeller/>} />
+            <Route path='viewMyOrders' element={<ViewMyOrders/>} />
+            <Route path='cardsSite' element={<CardsSite/>} />
+          </Route>
 
           <Route path="/findProducts" element={<PageWithOptions />}>
 

@@ -204,7 +204,7 @@ export const CardModal=({ isOpen,onClose }: { isOpen: boolean,onClose:(prop:bool
 
                   <div className="w-full flex justify-center mt-5">
                     <button type='submit' className=" text-sm bg-yellow-400 rounded-xl w-full py-1 hover:bg-yellow-300 font-medium">
-                      Save Address
+                      Save Card
                     </button>
                   </div>
 
