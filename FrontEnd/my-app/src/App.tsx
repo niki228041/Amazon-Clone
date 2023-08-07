@@ -27,6 +27,7 @@ import GetOptionsByCategory from './components/Options/GetOptionsByCategory';
 import PageWithOptions from './components/Options/FindProductsPage';
 import ForgotPasswordScreen from './components/Auth/Forgot-Password';
 import ResetPasswordScreen from './components/Auth/Reset-Password';
+import OtpPage from './components/Auth/Otp-page';
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 import CreateGenre from './components/Player/CreateGenre';
 import CreateTrack from './components/Player/CreateTrack';
@@ -49,6 +50,7 @@ import { ProductList } from './components/Admin/ProductList';
 import { CategoryList } from './components/Admin/CategoryList';
 import { CompanyList } from './components/Admin/CompanyList';
 
+
 const App: React.FC = () => {
   var dispatch = useDispatch();
   const token = GetAccessToken();
@@ -65,22 +67,22 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-          <Route path='/music' element={<><MusicHeader/><div className="flex flex-col bg-black" style={{ minHeight: "100vh" }}><Outlet/></div></>} >
-            <Route path='' element={<Player/>} />
-            <Route path='createGenre' element={<CreateGenre/>} />
-            <Route path='createTrack' element={<CreateTrack/>} />
-          </Route>
+        <Route path='/music' element={<><MusicHeader /><div className="flex flex-col bg-black" style={{ minHeight: "100vh" }}><Outlet /></div></>} >
+          <Route path='' element={<Player />} />
+          <Route path='createGenre' element={<CreateGenre />} />
+          <Route path='createTrack' element={<CreateTrack />} />
+        </Route>
 
           {/* <Route path='/admin'
           element={
-          <>
-            <div className="flex flex-col" style={{ minHeight: "100vh", background: "rgb(231, 238, 240)" }}>
-              <AdminHeader />
-              <AdminSidebar></AdminSidebar>
+            <>
+              <div className="flex flex-col" style={{ minHeight: "100vh", background: "rgb(231, 238, 240)" }}>
+                <AdminHeader />
+                <AdminSidebar></AdminSidebar>
                 <Outlet />
-            </div> 
-          </>}>
-              <Route path='userstable' element={<UsersTable />} />
+              </div>
+            </>}>
+          <Route path='userstable' element={<UsersTable />} />
           <Route path='shopstable' element={<ShopsTable />} />
           <Route path='producttable' element={<ProductsTable />} />
           <Route path='orderstable' element={<OrdersTable />} />
@@ -89,8 +91,27 @@ const App: React.FC = () => {
           <Route path='categories' element={<CreateCategory />} />
           </Route> */}
 
+        <Route path='/'
+          element={
+            <>
+              <div className="flex flex-col" style={{ minHeight: "100vh", background: "rgb(231, 238, 240)" }}>
 
-          <Route
+                <Outlet />
+              </div>
+            </>}>
+
+          <Route path="login" element={<LoginScreen />} />
+          <Route path="forgotpassword" element={<ForgotPasswordScreen />} />
+          <Route path="otppage" element={<OtpPage />} />
+          
+          <Route path="resetpassword/" element={<ResetPasswordScreen />} />
+          <Route path="registration" element={<Registration />} />
+
+        </Route>
+
+
+
+        <Route
           path='/'
           element={
             <>
@@ -118,52 +139,50 @@ const App: React.FC = () => {
                 <Route path='products' element={<CreateProduct/>} />
                 <Route path='categories' element={<CreateCategory/>} />
               </Route>
-            </Route>
-
-          
-            {/* <Route path="/products" element={<><Main /></>} >
-              <Route path="products" element={<Profile />} />
             </Route> */}
 
 
-            <Route path='orders' element={<Orders/>}/>
-            <Route path='successful-purchase' element={<SuccessfulPurchase/>} />
 
-            <Route path="product/:productId" element={<OneProduct />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="login" element={<LoginScreen />} />
-            <Route path="/payment" element={<Payment  />} />
-            <Route path="/address" element={<Address />} />
-            <Route path="/proforder" element={<Order />} />
-            <Route path="/editprofile" element={<EditProfile />} />
 
-            <Route path="/findProducts" element={<PageWithOptions/>}>
-              
-            </Route>
 
-            <Route path='/get-options-by-category/:categoryId' element={<GetOptionsByCategory/>}>
+          <Route path='orders' element={<Orders />} />
+          <Route path='successful-purchase' element={<SuccessfulPurchase />} />
 
-            </Route>
+          <Route path="product/:productId" element={<OneProduct />} />
+          <Route path="/profile" element={<Profile />} />
 
-            
-            
-      
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/address" element={<Address />} />
+          <Route path="/proforder" element={<Order />} />
+          <Route path="/editprofile" element={<EditProfile />} />
+
+
+
+          <Route path="/findProducts" element={<PageWithOptions />}>
+
+          </Route>
+
+          <Route path='/get-options-by-category/:categoryId' element={<GetOptionsByCategory />}>
+
+          </Route>
+
+
+
+
           <Route path="/products" element={<><Main /></>} >
             <Route path="products" element={<Profile />} />
           </Route>
 
-          <Route path='createOptions' element={<CreateOptions/>}/>
+          <Route path='createOptions' element={<CreateOptions />} />
 
           <Route path='/orders' element={<Orders />} />
-          
+
 
           <Route path="product/:productId" element={<OneProduct />} />
           <Route path="profile" element={<Profile />} />
-          <Route path="login" element={<LoginScreen />} />
-          <Route path="registration" element={<Registration/>} />
-          <Route path="forgotpassword" element={<ForgotPasswordScreen />} />
-          {/* <Route path="resetpassword/:userId" element={<ResetPasswordScreen />} /> */}
-          <Route path="resetpassword/" element={<ResetPasswordScreen />} />
+
+
+
         </Route>
       </Routes>
     </BrowserRouter>
