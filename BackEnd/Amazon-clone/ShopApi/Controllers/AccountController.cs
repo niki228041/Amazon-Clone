@@ -214,10 +214,7 @@ namespace ShopApi.Controllers
         }
 
 
-    //    <div onClick = { () => navigate("#") } >
-    //    <img className = "headerLogo" src={logo
-    //} />
-    //  </div>
+    
 
     }   
 }
