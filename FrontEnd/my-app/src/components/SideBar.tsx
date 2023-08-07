@@ -3,7 +3,7 @@ import img from "../images/user.png";
 import close from "../images/cancel.png";
 import classNames from "classnames";
 import { useState } from "react";
-import Collapse from 'react-collapse';
+
 
 
 const SideBar=()=>{

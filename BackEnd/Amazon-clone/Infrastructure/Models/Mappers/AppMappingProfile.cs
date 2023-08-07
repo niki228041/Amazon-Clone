@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using DAL.Entities;
 using DAL.Entities.DTO_s;
+using DAL.Entities.FilterEntities;
+using DAL.Entities.Music;
 using DAL.Interfaces;
 using DAL.Repositories;
 using Infrastructure.Models.Caterories;
@@ -36,6 +38,50 @@ public class AppMappingProfile : Profile
 
         CreateMap<RegisterViewModel, User>();
         CreateMap<User, RegisterViewModel>();
+
+        CreateMap<VariantVM, Variant>();
+        CreateMap<Variant, VariantVM>();
+
+        CreateMap<OptionsVM, Options>();
+        CreateMap<Options, OptionsVM>();
+
+        CreateMap<VariantDTO, Variant>();
+        CreateMap<Variant,VariantDTO>();
+
+        CreateMap<GenreVM, Genre>();
+        CreateMap<Genre,GenreVM> ();
+
+        CreateMap<Track, TrackVM>();
+        CreateMap<TrackVM, Track>();
+        
+
+        CreateMap<Track, TrackDTO>();
+        CreateMap<TrackDTO, Track>();
+
+        CreateMap<Card, CardVM>();
+        CreateMap<CardVM, Card>();
+
+        CreateMap<Card, CardDTO>();
+        CreateMap<CardDTO, Card>();
+
+        CreateMap<Address, AddressDTO>();
+        CreateMap<AddressDTO, Address>();
+        
+        CreateMap<OrderDTO, Order>();
+        CreateMap<Order, OrderDTO>();
+
+        CreateMap<OrderedProduct, OrderedProductDTO>();
+        CreateMap<OrderedProductDTO, OrderedProduct>();
+
+        CreateMap<OrderedProduct, OrderedProductVM>();
+        CreateMap<OrderedProductVM, OrderedProduct>();
+
+        CreateMap<OrderVM, Order>();
+        CreateMap<Order, OrderVM>();
+
+        CreateMap<ProductOneVM, Product>();
+        CreateMap<Product, ProductOneVM>();
+        
 
     }
 

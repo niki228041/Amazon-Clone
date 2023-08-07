@@ -14,11 +14,12 @@ namespace Infrastructure.Services
 {
     public class EmailService
     {
-        private IConfiguration _configuration;
+        private static IConfiguration _configuration;
         public EmailService(IConfiguration configuration)
         {
             _configuration = configuration;
         }
+
         public async Task SendEmailAsync(string toEmail, string subject, string body)
         {
             string fromEmail = _configuration["EmailSettings:User"];
@@ -38,7 +39,7 @@ namespace Infrastructure.Services
             // send email
             using (var smtp = new SmtpClient())
             {
-                smtp.Connect(SMTP, PORT, SecureSocketOptions.SslOnConnect);
+                smtp.Connect(SMTP, PORT, SecureSocketOptions.Auto);
                 smtp.Authenticate(fromEmail, password);
                 await smtp.SendAsync(email);
                 smtp.Disconnect(true);
