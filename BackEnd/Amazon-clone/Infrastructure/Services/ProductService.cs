@@ -159,7 +159,7 @@ public class ProductService : IProductService
 
     public async Task<ServiceResponse> GetProductByIdAsync(int id)
     {
-        var res = _productRepository.GetAll().Include(prod=>prod.VariantProducts).FirstOrDefault(prod=>prod.Id==id);
+        var res = _productRepository.GetAll().Include(prod=>prod.VariantProducts).Include(prod=>prod.Comments).FirstOrDefault(prod=>prod.Id==id);
         var optionsToSend = new List<SelectedOptionVM>();
 
         foreach (var variantProduct in res.VariantProducts)

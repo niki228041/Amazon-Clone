@@ -46,6 +46,15 @@ import ShopsTable from './components/Admin_Page/shops-table';
 import ProductsTable from './components/Admin_Page/products-table';
 import OrdersTable from './components/Admin_Page/orders-table';
 import CustomersTable from './components/Admin_Page/customers-table';
+import { ProductList } from './components/Admin/ProductList';
+import { CategoryList } from './components/Admin/CategoryList';
+import { CompanyList } from './components/Admin/CompanyList';
+import TempProfile from './components/Temp/TempProfile';
+import BecomeASeller from './components/Temp/BecomeASeller';
+import ViewMyOrders from './components/Temp/ViewMyOrders';
+import CardsSite from './components/Temp/CardsSite';
+import AddressSite from './components/Temp/AddressSite';
+import MyCompany from './components/Temp/MyCompany';
 
 
 const App: React.FC = () => {
@@ -70,7 +79,7 @@ const App: React.FC = () => {
           <Route path='createTrack' element={<CreateTrack />} />
         </Route>
 
-        <Route path='/admin'
+          {/* <Route path='/admin'
           element={
             <>
               <div className="flex flex-col" style={{ minHeight: "100vh", background: "rgb(231, 238, 240)" }}>
@@ -86,7 +95,7 @@ const App: React.FC = () => {
           <Route path='customerstable' element={<CustomersTable />} />
           <Route path='products' element={<CreateProduct />} />
           <Route path='categories' element={<CreateCategory />} />
-        </Route>
+          </Route> */}
 
         <Route path='/'
           element={
@@ -127,13 +136,17 @@ const App: React.FC = () => {
         >
 
 
-          {/* <Route path='admin' element={<Outlet/>}>
-                <Route path='' element={<><AdminSite/></>}/>
+            <Route path='admin' element={<Outlet/>}>
+                <Route path='' element={<><AdminSite/></>}>
+                  <Route path='products' element={<ProductList/>} />
+                  <Route path='categories' element={<CategoryList/>} />
+                  <Route path='companies' element={<CompanyList/>} />
+                </Route>
               <Route path='create'>
                 <Route path='products' element={<CreateProduct/>} />
                 <Route path='categories' element={<CreateCategory/>} />
               </Route>
-            </Route> */}
+            </Route> 
 
 
 
@@ -150,7 +163,13 @@ const App: React.FC = () => {
           <Route path="/proforder" element={<Order />} />
           <Route path="/editprofile" element={<EditProfile />} />
 
-
+          <Route path='/tempProfile' element={<TempProfile/>} >
+            <Route path='becomeASeller' element={<BecomeASeller/>} />
+            <Route path='viewMyOrders' element={<ViewMyOrders/>} />
+            <Route path='cardsSite' element={<CardsSite/>} />
+            <Route path='addressSite' element={<AddressSite/>} />
+            <Route path='myCompany' element={<MyCompany/>} />
+          </Route>
 
           <Route path="/findProducts" element={<PageWithOptions />}>
 

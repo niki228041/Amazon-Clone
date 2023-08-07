@@ -105,7 +105,8 @@ export interface addCard{
   cardNumber:string ,
   year:string ,
   month:string ,
-  userId:string 
+  userId:string ,
+  isDefault:boolean,
 }
 
 export interface Card{
@@ -115,6 +116,7 @@ export interface Card{
     month:string ,
     userId:string ,
     id:string ,
+    isDefault:boolean,
   }
 
   
@@ -128,3 +130,16 @@ export interface Address{
     userId :number,
     id :number,
   }
+
+export interface OrderedProducts{
+  productId:number,
+  count:number
+}
+
+export interface OrderDTO{
+    fullName:string,
+    userId:number,
+    cardId:number,
+    addressId:number,
+    orderedProducts:OrderedProducts[]
+}

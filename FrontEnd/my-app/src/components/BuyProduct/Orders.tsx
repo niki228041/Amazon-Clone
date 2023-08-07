@@ -1,8 +1,8 @@
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../app/hooks";
-import { deleteOrder, updateOrder } from "../../features/user/ordersStateSlice";
+import { deleteAllOrder, deleteOrder, updateOrder } from "../../features/user/ordersStateSlice";
 import { apiProductSlice, useGetLinksForProductByProductsIdsQuery } from "../../features/user/apiProductSlice";
-import { ChangeOrderCount, FindById, ImageLink, Order } from "../types";
+import { Card, ChangeOrderCount, FindById, ImageLink, Order, OrderDTO, OrderedProducts } from "../types";
 import { Outlet, useNavigate } from "react-router-dom";
 import OrdersList from "./OrdersList";
 import { AdressModal } from "./AdressModal";
@@ -23,6 +23,10 @@ import message from "../../images/message.png"
 
 import tablet from "../../images/tablet.svg"
 import basket from "../../images/Basket_.png"
+import bigBasket from "../../images/BigBasket.png"
+import { useGetDefaultCardByUserIdQuery } from "../../features/user/apiCardSlice";
+import { useGetAddressByUserIdQuery } from "../../features/user/apiAddressSlice";
+import { apiOrderSlice } from "../../features/user/apiOrderSlice";
 
 export const BuyLater=()=>{
   return<>
@@ -107,8 +111,10 @@ export const OrderComponent:React.FC<OrderComponentProps>=({ order,productsImage
 
 export const Orders=()=>{
     const navigate = useNavigate();
+    const dispatch = useDispatch();
   
     const orders = useAppSelector((state)=>state.orders.orders);
+    const user = useAppSelector((state)=>state.user.user);
 
     var request:FindById[] = [];
     orders.forEach(order => {
@@ -116,6 +122,10 @@ export const Orders=()=>{
     });
 
     const { data: productsImages, isSuccess: isProductsImages } = useGetLinksForProductByProductsIdsQuery(request);
+    const { data: defaultCard, isSuccess: isDefaultCard }:{data:Card,isSuccess:boolean} = useGetDefaultCardByUserIdQuery({id:user.id});
+    const { data: address, isSuccess: isAddress }:{data:Card,isSuccess:boolean} = useGetAddressByUserIdQuery({id:user.id});
+    const [addOrder,{}]= apiOrderSlice.useAddOrderMutation();
+    
 
     var totalCount:number = 0;
 
@@ -124,11 +134,36 @@ export const Orders=()=>{
     });
 
     const [isAdressModalOpen,setAdressModalOpen]= useState(false);
+    const toggleModal = (prop:boolean)=>{setAdressModalOpen(prop)};
     const [isCardModalOpen,setCardModalOpen]= useState(false);
     const [isBuy,setBuy]= useState(false);
-    const toggleModal = (prop:boolean)=>{setAdressModalOpen(prop)};
     const toggleCardModal = (prop:boolean)=>{setCardModalOpen(prop)};
 
+    const createOrder=()=>{
+      // data.preventDefault();
+      // var curentData = new FormData(data.currentTarget);
+      
+      var orderedProducts:OrderedProducts[] = [];
+
+      orders.forEach(order => {
+          orderedProducts.push({productId:order.product_id,count:order.count});
+      });
+      
+      var request:OrderDTO = {
+          fullName:defaultCard.ownerName!,
+          userId:Number(user.id),
+          cardId:Number(defaultCard.id),
+          addressId:Number(address.id),
+          orderedProducts:orderedProducts
+      }
+  
+      console.log(defaultCard);
+      console.log(address);
+      console.log(request);
+
+      addOrder(request);
+      navigate("/successful-purchase")
+  }
 
     
     return <>
@@ -143,20 +178,28 @@ export const Orders=()=>{
         <div className="grid grid-cols-4 gap-5 mt-5">
 
           <div className="col-span-3">
-
             <div className="w-full border border-grayColorForBorder rounded-lg pb-4 px-1">
-            
-              {orders.map((order:Order) => (<OrderComponent order={order} productsImages={productsImages} />))}
-
-
-              <div className=" flex justify-between p-2 mx-4">
-                <button className=" hover:bg-orange-300 transition-all active:shadow-lg active:transition-none bg-mainYellowColor text-white px-5 py-1 rounded-lg mt-3">
-                  Повернутися
-                </button>
-                <button className=" transition-all active:shadow-lg active:transition-none border border-grayColorForBorder text-mainYellowColor px-4 py-2 rounded-lg mt-3">
-                  Видалити все
-                </button>
+            {/* ВИВІД ПРОДУКТІВ */}
+            { orders.length>0 ?
+              <div>
+                {orders.map((order:Order) => (<OrderComponent order={order} productsImages={productsImages} />))}
+              
+                <div className=" flex justify-between p-2 mx-4">
+                  <button onClick={()=>navigate("/products")} className=" hover:bg-orange-300 transition-all active:shadow-lg active:transition-none bg-mainYellowColor text-white px-5 py-1 rounded-lg mt-3">
+                    Повернутися
+                  </button>
+                  <button onClick={()=>dispatch(deleteAllOrder())} className=" transition-all active:shadow-lg active:transition-none border border-grayColorForBorder text-mainYellowColor px-4 py-2 rounded-lg mt-3">
+                    Видалити все
+                  </button>
+                </div> 
               </div> 
+            :
+            <div className="m-auto">
+              <img className="m-auto mt-24 mb-10" src={bigBasket} />
+              <button onClick={()=>navigate("/products")} className=" hover:bg-blue-700 bg-darkBlueColor text-white py-3 px-6 rounded-xl m-auto flex mb-16">ПОВЕРНУТИСЬ ДО ПОКУПОК</button>
+            </div> 
+
+            }
             </div> 
 
             <div className="grid grid-cols-3 mt-7">
@@ -216,7 +259,7 @@ export const Orders=()=>{
                 <span className=" ">${orders.map((order) => order.price*order.count).reduce((sum, price) => sum + price, 0).toFixed(2)}</span>
               </div>
 
-              <button className="  font-medium hover:bg-orange-300 transition-all active:shadow-lg active:transition-none bg-mainYellowColor text-white px-2 w-full py-3 rounded-lg mt-3">
+              <button onClick={()=>{createOrder()}} type="submit" className="  font-medium hover:bg-orange-300 transition-all active:shadow-lg active:transition-none bg-mainYellowColor text-white px-2 w-full py-3 rounded-lg mt-3">
                 Оплатити
               </button>
 

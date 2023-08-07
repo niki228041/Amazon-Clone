@@ -64,7 +64,14 @@ export const CardModal=({ isOpen,onClose }: { isOpen: boolean,onClose:(prop:bool
     var cardNumber = curentData?.get("cardNumber")?.toString()!;
     var expirationDateMonth = curentData?.get("expirationDateMonth")?.toString()!;
     var expirationDateYear = curentData?.get("expirationDateYear")?.toString()!;
-    var defaultAddress = curentData?.get("defaultAddress")?.toString()!;
+    var defaultCard = curentData?.get("defaultCard")?.toString()!;
+
+    var defaultValue = false;
+
+    if(defaultCard != undefined)
+    {
+      defaultValue = true;
+    }
 
     var numericCardNumber = cardNumber.replace(/\D/g, '');
 
@@ -74,9 +81,11 @@ export const CardModal=({ isOpen,onClose }: { isOpen: boolean,onClose:(prop:bool
         cardNumber:numericCardNumber,
         month:expirationDateMonth,
         year:expirationDateYear,
-        userId:user.id
+        userId:user.id,
+        isDefault:defaultValue
       };
-
+      console.log(defaultValue);
+      
       console.log(request);
       onClose(false);
       addCard(request);
@@ -185,17 +194,17 @@ export const CardModal=({ isOpen,onClose }: { isOpen: boolean,onClose:(prop:bool
                           <div className="relative flex gap-x-3">
                             <div className="flex h-6 items-center">
                               <input
-                                id="defaultAddress"
-                                name="defaultAddress"
+                                id="defaultCard"
+                                name="defaultCard"
                                 type="checkbox"
                                 className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                               />
                             </div>
                             <div className="text-sm leading-6">
-                              <label htmlFor="defaultAddress" className="font-medium text-gray-900">
-                                  Save as default address
+                              <label htmlFor="defaultCard" className="font-medium text-gray-900">
+                                  Save as default card
                               </label>
-                              <p className="text-gray-500">You can change your address in profile</p>
+                              <p className="text-gray-500">You can change your card in profile</p>
                             </div>
                           </div>
                         </div>
@@ -204,7 +213,7 @@ export const CardModal=({ isOpen,onClose }: { isOpen: boolean,onClose:(prop:bool
 
                   <div className="w-full flex justify-center mt-5">
                     <button type='submit' className=" text-sm bg-yellow-400 rounded-xl w-full py-1 hover:bg-yellow-300 font-medium">
-                      Save Address
+                      Save Card
                     </button>
                   </div>
 
