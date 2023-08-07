@@ -11,6 +11,7 @@ namespace DAL.Entities
     public class User : IdentityUser<int>
     {
 
+
         [StringLength(25)]
         public string FirstName { get; set; }
 
@@ -18,14 +19,21 @@ namespace DAL.Entities
         [StringLength(25)]
         public string LastName { get; set; }
 
+        public string MiddleName { get; set; }
 
-        [Required(ErrorMessage = "The Email field is required.")]
-        [EmailAddress(ErrorMessage = "Invalid Email format.")]
-        public override string Email { get; set; }
+        public string Gender { get; set; }
+
+        [DataType(DataType.Date)]
+        [Display(Name = "Date of Birth")]
+        public DateTime DateOfBirth { get; set; }
 
 
         [DataType(DataType.PhoneNumber)]
         public override string PhoneNumber { get; set; }
+
+        [Required(ErrorMessage = "The Email field is required.")]
+        [EmailAddress(ErrorMessage = "Invalid Email format.")]
+        public override string Email { get; set; }
 
 
         [DataType(DataType.Password)]
