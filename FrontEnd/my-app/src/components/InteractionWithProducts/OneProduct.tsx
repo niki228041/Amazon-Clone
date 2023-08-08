@@ -286,10 +286,10 @@ const OneProduct=()=>{
                 <div className='col-span-3 px-2 pl-10'>
                     <div className='border border-grayColorForBorder rounded-lg p-3'>
                         <div className=' flex'>
-                            <div className=' bg-slate-400 w-16 h-16 rounded-lg'/>
+                            <div className=' bg-slate-400 w-16 h-16 rounded-lg bg-cover'  style={{backgroundImage: `url(${data?.payload.companyVM?.image})`}}/>
                             <div className='ml-4 my-auto'>
-                                <p>Supplier</p>
-                                <p>Guanjoi Trading LLC</p>
+                                <p>{data?.payload.companyVM?.name}</p>
+                                {/* <p>Guanjoi Trading LLC</p> */}
                             </div>
                         </div>
                         <hr className='my-4' />

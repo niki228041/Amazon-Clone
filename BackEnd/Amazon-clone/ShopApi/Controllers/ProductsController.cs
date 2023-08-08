@@ -84,6 +84,12 @@ namespace ShopApi.Controllers
 
             product.Images = images;
 
+            if (product.CompanyVM != null)
+            {
+                var link = await GetFullLinkByImageName(product.CompanyVM.Image, DirectoriesInProject.CompanyImages);
+                product.CompanyVM.Image = link;
+            }
+
             res.Payload = product;
 
             if (res.IsSuccess)
@@ -92,6 +98,18 @@ namespace ShopApi.Controllers
             }
 
             return BadRequest(res);
+        }
+
+        [HttpPost]
+        [Route("GetLinkByImageName")]
+        public async Task<string> GetFullLinkByImageName([FromBody] string image,string dir)
+        {
+            string port = string.Empty;
+            if (Request.Host.Port != null)
+                port = ":" + Request.Host.Port.ToString();
+
+            var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/{dir}/{image + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
+            return url;
         }
 
         [HttpPost("GetProductByCategoryId")]

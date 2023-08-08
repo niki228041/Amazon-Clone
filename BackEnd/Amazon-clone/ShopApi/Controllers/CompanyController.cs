@@ -1,5 +1,9 @@
-﻿using Infrastructure.Interfaces;
+﻿using DAL.Constants;
+using DAL.Entities.DTO_s;
+using Infrastructure.Enum_s;
+using Infrastructure.Interfaces;
 using Infrastructure.Models;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +14,12 @@ namespace ShopApi.Controllers
     public class CompanyController : ControllerBase
     {
         private readonly ICompanyService _companyService;
+        private readonly IImageService _imageService;
 
-        public CompanyController(ICompanyService companyService)
+        public CompanyController(ICompanyService companyService, IImageService imageService)
         {
             _companyService = companyService;
+            _imageService = imageService;
         }
 
         [HttpGet("GetAllCompanies")]
@@ -34,14 +40,52 @@ namespace ShopApi.Controllers
         public async Task<IActionResult> GetCompanyByUserIdAsync(FindByIdVM model)
         {
             var result = await _companyService.GetCompanyByUserIdAsync(model.Id);
+            var filename = await GetFullLinkByImageName(result.Image);
+            result.Image = filename;
+
             return Ok(result);
         }
+
+        [HttpPost("AddAvatarToCompany")]
+        public async Task<IActionResult> AddAvatarToCompanyAsync(ImageForCompanyDTO model)
+        {
+            var result = await _companyService.AddImageByCompanyIdAsync(model);
+            return Ok(result);
+        }
+
+        
 
         [HttpPost("AddUserToCompany")]
         public async Task<IActionResult> AddUserToCompanyAsync(AddUserToCompanyDTO model)
         {
             var result = await _companyService.AddUserToCompanyAsync(model);
             return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("UploadImage")]
+        public async Task<IActionResult> UploadImage([FromBody] UploadImageDTO model)
+        {
+            string fileName = await _imageService.SaveImageAsync(model.Image, DirectoriesInProject.CompanyImages);
+
+            string port = string.Empty;
+            if (Request.Host.Port != null)
+                port = ":" + Request.Host.Port.ToString();
+
+            var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/{DirectoriesInProject.CompanyImages}/{fileName + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
+            return Ok(new ImageLinkVM { Link = url, Id = 0 });
+        }
+
+        [HttpPost]
+        [Route("GetLinkByImageName")]
+        public async Task<string> GetFullLinkByImageName([FromBody] string image)
+        {
+            string port = string.Empty;
+            if (Request.Host.Port != null)
+                port = ":" + Request.Host.Port.ToString();
+
+            var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/{DirectoriesInProject.CompanyImages}/{image + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
+            return url;
         }
 
     }

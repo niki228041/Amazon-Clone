@@ -10,7 +10,8 @@ export interface createProduct{
     address: String,
     categoryId: number,
     images_:any,
-    Variants_:VariantDTO[]
+    Variants_:VariantDTO[],
+    userId:number
 }
 
 
@@ -52,4 +53,5 @@ export interface Company{
   id: number,
   name:string,
   creatorId:number,
+  image:string,
 }

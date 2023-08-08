@@ -1,3 +1,4 @@
+import { Company } from "./Admin/types";
 
 
 export interface Product{
@@ -28,6 +29,7 @@ export interface OneProductVM{
     images: string[],
     comments: Comment[],
     options: SelectedOption[],
+    companyVM:Company,
 }
 
 
