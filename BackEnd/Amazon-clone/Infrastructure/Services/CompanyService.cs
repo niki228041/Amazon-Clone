@@ -68,16 +68,23 @@ namespace Infrastructure.Services
         public async Task<Company> GetCompanyByUserIdAsync(int userId)
         {
             var user = await _userRepository.GetUserByIdAsync(userId.ToString());
-            var company = await _companyRepository.GetById((int)user.CompanyId);
-            return company;
+            if (user != null)
+            {
+                var company = await _companyRepository.GetById((int)user.CompanyId);
+                return company;
+            }
+            return null;
         }
 
-        public async Task<CompanyVM> AddUserToCompanyAsync(AddUserToCompanyDTO model)
+            public async Task<CompanyVM> AddUserToCompanyAsync(AddUserToCompanyDTO model)
         {
             var user = await _userRepository.GetUserByEmailAsync(model.UserEmail);
             var company = _companyRepository.GetAll().Include(comp=>comp.Users).FirstOrDefault(comp=>comp.Id == model.CompanyId);
-            user.CompanyId = company.Id;
-            await _userRepository.UpdateUserAsync(user);
+            if (user != null)
+            {
+                user.CompanyId = company.Id;
+                await _userRepository.UpdateUserAsync(user);
+            }
             var companyVm = _mapper.Map<Company,CompanyVM>(company);
             return companyVm;
         }

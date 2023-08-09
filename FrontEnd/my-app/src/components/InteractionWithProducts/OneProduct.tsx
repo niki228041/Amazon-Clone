@@ -79,7 +79,7 @@ const OneProduct=()=>{
         var order = orders.orders.find(ord=>ord.product_id==data.id);
         if(!order)
         {
-            const newOrder:Order = {id:uuidv4(), name:data.name,product_id:data.id,price:data.price,count:1};
+            const newOrder:Order = {id:uuidv4(), name:data.name,product_id:data.id,price:data.price,count:1,discount:data.discount};
             dispatch(addOrder(newOrder));
         }
         else{

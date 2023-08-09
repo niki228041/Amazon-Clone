@@ -62,15 +62,15 @@ namespace DAL
 
             //START Many to many
             modelBuilder.Entity<OptionsCategory>()
-            .HasOne(t => t.Options)
-            .WithMany(c => c.OptionsCategories)
-            .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(t => t.Options)
+                .WithMany(c => c.OptionsCategories)
+                .OnDelete(DeleteBehavior.Cascade);
 
             
             modelBuilder.Entity<OptionsCategory>()
-            .HasOne(t => t.Category)
-            .WithMany(c => c.OptionsCategories)
-            .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(t => t.Category)
+                .WithMany(c => c.OptionsCategories)
+                .OnDelete(DeleteBehavior.Cascade);
             //END
 
 
@@ -79,10 +79,10 @@ namespace DAL
 
             //START Many to one
             modelBuilder.Entity<Category>()
-            .HasMany(categ => categ.Products)
-            .WithOne(prod => prod.Category)
-            .HasForeignKey(prod => prod.CategoryId)
-            .OnDelete(DeleteBehavior.Cascade);
+                .HasMany(categ => categ.Products)
+                .WithOne(prod => prod.Category)
+                .HasForeignKey(prod => prod.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
             //END
 
 
@@ -91,15 +91,15 @@ namespace DAL
 
             //START Many to many
             modelBuilder.Entity<VariantProduct>()
-            .HasOne(vp => vp.Variant)
-            .WithMany(prod => prod.VariantProducts)
-            .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(vp => vp.Variant)
+                .WithMany(prod => prod.VariantProducts)
+                .OnDelete(DeleteBehavior.Cascade);
 
 
             modelBuilder.Entity<VariantProduct>()
-            .HasOne(vp => vp.Product)
-            .WithMany(c => c.VariantProducts)
-            .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(vp => vp.Product)
+                .WithMany(c => c.VariantProducts)
+                .OnDelete(DeleteBehavior.Cascade);
             //END
 
 
@@ -109,31 +109,31 @@ namespace DAL
 
             //START Many to one
             modelBuilder.Entity<Product>()
-            .HasMany(prod => prod.ProductImages)
-            .WithOne(img => img.Product)
-            .HasForeignKey(prod => prod.ProductId)
-            .OnDelete(DeleteBehavior.Cascade);
+                .HasMany(prod => prod.ProductImages)
+                .WithOne(img => img.Product)
+                .HasForeignKey(prod => prod.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
             //END
 
             //START Many to many
-            modelBuilder.Entity<OrderedProduct>()
-            .HasOne(prod => prod.Product)
-            .WithMany(prod => prod.OrderedProducts)
-            .OnDelete(DeleteBehavior.Cascade);
-
 
             modelBuilder.Entity<OrderedProduct>()
-            .HasOne(vp => vp.Order)
-            .WithMany(c => c.OrderedProducts)
-            .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(op => op.Order)
+                .WithMany(o => o.OrderedProducts)
+                .HasForeignKey(op => op.OrderId);
+
+            modelBuilder.Entity<OrderedProduct>()
+                .HasOne(op => op.Product)
+                .WithMany(p => p.OrderedProducts)
+                .HasForeignKey(op => op.ProductId);
             //END
 
             //START Many to one
             modelBuilder.Entity<Company>()
-            .HasMany(comp => comp.Users)
-            .WithOne(user => user.Company)
-            .HasForeignKey(user => user.CompanyId)
-            .OnDelete(DeleteBehavior.Cascade);
+                .HasMany(comp => comp.Users)
+                .WithOne(user => user.Company)
+                .HasForeignKey(user => user.CompanyId)
+                .OnDelete(DeleteBehavior.Cascade);
             //END
 
             ////START Many to one

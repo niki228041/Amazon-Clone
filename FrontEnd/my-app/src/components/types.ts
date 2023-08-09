@@ -49,6 +49,7 @@ export interface Order{
     price:number;
     count:number;
     product_id:any;
+    discount:any;
 }
 
 export interface OrderedOrder{
@@ -58,6 +59,21 @@ export interface OrderedOrder{
     addressId:number;
     dateCreated:number;
 }
+
+export interface OrderForSeller{
+    id:any;
+    fullName:string;
+    cardId:number;
+    addressId:number;
+    dateCreated:number;
+    products:OrderedProductUpdated[];
+}
+
+export interface OrderedProductUpdated{
+    count:number,
+    product:Product
+}
+
 export interface ChangeOrderCount{
     index:any;
     count:number;
@@ -143,5 +159,5 @@ export interface OrderDTO{
     userId:number,
     cardId:number,
     addressId:number,
-    orderedProducts:OrderedProducts[]
+    orderedProducts_:OrderedProducts[]
 }

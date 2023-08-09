@@ -143,10 +143,10 @@ export const Orders=()=>{
       // data.preventDefault();
       // var curentData = new FormData(data.currentTarget);
       
-      var orderedProducts:OrderedProducts[] = [];
+      var orderedProducts_:OrderedProducts[] = [];
 
       orders.forEach(order => {
-          orderedProducts.push({productId:order.product_id,count:order.count});
+        orderedProducts_.push({productId:order.product_id,count:order.count});
       });
       
       var request:OrderDTO = {
@@ -154,7 +154,7 @@ export const Orders=()=>{
           userId:Number(user.id),
           cardId:Number(defaultCard.id),
           addressId:Number(address.id),
-          orderedProducts:orderedProducts
+          orderedProducts_:orderedProducts_
       }
   
       console.log(defaultCard);
@@ -162,6 +162,8 @@ export const Orders=()=>{
       console.log(request);
 
       addOrder(request);
+      
+
       navigate("/successful-purchase")
   }
 
@@ -251,12 +253,12 @@ export const Orders=()=>{
 
               <div className=" flex justify-between">
                 <span>Знижка:</span>
-                <span className=" text-red-500">- 160 грн.</span>
+                <span className=" text-red-500">-${orders.map((order) => ((order.price*order.count)/100)*order.discount ).reduce((sum, price) => sum + price, 0).toFixed(2)}</span>
               </div>
               <hr className="my-4 mx-3"></hr>
               <div className=" flex justify-between font-semibold">
                 <span>Total:</span>
-                <span className=" ">${orders.map((order) => order.price*order.count).reduce((sum, price) => sum + price, 0).toFixed(2)}</span>
+                <span className=" ">${orders.map((order) => (order.price*order.count)-((order.price*order.count)/100)*order.discount ).reduce((sum, price) => sum + price, 0).toFixed(2)}</span>
               </div>
 
               <button onClick={()=>{createOrder()}} type="submit" className="  font-medium hover:bg-orange-300 transition-all active:shadow-lg active:transition-none bg-mainYellowColor text-white px-2 w-full py-3 rounded-lg mt-3">

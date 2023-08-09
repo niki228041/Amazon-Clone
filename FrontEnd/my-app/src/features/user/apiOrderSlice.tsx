@@ -27,15 +27,23 @@ export const apiOrderSlice:any = createApi({
             providesTags:result=>['Order']
         }),
         getOrdersByUserId:builder.query<any,any>({
-            query:(todo)=>({
-              url:'/api/Order/GetOrdersByUserId',
-              method:"POST",
-              body:todo
-            }),
-            providesTags:result=>['Order']
-          })
+          query:(todo)=>({
+            url:'/api/Order/GetOrdersByUserId',
+            method:"POST",
+            body:todo
+          }),
+          providesTags:result=>['Order']
+        }),
+        getOrdersByCompanyId:builder.query<any,any>({
+          query:(todo)=>({
+            url:'/api/Order/GetOrdersByCompanyId',
+            method:"POST",
+            body:todo
+          }),
+          providesTags:result=>['Order']
+        })
     })
 })
 
 
-export const {useGetOrdersByUserIdQuery} = apiOrderSlice
+export const {useGetOrdersByUserIdQuery,useGetOrdersByCompanyIdQuery} = apiOrderSlice

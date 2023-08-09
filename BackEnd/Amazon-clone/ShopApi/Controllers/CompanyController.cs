@@ -40,8 +40,11 @@ namespace ShopApi.Controllers
         public async Task<IActionResult> GetCompanyByUserIdAsync(FindByIdVM model)
         {
             var result = await _companyService.GetCompanyByUserIdAsync(model.Id);
-            var filename = await GetFullLinkByImageName(result.Image);
-            result.Image = filename;
+            if (result != null)
+            {
+                var filename = await GetFullLinkByImageName(result.Image);
+                result.Image = filename;
+            }
 
             return Ok(result);
         }

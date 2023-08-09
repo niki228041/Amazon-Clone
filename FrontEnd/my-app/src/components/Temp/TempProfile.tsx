@@ -63,6 +63,9 @@ const TempProfile=()=> {
                     </button>
                 </div>
 
+                <Link to="ordersForSeller" className='my-2 flex justify-center self-center active:bg-orange-400 active:scale-95 bg-mainYellowColor py-2 w-full rounded-lg text-white transition-all'>
+                    Orders For Seller
+                </Link>
                 
             </div>
 

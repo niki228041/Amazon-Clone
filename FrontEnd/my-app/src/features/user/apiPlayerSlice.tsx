@@ -56,9 +56,18 @@ export const apiPlayerSlice:any = createApi({
           }),
           providesTags:result=>['Player']
         }),
+        getTracksByUserId:builder.query<any,any>({
+          query:(todo)=>({
+            url:'/api/Track/GetTracksByUserId',
+            method:"GET",
+            body:todo
+          }),
+          providesTags:result=>['Player']
+        }),
+        
     })
 })
 
 
-export const {useGetGenresQuery,useGetTracksQuery} = apiPlayerSlice
+export const {useGetGenresQuery,useGetTracksQuery,useGetTracksByUserIdQuery} = apiPlayerSlice
 

@@ -14,5 +14,6 @@ namespace Infrastructure.Interfaces
         public List<Order> GetAllOrdersAsync();
         public Task<OrderVM> AddOrderAsync(OrderDTO model);
         public List<Order> GetOrdersByUserIdAsync(int id);
+        public List<OrderVM> GetOrdersByCompanyIdAsync(int id);
     }
 }

@@ -23,6 +23,12 @@ module.exports = {
         mainYellowColor:"#FF9A02",
         darkBlueColor:"#002A42",
         lightOrangeColor:"#FFF0DF",
+        grayForPlayerColor:"#252525",
+        almostBlackColor:"#101010",
+        middleGrayColor:"#353535",
+        orangeColor:"#E9671E",
+        almostWhiteColor:"#C9C9C9",
+        whiteGrayColor:"#474747"
       }
     },
   },

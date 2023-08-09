@@ -15,6 +15,7 @@ namespace Infrastructure.Models
         public string Background { get; set; }
         public string Image { get; set; }
         public int AlbumId_ { get; set; }
+        public int UserId { get; set; }
         public List<int> GenresIds { get; set; }
         public string Song { get; set; }
         public DateTime DateCreated { get; set; }
