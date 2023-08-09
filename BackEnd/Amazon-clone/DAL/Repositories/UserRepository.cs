@@ -75,6 +75,18 @@ namespace DAL.Repositories
             var result = await _userManager.Users.ToListAsync();
             return result;
         }
+
+        public async Task<User> UpdateUserAsync(User model)
+        {
+            await _userManager.UpdateAsync(model);
+            return model;
+        }
+
+        public async Task<User> AddRoleAsync(User model,string role)
+        {
+            await _userManager.AddToRoleAsync(model, role);
+            return model;
+        }
     }
 }
 

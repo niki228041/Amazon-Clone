@@ -164,6 +164,7 @@ const Header = () => {
         </div>
       </div>
 
+<<<<<<< HEAD
       <div className="relative grow">
         <div className="flex justify-between items-center relative my-auto">
           <input
@@ -176,6 +177,77 @@ const Header = () => {
           <div className="w-10 rounded-l-full h-8 absolute cursor-pointer active:transition-none select-none mr-1 bg-mainYellowColor right-0 flex justify-center transition-all self-center"
             style={{ transform: "scaleX(-1)" }}>
             <img src={arrowDownForSearch} onClick={() => handleToSearchPage()} className="self-center" />
+=======
+
+  {/* Батьківський контейнер з position: relative для результатів пошуку */}
+  {dropdown &&
+    <div className="absolute w-full">
+      {/* Результати пошуку тут */}
+      {products?.length > 0 && (
+        <div className="absolute left-6 right-6 mt-1 bg-white border border-gray-300 shadow-md">
+          {/* Контент результатів пошуку тут */}
+          {products?.filter((item:any) => {
+            console.log(item);
+            return inputText.toLowerCase() === ' ' ? item : item.name.toLowerCase().includes(inputText.toLowerCase());
+          }).map((product:any, it:any=0) => (
+            <div className="searchBar_selector px-4 bg-white border-gray-300 hover:bg-gray-400 cursor-pointer" key={(it++).toString()} onClick={() => openFoundedModel(product.id)}>
+              {product.name}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  }
+      </div>
+
+      <div className="grid grid-cols-3 col-span-3 px-10">
+
+      <div className="languagediv">
+        <img src={langlogo}/>
+        <a className="alang">UA</a>
+      </div>
+
+      <Link to="/login">
+        <div className="singindiv">
+        <img src={loginlogo}/>
+          <a className="alang">Вхід</a>
+        </div>
+      </Link>
+
+      <Link to="/orders">
+        <div className="cartdiv">
+
+          <img src={cart} />
+          <a className="alang">Кошик({totalCount})</a>
+
+          {/*<GrCart className="cartIcon" />
+          <a className="alang">Кошик ({orders.orders.length})</a> */}
+
+        </div>
+      </Link>
+      
+      </div>
+
+    </div>
+
+  <div className="flex flex-col">
+    {/* header  */}
+        <div className="flex flex-col">
+          <div>
+            
+          </div>
+            
+            
+          <div className="underheader">
+            <div onClick={() => navigate("/products")} className=" ml-3 text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">All</div>
+            <div onClick={() => navigate("/admin")} className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Admin</div>
+            <div className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Best Sellers</div>
+            <div className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Amazon Basic</div>
+            <div className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Today's Deals</div>
+            <div className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Prime Video</div>
+            <div onClick={()=>navigate("/music")} className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Music</div>
+            <div onClick={()=>navigate("/tempProfile")} className="text-white px-4 hover:outline hover:outline-[1px] rounded-xl outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">TempProfile</div>
+>>>>>>> a6938275f37744de6d9a159ff96fece39ce04f0b
           </div>
         </div>
         {/* Ваш іконка для пошуку тут */}

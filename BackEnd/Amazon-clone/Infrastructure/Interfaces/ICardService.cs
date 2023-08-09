@@ -13,5 +13,7 @@ namespace Infrastructure.Interfaces
         public Task<List<CardVM>> GetAllCardsAsync();
         public Task<Card> AddCardAsync(CardDTO model);
         public Task<List<Card>> GetCardsByUserIdAsync(int userId);
+        public Task SetDefaultCardAsync(int cardId, int userId);
+        public Task<Card> FindDefaultCardAsync(int userId);
     }
 }

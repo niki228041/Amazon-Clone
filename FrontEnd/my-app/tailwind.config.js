@@ -22,8 +22,12 @@ module.exports = {
         grayForText:'#8B96A5',
         mainYellowColor:"#FF9A02",
         darkBlueColor:"#002A42",
+<<<<<<< HEAD
         grayColorForHeader:'#666666',
         whiteForHeader:'#FFFFFF',
+=======
+        lightOrangeColor:"#FFF0DF",
+>>>>>>> a6938275f37744de6d9a159ff96fece39ce04f0b
       }
     },
     fontFamily: {

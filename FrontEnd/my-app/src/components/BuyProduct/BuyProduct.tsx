@@ -5,23 +5,12 @@ import { useAppSelector } from "../../app/hooks";
 
 import { UserState } from '../../features/user/user-slice';
 import { Orders } from '../../features/user/ordersStateSlice';
-import { Address, Card } from "../types";
+import { Address, Card, OrderDTO, OrderedProducts } from "../types";
 import { apiAddressSlice, useGetAddressByUserIdQuery } from "../../features/user/apiAddressSlice";
 import { apiOrderSlice } from "../../features/user/apiOrderSlice";
 import { useNavigate } from "react-router-dom";
 
-interface OrderedProducts{
-    productId:number,
-    count:number
-}
 
-interface OrderDTO{
-    fullName:string,
-    userId:number,
-    cardId:number,
-    addressId:number,
-    orderedProducts:OrderedProducts[]
-}
 
 const BuyProduct=({setAdressOpen,setCardOpen}:{setAdressOpen:(prop:boolean)=>void,setCardOpen:(prop:boolean)=>void})=>{
 

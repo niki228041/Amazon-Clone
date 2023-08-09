@@ -23,14 +23,14 @@ interface User{
     email:string,
     name:string,
     surname:string,
-    roles:string,
+    roles:any,
     id:string,
 }
 
 
 // UserState :
 const initialState:UserState= {
-    user:{email:"",name:"",surname:"",roles:"",id:""},
+    user:{email:"",name:"",surname:"",roles:[],id:""},
     accessToken:"",
     refreshToken:"",
     loading:false,
@@ -66,6 +66,17 @@ export const postForgotPassword:any = createAsyncThunk('/api/Account/login',asyn
         return err.message;
     }
 })
+
+export const becomeASeller:any = createAsyncThunk('/api/Account/BecomeASeller',async(dateFromFrontend:LoginRequest)=>{
+    try{
+        const response = await axios.post(baseURL + '/api/Account/BecomeASeller',dateFromFrontend);
+        return response.data;
+    }catch(err:any){
+        return err.message;
+    }
+})
+
+
 
 
 export const AuthUser:any = createAsyncThunk('',(token:string)=>{
@@ -106,7 +117,7 @@ const userSlice = createSlice(
                     state.user = parseJwt(action.payload.payload);
                 }
                 else{
-                    state.user = {email:"",name:"",surname:"",roles:"",id:""};
+                    state.user = {email:"",name:"",surname:"",roles:[],id:""};
                 }
                 console.log(action.payload);
                 console.log(action.error);
@@ -128,7 +139,7 @@ const userSlice = createSlice(
                     state.user = parseJwt(action.payload.payload);
                 }
                 else{
-                    state.user = {email:"",name:"",surname:"",roles:"",id:""};
+                    state.user = {email:"",name:"",surname:"",roles:[],id:""};
                 }
                 console.log(action.payload);
                 state.isAuth = true;
@@ -143,6 +154,27 @@ const userSlice = createSlice(
                     state.isAuth = true;
                 }
                 state.user = action.payload;
+            })
+            .addCase(becomeASeller.pending,(state,action)=>{
+                console.log("bro");
+                state.loading = true;
+            })
+            .addCase(becomeASeller.fulfilled,(state,action)=>{
+                state.accessToken = action;
+                console.log(action);
+                SetAccessToken(action.payload);
+                console.log(action.payload);
+
+                if(action.payload != undefined)
+                {
+                    state.user = parseJwt(action.payload);
+                }
+                else{
+                    state.user = {email:"",name:"",surname:"",roles:[],id:""};
+                }
+                console.log(action);
+                console.log(action.error);
+                state.isAuth = true;
             })
     }
 });

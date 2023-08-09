@@ -5,7 +5,7 @@
 
 import { Link, useNavigate } from "react-router-dom"
 import { postRegistration } from "../../features/user/user-slice"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from 'react-redux'
 
 import TestPage from '.././test-page';
 import "./auth.css"
@@ -67,6 +67,7 @@ const Registration = () => {
 
 
   const submitHandler = async (data: React.FormEvent<HTMLFormElement>) => {
+    try{
     data.preventDefault()
     var curentData = new FormData(data.currentTarget);
 
@@ -79,16 +80,24 @@ const Registration = () => {
     var repeatPassword = curentData?.get("repeatPassword")?.toString()!;
 
     var request: RegistrationRequest = { userName: userName, firstName: firstName, lastName: lastName, email: email, password: password, checkPassword: repeatPassword, avatarImage: "" };
-
+    console.log(request);
     // var request:RegistrationRequest = {email:email,password:password};
 
-    dispatch(postRegistration(request));
-    console.log(request);
-    navigate("/products");
+    var res = dispatch(postRegistration(request));
+    res.then((res_:any)=>{
+      console.log(res_.payload.message);
+      console.log(res_);
+
+    });
+      navigate("/products");
+    }
+    catch(error:any){
+      console.log("yo");
+    }
   }
 
   return (
-    <div className='overlogin'>
+    <form className='overlogin' onSubmit={submitHandler}>
       <div className="leftside">
 
         <svg className="logosing" width="345" height="92" viewBox="0 0 345 92" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -162,9 +171,9 @@ const Registration = () => {
           <OutlinedInput style={{ width: "400px", marginLeft: "280px", marginTop: "10px" }}
             placeholder='Підтвердіть пароль'
 
-            id="password"
-            name="password"
-            type={showPassword ? 'text' : 'password'}
+            id="repeatPassword"
+            name="repeatPassword"
+            type={showPassword ? 'text' : 'repeatPassword'}
             autoComplete="current-password"
             required
             // id="outlined-adornment-password"
@@ -208,7 +217,7 @@ const Registration = () => {
 
           <p style={{ fontSize: "15px", color: "#FF9A02" }} className="mt-10 text-center text-sm ">
             Вже маєте обліковий запис?{' '}
-            <Link style={{ color: "#FF9A02" }} to="/registration" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+            <Link style={{ color: "#FF9A02" }} to="/login" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
               Увійти
             </Link>
           </p>
@@ -217,7 +226,7 @@ const Registration = () => {
       </div>
       <TestPage ></TestPage>
 
-    </div>
+    </form>
   )
 }
 
