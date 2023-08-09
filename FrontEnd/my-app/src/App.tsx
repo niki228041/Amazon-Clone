@@ -48,6 +48,8 @@ import OrdersTable from './components/Admin_Page/orders-table';
 import CustomersTable from './components/Admin_Page/customers-table';
 
 
+
+
 const App: React.FC = () => {
   var dispatch = useDispatch();
   const token = GetAccessToken();
@@ -64,6 +66,21 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route
+              path='/'
+              element={
+                <>
+                  <div className="flex flex-col" style={{ minHeight: "120vh" }}>
+                    <Header />
+                    <div style={{ flex: "1" }}>
+                      <Outlet />
+                    </div>
+                    <Footer />
+                  </div>
+                </>
+              }
+            />
+          
         <Route path='/music' element={<><MusicHeader /><div className="flex flex-col bg-black" style={{ minHeight: "100vh" }}><Outlet /></div></>} >
           <Route path='' element={<Player />} />
           <Route path='createGenre' element={<CreateGenre />} />
