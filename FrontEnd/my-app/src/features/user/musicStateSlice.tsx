@@ -6,10 +6,12 @@ import { TrackFromServer } from "../../components/Player/Player";
 
 export interface Track{
     currentTrack:TrackFromServer | null;
+    isPlay:boolean;
 }
 // State :
 const initialState:Track= {
     currentTrack:null,
+    isPlay:false,
 };
 
 const trackSlice = createSlice(
@@ -20,15 +22,16 @@ const trackSlice = createSlice(
     {
         changeTrack(state,action: PayloadAction<TrackFromServer>){
             state.currentTrack = action.payload;
-            console.log("hereeeee")
         },
         deleteTrack(state,action: PayloadAction<void>){
             state.currentTrack = null;
-        }
+        },
+        setIsPlay(state,action: PayloadAction<boolean>){
+            state.isPlay = action.payload;
+        },
     },
-    extraReducers(builder){
-    }
+    extraReducers(builder){}
 });
 
-export const { changeTrack, deleteTrack} = trackSlice.actions
+export const { changeTrack, deleteTrack,setIsPlay} = trackSlice.actions
 export default trackSlice.reducer;

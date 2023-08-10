@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DAL.Constants;
+using DAL.Entities;
 using DAL.Entities.DTO_s;
 using DAL.Entities.Music;
 using DAL.Interfaces;
@@ -9,6 +10,7 @@ using Infrastructure.Models;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace ShopApi.Controllers
 {
@@ -56,7 +58,24 @@ namespace ShopApi.Controllers
         [Route("GetTracksByUserId")]
         public async Task<IActionResult> GetTracksByUserIdAsync(FindByIdVM model)
         {
-            var tracks = await _trackService.GetTracksByUserIdAsync(model.Id);
+            var tracks = await _trackService.GetTracksByUserIdCreatedByUserAsync(model.Id);
+
+            foreach (var track in tracks)
+            {
+                track.Image = await GetFullLinkByImageName(track.Image);
+                track.Background = await GetFullLinkByImageName(track.Background);
+                track.Song = await GetFullLinkBySongName(track.Song);
+            }
+
+            return Ok(tracks);
+        }
+
+
+        [HttpPost]
+        [Route("GetLikedTracksByUserId")]
+        public async Task<IActionResult> GetLikedTracksByUserIdAsync(FindByIdVM model)
+        {
+            var tracks = await _trackService.GetLikedTracksByUserIdAsync(model.Id);
 
             foreach (var track in tracks)
             {
@@ -120,5 +139,52 @@ namespace ShopApi.Controllers
             var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/{DirectoriesInProject.MusicFiles}/{song}";
             return url;
         }
+
+        [HttpPost]
+        [Route("SetLikedTrack")]
+        public async Task<TrackVM> SetLikedTrackAsync([FromBody] SetLikedTrackDTO model)
+        {
+            var res = await _trackService.SetLikedTrackAsync(model);
+            return res;
+        }
+
+        [HttpGet]
+        [Route("GetTrackHistory")]
+        public async Task<List<TrackHistory>> GetTrackHistoryAsync()
+        {
+            var res = await _trackService.GetAllTrackHistoryAsync();
+            return res;
+        }
+
+        [HttpPost]
+        [Route("AddTrackHistory")]
+        public async Task<TrackHistory> AddTrackHistoryAsync([FromBody] AddTrackHistoryDTO model)
+        {
+            var res = await _trackService.AddTrackHistoryAsync(model);
+            return res;
+        }
+
+        [HttpPost]
+        [Route("GetTrackHistoryByUserId")]
+        public async Task<List<TrackVM>> GetTrackHistoryByUserIdAsync([FromBody] FindByIdVM model)
+        {
+            var tracks = await _trackService.GetTrackHistoryByUserIdAsync(model);
+            foreach (var track in tracks)
+            {
+                track.Image = await GetFullLinkByImageName(track.Image);
+                track.Background = await GetFullLinkByImageName(track.Background);
+                track.Song = await GetFullLinkBySongName(track.Song);
+            }
+
+            return tracks;
+        }
+
+        [HttpPost]
+        [Route("DeleteTrack")]
+        public async Task DeleteTrackAsync([FromBody] FindByIdVM model)
+        {
+            await _trackService.DeleteTrackAsync(model.Id);
+        }
+
     }
 }

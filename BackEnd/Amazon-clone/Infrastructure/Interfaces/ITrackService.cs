@@ -13,6 +13,12 @@ namespace Infrastructure.Interfaces
         Task<List<TrackVM>> GetAllAsync();
         Task<string> GetMainImageByIdAsync(int id);
         Task<string> GetBackgroundImageByIdAsync(int id);
-        Task<List<TrackVM>> GetTracksByUserIdAsync(int id);
+        Task<List<TrackVM>> GetTracksByUserIdCreatedByUserAsync(int id);
+        Task<TrackVM> SetLikedTrackAsync(SetLikedTrackDTO model);
+        Task<List<TrackVM>> GetLikedTracksByUserIdAsync(int id);
+        Task<List<TrackHistory>> GetAllTrackHistoryAsync();
+        Task<TrackHistory> AddTrackHistoryAsync(AddTrackHistoryDTO model);
+        Task<List<TrackVM>> GetTrackHistoryByUserIdAsync(FindByIdVM model);
+        Task DeleteTrackAsync(int id);
     }
 }

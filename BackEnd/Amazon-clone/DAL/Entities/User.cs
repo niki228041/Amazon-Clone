@@ -50,7 +50,6 @@ namespace DAL.Entities
 
         public bool isBossOfCompany { get; set; }
 
-
         //Every User have an Adress
         public Address Address { get; set; }
 
@@ -59,6 +58,8 @@ namespace DAL.Entities
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<UserRoleEntity> UserRoles { get; set; }
         public virtual ICollection<Track> Tracks { get; set; }
+        public virtual ICollection<LikedTracks> LikedTracks { get; set; }
+        public virtual ICollection<TrackHistory> TrackHistory { get; set; }
         public virtual ICollection<Card> Cards { get; set; }
     }
 }

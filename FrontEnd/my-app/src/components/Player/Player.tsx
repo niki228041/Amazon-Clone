@@ -23,6 +23,8 @@ import Like from "../../images/clickLike.png";
 import Comment from "../../images/createComment.png";
 import LikeOrange from "../../images/clickLike_orange.png";
 import { useAppSelector } from "../../app/hooks";
+import { setIsPlay } from "../../features/user/musicStateSlice";
+import { useDispatch } from "react-redux";
 
 
 
@@ -33,7 +35,9 @@ interface Track{
   length:any,
   image:string,
   background:string,
-  id:number
+  likes:number,
+  id:number,
+  dateCreated:string,
 }
 
 export interface TrackFromServer{
@@ -44,14 +48,19 @@ export interface TrackFromServer{
   likes:string,
   id:number,
   dateCreated:string,
+  wasLikedByUsers:any,
+  trackHistoryDateCreated:string,
+  views:number,
 }
 
 
 const Player=()=>{
-  const [songsdata, setSongs] = useState<Track[]>([{song:song,title:"1",progress:0,length:0,image:"",background:"",id:0},{song:song_2,title:"2",progress:0,length:0,image:"",background:"",id:0},{song:song_3,title:"3",progress:0,length:0,image:"",background:"",id:0}]);
+  const [songsdata, setSongs] = useState<Track[]>([{song:song,title:"1",progress:0,length:0,image:"",background:"",id:0,likes:0,dateCreated:""},{song:song_2,title:"2",progress:0,length:0,image:"",background:"",id:0,likes:0,dateCreated:""},{song:song_3,title:"3",progress:0,length:0,image:"",background:"",id:0,likes:0,dateCreated:""}]);
   const auth = useAppSelector((state)=>state.user.isAuth);
 
-  const track = useAppSelector((state)=>state.track);
+  const track = useAppSelector((state)=>state.track.currentTrack);
+  const isPlay = useAppSelector((state)=>state.track.isPlay);
+
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentSong, setCurrentSong] = useState<Track>(songsdata[1]);
@@ -67,6 +76,7 @@ const Player=()=>{
   const [isRewinding, setIsRewinding] = useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onChange = (e:any) => {
 
@@ -107,6 +117,10 @@ const Player=()=>{
       audioRef.current.pause();
     }
 
+    if(!isPlaying)
+    {
+      dispatch(setIsPlay(false));
+    }
 
   }, [isPlaying,currentSong.song])
     
@@ -140,24 +154,31 @@ const Player=()=>{
 
     document.addEventListener("keydown", handleKeyDown);
 
-    console.log(track);
-    if(track.currentTrack == null)
+    if(isPlay)
     {
-      console.log("track is null");
-      handlePlayPause();
+      setIsPlaying(true);
+      setCurrentSong((prev)=>(
+        {...prev,
+          song:track?.song,
+          image:track?.image!,
+          title:track?.title!
+        }
+        ));
     }
     else
     {
-      setCurrentSong((prev)=>({...prev,song:track.currentTrack?.song}));
-      handlePlayPause();
+      setCurrentSong((prev)=>({...prev,song:track?.song}));
+      setIsPlaying(false);
     }
+
+
 
     // setCurrentSong();
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isRewinding,track]);
+  }, [isRewinding,track?.song,isPlay]);
 
   
   const skipBack = ()=>
@@ -172,14 +193,12 @@ const Player=()=>{
       setCurrentSong(songsdata[index - 1])
     }
     audioRef.current.currentTime = 0;
-    console.log(audioRef.current);
 }
 
 
   const skiptoNext = ()=>
   {
     const index = songsdata.findIndex((x:any)=>x.title == currentSong.title);
-    console.log(index);
     if (index == songsdata.length-1)
     {
       setCurrentSong(songsdata[0])
@@ -193,7 +212,6 @@ const Player=()=>{
 
   const checkWidth = (e:any)=>
   {
-    console.log("sdsdf")
     let width = clickRef.current.clientWidth;
     const offset = e.nativeEvent.offsetX;
 
@@ -226,12 +244,10 @@ const Player=()=>{
 
   const handleSetAnotherSong = async (track:TrackFromServer)=>{
     // var obj = URL.createObjectURL(track.song);
-    console.log(currentSong.song);
-    var newTrack:Track = {song:track.song,title:track.title,progress:0,length:0,image:track.image,background:track.background,id:track.id};
+    var newTrack:Track = {song:track.song,title:track.title,progress:0,length:0,image:track.image,background:track.background,id:track.id,likes:Number(track.likes),dateCreated:track.dateCreated};
     setCurrentSong(newTrack);
     setIsPlaying(true);
     scrollToTop();
-    console.log(newTrack);
   }
 
   const handleSongEnd = ()=>{
@@ -241,15 +257,12 @@ const Player=()=>{
     
     if(tracks[Index]==null || tracks[Index] == undefined)
     {
-      console.log(tracks[0]);
-      var newTrack:Track = {song:tracks[0].song,title:tracks[0].title,progress:0,length:0,image:tracks[0].image,background:tracks[0].background,id:tracks[0].id};
+      var newTrack:Track = {song:tracks[0].song,title:tracks[0].title,progress:0,length:0,image:tracks[0].image,background:tracks[0].background,id:tracks[0].id,likes:Number(tracks[0].likes),dateCreated:tracks[0].dateCreated};
       setCurrentSong(newTrack);
     }
     else
     {
-      var newTrack:Track = {song:tracks[Index+1].song,title:tracks[Index+1].title,progress:0,length:0,image:tracks[Index+1].image,background:tracks[Index+1].background,id:tracks[Index+1].id};
-      console.log(Index);
-      console.log(tracks);
+      var newTrack:Track = {song:tracks[Index+1].song,title:tracks[Index+1].title,progress:0,length:0,image:tracks[Index+1].image,background:tracks[Index+1].background,id:tracks[Index+1].id,likes:Number(tracks[1].likes),dateCreated:tracks[1].dateCreated};
       setCurrentSong(newTrack);
     }
     // setCurrentSong((prevIndex) => (prevIndex + 1) % songs.length);
@@ -307,23 +320,31 @@ const Player=()=>{
           }
         </div>
 
-        <div className="bg-middleGrayColor rounded-lg mt-2 self-center gap-3 text-white text-[15px] select-none">
-          <div className="flex p-2">
-            <div className="col-span-1 mr-2 h-28 w-28">
-              <img className=" rounded-lg self-center h-28 w-28" src={tmp} />
+        <div className="bg-middleGrayColor  rounded-lg mt-2 self-center gap-3 text-white text-[15px] select-none p-1">
+          <div className="flex p-1">
+            <div className="col-span-1 mr-2 h-28 w-28 bg-cover bg-center rounded-lg" style={{backgroundImage:`url(${currentSong.image})`}}>
             </div>
-            <div className=" flex rounded-lg w-full">
-              <div className="bg-whiteGrayColor w-full flex justify-center rounded-lg p-2">
-                <div className="flex flex-col">
-                  <p className=" text-[16px] self-center">ダーリン (darling)</p>
-                  <p className=" text-sm text-almostWhiteColor self-center">Raon</p>
-                  <div className="flex justify-center mt-1">
-                    <img onClick={skipBack} src={SkipRight}                       className="transition-all active:scale-105 rotate-180 px-1" />
-                    <img onClick={handlePlayPause} src={!isPlaying ? Play : Stop} className="transition-all active:scale-105 px-2 h-12" />
-                    <img onClick={skiptoNext} src={SkipRight}                     className="transition-all active:scale-105 px-1" />
+            <div className="flex rounded-lg w-full">
+              <div className="bg-whiteGrayColor w-full justify-center rounded-lg flex relative self-center h-full">
+                <div className=" self-center relative w-full">
+                  <div className="flex flex-col m-auto self-center mt-2">
+                    <p className=" text-[16px] self-center">{currentSong.title}</p>
+                    <div className="flex justify-center mt-2">
+                      <img onClick={skipBack} src={SkipRight}                       className="transition-all self-center active:scale-105 rotate-180 px-1 h-7" />
+                      <img onClick={handlePlayPause} src={!isPlaying ? Play : Stop} className="transition-all self-center active:scale-105 px-2 h-12" />
+                      <img onClick={skiptoNext} src={SkipRight}                     className="transition-all self-center active:scale-105 px-1 h-7" />
+                    </div>
+                  </div>
+                  <div className="flex justify-between text-white text-[12px] w-full px-2 absolute mt-[-12px]">
+                    <div className="">{formatTime(Math.trunc(audioRef.current?.currentTime))}</div>
+                    <div className="">{formatTime(Math.trunc(audioRef?.current?.duration))}</div>
+                  </div>
+                  <div className=" w-full mt-1">
+                      <Slider percentage={percentage} onChange={onChange} />
                   </div>
                 </div>
               </div>
+
               <div className="w-10 bg-whiteGrayColor ml-2 rounded-lg grid grid-rows-3 ">
                 <div className="flex justify-center self-center hover:scale-125">
                   <img className="h-4" src={DotsMenu} />
@@ -335,13 +356,14 @@ const Player=()=>{
                   <img className="h-4" onClick={()=>setLikePressed(!isLikePressed)} src={isLikePressed ? LikeOrange : Like} />
                 </div>
               </div>
+
+              
             </div>
 
           </div>
-          <div className=" w-full mb-1 col-span-12">
-              <Slider percentage={percentage} onChange={onChange} />
-            </div>
 
+          
+          
         </div>
 
 
