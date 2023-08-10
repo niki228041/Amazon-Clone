@@ -6,14 +6,14 @@ import { baseURL } from "../../api/axios";
 
 
 
-export interface Orders{
-    orders:Order[]; 
+export interface Wishs{
+    wishs:Order[]; 
 }
 
 
 // UserState :
-const initialState:Orders= {
-    orders:[],
+const initialState:Wishs= {
+    wishs:[],
 };
 
 // export const addOrder:any = createAsyncThunk('/api/Account/registration',async(dateFromFrontend:any)=>{
@@ -26,23 +26,24 @@ const initialState:Orders= {
 // })
 
 
-const ordersSlice = createSlice(
+const wishsSlice = createSlice(
 {
-    name:'user',
+    name:'wishs',
     initialState,
     reducers:
     {
-        addOrder(state,action: PayloadAction<Order>){
-            state.orders.push(action.payload);
+        
+        addWishitem(state,action: PayloadAction<Order>){
+            state.wishs.push(action.payload);
             console.log("hereeeee")
         },
-        deleteOrder(state,action: PayloadAction<string>){
-            state.orders = state.orders.filter(function(item) {
+        deleteWishitem(state,action: PayloadAction<string>){
+            state.wishs = state.wishs.filter(function(item) {
                 return item.id !== action.payload
             })
         },
-        updateOrder(state,action: PayloadAction<ChangeOrderCount>){
-            state.orders[action.payload.index].count = action.payload.count;
+        updateWishitem(state,action: PayloadAction<ChangeOrderCount>){
+            state.wishs[action.payload.index].count = action.payload.count;
 
             // state.orders = state.orders.filter(function(item) {
             //     return item.id !== action.payload
@@ -56,5 +57,5 @@ const ordersSlice = createSlice(
 
 
 // export const {login,registration} = userSlice.actions;
-export const { addOrder, deleteOrder ,updateOrder} = ordersSlice.actions
-export default ordersSlice.reducer;
+export const { addWishitem, deleteWishitem ,updateWishitem} = wishsSlice.actions
+export default wishsSlice.reducer;

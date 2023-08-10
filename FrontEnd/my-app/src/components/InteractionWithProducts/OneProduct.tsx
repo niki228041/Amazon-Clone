@@ -8,12 +8,14 @@ import { ChangeOrderCount, OneProductVM, Order, Product, SelectedOption } from '
 import { useAppSelector } from '../../app/hooks';
 import { useDispatch } from 'react-redux';
 import { addOrder, updateOrder } from '../../features/user/ordersStateSlice';
+import { addWishitem, updateWishitem } from '../../features/user/apiWishListItemSlice';
 import { v4 as uuidv4 } from 'uuid';
 import { useEffect, useState } from 'react';
 import star from "../../images/star (2).png"
 import empty_star from "../../images/star (3).png"
 import circle from "../../images/black-circle.png"
 import { apiCommentSlice, useGetCommentsByProductIdQuery } from '../../features/user/apiCommentSlice';
+import { stat } from 'fs/promises';
 
 
 
@@ -44,7 +46,8 @@ interface Comment{
 const OneProduct=()=>{
     const dispatch = useDispatch();
     const params = useParams();
-    const orders = useAppSelector((state)=>state.orders);
+     const orders = useAppSelector((state)=>state.orders);
+    // const wishs = useAppSelector((state)=>state.wishs);
     var [stars,setStars] = useState(5);
 
 
@@ -58,6 +61,24 @@ const OneProduct=()=>{
         isSuccess: boolean;
       };
     
+      
+    const handleAddNewWish=(data:OneProductVM)=>{
+        console.log(orders.orders);
+        var order = orders.orders.find(ord=>ord.product_id==data.id);
+        if(!order)
+        {
+            const newOrder:Order = {id:uuidv4(), name:data.name,product_id:data.id,price:data.price,count:1};
+            dispatch(addWishitem(newOrder));
+        }
+        else{
+            var index = orders.orders.findIndex(order_=>order_.id==order?.id);
+            if(order.count<5)
+            {
+                var changeOrderCount:ChangeOrderCount = {index:index,count:order.count+1}; 
+                dispatch(updateWishitem(changeOrderCount));
+            }
+        }
+    }
 
     const handleAddNewOrder=(data:OneProductVM)=>{
         console.log(orders.orders);
@@ -186,6 +207,7 @@ const OneProduct=()=>{
 
                 <div className='w-full col-span-2 justify-center'>
                     <button  onClick={()=>{handleAddNewOrder(data?.payload!)}} className='bg-yellow-300 w-full p-2 rounded-xl'>Add to cart</button>
+                    <button  style={{marginTop:"20px"}} onClick={()=>{handleAddNewWish(data?.payload!)}} className='bg-yellow-300 w-full p-2 rounded-xl'>Add to Wish List</button>
                     <div className='mt-10'>
                         {data?.payload.options.map((opt:SelectedOption,index:number)=><div key={index} className='flex justify-between'>
                             <div className=' font-medium'>

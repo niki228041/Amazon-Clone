@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState } from 'react'
-import TestPage from '.././test-page';
+import TestPage from '.././auxiliary pages/Sidebarauth';
 import "./auth.css"
 import IconButton from '@mui/material/IconButton';
 

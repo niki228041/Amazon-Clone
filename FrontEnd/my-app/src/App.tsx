@@ -46,6 +46,8 @@ import ShopsTable from './components/Admin_Page/shops-table';
 import ProductsTable from './components/Admin_Page/products-table';
 import OrdersTable from './components/Admin_Page/orders-table';
 import CustomersTable from './components/Admin_Page/customers-table';
+import AboutUs from './components/auxiliary pages/AboutUs';
+import WishList from './components/WishList/main'
 
 
 const App: React.FC = () => {
@@ -174,9 +176,11 @@ const App: React.FC = () => {
 
           <Route path="product/:productId" element={<OneProduct />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="aboutus"element={<AboutUs/>}/>
+          <Route path="wishlist"element={<WishList/>}/>
 
 
-
+          
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,6 +1,6 @@
 import { SyntheticEvent, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import TestPage from '.././test-page';
+import TestPage from '.././auxiliary pages/Sidebarauth';
 import "./auth.css"
 
 
