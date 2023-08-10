@@ -31,7 +31,34 @@ export const apiCompanySlice:any = createApi({
             body:todo
           }),
           providesTags:result=>['company']
+        }),
+        addUserToCompany:builder.mutation<any,any>({
+          query:(todo)=>({
+            url:'/api/Company/AddUserToCompany',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['company']
+        }),
+        uploadCompanyImage:builder.mutation<any,any>({
+          query:(todo)=>({
+            url:'/api/Company/UploadImage',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['company']
+        }),
+        addAvatarToCompany:builder.mutation<any,any>({
+          query:(todo)=>({
+            url:'/api/Company/AddAvatarToCompany',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['company']
         })
+
+        
+        
         
     })
 })

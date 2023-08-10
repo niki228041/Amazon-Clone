@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DAL.Constants;
 using DAL.Entities;
 using DAL.Interfaces;
 using Infrastructure.Interfaces;
@@ -16,13 +17,15 @@ namespace Infrastructure.Services
     {
         private readonly ICompanyRepository _companyRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IImageService _imageService;
         private readonly IMapper _mapper;
 
-        public CompanyService(ICompanyRepository companyRepository, IUserRepository userRepository, IMapper mapper)
+        public CompanyService(ICompanyRepository companyRepository, IUserRepository userRepository, IMapper mapper, IImageService imageService)
         {
             _companyRepository = companyRepository;
             _userRepository = userRepository;
             _mapper = mapper;
+            _imageService = imageService;
         }
 
         public async Task<List<CompanyVM>> GetAllCompaniesAsync()
@@ -44,6 +47,11 @@ namespace Infrastructure.Services
         {
             var company = _mapper.Map<CompanyDTO, Company>(model);
             company.CreatorId = model.UserId;
+
+            var comp = _companyRepository.GetAll().FirstOrDefault(comp => comp.CreatorId == model.UserId);
+            
+            if(comp != null) { return null; }
+
             await _companyRepository.Create(company);
 
             var user = await _userRepository.GetUserByIdAsync(model.UserId.ToString());
@@ -60,17 +68,36 @@ namespace Infrastructure.Services
         public async Task<Company> GetCompanyByUserIdAsync(int userId)
         {
             var user = await _userRepository.GetUserByIdAsync(userId.ToString());
-            var company = await _companyRepository.GetById((int)user.CompanyId);
-            return company;
+            if (user != null)
+            {
+                var company = await _companyRepository.GetById((int)user.CompanyId);
+                return company;
+            }
+            return null;
         }
 
-        public async Task<Company> AddUserToCompanyAsync(AddUserToCompanyDTO model)
+            public async Task<CompanyVM> AddUserToCompanyAsync(AddUserToCompanyDTO model)
         {
-            var user = await _userRepository.GetUserByIdAsync(model.UserId.ToString());
-            var company = _companyRepository.GetAll().Include(comp=>comp.Users).FirstOrDefault(comp=>comp.Id== model.CompanyId);
-            user.CompanyId = company.Id;
-            await _userRepository.UpdateUserAsync(user);
-            return company;
+            var user = await _userRepository.GetUserByEmailAsync(model.UserEmail);
+            var company = _companyRepository.GetAll().Include(comp=>comp.Users).FirstOrDefault(comp=>comp.Id == model.CompanyId);
+            if (user != null)
+            {
+                user.CompanyId = company.Id;
+                await _userRepository.UpdateUserAsync(user);
+            }
+            var companyVm = _mapper.Map<Company,CompanyVM>(company);
+            return companyVm;
+        }
+
+        public async Task<CompanyVM> AddImageByCompanyIdAsync(ImageForCompanyDTO model)
+        {
+            var filename = await _imageService.SaveImageAsync(model.Image, DirectoriesInProject.CompanyImages);
+            var company = await _companyRepository.GetById(model.CompanyId);
+            company.Image = filename;
+            await _companyRepository.Update(company);
+
+            var companyVm = _mapper.Map<Company, CompanyVM>(company);
+            return companyVm;
         }
     }
 }

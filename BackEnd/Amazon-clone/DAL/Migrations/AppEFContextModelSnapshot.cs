@@ -72,7 +72,7 @@ namespace DAL.Migrations
                         .IsUnique()
                         .HasFilter("[UserId] IS NOT NULL");
 
-                    b.ToTable("tblAddresses");
+                    b.ToTable("tblAddresses", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Card", b =>
@@ -114,7 +114,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Card");
+                    b.ToTable("Card", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Category", b =>
@@ -141,7 +141,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("tblCategories");
+                    b.ToTable("tblCategories", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Comment", b =>
@@ -190,7 +190,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("tblComments");
+                    b.ToTable("tblComments", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.CommentImage", b =>
@@ -220,7 +220,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("CommentId");
 
-                    b.ToTable("tblCommentImages");
+                    b.ToTable("tblCommentImages", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Company", b =>
@@ -240,6 +240,9 @@ namespace DAL.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
@@ -250,7 +253,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("CreatorId");
 
-                    b.ToTable("tblCompanies");
+                    b.ToTable("tblCompanies", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.FilterEntities.Options", b =>
@@ -275,7 +278,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tblOptions");
+                    b.ToTable("tblOptions", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.FilterEntities.OptionsCategory", b =>
@@ -307,7 +310,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("OptionsId");
 
-                    b.ToTable("tblOptionCategory");
+                    b.ToTable("tblOptionCategory", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.FilterEntities.Variant", b =>
@@ -337,7 +340,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("OptionsId");
 
-                    b.ToTable("tblVariant");
+                    b.ToTable("tblVariant", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.FilterEntities.VariantProduct", b =>
@@ -369,7 +372,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("VariantId");
 
-                    b.ToTable("tblVariantProduct");
+                    b.ToTable("tblVariantProduct", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Identity.RoleEntity", b =>
@@ -442,7 +445,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tblAlbum");
+                    b.ToTable("tblAlbum", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Music.Genre", b =>
@@ -470,7 +473,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tblGenre");
+                    b.ToTable("tblGenre", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Music.Track", b =>
@@ -520,7 +523,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("tblTrack");
+                    b.ToTable("tblTrack", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Music.TrackGenre", b =>
@@ -552,7 +555,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("TrackId");
 
-                    b.ToTable("tblTrackGenre");
+                    b.ToTable("tblTrackGenre", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Order", b =>
@@ -597,7 +600,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("tblOrders");
+                    b.ToTable("tblOrders", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.OrderedProduct", b =>
@@ -632,7 +635,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderedProducts");
+                    b.ToTable("OrderedProducts", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Product", b =>
@@ -695,7 +698,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("SubcategoryId");
 
-                    b.ToTable("tblProducts");
+                    b.ToTable("tblProducts", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.ProductImage", b =>
@@ -728,7 +731,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("tblProductImages");
+                    b.ToTable("tblProductImages", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Subcategory", b =>
@@ -749,7 +752,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Subcategories");
+                    b.ToTable("Subcategories", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.User", b =>
@@ -1113,13 +1116,11 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Entities.Order", "Order")
                         .WithMany("OrderedProducts")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("OrderId");
 
                     b.HasOne("DAL.Entities.Product", "Product")
                         .WithMany("OrderedProducts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ProductId");
 
                     b.Navigation("Order");
 

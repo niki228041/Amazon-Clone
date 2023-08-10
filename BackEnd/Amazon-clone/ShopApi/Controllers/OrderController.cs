@@ -38,5 +38,12 @@ namespace ShopApi.Controllers
             return Ok(result);
         }
 
+        [HttpPost("GetOrdersByCompanyId")]
+        public async Task<IActionResult> GetOrdersByCompanyIdAsync(FindByIdVM model)
+        {
+            var result = _orderService.GetOrdersByCompanyIdAsync(model.Id);
+            return Ok(result);
+        }
+
     }
 }

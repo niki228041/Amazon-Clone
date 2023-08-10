@@ -21,5 +21,6 @@ namespace Infrastructure.Models
         public string Category { get; set; }
         public List<SelectedOptionVM> Options { get; set; }
         public List<CommentVM> Comments { get; set; }
+        public CompanyVM CompanyVM { get; set; }
     }
 }

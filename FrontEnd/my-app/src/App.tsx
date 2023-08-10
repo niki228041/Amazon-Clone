@@ -55,6 +55,12 @@ import ViewMyOrders from './components/Temp/ViewMyOrders';
 import CardsSite from './components/Temp/CardsSite';
 import AddressSite from './components/Temp/AddressSite';
 import MyCompany from './components/Temp/MyCompany';
+import OrdersForSeller from './components/Temp/OrdersForSeller';
+import MusicFooter from './components/Player/MusicFooter';
+import Home from './components/Player/Home';
+import History from './components/Player/History';
+import Likes from './components/Player/Likes';
+import MyTracks from './components/Player/MyTracks';
 
 
 
@@ -75,23 +81,11 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-              path='/'
-              element={
-                <>
-                  <div className="flex flex-col" style={{ minHeight: "120vh" }}>
-                    <Header />
-                    <div style={{ flex: "1" }}>
-                      <Outlet />
-                    </div>
-                    <Footer />
-                  </div>
-                </>
-              }
-            />
-          
-        <Route path='/music' element={<><MusicHeader /><div className="flex flex-col bg-black" style={{ minHeight: "100vh" }}><Outlet /></div></>} >
-          <Route path='' element={<Player />} />
+        <Route path='/music' element={<><MusicHeader /><div className="flex flex-col bg-almostBlackColor" style={{ minHeight: "100vh" }}><Player/></div><MusicFooter/></>} >
+          <Route path='home' element={<Home />} />
+          <Route path='history' element={<History />} />
+          <Route path='likes' element={<Likes />} />
+          <Route path='mytracks' element={<MyTracks />} />
           <Route path='createGenre' element={<CreateGenre />} />
           <Route path='createTrack' element={<CreateTrack />} />
         </Route>
@@ -186,6 +180,7 @@ const App: React.FC = () => {
             <Route path='cardsSite' element={<CardsSite/>} />
             <Route path='addressSite' element={<AddressSite/>} />
             <Route path='myCompany' element={<MyCompany/>} />
+            <Route path='ordersForSeller' element={<OrdersForSeller/>} />
           </Route>
 
           <Route path="/findProducts" element={<PageWithOptions />}>
