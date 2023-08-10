@@ -81,7 +81,7 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/music' element={<><MusicHeader /><div className="flex flex-col bg-almostBlackColor" style={{ minHeight: "100vh" }}><Player/></div><MusicFooter/></>} >
+        <Route path='/music' element={<><MusicHeader /><div className="flex flex-col bg-almostBlackColor" style={{ minHeight: "100vh" }}><Player /></div><MusicFooter /></>} >
           <Route path='home' element={<Home />} />
           <Route path='history' element={<History />} />
           <Route path='likes' element={<Likes />} />
@@ -90,7 +90,7 @@ const App: React.FC = () => {
           <Route path='createTrack' element={<CreateTrack />} />
         </Route>
 
-          {/* <Route path='/admin'
+        {/* <Route path='/admin'
           element={
             <>
               <div className="flex flex-col" style={{ minHeight: "100vh", background: "rgb(231, 238, 240)" }}>
@@ -111,16 +111,22 @@ const App: React.FC = () => {
         <Route path='/'
           element={
             <>
-              <div className="flex flex-col" style={{ minHeight: "100vh", background: "rgb(231, 238, 240)" }}>
-
+              <div className="flex flex-col" style={{ minHeight: "180vh" }}>
+                <Header />
                 <Outlet />
+                <div className='mt-auto'>
+
+                  <Footer />
+                </div>
+
+
               </div>
             </>}>
 
           <Route path="login" element={<LoginScreen />} />
           <Route path="forgotpassword" element={<ForgotPasswordScreen />} />
           <Route path="otppage" element={<OtpPage />} />
-          
+
           <Route path="resetpassword/" element={<ResetPasswordScreen />} />
           <Route path="registration" element={<Registration />} />
 
@@ -147,17 +153,17 @@ const App: React.FC = () => {
         >
 
 
-            <Route path='admin' element={<Outlet/>}>
-                <Route path='' element={<><AdminSite/></>}>
-                  <Route path='products' element={<ProductList/>} />
-                  <Route path='categories' element={<CategoryList/>} />
-                  <Route path='companies' element={<CompanyList/>} />
-                </Route>
-              <Route path='create'>
-                <Route path='products' element={<CreateProduct/>} />
-                <Route path='categories' element={<CreateCategory/>} />
-              </Route>
-            </Route> 
+          <Route path='admin' element={<Outlet />}>
+            <Route path='' element={<><AdminSite /></>}>
+              <Route path='products' element={<ProductList />} />
+              <Route path='categories' element={<CategoryList />} />
+              <Route path='companies' element={<CompanyList />} />
+            </Route>
+            <Route path='create'>
+              <Route path='products' element={<CreateProduct />} />
+              <Route path='categories' element={<CreateCategory />} />
+            </Route>
+          </Route>
 
 
 
@@ -174,13 +180,13 @@ const App: React.FC = () => {
           <Route path="/proforder" element={<Order />} />
           <Route path="/editprofile" element={<EditProfile />} />
 
-          <Route path='/tempProfile' element={<TempProfile/>} >
-            <Route path='becomeASeller' element={<BecomeASeller/>} />
-            <Route path='viewMyOrders' element={<ViewMyOrders/>} />
-            <Route path='cardsSite' element={<CardsSite/>} />
-            <Route path='addressSite' element={<AddressSite/>} />
-            <Route path='myCompany' element={<MyCompany/>} />
-            <Route path='ordersForSeller' element={<OrdersForSeller/>} />
+          <Route path='/tempProfile' element={<TempProfile />} >
+            <Route path='becomeASeller' element={<BecomeASeller />} />
+            <Route path='viewMyOrders' element={<ViewMyOrders />} />
+            <Route path='cardsSite' element={<CardsSite />} />
+            <Route path='addressSite' element={<AddressSite />} />
+            <Route path='myCompany' element={<MyCompany />} />
+            <Route path='ordersForSeller' element={<OrdersForSeller />} />
           </Route>
 
           <Route path="/findProducts" element={<PageWithOptions />}>
