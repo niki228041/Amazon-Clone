@@ -15,7 +15,10 @@ import { apiAddressSlice } from "../features/user/apiAddressSlice";
 import { apiOrderSlice } from "../features/user/apiOrderSlice";
 import { apiCompanySlice } from "../features/user/apiCompanySlice";
 import musicStateSlice from "../features/user/musicStateSlice";
+<<<<<<< HEAD
 
+=======
+>>>>>>> d26ae8829de56c05e3ed68d48945b1ff30b2befd
 
 export const store = configureStore({
   reducer: {
@@ -28,11 +31,15 @@ export const store = configureStore({
     [apiAddressSlice.reducerPath]:apiAddressSlice.reducer,
     [apiOrderSlice.reducerPath]:apiOrderSlice.reducer,
 <<<<<<< HEAD
+<<<<<<< HEAD
     [apiOrderSlice.reducerPath]:apiOrderSlice.reducer,
     
 =======
     [apiCompanySlice.reducerPath]:apiCompanySlice.reducer,
 >>>>>>> 3d1c432ffbb768df135664d9e2e800f09e513fc9
+=======
+    [apiCompanySlice.reducerPath]:apiCompanySlice.reducer,
+>>>>>>> d26ae8829de56c05e3ed68d48945b1ff30b2befd
     user: userSlice,
     orders: ordersStateSlice,
     track: musicStateSlice,

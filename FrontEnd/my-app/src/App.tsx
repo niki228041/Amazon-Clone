@@ -47,9 +47,12 @@ import ProductsTable from './components/Admin_Page/products-table';
 import OrdersTable from './components/Admin_Page/orders-table';
 import CustomersTable from './components/Admin_Page/customers-table';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import AboutUs from './components/auxiliary pages/AboutUs';
 import WishList from './components/WishList/main'
 =======
+=======
+>>>>>>> d26ae8829de56c05e3ed68d48945b1ff30b2befd
 import { ProductList } from './components/Admin/ProductList';
 import { CategoryList } from './components/Admin/CategoryList';
 import { CompanyList } from './components/Admin/CompanyList';
@@ -67,7 +70,10 @@ import Likes from './components/Player/Likes';
 import MyTracks from './components/Player/MyTracks';
 
 
+<<<<<<< HEAD
 >>>>>>> 3d1c432ffbb768df135664d9e2e800f09e513fc9
+=======
+>>>>>>> d26ae8829de56c05e3ed68d48945b1ff30b2befd
 
 
 const App: React.FC = () => {

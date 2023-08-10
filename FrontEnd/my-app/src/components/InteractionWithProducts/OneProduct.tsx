@@ -29,6 +29,18 @@ import verified_user from "../../images/verified_user.svg"
 import planet from "../../images/planet.svg"
 import checkGray from "../../images/check_gray.svg"
 
+import check from "../../images/check.png"
+import filled_star from "../../images/filled_star.svg"
+import unfilled_star from "../../images/unfiled_star.svg"
+import Dot from "../../images/Dot.svg"
+import message_img from "../../images/message_small_icon.svg"
+import miniBasket from "../../images/miniBasket.svg"
+import line from "../../images/Line.svg"
+import germany from "../../images/germany.png"
+import verified_user from "../../images/verified_user.svg"
+import planet from "../../images/planet.svg"
+import checkGray from "../../images/check_gray.svg"
+
 
 
 interface createCommentDTO{
@@ -92,6 +104,8 @@ const OneProduct=()=>{
             }
         }
     }
+
+
 
 
 
