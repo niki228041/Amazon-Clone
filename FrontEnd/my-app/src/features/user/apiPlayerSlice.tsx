@@ -59,7 +59,7 @@ export const apiPlayerSlice:any = createApi({
         getTracksByUserId:builder.query<any,any>({
           query:(todo)=>({
             url:'/api/Track/GetTracksByUserId',
-            method:"GET",
+            method:"POST",
             body:todo
           }),
           providesTags:result=>['Player']

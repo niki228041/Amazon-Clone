@@ -51,6 +51,8 @@ const Player=()=>{
   const [songsdata, setSongs] = useState<Track[]>([{song:song,title:"1",progress:0,length:0,image:"",background:"",id:0},{song:song_2,title:"2",progress:0,length:0,image:"",background:"",id:0},{song:song_3,title:"3",progress:0,length:0,image:"",background:"",id:0}]);
   const auth = useAppSelector((state)=>state.user.isAuth);
 
+  const track = useAppSelector((state)=>state.track);
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentSong, setCurrentSong] = useState<Track>(songsdata[1]);
   const audioRef:any = useRef<HTMLAudioElement>(null);
@@ -138,10 +140,24 @@ const Player=()=>{
 
     document.addEventListener("keydown", handleKeyDown);
 
+    console.log(track);
+    if(track.currentTrack == null)
+    {
+      console.log("track is null");
+      handlePlayPause();
+    }
+    else
+    {
+      setCurrentSong((prev)=>({...prev,song:track.currentTrack?.song}));
+      handlePlayPause();
+    }
+
+    // setCurrentSong();
+
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isRewinding]);
+  }, [isRewinding,track]);
 
   
   const skipBack = ()=>

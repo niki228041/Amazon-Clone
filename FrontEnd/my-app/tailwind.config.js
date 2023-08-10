@@ -22,10 +22,8 @@ module.exports = {
         grayForText:'#8B96A5',
         mainYellowColor:"#FF9A02",
         darkBlueColor:"#002A42",
-<<<<<<< HEAD
         grayColorForHeader:'#666666',
         whiteForHeader:'#FFFFFF',
-=======
         lightOrangeColor:"#FFF0DF",
         grayForPlayerColor:"#252525",
         almostBlackColor:"#101010",
@@ -34,9 +32,6 @@ module.exports = {
         almostWhiteColor:"#C9C9C9",
         whiteGrayColor:"#474747"
       }
-    },
-    fontFamily: {
-      'header': ['Raleway'],
     }
   },
   plugins: [],

@@ -14,16 +14,19 @@ import { useNavigate } from 'react-router-dom';
 import { useGetTracksByUserIdQuery } from '../../features/user/apiPlayerSlice';
 import { useAppSelector } from '../../app/hooks';
 import { TrackFromServer } from './Player';
+import { changeTrack, deleteTrack } from '../../features/user/musicStateSlice';
+import { useDispatch } from 'react-redux';
 
 
-export const TrackItem=()=>{
+export const TrackItem=({ track,setSongPressed,isSongPressed }: { track: TrackFromServer,setSongPressed:(value:any)=>{},isSongPressed:boolean})=>{
     const [isLikePressed, setLikePressed] = useState(false);
-    const [isSongPressed, setSongPressed] = useState(false);
+
+    console.log(track);
     
     return(
     <div className="flex my-4">
-    <div className="mr-2 h-28 w-28 rounded-lg" >
-      <img className=" rounded-lg self-center h-28 w-28" src={tmp}  />
+    <div className="mr-2 h-28 w-28 rounded-lg bg-cover bg-center" style={{backgroundImage:`url(${track.image})`}} >
+      {/* <div className=" rounded-lg self-center h-28 w-28" src={track.image}  /> */}
     </div>
     <div className=" flex rounded-lg w-full">
       
@@ -33,9 +36,9 @@ export const TrackItem=()=>{
       </div>
       <div className='flex justify-between w-full m-auto px-2 self-center'>
           <div className="flex">
-            <img onClick={()=>setSongPressed(!isSongPressed)} src={!isSongPressed ? Play : Stop} className="transition-all active:scale-105 pr-2 h-12 self-center" />
-            <span className=" text-almostWhiteColor self-center">Raon - </span>
-            <span className=" text-[16px] self-center"> ダーリン (darling)</span>
+            <img onClick={()=>setSongPressed(track)} src={!isSongPressed ? Play : Stop} className="transition-all active:scale-105 pr-2 h-12 self-center" />
+            {/* <span className=" text-almostWhiteColor self-center">{track.id} - </span> */}
+            <span className=" text-[16px] self-center"> {track.title}</span>
           </div>
           <div className="flex">
               <span className=' self-center font-semibold'>200K </span>
@@ -77,10 +80,27 @@ const MyTracks=()=> {
 
   const navigate = useNavigate();
   const user = useAppSelector((state)=>state.user.user);
+  const dispath = useDispatch();
 
-
+  const [isSongPressed, setSongPressed] = useState(false);
   const {data:tracks,isSuccess:isSuccessTracks}:{data:TrackFromServer[],isSuccess:boolean} = useGetTracksByUserIdQuery({id:user.id});
 
+  const handleChangeStand=(value:any)=>{
+
+    if(!isSongPressed)
+    {
+      dispath(changeTrack(value));
+      console.log("change");
+    }
+    else{
+      console.log("delete");
+      dispath(deleteTrack());
+    }
+
+    setSongPressed(!isSongPressed);
+
+    return "";
+  }
 
   return (
     <div className="bg-middleGrayColor rounded-lg mt-2 self-center gap-3 text-white text-[15px] select-none py-3 px-6">
@@ -91,7 +111,7 @@ const MyTracks=()=> {
 
         <div className=''>
           {tracks?.map((track)=>{
-            return <TrackItem/>;
+            return <TrackItem track={track} isSongPressed={isSongPressed} setSongPressed={handleChangeStand} />;
           })}
         </div>
 
