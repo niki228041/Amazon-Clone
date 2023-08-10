@@ -41,6 +41,9 @@ const ordersSlice = createSlice(
                 return item.id !== action.payload
             })
         },
+        deleteAllOrder(state,action: PayloadAction<void>){
+            state.orders = [];
+        },
         updateOrder(state,action: PayloadAction<ChangeOrderCount>){
             state.orders[action.payload.index].count = action.payload.count;
 
@@ -56,5 +59,5 @@ const ordersSlice = createSlice(
 
 
 // export const {login,registration} = userSlice.actions;
-export const { addOrder, deleteOrder ,updateOrder} = ordersSlice.actions
+export const { addOrder, deleteOrder ,updateOrder,deleteAllOrder} = ordersSlice.actions
 export default ordersSlice.reducer;

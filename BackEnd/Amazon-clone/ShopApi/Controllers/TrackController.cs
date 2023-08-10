@@ -52,6 +52,22 @@ namespace ShopApi.Controllers
             return Ok(tracks);
         }
 
+        [HttpPost]
+        [Route("GetTracksByUserId")]
+        public async Task<IActionResult> GetTracksByUserIdAsync(FindByIdVM model)
+        {
+            var tracks = await _trackService.GetTracksByUserIdAsync(model.Id);
+
+            foreach (var track in tracks)
+            {
+                track.Image = await GetFullLinkByImageName(track.Image);
+                track.Background = await GetFullLinkByImageName(track.Background);
+                track.Song = await GetFullLinkBySongName(track.Song);
+            }
+
+            return Ok(tracks);
+        }
+
         [HttpPost("GetImageLinksByTrackId")]
         public async Task<IActionResult> GetImageLinksByTrackId(FindByIdVM model)
         {

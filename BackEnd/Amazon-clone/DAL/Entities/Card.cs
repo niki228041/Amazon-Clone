@@ -13,9 +13,11 @@ namespace DAL.Entities
         public string CardNumber { get; set; }
         public string Year { get; set; }
         public string Month { get; set; }
+        public bool IsDefault { get; set; }
+
 
         //Foreign keys:
-            //Every Card have a User
+        //Every Card have a User
         public User User { get; set; }
 
         [ForeignKey(nameof(User))]

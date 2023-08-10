@@ -3,8 +3,13 @@ import { Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { LoginRequest } from './types'
 import { postLogin } from '../../features/user/user-slice'
+<<<<<<< HEAD
 import { Link } from 'react-router-dom';
 import TestPage from '.././auxiliary pages/Sidebarauth';
+=======
+import { Link, useNavigate } from 'react-router-dom';
+import TestPage from '.././test-page';
+>>>>>>> 3d1c432ffbb768df135664d9e2e800f09e513fc9
 import "./auth.css"
 import IconButton from '@mui/material/IconButton';
 
@@ -25,6 +30,7 @@ const LoginScreen = () => {
     event.preventDefault();
   };
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const submitHandler = async (data: React.FormEvent<HTMLFormElement>) => {
     data.preventDefault()
@@ -36,12 +42,13 @@ const LoginScreen = () => {
     var request: LoginRequest = { email: email, password: password };
     dispatch(postLogin(request));
     console.log(request);
+    navigate("/products");
   }
 
 
 
   return (
-    <div className='overlogin'>
+    <form className='overlogin' onSubmit={submitHandler}>
       <div className="leftside">
 
         <svg className="logosing" width="345" height="92" viewBox="0 0 345 92" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -128,7 +135,7 @@ const LoginScreen = () => {
       </div>
       <TestPage ></TestPage>
 
-    </div>
+    </form>
   )
 }
 

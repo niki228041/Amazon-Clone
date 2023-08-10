@@ -83,14 +83,14 @@ namespace DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CardId")
-                        .HasColumnType("int");
-
                     b.Property<string>("CardNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
@@ -111,8 +111,6 @@ namespace DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CardId");
 
                     b.HasIndex("UserId");
 
@@ -233,12 +231,27 @@ namespace DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("CreatorId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("tblCompanies", (string)null);
                 });
@@ -760,6 +773,9 @@ namespace DAL.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -772,6 +788,9 @@ namespace DAL.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LastName")
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
@@ -781,6 +800,9 @@ namespace DAL.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("MiddleName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -808,6 +830,9 @@ namespace DAL.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("isBossOfCompany")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -923,10 +948,6 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Entities.Card", b =>
                 {
-                    b.HasOne("DAL.Entities.Card", null)
-                        .WithMany("Cards")
-                        .HasForeignKey("CardId");
-
                     b.HasOne("DAL.Entities.User", "User")
                         .WithMany("Cards")
                         .HasForeignKey("UserId");
@@ -965,6 +986,15 @@ namespace DAL.Migrations
                         .HasForeignKey("CommentId");
 
                     b.Navigation("Comment");
+                });
+
+            modelBuilder.Entity("DAL.Entities.Company", b =>
+                {
+                    b.HasOne("DAL.Entities.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId");
+
+                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("DAL.Entities.FilterEntities.OptionsCategory", b =>
@@ -1086,13 +1116,11 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Entities.Order", "Order")
                         .WithMany("OrderedProducts")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("OrderId");
 
                     b.HasOne("DAL.Entities.Product", "Product")
                         .WithMany("OrderedProducts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ProductId");
 
                     b.Navigation("Order");
 
@@ -1142,7 +1170,8 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Entities.Company", "Company")
                         .WithMany("Users")
-                        .HasForeignKey("CompanyId");
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Company");
                 });
@@ -1186,11 +1215,6 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.Address", b =>
                 {
                     b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("DAL.Entities.Card", b =>
-                {
-                    b.Navigation("Cards");
                 });
 
             modelBuilder.Entity("DAL.Entities.Category", b =>

@@ -15,6 +15,6 @@ namespace Infrastructure.Models
         public int? UserId { get; set; }
         public int? CardId { get; set; }
         public int? AddressId { get; set; }
-        public ICollection<OrderedProductDTO> OrderedProducts { get; set; }
+        public ICollection<OrderedProductDTO> OrderedProducts_ { get; set; }
     }
 }

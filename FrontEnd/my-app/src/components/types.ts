@@ -1,3 +1,4 @@
+import { Company } from "./Admin/types";
 
 
 export interface Product{
@@ -28,6 +29,7 @@ export interface OneProductVM{
     images: string[],
     comments: Comment[],
     options: SelectedOption[],
+    companyVM:Company,
 }
 
 
@@ -47,6 +49,7 @@ export interface Order{
     price:number;
     count:number;
     product_id:any;
+    discount:any;
 }
 
 export interface OrderedOrder{
@@ -56,6 +59,21 @@ export interface OrderedOrder{
     addressId:number;
     dateCreated:number;
 }
+
+export interface OrderForSeller{
+    id:any;
+    fullName:string;
+    cardId:number;
+    addressId:number;
+    dateCreated:number;
+    products:OrderedProductUpdated[];
+}
+
+export interface OrderedProductUpdated{
+    count:number,
+    product:Product
+}
+
 export interface ChangeOrderCount{
     index:any;
     count:number;
@@ -105,7 +123,8 @@ export interface addCard{
   cardNumber:string ,
   year:string ,
   month:string ,
-  userId:string 
+  userId:string ,
+  isDefault:boolean,
 }
 
 export interface Card{
@@ -115,6 +134,7 @@ export interface Card{
     month:string ,
     userId:string ,
     id:string ,
+    isDefault:boolean,
   }
 
   
@@ -128,3 +148,16 @@ export interface Address{
     userId :number,
     id :number,
   }
+
+export interface OrderedProducts{
+  productId:number,
+  count:number
+}
+
+export interface OrderDTO{
+    fullName:string,
+    userId:number,
+    cardId:number,
+    addressId:number,
+    orderedProducts_:OrderedProducts[]
+}

@@ -5,6 +5,7 @@ using DAL.Repositories;
 using Infrastructure.Interfaces;
 using Infrastructure.Models;
 using MailKit.Search;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,14 +37,15 @@ namespace Infrastructure.Services
             var order = _mapper.Map<OrderDTO, Order>(model);
             await _orderRepository.Create(order);
 
-            foreach (var orderedProdct_tmp in model.OrderedProducts)
+
+            foreach (var orderedProdct_tmp in model.OrderedProducts_)
             {
                 var orderedProduct = _mapper.Map<OrderedProductDTO, OrderedProduct>(orderedProdct_tmp);
                 orderedProduct.OrderId = order.Id;
                 await _orderedProductRepository.Create(orderedProduct);
             }
 
-            await _orderRepository.Update(order);
+            //await _orderRepository.Update(order);
             var orderVm = _mapper.Map<Order, OrderVM>(order);
 
             var user = await _userRepository.GetUserByIdAsync(model.UserId.ToString()); 
@@ -68,7 +70,57 @@ namespace Infrastructure.Services
         {
            return _orderRepository.GetAll().Where(order=>order.UserId == id).ToList();
         }
+        public List<OrderVM> GetOrdersByCompanyIdAsync(int id)
+        {
+            var orders = _orderRepository.GetAll()
+            .Include(order => order.OrderedProducts)
+                .ThenInclude(orderedProduct => orderedProduct.Product) // Include the related products
+            .ToList();
 
-        
+            var selectedOrders = new List<Order>();
+
+
+            foreach(var order in orders)
+            {
+                var selectedProducts = new List<OrderedProduct>();
+                var orderedProductsList = order.OrderedProducts.ToList();
+
+                for (int i = 0; i < orderedProductsList.Count; i++)
+                {
+                    if (orderedProductsList[i].Product.CompanyId==id)
+                    {
+                        selectedProducts.Add(orderedProductsList[i]);
+                    }
+                }
+
+                if(selectedProducts.Count>0) {
+                    order.OrderedProducts = selectedProducts;
+                    selectedOrders.Add(order);
+                }
+            }
+
+            var selectedOrdersUpdated = new List<OrderVM>();
+
+            var orderVMs = new List<OrderVM>();
+
+            foreach (var order in selectedOrders)
+            {
+                var tmpOrder = _mapper.Map<Order, OrderVM>(order);
+
+                foreach (var item in order.OrderedProducts)
+                {
+                    if (tmpOrder.Products == null) { tmpOrder.Products = new List<OrderedProductUpdatedVM>(); }
+                    tmpOrder.Products.Add(new OrderedProductUpdatedVM
+                    {
+                        Count = item.Count,
+                        Product= _mapper.Map<Product, ProductVM>(item.Product),
+                    });
+                }
+                orderVMs.Add(tmpOrder);
+
+            }
+
+            return orderVMs;
+        }
     }
 }

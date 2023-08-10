@@ -81,8 +81,16 @@ public class AppMappingProfile : Profile
 
         CreateMap<ProductOneVM, Product>();
         CreateMap<Product, ProductOneVM>();
-        
 
+        CreateMap<Company, CompanyDTO>();
+        CreateMap<CompanyDTO, Company>();
+
+        CreateMap<CompanyVM, Company>();
+        CreateMap<Company, CompanyVM>();
+
+
+        CreateMap<OrderedProduct, OrderedProductUpdatedVM>();
+        CreateMap<OrderedProductUpdatedVM, OrderedProduct>();
     }
 
 

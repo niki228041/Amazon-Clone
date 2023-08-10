@@ -13,6 +13,6 @@ namespace Infrastructure.Interfaces
         Task<List<TrackVM>> GetAllAsync();
         Task<string> GetMainImageByIdAsync(int id);
         Task<string> GetBackgroundImageByIdAsync(int id);
-
+        Task<List<TrackVM>> GetTracksByUserIdAsync(int id);
     }
 }
