@@ -32,8 +32,10 @@ module.exports = {
         almostWhiteColor:"#C9C9C9",
         whiteGrayColor:"#474747"
       }
+    },
+    fontFamily: {
+      'header': ['Raleway'],
     }
   },
   plugins: [],
 }
-
