@@ -12,7 +12,8 @@ namespace Infrastructure.Interfaces
     {
         public Task<List<CompanyVM>> GetAllCompaniesAsync();
         public Task<CompanyVM> AddCompanyAsync(CompanyDTO model);
-        public Task<Company> AddUserToCompanyAsync(AddUserToCompanyDTO model);
+        public Task<CompanyVM> AddUserToCompanyAsync(AddUserToCompanyDTO model);
         public Task<Company> GetCompanyByUserIdAsync(int userId);
+        public Task<CompanyVM> AddImageByCompanyIdAsync(ImageForCompanyDTO model);
     }
 }

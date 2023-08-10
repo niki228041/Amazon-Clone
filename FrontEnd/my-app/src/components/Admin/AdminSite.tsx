@@ -1,13 +1,25 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { apiProductSlice, useGetProductsQuery } from "../../features/user/apiProductSlice";
 import { apiCategorySlice, useGetCategoriesQuery } from "../../features/user/apiCategorySlice";
-import { Category } from "./types";
+import { Category, Company } from "./types";
 import { useEffect, useState } from "react";
 import { Product } from "../types";
+import { UserState, becomeASeller } from "../../features/user/user-slice";
+import { Orders } from "../../features/user/ordersStateSlice";
+import { useAppSelector } from "../../app/hooks";
+import { useGetCompanyByUserIdQuery } from "../../features/user/apiCompanySlice";
+
 
 const AdminSite=()=> {
 
   const [list,setList] = useState("products");
+
+  var user = useAppSelector(((state: { user: UserState; orders: Orders })=>state.user.user));
+
+  var {data:company}:{data:Company} = useGetCompanyByUserIdQuery({id:user.id});
+
+  console.log("company");
+  console.log(company);
 
   var navigate = useNavigate();
 
@@ -54,17 +66,21 @@ const AdminSite=()=> {
           
       </div>
 
-      <div className=" justify-center w-full p-4 rounded-xl">
+      <div className=" justify-center w-full mt-3 rounded-xl">
 
-          <div className="flex content-center self-center text-center place-content-between">
+          <div className="flex content-center self-center text-center place-content-between mr-2">
               <span className="text-xl font-semibold leading-6 text-gray-900">{list}</span>
               <div className="gap-2 grid grid-cols-2">
+                { company == null && list=="products"?
+                ""
+                :
                 <button
-                   type="button"
-                   onClick={()=>{navigate("create/" + list)}}
-                   className="items-center rounded-md flex justify-center cursor-pointer bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                   Create
-                 </button>
+                type="button"
+                onClick={()=>{navigate("create/" + list)}}
+                className="items-center rounded-md flex justify-center cursor-pointer bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                Create
+                </button>}
+
                  <button
                   type="button"
                   onClick={()=>{handleToCreateOptions()}}
@@ -76,9 +92,9 @@ const AdminSite=()=> {
           </div>
           
 
-          <ul role="list" className="divide-y divide-gray-100">
+          <div className="divide-y divide-gray-100 ">
             <Outlet/>
-          </ul>
+          </div>
           
       </div>
 

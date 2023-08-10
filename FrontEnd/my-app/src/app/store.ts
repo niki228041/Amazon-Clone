@@ -12,6 +12,7 @@ import { apiCardSlice } from "../features/user/apiCardSlice";
 import { apiAddressSlice } from "../features/user/apiAddressSlice";
 import { apiOrderSlice } from "../features/user/apiOrderSlice";
 import { apiCompanySlice } from "../features/user/apiCompanySlice";
+import musicStateSlice from "../features/user/musicStateSlice";
 
 export const store = configureStore({
   reducer: {
@@ -26,6 +27,7 @@ export const store = configureStore({
     [apiCompanySlice.reducerPath]:apiCompanySlice.reducer,
     user: userSlice,
     orders: ordersStateSlice,
+    track: musicStateSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(

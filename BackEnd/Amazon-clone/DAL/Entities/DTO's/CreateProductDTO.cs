@@ -12,6 +12,7 @@ namespace DAL.Entities.DTO_s
     public class CreateProductDTO
     {
         public string Name { get; set; }
+        public int UserId { get; set; }
         public float Price { get; set; }
         public int Discount { get; set; }
         public string Description { get; set; }

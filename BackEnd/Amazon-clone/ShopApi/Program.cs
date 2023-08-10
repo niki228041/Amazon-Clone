@@ -149,7 +149,8 @@ string[] directoriesToCreate = {
     DirectoriesInProject.ProductImages,
     DirectoriesInProject.CommentImages,
     DirectoriesInProject.MusicImages,
-    DirectoriesInProject.MusicFiles
+    DirectoriesInProject.MusicFiles,
+    DirectoriesInProject.CompanyImages
 };
 
 // Создание директорий, если они не существуют

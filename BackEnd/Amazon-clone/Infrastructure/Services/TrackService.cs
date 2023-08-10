@@ -92,5 +92,13 @@ namespace Infrastructure.Services
 
             return tracksVMs;
         }
+
+        public async Task<List<TrackVM>> GetTracksByUserIdAsync(int id)
+        {
+            var tracks = _trackRepository.GetAll().Where(track=>track.UserId == id).ToList();
+            var tracksVM = _mapper.Map<List<Track>, List<TrackVM>>(tracks);
+
+            return tracksVM;
+        }
     }
 }

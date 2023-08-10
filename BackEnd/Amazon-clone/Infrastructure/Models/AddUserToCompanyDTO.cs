@@ -8,7 +8,7 @@ namespace Infrastructure.Models
 {
     public class AddUserToCompanyDTO
     {
-        public int UserId { get; set; }
+        public string UserEmail { get; set; }
         public int CompanyId { get; set; }
     }
 }

@@ -6,6 +6,7 @@ import { UserState } from "../../features/user/user-slice";
 import { Orders } from "../../features/user/ordersStateSlice";
 import { CardModal } from '../BuyProduct/CardModal';
 import { AdressModal } from '../BuyProduct/AdressModal';
+import { CompanyModal } from '../BuyProduct/CompanyModal';
 
 const TempProfile=()=> {
     var user = useAppSelector(((state: { user: UserState; orders: Orders })=>state.user.user));
@@ -18,10 +19,14 @@ const TempProfile=()=> {
     const [isAdressModalOpen,setAdressModalOpen]= useState(false);
     const toggleModal = (prop:boolean)=>{setAdressModalOpen(prop)};
 
+    const [isCompanyModalOpen,setCompanyModalOpen]= useState(false);
+    const toggleCompanyModal = (prop:boolean)=>{setCompanyModalOpen(prop)};
+
 
     return (<>
     <AdressModal isOpen={isAdressModalOpen} onClose={toggleModal}/>
     <CardModal isOpen={isCardModalOpen} onClose={toggleCardModal}/>
+    <CompanyModal isOpen={isCompanyModalOpen} onClose={toggleCompanyModal} />
     <div className='grid gap-4 grid-cols-4 border rounded-lg p-4 mx-auto w-2/3 mt-24'>
         <div className=' border p-2 col-span-1 rounded-lg my-2 font-semibold'>
             <div>
@@ -39,6 +44,7 @@ const TempProfile=()=> {
                         +
                     </button>
                 </div>
+
                 <div className='flex my-2'>
                     <Link to="addressSite" className=' mr-2 flex justify-center self-center active:bg-orange-400 active:scale-95 bg-mainYellowColor py-2 w-full rounded-lg text-white transition-all'>
                         My Address
@@ -47,9 +53,20 @@ const TempProfile=()=> {
                         +
                     </button>
                 </div>
-                <Link to="myCompany" className='my-2 flex justify-center self-center active:bg-orange-400 active:scale-95 bg-mainYellowColor py-2 w-full rounded-lg text-white transition-all'>
-                    My Company
+
+                <div className='flex my-2'>
+                    <Link to="myCompany" className='mr-2 flex justify-center self-center active:bg-orange-400 active:scale-95 bg-mainYellowColor py-2 w-full rounded-lg text-white transition-all'>
+                        My Company
+                    </Link>
+                    <button onClick={()=>setCompanyModalOpen(true)} className='active:scale-95 bg-green-400 flex  p-2 px-4 rounded-lg self-center'>
+                        +
+                    </button>
+                </div>
+
+                <Link to="ordersForSeller" className='my-2 flex justify-center self-center active:bg-orange-400 active:scale-95 bg-mainYellowColor py-2 w-full rounded-lg text-white transition-all'>
+                    Orders For Seller
                 </Link>
+                
             </div>
 
             {/* <Link to="viewOrdersOfMyProducts" className='flex justify-center self-center active:bg-orange-400 active:scale-95 bg-mainYellowColor py-2 w-full rounded-lg text-white transition-all'>

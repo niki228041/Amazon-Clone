@@ -8,6 +8,7 @@ namespace DAL.Entities
     public class Company : BaseEntity<int>
 	{
         public string Description { get; set; }
+        public string Image { get; set; }
 
         //Every User have a company
         public User Creator { get; set; }

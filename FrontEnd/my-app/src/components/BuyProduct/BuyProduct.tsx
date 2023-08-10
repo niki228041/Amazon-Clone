@@ -65,7 +65,7 @@ const BuyProduct=({setAdressOpen,setCardOpen}:{setAdressOpen:(prop:boolean)=>voi
             userId:Number(user.id),
             cardId:Number(selectedCard?.id),
             addressId:Number(address.id),
-            orderedProducts:orderedProducts
+            orderedProducts_:orderedProducts
         }
     
         console.log(selectedCard);

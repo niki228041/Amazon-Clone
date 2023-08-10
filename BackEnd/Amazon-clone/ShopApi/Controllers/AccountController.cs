@@ -221,18 +221,9 @@ namespace ShopApi.Controllers
             var res = await _userManager.AddToRoleAsync(user,Roles.Seller);
             string token = await _jwtTokenService.CreateToken(user);
 
-<<<<<<< HEAD
-    
-=======
+
             return Ok(token);
         }
-
-
-        //    <div onClick = { () => navigate("#") } >
-        //    <img className = "headerLogo" src={logo
-        //} />
-        //  </div>
->>>>>>> a6938275f37744de6d9a159ff96fece39ce04f0b
 
     }   
 }

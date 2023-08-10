@@ -1,0 +1,16 @@
+.rhap_container {
+    background-color:#797979 !important;
+    border-radius: 10px;
+}
+
+.rhap_container svg {
+    color:white !important;
+}
+
+.rhap_time {
+    color:white !important;
+}
+
+.rhap_progress-filled{
+    background-color:#E26A26 !important;
+}

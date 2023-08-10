@@ -1,10 +1,10 @@
 .header {
   height: 92px;
   align-items: center;
+  background-color: #002A42;
   position: sticky;
   top: 0;
   z-index: 100;
-  border-top: 1px solid #EEF0F4;
 }
 
 .headerLogo {
@@ -57,9 +57,8 @@
 }
 
 .alang {
-  color: #8B96A5;
-  font-size: 11px;
-  font-family: 'Inter';
+  color: white;
+  margin-left: 10px;
 }
 
 .languageico {
@@ -71,17 +70,15 @@
 .singindiv {
   color: #ff9a02;
   display: flex; 
-  flex-direction: column;
   align-items: center; 
-  text-align: center;
+  margin-left: 10px; 
+  margin-right: 35px; 
 }
-.image-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 70px; 
-  height: 21px; 
-  margin-bottom: 4px; 
+
+.cartdiv {
+  color: #ff9a02;
+  display: flex; 
+  align-items: center; 
 }
 
   /* .numberOfOrders {
@@ -165,59 +162,4 @@ li{
   color: #5a6068;
  
   margin-top: 4px;
-}
-
-.top-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-left: 32px;
-  margin-right: 32px;
-}
-
-.left-elements,
-.right-elements {
-  display: flex;
-  align-items: center;
-}
-
-.left-elements .language-container,
-.left-elements .currency-container {
-  display: flex;
-  align-items: center;
-  padding: 20px;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  border-right: 1px solid #EEF0F4;
-  cursor: pointer;
-}
-
-.right-elements .settings-container, 
-.faq-container, 
-.shop-container,
-.trackOrder-container {
-  display: flex;
-  align-items: center;
-  padding: 20px;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  border-left: 1px solid #EEF0F4;
-  cursor: pointer;
-}
-.right-elements .social-container {
-  display: grid;
-  
-}
-
-.top-header span {
-  font-size: 12px;
-  color: #7D8FA9;
-  font-family: 'Roboto';
-  text-decoration: none; 
-  margin-left: 5px; 
-}
-
-.hamburger {
-  cursor: pointer;
-  padding: 30px;
 }

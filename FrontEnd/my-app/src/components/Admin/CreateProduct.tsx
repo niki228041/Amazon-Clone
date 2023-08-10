@@ -6,6 +6,9 @@ import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import { useGetOptionsQuery } from "../../features/user/apiOptionsSlice";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../app/hooks";
+import { UserState } from "../../features/user/user-slice";
+import { Orders } from "../../features/user/ordersStateSlice";
 
 const CreateProduct=()=> {
   const [value, setValue] = useState('');
@@ -17,6 +20,7 @@ const CreateProduct=()=> {
     var navigate = useNavigate();
 
     const {data:categories,isSuccess} = useGetCategoriesQuery();
+    var user = useAppSelector(((state: { user: UserState; orders: Orders })=>state.user.user));
 
     const {data:options,isSuccess:isOptionsSuccess} = useGetOptionsQuery() as {
       data: Options[];
@@ -94,7 +98,8 @@ const CreateProduct=()=> {
           address: address,
           categoryId: categoryId,
           images_: imagesBytes_toSend,
-          Variants_:variantsIds
+          Variants_:variantsIds,
+          userId:Number(user.id),
         };
         console.log(newProduct);
       

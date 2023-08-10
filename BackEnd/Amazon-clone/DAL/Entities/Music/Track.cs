@@ -21,7 +21,13 @@ namespace DAL.Entities.Music
 
         [ForeignKey(nameof(Album))]
         public int? AlbumId { get; set; }
-    
+
+        //Every Track have a creator
+        public User User { get; set; }
+
+        [ForeignKey(nameof(User))]
+        public int? UserId { get; set; }
+
         public virtual ICollection<TrackGenre> TrackGenre { get; set; }
 
     }
