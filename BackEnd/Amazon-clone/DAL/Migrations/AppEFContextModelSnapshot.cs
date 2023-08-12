@@ -420,6 +420,38 @@ namespace DAL.Migrations
                 b.ToTable("AspNetUserRoles", (string)null);
             });
 
+            modelBuilder.Entity("DAL.Entities.LikedTracks", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TrackId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TrackId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("LikedTracks");
+                });
+
             modelBuilder.Entity("DAL.Entities.Music.Album", b =>
             {
                 b.Property<int>("Id")
@@ -1165,6 +1197,23 @@ namespace DAL.Migrations
 
                 b.Navigation("Category");
             });
+
+            modelBuilder.Entity("DAL.Entities.TrackHistory", b =>
+                {
+                    b.HasOne("DAL.Entities.Music.Track", "Track")
+                        .WithMany("TrackHistory")
+                        .HasForeignKey("TrackId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DAL.Entities.User", "User")
+                        .WithMany("TrackHistory")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Track");
+
+                    b.Navigation("User");
+                });
 
             modelBuilder.Entity("DAL.Entities.User", b =>
             {
