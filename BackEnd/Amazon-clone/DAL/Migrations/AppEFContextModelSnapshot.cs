@@ -23,1435 +23,1290 @@ namespace DAL.Migrations
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("DAL.Entities.Address", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                b.Property<string>("City")
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Country")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("DateCreated")
+                    .HasColumnType("datetime2");
 
-                    b.Property<string>("FullName")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("FullName")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsDelete")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Phone")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Postcode")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                b.Property<string>("Postcode")
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnType("nvarchar(10)");
 
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                b.Property<string>("Street")
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
+                b.Property<int?>("UserId")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
+                b.HasIndex("UserId")
+                    .IsUnique()
+                    .HasFilter("[UserId] IS NOT NULL");
 
-                    b.ToTable("tblAddresses", (string)null);
-                });
+                b.ToTable("tblAddresses", (string)null);
+            });
 
             modelBuilder.Entity("DAL.Entities.Card", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("CardNumber")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("CardNumber")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("DateCreated")
+                    .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsDefault")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsDefault")
+                    .HasColumnType("bit");
 
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsDelete")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("Month")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Month")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OwnerName")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("OwnerName")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
+                b.Property<int?>("UserId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("Year")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Year")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                b.HasIndex("UserId");
 
-                    b.ToTable("Card");
-                });
+                b.ToTable("Card", (string)null);
+            });
 
             modelBuilder.Entity("DAL.Entities.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("DateCreated")
+                    .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsDelete")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ParentId")
-                        .HasColumnType("int");
+                b.Property<int?>("ParentId")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("ParentId");
+                b.HasIndex("ParentId");
 
-                    b.ToTable("tblCategories", (string)null);
-                });
+                b.ToTable("tblCategories", (string)null);
+            });
 
             modelBuilder.Entity("DAL.Entities.Comment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                b.Property<DateTime>("DateCreated")
+                    .HasColumnType("datetime2");
 
+                b.Property<int>("Dislikes")
+                    .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                b.Property<bool>("IsDelete")
+                    .HasColumnType("bit");
 
-                    b.Property<int>("Dislikes")
-                        .HasColumnType("int");
+                b.Property<int>("Likes")
+                    .HasColumnType("int");
 
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
+                b.Property<string>("Message")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Likes")
-                        .HasColumnType("int");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<int?>("ProductId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<int>("Stars")
+                    .HasColumnType("int");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
+                b.Property<string>("Title")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Stars")
-                        .HasColumnType("int");
+                b.Property<int?>("UserId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.HasKey("Id");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
+                b.HasIndex("ProductId");
 
-                    b.HasKey("Id");
+                b.HasIndex("UserId");
 
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("tblComments", (string)null);
-                });
+                b.ToTable("tblComments", (string)null);
+            });
 
             modelBuilder.Entity("DAL.Entities.CommentImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CommentId")
-                        .HasColumnType("int");
+                b.Property<int?>("CommentId")
+                    .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("DateCreated")
+                    .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsDelete")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Priority")
-                        .HasColumnType("int");
+                b.Property<int>("Priority")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("CommentId");
+                b.HasIndex("CommentId");
 
-                    b.ToTable("tblCommentImages", (string)null);
-                });
+                b.ToTable("tblCommentImages", (string)null);
+            });
 
             modelBuilder.Entity("DAL.Entities.Company", b =>
-                {
-                        .HasColumnType("int");
-                        .HasColumnType("integer");
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-                    b.Property<int?>("CreatorId")
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<int?>("CreatorId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<DateTime>("DateCreated")
+                    .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
+                b.Property<string>("Description")
+                    .HasColumnType("nvarchar(max)");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                b.Property<string>("Image")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<bool>("IsDelete")
+                    .HasColumnType("bit");
 
-                    b.Property<int?>("OptionsId")
-                        .HasColumnType("int");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("CreatorId");
+                b.HasKey("Id");
 
-                    b.ToTable("tblCompanies");
-                    b.ToTable("tblCompanies");
-                    b.ToTable("tblCompanies");
+                b.HasIndex("CreatorId");
+
+                b.ToTable("tblCompanies", (string)null);
+            });
+
             modelBuilder.Entity("DAL.Entities.FilterEntities.Options", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("DateCreated")
+                    .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsDelete")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Title")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("tblOptions");
-                });
+                b.ToTable("tblOptions", (string)null);
+            });
 
             modelBuilder.Entity("DAL.Entities.FilterEntities.OptionsCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
+                b.Property<int?>("CategoryId")
+                    .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("DateCreated")
+                    .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsDelete")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OptionsId")
-                        .HasColumnType("int");
+                b.Property<int?>("OptionsId")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                b.HasIndex("CategoryId");
 
-                    b.HasIndex("OptionsId");
+                b.HasIndex("OptionsId");
 
-                    b.ToTable("tblOptionCategory");
-                });
+                b.ToTable("tblOptionCategory", (string)null);
+            });
 
             modelBuilder.Entity("DAL.Entities.FilterEntities.Variant", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("DateCreated")
+                    .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsDelete")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OptionsId")
-                        .HasColumnType("int");
+                b.Property<int?>("OptionsId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Title")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("OptionsId");
+                b.HasIndex("OptionsId");
 
-                    b.ToTable("tblVariant");
-                });
+                b.ToTable("tblVariant", (string)null);
+            });
 
             modelBuilder.Entity("DAL.Entities.FilterEntities.VariantProduct", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("DateCreated")
+                    .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsDelete")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
+                b.Property<int?>("ProductId")
+                    .HasColumnType("int");
 
-                    b.Property<int?>("VariantId")
-                        .HasColumnType("int");
+                b.Property<int?>("VariantId")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                b.HasIndex("ProductId");
 
-                    b.HasIndex("VariantId");
+                b.HasIndex("VariantId");
 
-                    b.ToTable("tblVariantProduct");
-                });
-
-                });
+                b.ToTable("tblVariantProduct", (string)null);
+            });
 
             modelBuilder.Entity("DAL.Entities.Identity.RoleEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("ConcurrencyStamp")
+                    .IsConcurrencyToken()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                b.Property<string>("Name")
+                    .HasMaxLength(256)
+                    .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                b.Property<string>("NormalizedName")
+                    .HasMaxLength(256)
+                    .HasColumnType("nvarchar(256)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
+                b.HasIndex("NormalizedName")
+                    .IsUnique()
+                    .HasDatabaseName("RoleNameIndex")
+                    .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles", (string)null);
-                });
+                b.ToTable("AspNetRoles", (string)null);
+            });
 
             modelBuilder.Entity("DAL.Entities.Identity.UserRoleEntity", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+            {
+                b.Property<int>("UserId")
+                    .HasColumnType("int");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
+                b.Property<int>("RoleId")
+                    .HasColumnType("int");
 
-                    b.HasKey("UserId", "RoleId");
+                b.HasKey("UserId", "RoleId");
 
-                    b.HasIndex("RoleId");
+                b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", (string)null);
-            modelBuilder.Entity("DAL.Entities.LikedTracks", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("TrackId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TrackId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("LikedTracks");
-                });
+                b.ToTable("AspNetUserRoles", (string)null);
+            });
 
             modelBuilder.Entity("DAL.Entities.Music.Album", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Background")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Background")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("DateCreated")
+                    .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsDelete")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Title")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("tblAlbum");
-                });
+                b.ToTable("tblAlbum", (string)null);
+            });
 
             modelBuilder.Entity("DAL.Entities.Music.Genre", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("DateCreated")
+                    .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Description")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsDelete")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Title")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("tblGenre");
-                });
+                b.ToTable("tblGenre", (string)null);
+            });
 
             modelBuilder.Entity("DAL.Entities.Music.Track", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("AlbumId")
-                        .HasColumnType("int");
+                b.Property<int?>("AlbumId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("Background")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Background")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("DateCreated")
+                    .HasColumnType("datetime2");
 
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Image")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsDelete")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NumberOfPlays")
-                        .HasColumnType("int");
+                b.Property<int>("NumberOfPlays")
+                    .HasColumnType("int");
 
-                    b.Property<string>("Song")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Song")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Title")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
+                b.Property<int?>("UserId")
+                    .HasColumnType("int");
 
-                    b.Property<int>("likes")
-                        .HasColumnType("int");
+                b.Property<int>("likes")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("AlbumId");
+                b.HasIndex("AlbumId");
 
-                    b.HasIndex("UserId");
+                b.HasIndex("UserId");
 
-                    b.ToTable("tblTrack");
-                });
+                b.ToTable("tblTrack", (string)null);
+            });
 
             modelBuilder.Entity("DAL.Entities.Music.TrackGenre", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("DateCreated")
+                    .HasColumnType("datetime2");
 
-                    b.Property<int?>("GenreId")
-                        .HasColumnType("int");
+                b.Property<int?>("GenreId")
+                    .HasColumnType("int");
 
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsDelete")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TrackId")
-                        .HasColumnType("int");
+                b.Property<int?>("TrackId")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("GenreId");
+                b.HasIndex("GenreId");
 
-                    b.HasIndex("TrackId");
+                b.HasIndex("TrackId");
 
-                    b.ToTable("tblTrackGenre");
-                });
-
-                });
+                b.ToTable("tblTrackGenre", (string)null);
+            });
 
             modelBuilder.Entity("DAL.Entities.Order", b =>
-                {
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-                        .HasColumnType("integer");
-                    b.Property<int?>("AddressId")
-                        .HasColumnType("int");
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-                    b.Property<int?>("CardId")
-                        .HasColumnType("int");
-                        .HasColumnType("integer");
-                        .HasColumnType("integer");
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CardId")
-                        .HasColumnType("int");
-                        .HasColumnType("int");
-                        .HasColumnType("integer");
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                b.Property<int?>("AddressId")
+                    .HasColumnType("int");
 
+                b.Property<int?>("CardId")
+                    .HasColumnType("int");
 
-                        .HasColumnType("nvarchar(max)");
+                b.Property<int?>("CompanyId")
+                    .HasColumnType("int");
 
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-                        .HasColumnType("character varying(100)");
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-                        .IsRequired()
-                        .HasColumnType("text");
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<DateTime>("DateCreated")
+                    .HasColumnType("datetime2");
 
-                        .HasColumnType("int");
+                b.Property<string>("FullName")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
-                        .HasColumnType("nvarchar(max)");
-                    b.HasIndex("AddressId");
+                b.Property<bool>("IsDelete")
+                    .HasColumnType("bit");
 
-                    b.HasIndex("CardId");
-                        .HasColumnType("integer");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
-                        .HasColumnType("integer");
+                b.Property<int?>("UserId")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("AddressId");
+                b.HasIndex("AddressId");
 
-                    b.HasIndex("CardId");
+                b.HasIndex("CardId");
 
-                    b.HasIndex("CompanyId");
+                b.HasIndex("CompanyId");
+
+                b.HasIndex("UserId");
+
+                b.ToTable("tblOrders", (string)null);
+            });
+
             modelBuilder.Entity("DAL.Entities.OrderedProduct", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
+                b.Property<int>("Count")
+                    .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("DateCreated")
+                    .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsDelete")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
+                b.Property<int?>("OrderId")
+                    .HasColumnType("int");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
+                b.Property<int?>("ProductId")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
+                b.HasIndex("OrderId");
 
-                    b.HasIndex("ProductId");
+                b.HasIndex("ProductId");
 
-                    b.ToTable("OrderedProducts");
-                });
-
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("tblOrders", (string)null);
-                });
+                b.ToTable("OrderedProducts", (string)null);
+            });
 
             modelBuilder.Entity("DAL.Entities.Product", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Address")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
+                b.Property<int?>("CategoryId")
+                    .HasColumnType("int");
 
-                    b.Property<int?>("CompanyId")
-                        .HasColumnType("int");
+                b.Property<int?>("CompanyId")
+                    .HasColumnType("int");
 
-                    b.Property<DateTime>("Created_At")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("Created_At")
+                    .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("DateCreated")
+                    .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Description")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Discount")
-                        .HasColumnType("int");
+                b.Property<int>("Discount")
+                    .HasColumnType("int");
 
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsDelete")
+                    .HasColumnType("bit");
 
-                    b.Property<bool>("IsInTheStock")
-                        .HasColumnType("int");
+                b.Property<bool>("IsInTheStock")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("integer");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("integer");
+                b.Property<int>("NumberOfDaysForDelivery")
+                    .HasColumnType("int");
 
-                    b.Property<int>("NumberOfDaysForDelivery")
-                        .HasColumnType("integer");
+                b.Property<float>("Price")
+                    .HasColumnType("real");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("integer");
+                b.Property<int>("Quantity")
+                    .HasColumnType("int");
 
-                    b.Property<float>("Price")
-                        .HasColumnType("real");
+                b.Property<int?>("SubcategoryId")
+                    .HasColumnType("int");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                b.HasKey("Id");
 
-                    b.Property<int?>("SubcategoryId")
-                        .HasColumnType("int");
+                b.HasIndex("CategoryId");
 
-                    b.HasKey("Id");
+                b.HasIndex("CompanyId");
 
-                    b.HasIndex("CategoryId");
+                b.HasIndex("SubcategoryId");
 
-                    b.HasIndex("CompanyId");
-
-                    b.HasIndex("SubcategoryId");
-
-                    b.ToTable("tblProducts", (string)null);
-                });
+                b.ToTable("tblProducts", (string)null);
+            });
 
             modelBuilder.Entity("DAL.Entities.ProductImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("DateCreated")
+                    .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsDelete")
+                    .HasColumnType("bit");
 
-                    b.Property<bool>("IsMainImage")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsMainImage")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Priority")
-                        .HasColumnType("int");
+                b.Property<int>("Priority")
+                    .HasColumnType("int");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
+                b.Property<int?>("ProductId")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                b.HasIndex("ProductId");
 
-                    b.ToTable("tblProductImages", (string)null);
-                });
+                b.ToTable("tblProductImages", (string)null);
+            });
 
             modelBuilder.Entity("DAL.Entities.Subcategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
+                b.Property<int?>("CategoryId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                b.HasIndex("CategoryId");
 
-                    b.ToTable("Subcategories", (string)null);
-                });
-
-            modelBuilder.Entity("DAL.Entities.TrackHistory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("TrackId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TrackId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("TrackHistory");
-                });
+                b.ToTable("Subcategories", (string)null);
+            });
 
             modelBuilder.Entity("DAL.Entities.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                b.Property<int>("AccessFailedCount")
+                    .HasColumnType("int");
 
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-                        .HasColumnType("text");
-                    b.Property<int?>("CompanyId")
-                        .HasColumnType("int");
+                b.Property<int?>("CompanyId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("text");
+                b.Property<string>("ConcurrencyStamp")
+                    .IsConcurrencyToken()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("nvarchar(25)");
+                b.Property<DateTime>("DateOfBirth")
+                    .HasColumnType("datetime2");
 
-                    b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Email")
+                    .IsRequired()
+                    .HasMaxLength(256)
+                    .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-                        .HasColumnType("character varying(25)");
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
+                b.Property<bool>("EmailConfirmed")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("FirstName")
-                        .HasMaxLength(25)
-                        .HasColumnType("character varying(25)");
-                        .HasColumnType("datetimeoffset");
+                b.Property<string>("FirstName")
+                    .HasMaxLength(25)
+                    .HasColumnType("nvarchar(25)");
 
-                    b.Property<string>("MiddleName")
-                        .HasColumnType("nvarchar(max)");
-                    b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Gender")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LastName")
-                        .HasMaxLength(25)
-                        .HasColumnType("timestamp with time zone");
+                b.Property<string>("LastName")
+                    .HasMaxLength(25)
+                    .HasColumnType("nvarchar(25)");
 
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
+                b.Property<bool>("LockoutEnabled")
+                    .HasColumnType("bit");
 
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("timestamp with time zone");
+                b.Property<DateTimeOffset?>("LockoutEnd")
+                    .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("MiddleName")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("MiddleName")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                b.Property<string>("NormalizedEmail")
+                    .HasMaxLength(256)
+                    .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                b.Property<string>("NormalizedUserName")
+                    .HasMaxLength(256)
+                    .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("PasswordHash")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-                        .HasColumnType("nvarchar(256)");
+                b.Property<string>("PhoneNumber")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("isBossOfCompany")
-                        .HasColumnType("bit");
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
+                b.Property<bool>("PhoneNumberConfirmed")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-                        .HasColumnType("character varying(256)");
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
+                b.Property<string>("SecurityStamp")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
+                b.Property<bool>("TwoFactorEnabled")
+                    .HasColumnType("bit");
 
-                    b.Property<bool>("isBossOfCompany")
-                        .HasColumnType("bit");
+                b.Property<string>("UserName")
+                    .HasMaxLength(256)
+                    .HasColumnType("nvarchar(256)");
 
-                    b.HasKey("Id");
+                b.Property<bool>("isBossOfCompany")
+                    .HasColumnType("bit");
 
-                    b.HasIndex("CompanyId");
+                b.HasKey("Id");
 
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
+                b.HasIndex("CompanyId");
 
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                b.HasIndex("NormalizedEmail")
+                    .HasDatabaseName("EmailIndex");
 
-                    b.ToTable("AspNetUsers", (string)null);
-                });
+                b.HasIndex("NormalizedUserName")
+                    .IsUnique()
+                    .HasDatabaseName("UserNameIndex")
+                    .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                b.ToTable("AspNetUsers", (string)null);
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("ClaimType")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("ClaimValue")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
+                b.Property<int>("RoleId")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
+                b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
-                });
+                b.ToTable("AspNetRoleClaims", (string)null);
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("ClaimType")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("ClaimValue")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                b.Property<int>("UserId")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
-                });
+                b.ToTable("AspNetUserClaims", (string)null);
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
-                {
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+            {
+                b.Property<string>("LoginProvider")
+                    .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                b.Property<string>("ProviderKey")
+                    .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("ProviderDisplayName")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                b.Property<int>("UserId")
+                    .HasColumnType("int");
 
-                    b.HasKey("LoginProvider", "ProviderKey");
+                b.HasKey("LoginProvider", "ProviderKey");
 
-                    b.HasIndex("UserId");
+                b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", (string)null);
-                });
+                b.ToTable("AspNetUserLogins", (string)null);
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+            {
+                b.Property<int>("UserId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                b.Property<string>("LoginProvider")
+                    .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Value")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserId", "LoginProvider", "Name");
+                b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
-                });
+                b.ToTable("AspNetUserTokens", (string)null);
+            });
 
             modelBuilder.Entity("DAL.Entities.Address", b =>
-                {
-                    b.HasOne("DAL.Entities.User", "User")
-                        .WithOne("Address")
-                        .HasForeignKey("DAL.Entities.Address", "UserId");
+            {
+                b.HasOne("DAL.Entities.User", "User")
+                    .WithOne("Address")
+                    .HasForeignKey("DAL.Entities.Address", "UserId");
 
-                    b.Navigation("User");
-                });
+                b.Navigation("User");
+            });
 
             modelBuilder.Entity("DAL.Entities.Card", b =>
-                {
-                    b.HasOne("DAL.Entities.User", "User")
-                        .WithMany("Cards")
-                        .HasForeignKey("UserId");
+            {
+                b.HasOne("DAL.Entities.User", "User")
+                    .WithMany("Cards")
+                    .HasForeignKey("UserId");
 
-                    b.Navigation("User");
-                });
+                b.Navigation("User");
+            });
 
             modelBuilder.Entity("DAL.Entities.Category", b =>
-                {
-                    b.HasOne("DAL.Entities.Category", "Parent")
-                        .WithMany("Subcategories")
-                        .HasForeignKey("ParentId");
+            {
+                b.HasOne("DAL.Entities.Category", "Parent")
+                    .WithMany("Subcategories")
+                    .HasForeignKey("ParentId");
 
-                    b.Navigation("Parent");
-                });
+                b.Navigation("Parent");
+            });
 
             modelBuilder.Entity("DAL.Entities.Comment", b =>
-                {
-                    b.HasOne("DAL.Entities.Product", "Product")
-                        .WithMany("Comments")
-                        .HasForeignKey("ProductId");
+            {
+                b.HasOne("DAL.Entities.Product", "Product")
+                    .WithMany("Comments")
+                    .HasForeignKey("ProductId");
 
-                    b.HasOne("DAL.Entities.User", "User")
-                        .WithMany("Comments")
-                        .HasForeignKey("UserId");
+                b.HasOne("DAL.Entities.User", "User")
+                    .WithMany("Comments")
+                    .HasForeignKey("UserId");
 
-                    b.Navigation("Product");
+                b.Navigation("Product");
 
-                    b.Navigation("User");
-                });
+                b.Navigation("User");
+            });
 
             modelBuilder.Entity("DAL.Entities.CommentImage", b =>
-                {
-                    b.HasOne("DAL.Entities.Comment", "Comment")
-                        .WithMany("CommentImages")
-                        .HasForeignKey("CommentId");
+            {
+                b.HasOne("DAL.Entities.Comment", "Comment")
+                    .WithMany("CommentImages")
+                    .HasForeignKey("CommentId");
 
-                    b.Navigation("Comment");
-                });
+                b.Navigation("Comment");
+            });
 
             modelBuilder.Entity("DAL.Entities.Company", b =>
-                {
-                    b.HasOne("DAL.Entities.User", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId");
+            {
+                b.HasOne("DAL.Entities.User", "Creator")
+                    .WithMany()
+                    .HasForeignKey("CreatorId");
 
-                    b.Navigation("Creator");
-                });
+                b.Navigation("Creator");
+            });
 
             modelBuilder.Entity("DAL.Entities.FilterEntities.OptionsCategory", b =>
-                {
-                    b.HasOne("DAL.Entities.Category", "Category")
-                        .WithMany("OptionsCategories")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
+            {
+                b.HasOne("DAL.Entities.Category", "Category")
+                    .WithMany("OptionsCategories")
+                    .HasForeignKey("CategoryId")
+                    .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DAL.Entities.FilterEntities.Options", "Options")
-                        .WithMany("OptionsCategories")
-                        .HasForeignKey("OptionsId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                b.HasOne("DAL.Entities.FilterEntities.Options", "Options")
+                    .WithMany("OptionsCategories")
+                    .HasForeignKey("OptionsId")
+                    .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Navigation("Category");
+                b.Navigation("Category");
 
-                    b.Navigation("Options");
-                });
+                b.Navigation("Options");
+            });
 
             modelBuilder.Entity("DAL.Entities.FilterEntities.Variant", b =>
-                {
-                    b.HasOne("DAL.Entities.FilterEntities.Options", "Options")
-                        .WithMany("Variants")
-                        .HasForeignKey("OptionsId");
+            {
+                b.HasOne("DAL.Entities.FilterEntities.Options", "Options")
+                    .WithMany("Variants")
+                    .HasForeignKey("OptionsId");
 
-                    b.Navigation("Options");
-                });
+                b.Navigation("Options");
+            });
 
             modelBuilder.Entity("DAL.Entities.FilterEntities.VariantProduct", b =>
-                {
-                    b.HasOne("DAL.Entities.Product", "Product")
-                        .WithMany("VariantProducts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
+            {
+                b.HasOne("DAL.Entities.Product", "Product")
+                    .WithMany("VariantProducts")
+                    .HasForeignKey("ProductId")
+                    .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DAL.Entities.FilterEntities.Variant", "Variant")
-                        .WithMany("VariantProducts")
-                        .HasForeignKey("VariantId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                b.HasOne("DAL.Entities.FilterEntities.Variant", "Variant")
+                    .WithMany("VariantProducts")
+                    .HasForeignKey("VariantId")
+                    .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Navigation("Product");
+                b.Navigation("Product");
 
-                    b.Navigation("Variant");
-                });
+                b.Navigation("Variant");
+            });
 
             modelBuilder.Entity("DAL.Entities.Identity.UserRoleEntity", b =>
-                {
-                    b.HasOne("DAL.Entities.Identity.RoleEntity", "Role")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("DAL.Entities.Identity.RoleEntity", "Role")
+                    .WithMany("UserRoles")
+                    .HasForeignKey("RoleId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.HasOne("DAL.Entities.User", "User")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.HasOne("DAL.Entities.User", "User")
+                    .WithMany("UserRoles")
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Role");
+                b.Navigation("Role");
 
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("DAL.Entities.LikedTracks", b =>
-                {
-                    b.HasOne("DAL.Entities.Music.Track", "Track")
-                        .WithMany("LikedTracks")
-                        .HasForeignKey("TrackId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DAL.Entities.User", "User")
-                        .WithMany("LikedTracks")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Track");
-
-                    b.Navigation("User");
-                });
+                b.Navigation("User");
+            });
 
             modelBuilder.Entity("DAL.Entities.Music.Track", b =>
-                {
-                    b.HasOne("DAL.Entities.Music.Album", "Album")
+            {
+                b.HasOne("DAL.Entities.Music.Album", "Album")
+                    .WithMany("Tracks")
+                    .HasForeignKey("AlbumId");
+
+                b.HasOne("DAL.Entities.User", null)
+                    .WithMany("Tracks")
+                    .HasForeignKey("UserId");
+
+                b.Navigation("Album");
+            });
+
             modelBuilder.Entity("DAL.Entities.Music.TrackGenre", b =>
-                {
-                    b.HasOne("DAL.Entities.Music.Genre", "Genre")
-                        .WithMany("TrackGenre")
-                        .HasForeignKey("GenreId");
+            {
+                b.HasOne("DAL.Entities.Music.Genre", "Genre")
+                    .WithMany("TrackGenre")
+                    .HasForeignKey("GenreId");
 
-                    b.HasOne("DAL.Entities.Music.Track", "Track")
-                        .WithMany("TrackGenre")
-                        .HasForeignKey("TrackId");
+                b.HasOne("DAL.Entities.Music.Track", "Track")
+                    .WithMany("TrackGenre")
+                    .HasForeignKey("TrackId");
 
-                    b.Navigation("Genre");
+                b.Navigation("Genre");
 
-                    b.Navigation("Track");
-                });
-
-                        .WithMany("Tracks")
-                        .HasForeignKey("AlbumId");
-
-                    b.HasOne("DAL.Entities.User", "User")
-                        .WithMany("Tracks")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Album");
-
-                    b.Navigation("User");
-                });
+                b.Navigation("Track");
+            });
 
             modelBuilder.Entity("DAL.Entities.Order", b =>
-                {
-                    b.HasOne("DAL.Entities.Address", "Address")
-                        .WithMany("Orders")
-                        .HasForeignKey("AddressId");
+            {
+                b.HasOne("DAL.Entities.Address", "Address")
+                    .WithMany("Orders")
+                    .HasForeignKey("AddressId");
 
-                    b.HasOne("DAL.Entities.Card", "Card")
-                        .WithMany()
-                        .HasForeignKey("CardId");
+                b.HasOne("DAL.Entities.Card", "Card")
+                    .WithMany()
+                    .HasForeignKey("CardId");
 
-                    b.HasOne("DAL.Entities.Company", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("CompanyId");
+                b.HasOne("DAL.Entities.Company", null)
+                    .WithMany("Orders")
+                    .HasForeignKey("CompanyId");
 
-                    b.HasOne("DAL.Entities.User", "User")
-                        .WithMany("Orders")
-                        .HasForeignKey("UserId");
+                b.HasOne("DAL.Entities.User", "User")
+                    .WithMany("Orders")
+                    .HasForeignKey("UserId");
 
-                    b.Navigation("Address");
+                b.Navigation("Address");
 
-                    b.Navigation("Card");
+                b.Navigation("Card");
 
-                    b.Navigation("User");
-                });
+                b.Navigation("User");
+            });
 
             modelBuilder.Entity("DAL.Entities.OrderedProduct", b =>
-                {
-                    b.HasOne("DAL.Entities.Order", "Order")
-                        .WithMany("OrderedProducts")
-                        .HasForeignKey("OrderId");
+            {
+                b.HasOne("DAL.Entities.Order", "Order")
+                    .WithMany("OrderedProducts")
+                    .HasForeignKey("OrderId");
 
-                    b.HasOne("DAL.Entities.Product", "Product")
-                        .WithMany("OrderedProducts")
-                        .HasForeignKey("ProductId");
+                b.HasOne("DAL.Entities.Product", "Product")
+                    .WithMany("OrderedProducts")
+                    .HasForeignKey("ProductId");
 
-                    b.Navigation("Order");
+                b.Navigation("Order");
 
-                    b.Navigation("Product");
-                });
+                b.Navigation("Product");
+            });
 
             modelBuilder.Entity("DAL.Entities.Product", b =>
-                {
-                    b.HasOne("DAL.Entities.Category", "Category")
-                        .WithMany("Products")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
+            {
+                b.HasOne("DAL.Entities.Category", "Category")
+                    .WithMany("Products")
+                    .HasForeignKey("CategoryId")
+                    .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DAL.Entities.Company", "Company")
-                        .WithMany("Products")
-                        .HasForeignKey("CompanyId");
+                b.HasOne("DAL.Entities.Company", "Company")
+                    .WithMany("Products")
+                    .HasForeignKey("CompanyId");
 
-                    b.HasOne("DAL.Entities.Subcategory", null)
-                        .WithMany("Products")
-                        .HasForeignKey("SubcategoryId");
+                b.HasOne("DAL.Entities.Subcategory", null)
+                    .WithMany("Products")
+                    .HasForeignKey("SubcategoryId");
 
-                    b.Navigation("Category");
+                b.Navigation("Category");
 
-                    b.Navigation("Company");
-                });
+                b.Navigation("Company");
+            });
 
             modelBuilder.Entity("DAL.Entities.ProductImage", b =>
-                {
-                    b.HasOne("DAL.Entities.Product", "Product")
-                        .WithMany("ProductImages")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
+            {
+                b.HasOne("DAL.Entities.Product", "Product")
+                    .WithMany("ProductImages")
+                    .HasForeignKey("ProductId")
+                    .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Navigation("Product");
-                });
+                b.Navigation("Product");
+            });
 
             modelBuilder.Entity("DAL.Entities.Subcategory", b =>
-                {
-                    b.HasOne("DAL.Entities.Subcategory", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
+            {
+                b.HasOne("DAL.Entities.Subcategory", "Category")
+                    .WithMany()
+                    .HasForeignKey("CategoryId");
 
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("DAL.Entities.TrackHistory", b =>
-                {
-                    b.HasOne("DAL.Entities.Music.Track", "Track")
-                        .WithMany("TrackHistory")
-                        .HasForeignKey("TrackId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DAL.Entities.User", "User")
-                        .WithMany("TrackHistory")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Track");
-
-                    b.Navigation("User");
-                });
+                b.Navigation("Category");
+            });
 
             modelBuilder.Entity("DAL.Entities.User", b =>
-                {
-                    b.HasOne("DAL.Entities.Company", "Company")
-                        .WithMany("Users")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade);
+            {
+                b.HasOne("DAL.Entities.Company", "Company")
+                    .WithMany("Users")
+                    .HasForeignKey("CompanyId")
+                    .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Navigation("Company");
-                });
+                b.Navigation("Company");
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
-                {
-                    b.HasOne("DAL.Entities.Identity.RoleEntity", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+            {
+                b.HasOne("DAL.Entities.Identity.RoleEntity", null)
+                    .WithMany()
+                    .HasForeignKey("RoleId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
-                {
-                    b.HasOne("DAL.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+            {
+                b.HasOne("DAL.Entities.User", null)
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
-                {
-                    b.HasOne("DAL.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+            {
+                b.HasOne("DAL.Entities.User", null)
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
-                {
-                    b.HasOne("DAL.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+            {
+                b.HasOne("DAL.Entities.User", null)
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
 
             modelBuilder.Entity("DAL.Entities.Address", b =>
-                {
-                    b.Navigation("Orders");
-                });
+            {
+                b.Navigation("Orders");
+            });
 
             modelBuilder.Entity("DAL.Entities.Category", b =>
-                {
-                    b.Navigation("OptionsCategories");
+            {
+                b.Navigation("OptionsCategories");
 
-                    b.Navigation("Products");
+                b.Navigation("Products");
 
-                    b.Navigation("Subcategories");
-                });
+                b.Navigation("Subcategories");
+            });
 
             modelBuilder.Entity("DAL.Entities.Comment", b =>
-                {
-                    b.Navigation("CommentImages");
-                });
+            {
+                b.Navigation("CommentImages");
+            });
 
             modelBuilder.Entity("DAL.Entities.Company", b =>
-                {
-                    b.Navigation("Orders");
+            {
+                b.Navigation("Orders");
 
-                    b.Navigation("Products");
+                b.Navigation("Products");
 
-                    b.Navigation("Users");
-                });
+                b.Navigation("Users");
+            });
 
             modelBuilder.Entity("DAL.Entities.FilterEntities.Options", b =>
-                {
-                    b.Navigation("OptionsCategories");
+            {
+                b.Navigation("OptionsCategories");
 
-                    b.Navigation("Variants");
-            modelBuilder.Entity("DAL.Entities.Music.Album", b =>
-                {
-                    b.Navigation("Tracks");
-                });
-
-            modelBuilder.Entity("DAL.Entities.Music.Genre", b =>
-                {
-                    b.Navigation("TrackGenre");
-                });
-
-            modelBuilder.Entity("DAL.Entities.Music.Track", b =>
-                {
-                    b.Navigation("LikedTracks");
-
-                    b.Navigation("TrackGenre");
-
-                    b.Navigation("TrackHistory");
-                });
-
-                });
+                b.Navigation("Variants");
+            });
 
             modelBuilder.Entity("DAL.Entities.FilterEntities.Variant", b =>
-                {
-                    b.Navigation("VariantProducts");
-                });
+            {
+                b.Navigation("VariantProducts");
+            });
 
             modelBuilder.Entity("DAL.Entities.Identity.RoleEntity", b =>
-                {
-                    b.Navigation("UserRoles");
-                });
+            {
+                b.Navigation("UserRoles");
+            });
+
+            modelBuilder.Entity("DAL.Entities.Music.Album", b =>
+            {
+                b.Navigation("Tracks");
+            });
+
+            modelBuilder.Entity("DAL.Entities.Music.Genre", b =>
+            {
+                b.Navigation("TrackGenre");
+            });
+
+            modelBuilder.Entity("DAL.Entities.Music.Track", b =>
+            {
+                b.Navigation("TrackGenre");
+            });
 
             modelBuilder.Entity("DAL.Entities.Order", b =>
-                {
-                    b.Navigation("OrderedProducts");
-                });
+            {
+                b.Navigation("OrderedProducts");
+            });
 
             modelBuilder.Entity("DAL.Entities.Product", b =>
-                {
-                    b.Navigation("Comments");
+            {
+                b.Navigation("Comments");
 
-                    b.Navigation("OrderedProducts");
+                b.Navigation("OrderedProducts");
 
-                    b.Navigation("ProductImages");
+                b.Navigation("ProductImages");
 
-                    b.Navigation("VariantProducts");
-                });
+                b.Navigation("VariantProducts");
+            });
 
             modelBuilder.Entity("DAL.Entities.Subcategory", b =>
-                {
-                    b.Navigation("Products");
-                });
-
-                    b.Navigation("TrackHistory");
-
-                    b.Navigation("Tracks");
+            {
+                b.Navigation("Products");
+            });
 
             modelBuilder.Entity("DAL.Entities.User", b =>
-                {
-                    b.Navigation("Address");
+            {
+                b.Navigation("Address");
 
-                    b.Navigation("Cards");
+                b.Navigation("Cards");
 
-                    b.Navigation("Comments");
+                b.Navigation("Comments");
 
-                    b.Navigation("LikedTracks");
+                b.Navigation("Orders");
 
-                    b.Navigation("Orders");
+                b.Navigation("Tracks");
 
-                    b.Navigation("UserRoles");
-                });
+                b.Navigation("UserRoles");
+            });
 #pragma warning restore 612, 618
         }
     }
