@@ -61,6 +61,8 @@ import Home from './components/Player/Home';
 import History from './components/Player/History';
 import Likes from './components/Player/Likes';
 import MyTracks from './components/Player/MyTracks';
+import MiniPlayer from './components/Player/MiniPlayer';
+import ViewTrack from './components/Player/ViewTrack';
 
 
 
@@ -82,12 +84,13 @@ const App: React.FC = () => {
     <BrowserRouter>
       <Routes>
         <Route path='/music' element={<><MusicHeader /><div className="flex flex-col bg-almostBlackColor" style={{ minHeight: "100vh" }}><Player /></div><MusicFooter /></>} >
-          <Route path='home' element={<Home />} />
+          <Route path='home' element={<><MiniPlayer /><Home /></>} />
           <Route path='history' element={<History />} />
           <Route path='likes' element={<Likes />} />
           <Route path='mytracks' element={<MyTracks />} />
           <Route path='createGenre' element={<CreateGenre />} />
           <Route path='createTrack' element={<CreateTrack />} />
+          <Route path='viewTrack/:trackId' element={<ViewTrack/>} />
         </Route>
 
         {/* <Route path='/admin'
