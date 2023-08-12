@@ -3,7 +3,11 @@ import { useGetCategoriesQuery } from "../../features/user/apiCategorySlice";
 import { apiProductSlice } from "../../features/user/apiProductSlice";
 import { Category, createProduct, Options, Variant, VariantDTO } from "./types";
 // import ReactQuill from "react-quill";
+
 import 'react-quill/dist/quill.snow.css';
+
+// import 'react-quill/dist/quill.snow.css';
+
 import { useGetOptionsQuery } from "../../features/user/apiOptionsSlice";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
@@ -353,6 +357,7 @@ const CreateProduct=()=> {
 
 
             
+
     //         <div className=" w-full ml-1">
     //           <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">
     //             Description
@@ -386,12 +391,47 @@ const CreateProduct=()=> {
 
     //         <div className=' rounded-full flex flex-col mb-4'>
     //           <span>Select Images</span>
-      
-    //           <input onChange={HandleFileSelection} name="Images" id="Images" multiple type="file" className='hidden' />
-    //           <label htmlFor='Images' className=' bg-yellowForInputs hover:opacity-90 text-[15px] mediumFont outline-none rounded-full h-10 pl-3 pr-3 flex justify-center items-center cursor-pointer' >
-    //               Upload Images
+
+    //         <div className=" w-full ml-1">
+    //           <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">
+    //             Description
     //           </label>
+    //           <div className="mt-2">
+    //             {/* <textarea
+    //               id="description"
+    //               name="description"
+    //               autoComplete="description"
+    //               required
+    //               className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+    //             /> */}
+    //           {/* <ReactQuill theme="snow" value={value} onChange={setValue} /> */}
+    //           </div>
+
     //         </div>
+
+    //         <div>
+    //           <label htmlFor="address" className="block text-sm font-medium leading-6 text-gray-900">
+    //             Category
+    //           </label>
+
+    //           <div className='rounded-full flex flex-col mb-4  pr-3'>
+    //               <select name='Category' id="Category" className=' bg-yellowForInputs text-[15px] mediumFont outline-none rounded-full h-10 pl-3 pr-3'>
+    //                 <option>-</option>
+    //                 {/* {companys.data.map} */}
+    //                 {isSuccess ? categories.payload?.map((a:Category)=>{return <option value={a.id} key={a.id}>{a.name}</option>;}) : ""}
+    //               </select>
+    //             </div>
+    //         </div>
+
+    //         <div className=' rounded-full flex flex-col mb-4'>
+    //           <span>Select Images</span>
+
+      
+    // //           <input onChange={HandleFileSelection} name="Images" id="Images" multiple type="file" className='hidden' />
+    // //           <label htmlFor='Images' className=' bg-yellowForInputs hover:opacity-90 text-[15px] mediumFont outline-none rounded-full h-10 pl-3 pr-3 flex justify-center items-center cursor-pointer' >
+    // //               Upload Images
+    // //           </label>
+    // //         </div>
     //         Click to delete image
     //         <div className="grid grid-cols-5 gap-5 transition-all">
     //           {imagesToShow.map((img:any,it:any)=><div onClick={()=>{handleDeleteImg(img)}} key={it} className="h-20 w-full  bg-contain bg-no-repeat rounded-xl hover:scale-[1.05] transition-all" style={{ backgroundImage:"url("+img+")", backgroundPosition:"center"}}>
