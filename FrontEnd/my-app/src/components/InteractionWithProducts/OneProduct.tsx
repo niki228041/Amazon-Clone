@@ -1,0 +1,703 @@
+
+
+
+import { useParams} from 'react-router-dom'
+import img from '../../images/t-shirt-png.webp'
+import { useGetProductByIdQuery, useGetProductsQuery } from '../../features/user/apiProductSlice';
+import { ChangeOrderCount, OneProductVM, Order, Product, SelectedOption } from '../types';
+import { useAppSelector } from '../../app/hooks';
+import { useDispatch } from 'react-redux';
+import { addOrder, updateOrder } from '../../features/user/ordersStateSlice';
+import { v4 as uuidv4 } from 'uuid';
+import { useEffect, useState } from 'react';
+import star from "../../images/star (2).png"
+import empty_star from "../../images/star (3).png"
+import circle from "../../images/black-circle.png"
+import { apiCommentSlice, useGetCommentsByProductIdQuery } from '../../features/user/apiCommentSlice';
+
+import check from "../../images/check.png"
+import filled_star from "../../images/filled_star.svg"
+import unfilled_star from "../../images/unfiled_star.svg"
+import Dot from "../../images/Dot.svg"
+import message_img from "../../images/message_small_icon.svg"
+import miniBasket from "../../images/miniBasket.svg"
+import line from "../../images/Line.svg"
+import germany from "../../images/germany.png"
+import verified_user from "../../images/verified_user.svg"
+import planet from "../../images/planet.svg"
+import checkGray from "../../images/check_gray.svg"
+
+
+
+interface createCommentDTO{
+    title: string,
+    message: string,
+    stars: number,
+    likes: number,
+    dislikes: number,
+    userId: number,
+    productId: number,
+    images: [],
+}
+interface Comment{
+    id:number,
+    dateCreated:string,
+    title: string,
+    message: string,
+    stars: number,
+    likes: number,
+    dislikes: number,
+    userId: number,
+    userName: string,
+    productId: number,
+    images: [],
+}
+
+const OneProduct=()=>{
+    const dispatch = useDispatch();
+    const params = useParams();
+    const orders = useAppSelector((state)=>state.orders);
+    var [stars,setStars] = useState(5);
+
+
+    var [mainImage,setMainImage] = useState("");
+    var [starsRating,setStarsRating] = useState("");
+    const user = useAppSelector((state)=>state.user.user);
+    var [createComment,{}] = apiCommentSlice.useCreateCommentMutation();
+
+
+    const {data:comments,isSuccess:isCommentsSuccess} = useGetCommentsByProductIdQuery({id:params.productId}) as {
+        data: Comment[];
+        isSuccess: boolean;
+    };
+    
+
+
+
+    const handleAddNewOrder=(data:OneProductVM)=>{
+        console.log(orders.orders);
+        var order = orders.orders.find(ord=>ord.product_id==data.id);
+        if(!order)
+        {
+            const newOrder:Order = {id:uuidv4(), name:data.name,product_id:data.id,price:data.price,count:1,discount:data.discount};
+            dispatch(addOrder(newOrder));
+        }
+        else{
+            var index = orders.orders.findIndex(order_=>order_.id==order?.id);
+            if(order.count<5)
+            {
+                var changeOrderCount:ChangeOrderCount = {index:index,count:order.count+1}; 
+                dispatch(updateOrder(changeOrderCount));
+            }
+        }
+    }
+
+    const changeStars=(star_id:string)=>{
+
+        setStars(parseInt(star_id));
+    
+        for(var i = 1;i<=5;i++){
+    
+          var val:any = document.getElementById(i.toString());
+    
+          if(i <= parseInt(star_id))
+          {
+            val.src = star;  
+          }
+          else
+          {
+            val.src = empty_star;
+          }
+          
+        }
+    }
+
+    
+    const getStars=(stars_:number)=>{
+      var jsx_stars: JSX.Element[] = [];
+      for(var i = 0;i<5;i++)
+      {
+        if(i<stars_)
+        {
+          jsx_stars.push(<div key={i} className='star-small'/>);
+        }
+        else
+        {
+          jsx_stars.push(<div key={i} className='empty_star-small h-3' />);
+        }
+      }
+      return jsx_stars;
+    }
+
+    const createNewComment=(data:React.FormEvent<HTMLFormElement>)=>{
+        data.preventDefault();
+
+        var curentData = new FormData(data.currentTarget);
+        var title = curentData?.get("Title")?.toString()!;
+        var text = curentData?.get("Text")?.toString()!;
+
+        var newComment:createCommentDTO = {title:title,message:text,stars:stars,likes:0,dislikes:0,userId:parseInt(user.id),productId: parseInt(params.productId!),images:[]};
+        createComment(newComment);
+        //НАДА ЗАЛОГІНЕННИЙ ЮЗЕР ДЛЯ ПРОДОВЖЕННЯ КОДУ ---------------------------------------------------
+    }
+
+    // const { data, isSuccess } = useGetProductByIdQuery({ Id: params.productId });
+    
+    const { data, isSuccess }: { data?: { payload: OneProductVM }, isSuccess: boolean } = useGetProductByIdQuery({ Id: params.productId });
+
+
+
+    const handleStarsFunctionality=()=>{
+      var sumOfStars = 0;
+      data?.payload.comments.map(com=>sumOfStars += com.stars);
+      var stars_ = Math.round(sumOfStars/(data?.payload.comments.length!));
+      return stars_;
+    }
+
+    const handleStarsRetingFunctionality=()=>{
+        var sumOfStars = 0;
+        data?.payload.comments.map(com=>sumOfStars += com.stars);
+        var rating = sumOfStars/(data?.payload.comments.length!);
+        if(!Number.isNaN(rating))
+            setStarsRating(rating.toFixed(1));
+        else
+            setStarsRating("0.0");
+    }
+
+    
+
+    const getStarsForProduct=()=>{
+      var jsx_stars: JSX.Element[] = [];
+      var stars_ = handleStarsFunctionality();
+      console.log(stars_);
+      for(var i = 0;i<5;i++)
+      {
+        if(i<stars_)
+        {
+          jsx_stars.push(<img key={i} className='ml-0.5' src={filled_star}/>);
+        }
+        else
+        {
+          jsx_stars.push(<img key={i} className='ml-0.5'  src={unfilled_star}  />);
+        }
+      }
+      return jsx_stars;
+    }
+
+    useEffect(()=>{
+        console.log("dfss");
+        if(isSuccess)
+        {
+            setMainImage(data?.payload.images[0]!);
+            handleStarsRetingFunctionality();
+        }
+
+    },[isSuccess,stars])
+
+
+
+    // Now you can access the payload directly
+
+    return <>
+        <div className="mx-auto mt-10 w-9/12">
+            <div className='grid grid-cols-10 p-2 py-4 gap-4 border border-grayColorForBorder rounded-lg'>
+                <div className='col-span-3'>
+                    <div className='rounded-lg border border-grayColorForBorder '>
+                        <div className='h-[410px] bg-contain bg-no-repeat bg-center' style={{backgroundImage: `url(${mainImage})`}} />
+                    </div>
+                    <div className='grid grid-cols-5 mt-3 gap-3 px-3'>
+                        {data?.payload.images.map((image:string)=>{return<div>
+                            <div onMouseEnter={()=>setMainImage(image)} className='rounded-md bg-contain bg-no-repeat bg-center h-[66px] w-full border border-grayColorForBorder'  style={{backgroundImage: `url(${image})`}}/>
+                        </div>})}
+                    </div>
+
+                </div>
+                <div className='col-span-4 px-8'>
+                    <div className='flex '>
+                        <img className='h-6 self-center' src={check} /> 
+                        <p className='self-center text-green-500'>В наявності</p>
+                    </div>
+                    <div className='flex w-3/4'>
+                        <p className='self-center font-semibold text-[18px]'>Mens Long Sleeve T-shirt Cotton Base Layer Slim Muscle</p>
+                    </div>
+                    <div className='flex mt-1 text-grayForText'>
+                        <div className='flex rounded-full self-center'>
+                            {getStarsForProduct()}
+                            {/* <img onClick={()=>changeStars("1")} id='1' className='h-[13px]  hover:contrast-75 image-container' src={filled_star} />
+                            <img onClick={()=>changeStars("2")} id='2' className='h-[13px]  hover:contrast-75 image-container' src={filled_star} />
+                            <img onClick={()=>changeStars("3")} id='3' className='h-[13px]  hover:contrast-75 image-container' src={filled_star} />
+                            <img onClick={()=>changeStars("4")} id='4' className='h-[13px]  hover:contrast-75 image-container' src={filled_star} />
+                            <img onClick={()=>changeStars("5")} id='5' className='h-[13px]  hover:contrast-75 image-container' src={filled_star} /> */}
+                        </div>
+
+                        <span className='px-1 self-center text-mainYellowColor ml-2 flex'>{starsRating}</span>
+                        <img className='px-1 self-center h-1.5' src={Dot} />
+                        <img className='px-1 self-center h-4' src={message_img} />
+                        <span className='px-1 self-center flex hover:underline cursor-pointer select-none'>{data?.payload.comments.length} відгуки</span>
+                        <img className='px-1 self-center h-1.5' src={Dot} />
+                        <img className='px-1 self-center h-4' src={miniBasket} />
+                        <span className='px-1 self-center flex'>154 продано</span>
+
+                    </div>
+
+                    <div className='w-full mt-2 bg-lightOrangeColor p-3 flex'>
+                        <div className='self-center font-medium w-1/3 flex flex-col px-1'>
+                            <span className='text-[18px] text-red-500'>${data?.payload.price}</span>
+                            <span className=' text-grayForText text-sm font-normal'>50-100 pcs</span>
+                        </div>
+                        <img src={line}/>
+                        <div className='self-center font-medium w-1/3 flex flex-col px-1'>
+                            <span className='text-[18px] '>${(data?.payload.price!/1.1).toFixed(2)}</span>
+                            <span className=' text-grayForText text-sm font-normal'>100-700 pcs</span>
+                        </div>
+                        <img src={line}/>
+                        <div className='self-center font-medium w-1/3 flex flex-col px-1'>
+                            <span className='text-[18px] '>${(data?.payload.price!/1.2).toFixed(2)}</span>
+                            <span className=' text-grayForText text-sm font-normal'>700+ pcs</span>
+                        </div>
+                    </div>
+
+                    <div className='w-full mt-2 py-3 text-[15px]'>
+                        <div className='my-2 grid grid-cols-4'>
+                            <span className=' text-grayForText col-span-1'>Ціна:</span>
+                            <span className='col-span-3'>${data?.payload.price}</span>
+                        </div>
+
+                        <hr className='my-1' />
+
+                        {data?.payload.options.map((opt:SelectedOption,index:number)=>
+                            <div key={index} className='my-2 grid grid-cols-4'>
+                                <span className=' text-grayForText col-span-1'>{opt.title}:</span>
+                                <span className='col-span-3'>{opt.variant}</span>
+                            </div>
+                        )}
+
+                        <hr className='my-1' />
+
+                        <div className='my-2 grid grid-cols-4'>
+                            <span className=' text-grayForText col-span-1'>Кастомізація:</span>
+                            <span className='col-span-3'>Індивідуальний логотип та дизайн індивідуальних пакетів</span>
+                        </div>
+                        
+                    </div>
+                    
+
+                </div>
+                <div className='col-span-3 px-2 pl-10'>
+                    <div className='border border-grayColorForBorder rounded-lg p-3'>
+                        <div className=' flex'>
+                            <div className=' bg-slate-400 w-16 h-16 rounded-lg bg-cover'  style={{backgroundImage: `url(${data?.payload.companyVM?.image})`}}/>
+                            <div className='ml-4 my-auto'>
+                                <p>{data?.payload.companyVM?.name}</p>
+                                {/* <p>Guanjoi Trading LLC</p> */}
+                            </div>
+                        </div>
+                        <hr className='my-4' />
+                        <div className='grid grid-cols-10 my-2 text-grayForText'>
+                            <div className='flex justify-center'>
+                                <img className='h-3 self-center' src={germany} />
+                            </div>
+                            <p className='ml-4 col-span-9 '>Німеччина, Берлін</p>
+                        </div>
+                        <div className='grid grid-cols-10 my-2 text-grayForText'>
+                            <div className='flex justify-center'>
+                                <img className='h-4 self-center' src={verified_user} />
+                            </div>
+                            <p className='ml-4 col-span-9'>Перевірений продавець</p>
+                        </div>
+                        <div className='grid grid-cols-10 my-2 text-grayForText'>
+                            <div className='flex justify-center'>
+                                <img className='h-4 self-center' src={planet} />
+                            </div>
+                            <p className='ml-4 col-span-9 '>Доставка по всьому світу</p>
+                        </div>
+
+                        <button onClick={()=>{handleAddNewOrder(data?.payload!)}} className='hover:bg-orange-300 flex mx-auto bg-mainYellowColor py-2 w-full justify-center rounded-lg text-white'>
+                            Надіслати запит
+                        </button>
+                        <button className='border border-grayColorForBorder mt-3 flex mx-auto py-2 w-full justify-center rounded-lg'>
+                            Профіль продавця
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div className='grid grid-cols-12 mt-12'>
+                <div className='mr-2 mb-4 col-span-9'>
+                    <div className='border border-grayColorForBorder rounded-lg pb-4'>
+                        <div className=' flex '>
+                            <div className=' h-14'>
+                                <p className='select-none cursor-pointer px-10 p-4'>Опис</p>
+                                <div className=' bg-slate-500 h-0.5 w-11/12 mx-auto' />
+                            </div>
+                            <div className=' h-14'>
+                                <p className='select-none cursor-pointer px-10 p-4 text-grayForText'>Відгуки</p>
+                                <div className=' bg-slate-500 h-0.5 w-11/12 mx-auto' />
+                            </div>
+                            <div className=' h-14'>
+                                <p className='select-none cursor-pointer px-10 p-4 text-grayForText'>Доставка</p>
+                                <div className=' bg-slate-500 h-0.5 w-11/12 mx-auto' />
+                            </div>
+                            <div className=' h-14'>
+                                <p className='select-none cursor-pointer px-10 p-4 text-grayForText'>Про продавця</p>
+                                <div className=' bg-slate-500 h-0.5 w-11/12 mx-auto' />
+                            </div>
+                        </div>
+                        <hr className='mb-2'/>
+                        <div  dangerouslySetInnerHTML={{ __html: data?.payload.description.toString()! }} className='mx-4 py-1 pb-3 w-11/12 text-gray-600'>
+                            
+                        </div>
+
+                        {/* ТАБЛИЦЯ З ІНФОРМАЦІЄЮ */}
+                        <div className=' ml-4'>
+                            <div className=' w-3/5 border'>
+                            <div className=' grid grid-cols-6'>
+                                <div className=' bg-grayColorForBorder col-span-2 p-1 px-2'>
+                                    Модель
+                                </div>
+                                <div className=' h-full col-span-4 px-4 self-center'>
+                                    #8786867
+                                </div>
+                            </div>
+                            <hr/>
+                            <div className=' grid grid-cols-6'>
+                                <div className=' bg-grayColorForBorder col-span-2 p-1 px-2'>
+                                    Стиль
+                                </div>
+                                <div className=' h-full col-span-4 px-4 self-center'>
+                                    Classic style
+                                </div>
+                            </div>
+                            <hr/>
+                            <div className=' grid grid-cols-6'>
+                                <div className=' bg-grayColorForBorder col-span-2 p-1 px-2'>
+                                    Сертифікат
+                                </div>
+                                <div className=' h-full col-span-4 px-4 self-center'>
+                                    ISO-898921212
+                                </div>
+                            </div>
+
+                            <hr/>
+                            <div className=' grid grid-cols-6'>
+                                <div className=' bg-grayColorForBorder col-span-2 p-1 px-2'>
+                                    Розмір
+                                </div>
+                                <div className=' h-full col-span-4 px-4 self-center'>
+                                    34mm x 450mm x 19mm
+                                </div>
+                            </div>
+                            <hr/>
+                            <div className=' grid grid-cols-6'>
+                                <div className=' bg-grayColorForBorder col-span-2 p-1 px-2'>
+                                    Модель
+                                </div>
+                                <div className=' h-full col-span-4 px-4 self-center'>
+                                    36GBRAM
+                                </div>
+                            </div>
+
+                            </div>
+                        </div>
+
+
+                        <div className='ml-4 mt-6'>
+                            <div className='flex py-2'>
+                                <img src={checkGray} />
+                                <p>Some great feature name here</p>
+                            </div>
+
+                            <div className='flex py-2'>
+                                <img src={checkGray} />
+                                <p>Lorem ipsum dolor sit amet, consectetur </p>
+                            </div>
+
+                            <div className='flex py-2'>
+                                <img src={checkGray} />
+                                <p>Duis aute irure dolor in reprehenderit</p>
+                            </div>
+
+                            <div className='flex py-2'>
+                                <img src={checkGray} />
+                                <p>Some great feature name here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className='ml-2 col-span-3'>
+                    <div className='border border-grayColorForBorder rounded-lg p-4'>
+                        <p className=' font-semibold'>Вам може сподобатись</p>
+
+                        <div className='flex mt-4 h-[70px] my-4 mb-8'>
+                            <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
+                            <div className='grid grid-rows-2'>
+                                <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
+                                <p className=' self-end text-grayForText'>1000-25000 грн.</p>
+                            </div>
+                        </div>
+                        <div className='flex mt-4 h-[70px] my-4 mb-8'>
+                            <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
+                            <div className='grid grid-rows-2'>
+                                <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
+                                <p className=' self-end text-grayForText'>1000-25000 грн.</p>
+                            </div>
+                        </div>
+                        <div className='flex mt-4 h-[70px] my-4 mb-8'>
+                            <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
+                            <div className='grid grid-rows-2'>
+                                <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
+                                <p className=' self-end text-grayForText'>1000-25000 грн.</p>
+                            </div>
+                        </div>
+                        <div className='flex mt-4 h-[70px] my-4 mb-8'>
+                            <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
+                            <div className='grid grid-rows-2'>
+                                <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
+                                <p className=' self-end text-grayForText'>1000-25000 грн.</p>
+                            </div>
+                        </div>
+                        <div className='flex mt-4 h-[70px] my-4 '>
+                            <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
+                            <div className='grid grid-rows-2'>
+                                <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
+                                <p className=' self-end text-grayForText'>1000-25000 грн.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+
+                
+            </div>
+
+
+            <div className='p-2 border rounded-lg mb-4'>
+                <p className='p-2 text-lg font-semibold'>Схожі товари</p>
+                <div className='mb-4 grid grid-cols-6'>
+                    <div>
+                        <div className='p-2'>
+                            <div className='h-[200px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
+                            <p className='mt-2'>Xiaomi Redmi 8 Original </p>
+                            <p className=' text-sm text-grayForText'>1800 -2500 грн.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div className='p-2'>
+                            <div className='h-[200px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
+                            <p className='mt-2'>Xiaomi Redmi 8 Original </p>
+                            <p className=' text-sm text-grayForText'>1800 -2500 грн.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div className='p-2'>
+                            <div className='h-[200px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
+                            <p className='mt-2'>Xiaomi Redmi 8 Original </p>
+                            <p className=' text-sm text-grayForText'>1800 -2500 грн.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div className='p-2'>
+                            <div className='h-[200px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
+                            <p className='mt-2'>Xiaomi Redmi 8 Original </p>
+                            <p className=' text-sm text-grayForText'>1800 -2500 грн.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div className='p-2'>
+                            <div className='h-[200px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
+                            <p className='mt-2'>Xiaomi Redmi 8 Original </p>
+                            <p className=' text-sm text-grayForText'>1800 -2500 грн.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div className='p-2'>
+                            <div className='h-[200px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
+                            <p className='mt-2'>Xiaomi Redmi 8 Original </p>
+                            <p className=' text-sm text-grayForText'>1800 -2500 грн.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* РОЗСИЛКА НА ЕМАЙЛ */}
+            <div className=" my-14">
+              <div className="text-white p-6 w-full bg-darkBlueColor flex justify-between ">
+                <p className=" text-sm self-center">
+                  Підпишіться на нашу розсилку - отримайте купон на 300 грн. на перше замовлення!
+                </p>
+                <div className="flex self-center text-sm w-4/12 ">
+                  <input type="text" placeholder="Введіть адресу електронної пошти" className="border text-black rounded-l-full px-2 h-9 outline-0  w-full border-grayColorForBorder "></input>
+                  <button className=" bg-mainYellowColor rounded-r-full p-1 px-3">Apply</button>
+                </div>
+              </div>
+            </div>
+
+        </div>
+    
+        {/* <div className='pl-40 pr-40 '>
+        
+        <div className='mt-10 mb-20'>
+            <div className='grid grid-cols-12 gap-2 '>
+                <div className=' w-full col-span-5 h-[400px] px-12'>
+                    <div className=' w-full h-[400px]' style={{backgroundImage: `url(${mainImage})`,backgroundPosition:"center",backgroundSize:"contain",backgroundRepeat:'no-repeat' }}>
+
+                    </div>
+                    <div className='grid grid-cols-6 mt-4 gap-3 '>
+                        {data?.payload.images.map((image:string)=>{return<div>
+                            <div onMouseEnter={()=>setMainImage(image)} className='border block hover:scale-105 h-[80px] rounded-xl' style={{backgroundImage: `url(${image})`,backgroundPosition:"center",backgroundSize:"contain",backgroundRepeat:'no-repeat' }} />
+                        </div>})}
+                        
+                    </div>
+
+                </div>
+                
+                <div className='w-full col-span-5 flex flex-col '>
+                    <span className=" text-xl">{data?.payload.name}</span>
+                    <hr className='my-3' />
+                    <div className='flex'>
+                        <span>Price:</span>
+                        <div className='ml-2'>
+                        <p> <span className="text-red-700 text-lg font-medium">
+                            €{data?.payload.price}  
+                            <span className='p-1 rounded-sm text-sm font-medium text-red-700'>
+                            (%{data?.payload.discount})
+                            </span>
+                            </span>
+                        </p>
+                        
+                        </div>
+                    </div>
+                    
+                    <span className='text-sm font-medium mt-4'>About this item</span>
+                    <div dangerouslySetInnerHTML={{ __html: data?.payload.description.toString()! }}/>
+                    
+
+                </div>
+
+                <div className='w-full col-span-2 justify-center'>
+                    <button  onClick={()=>{handleAddNewOrder(data?.payload!)}} className='bg-yellow-300 w-full p-2 rounded-xl'>Add to cart</button>
+                    <div className='mt-10'>
+                        {data?.payload.options.map((opt:SelectedOption,index:number)=><div key={index} className='flex justify-between'>
+                            <div className=' font-medium'>
+                            {opt.title}
+                            </div>
+                            <div>
+                            {opt.variant}
+                            </div>
+
+                        </div>)}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form className='pl-40 pr-40 pt-20' onSubmit={createNewComment}>
+            <div className='mb-10'>
+            <div className="flex items-center justify-between">
+                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                  Add Comment
+                </label>
+                
+              </div>
+            <hr/>
+            <div className='grid grid-cols-6 mt-4'>
+            <div className=' col-span-1'>
+                <p className=' text-md font-medium'>
+                Create your own review
+                </p>
+                <div className=' mt-4 w-full flex rounded-full self-end'>
+                    <img onClick={()=>changeStars("1")} id='1' className='h-6 mr-1 hover:contrast-75 image-container' src={star} />
+                    <img onClick={()=>changeStars("2")} id='2' className='h-6 mr-1 hover:contrast-75 image-container' src={star} />
+                    <img onClick={()=>changeStars("3")} id='3' className='h-6 mr-1 hover:contrast-75 image-container' src={star} />
+                    <img onClick={()=>changeStars("4")} id='4' className='h-6 mr-1 hover:contrast-75 image-container' src={star} />
+                    <img onClick={()=>changeStars("5")} id='5' className='h-6 mr-1 hover:contrast-75 image-container' src={star} />
+                </div>
+
+                <button
+                  type="submit"
+                  className=" pt-1 mt-8 self-center text-[14px] w-full h-8  flex justify-center rounded-md bg-gray-600  text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                  Add Comment
+                </button>
+
+            </div>
+            <div className=' col-span-5'>
+
+                <div className='w-full flex  rounded-xl  pl-2'>
+
+                    <div className='flex flex-col w-full mt-1'>
+                        <label htmlFor='Title' className='text-sm mb-1 font-medium '>Title</label>
+                        <input 
+                          id="Title"
+                          name="Title"
+                          required
+                          className="shadow-xl outline-0 text-[12px] w-full p-3 block rounded-md  py-1.5 text-gray-900 focus:shadow-xl ring-gray-300 placeholder:text-gray-400 " />
+                        
+                        <label htmlFor='Text'  className='text-sm mb-1 font-medium '>Text</label>
+                        <textarea 
+                          id="Text"
+                          name="Text"
+                          required
+                          className="shadow-xl outline-0 text-[12px] w-full p-3 block rounded-md  py-1.5 text-gray-900 focus:shadow-xl ring-gray-300 placeholder:text-gray-400 " />
+                    </div>
+                    
+                </div>
+
+            </div>
+            </div>
+
+           
+            </div>
+
+
+            <div className='grid grid-cols-6 mt-4'>
+                <div className=' col-span-1 '>
+                    dfsfdsdasd
+                </div>
+                <div className='col-span-5'>
+                    {comments?.map((comm:Comment)=>{
+                        const dateTime = new Date(comm.dateCreated);
+                        const dateOnly = new Date(dateTime.getFullYear(), dateTime.getMonth(), dateTime.getDate());
+
+                        return <div className='p-2 flex' key={comm.id}>
+                        <div className='mr-3 h-8 w-10'>
+                            <img className='h-8 w-8' src={circle} />
+                        </div>
+                        <div className=' w-full'>
+                            <div>
+                                <div className='flex content-center self-center text-[14px]'>
+                                    {comm.userName}
+                                </div>
+                                <div className=' text-[18px] font-medium '>
+                                    <div className=' font-normal text-[11px]  '>{dateOnly.toLocaleDateString()}</div> 
+
+                                    <div className=''>
+                                        {comm.title}
+                                    </div>
+                                    <div className='mt-1 w-full flex rounded-full self-end'>
+                                        {getStarts(comm.stars)}
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div className=' text-[13px] mb-5'>
+                                {comm.message}
+                            </div>
+                        </div>
+                    </div>
+                    })}
+                    
+                   
+                </div>
+            </div>
+        </form>
+
+        </div> */}
+        
+    </>
+}
+    
+export default OneProduct

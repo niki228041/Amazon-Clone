@@ -8,7 +8,6 @@ namespace DAL.Entities
     public class ProductImage : BaseEntity<int>
     {
         public int Priority { get; set; }
-
         public bool IsMainImage { get; set; }
 
         //Foreign keys:

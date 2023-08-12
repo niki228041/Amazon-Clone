@@ -1,4 +1,5 @@
-﻿using Infrastructure.Enum_s;
+﻿using DAL.Constants;
+using Infrastructure.Enum_s;
 using Infrastructure.Interfaces;
 using Infrastructure.Models;
 using Infrastructure.Services;
@@ -12,10 +13,12 @@ namespace ShopApi.Controllers
     public class ProductImageController : ControllerBase
     {
         private readonly IProductImageService _productImageService;
+        private readonly IProductService _productService;
 
-        public ProductImageController(IProductImageService productImageService)
+        public ProductImageController(IProductImageService productImageService, IProductService productService)
         {
             _productImageService = productImageService;
+            _productService = productService;
         }
 
         [HttpPost("GetImageById")]
@@ -31,6 +34,7 @@ namespace ShopApi.Controllers
 
             return BadRequest();
         }
+
 
     }
 }

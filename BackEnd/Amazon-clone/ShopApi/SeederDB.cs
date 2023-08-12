@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using DAL;
+using DAL.Constants;
 using DAL.Entities;
 using DAL.Entities.Identity;
 using DAL.Interfaces;
@@ -7,7 +8,6 @@ using DAL.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
-using ShopApi.Constants;
 using static System.Int32;
 
 namespace ShopApi
@@ -24,7 +24,7 @@ namespace ShopApi
                 var roleManaager = scope.ServiceProvider.GetRequiredService<RoleManager<RoleEntity>>();
                 var categoryRepository = scope.ServiceProvider.GetRequiredService<ICategoryRepository>();
                 var productRepository = scope.ServiceProvider.GetRequiredService<IProductRepository>();
-                dbcontext.Database.Migrate();
+                //dbcontext.Database.Migrate();
                 if (!roleManaager.Roles.Any())
                 {
                     var result = roleManaager.CreateAsync(new RoleEntity
@@ -34,6 +34,10 @@ namespace ShopApi
                     result = roleManaager.CreateAsync(new RoleEntity
                     {
                         Name = Roles.User
+                    }).Result;
+                    result = roleManaager.CreateAsync(new RoleEntity
+                    {
+                        Name = Roles.Seller
                     }).Result;
                 }
 

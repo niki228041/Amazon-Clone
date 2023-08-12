@@ -38,6 +38,14 @@ namespace ShopApi.Controllers
         }
 
         [HttpPost]
+        [Route("GetCommentsByProductId")]
+        public async Task<IActionResult> GetCommentsByProductIdAsync(FindByIdVM model)
+        {
+            var res = await _commentService.GetCommentsByProductIdAsync(model.Id);
+            return Ok(res);
+        }
+
+        [HttpPost]
         [Route("GetCountOfCommentsByProductId")]
         public async Task<IActionResult> GetCountOfCommentsByProductIdAsync(FindByIdVM model)
         {

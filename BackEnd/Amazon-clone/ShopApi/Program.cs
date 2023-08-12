@@ -11,14 +11,20 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.FileProviders;
 using ShopApi;
-using ShopApi.Services;
-using ShopApi.Settings;
+using Infrastructure.Settings;
+using Compass.Services.Configurations;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using DAL.Constants;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddDbContext<AppEFContext>(opt =>
-    opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 // Add services to the container.
 
 builder.Services.AddIdentity<User, RoleEntity>(opt =>
@@ -39,19 +45,36 @@ builder.Services.AddSingleton(googleAuthSettings);
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
-
-//Repositories
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductImageRepository, ProductImageRepository>();
+//builder.Services.AddTransient<UserService>();
+builder.Services.AddTransient<EmailService>();
+//builder.Services.AddTransient<JwtTokenService>();
 
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<ICommentImageRepository, CommentImageRepository>();
 
+builder.Services.AddScoped<IVariantRepository,VariantRepository>();
+builder.Services.AddScoped<IOptionsRepository,OptionsRepository>();
+builder.Services.AddScoped<IOptionsCategoryRepository,OptionsCategoryRepository>();
+builder.Services.AddScoped<IVariantProductRepository, VariantProductRepository>();
+builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+builder.Services.AddScoped<ITrackRepository, TrackRepository>();
+builder.Services.AddScoped<ICardRepository, CardRepository>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderedProductRepository, OrderedProductRepository>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<ILikedTracksRepository, LikedTracksRepository>();
+builder.Services.AddScoped<ITrackHistoryRepository, TrackHistoryRepository>();
+
 
 
 //Services
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -61,11 +84,60 @@ builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<ICommentImageService, CommentImageService>();
 
 builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IGenreService, GenreService>();
+builder.Services.AddScoped<ITrackService, TrackService>();
+builder.Services.AddScoped<ICardService, CardService>();
+builder.Services.AddScoped<IAddressService, AddressService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<ICompanyService, CompanyService>();
+builder.Services.AddScoped<ILikedTracksService, LikedTracksService>();
+builder.Services.AddScoped<ITrackHistoryService, TrackHistoryService>();
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 AutoMapperConfiguration.Config(builder.Services);
+
+
+builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"));
+var key = Encoding.UTF8.GetBytes(builder.Configuration["JwtConfig:Secret"]);
+var tokenValidationParameters = new TokenValidationParameters
+{
+    ValidateIssuerSigningKey = true,
+    IssuerSigningKey = new SymmetricSecurityKey(key),
+    ValidateIssuer = false,
+    ValidateAudience = false,
+    ValidateLifetime = false,
+    RequireExpirationTime = false,
+    ClockSkew = TimeSpan.Zero
+};
+
+builder.Services.AddSingleton(tokenValidationParameters);
+
+builder.Services.AddAuthentication(options => {
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(jwt => {
+    jwt.SaveToken = true;
+    jwt.TokenValidationParameters = tokenValidationParameters;
+});
+
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowAllOrigins",
+//        builder =>
+//        {
+//            builder.AllowAnyOrigin()
+//                   .AllowAnyHeader()
+//                   .AllowAnyMethod()
+//                   .AllowCredentials();
+//        });
+//});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -74,29 +146,46 @@ var app = builder.Build();
     app.UseSwagger();
     app.UseSwaggerUI();
 //}
-
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
 
-var dir = Path.Combine(Directory.GetCurrentDirectory(), "images");
-if (!Directory.Exists(dir))
-    Directory.CreateDirectory(dir);
 
-var dir_2 = Path.Combine(Directory.GetCurrentDirectory(), "comment_images");
-if (!Directory.Exists(dir_2))
-    Directory.CreateDirectory(dir_2);
+string[] directoriesToCreate = {
+    DirectoriesInProject.ProductImages,
+    DirectoriesInProject.CommentImages,
+    DirectoriesInProject.MusicImages,
+    DirectoriesInProject.MusicFiles,
+    DirectoriesInProject.CompanyImages
+};
 
-app.UseStaticFiles(new StaticFileOptions
+// Создание директорий, если они не существуют
+foreach (var directoryName in directoriesToCreate)
 {
-    FileProvider = new PhysicalFileProvider(dir),
-    RequestPath="/images"
-});
+    var dir = Path.Combine(Directory.GetCurrentDirectory(), directoryName);
+    if (!Directory.Exists(dir))
+        Directory.CreateDirectory(dir);
+
+    // Настройка статических файлов
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(dir),
+        RequestPath = "/" + directoryName
+    });
+}
+
+
+
+
 app.UseCors(options => options
-    .WithOrigins("http://localhost:3000")
+    //.WithOrigins("http://localhost:3000", "http://localhost:4200")
+    .AllowAnyOrigin()
     .AllowAnyHeader()
-    .AllowCredentials()
+    //.AllowCredentials()
     .AllowAnyMethod()
 );
+
+app.UseCors("AllowAllOrigins");
+
 app.MapControllers();
 
 app.SeedData();

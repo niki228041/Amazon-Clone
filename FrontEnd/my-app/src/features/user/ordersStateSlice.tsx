@@ -1,13 +1,12 @@
 //DUCKS pattern
 import { createSlice,PayloadAction,nanoid,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios"
-import {Order} from "../../components/types";
-
-const baseURL ='https://localhost:5034';
-
+import {ChangeOrderCount, Order} from "../../components/types";
+import { baseURL } from "../../api/axios";
 
 
-interface Orders{
+
+export interface Orders{
     orders:Order[];
 }
 
@@ -35,12 +34,21 @@ const ordersSlice = createSlice(
     {
         addOrder(state,action: PayloadAction<Order>){
             state.orders.push(action.payload);
-            console.log("hereeeee")
         },
         deleteOrder(state,action: PayloadAction<string>){
             state.orders = state.orders.filter(function(item) {
                 return item.id !== action.payload
             })
+        },
+        deleteAllOrder(state,action: PayloadAction<void>){
+            state.orders = [];
+        },
+        updateOrder(state,action: PayloadAction<ChangeOrderCount>){
+            state.orders[action.payload.index].count = action.payload.count;
+
+            // state.orders = state.orders.filter(function(item) {
+            //     return item.id !== action.payload
+            // })
         }
     },
     extraReducers(builder){
@@ -50,5 +58,5 @@ const ordersSlice = createSlice(
 
 
 // export const {login,registration} = userSlice.actions;
-export const { addOrder, deleteOrder } = ordersSlice.actions
+export const { addOrder, deleteOrder ,updateOrder,deleteAllOrder} = ordersSlice.actions
 export default ordersSlice.reducer;
