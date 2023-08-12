@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useGetCategoriesQuery } from "../../features/user/apiCategorySlice";
 import { apiProductSlice } from "../../features/user/apiProductSlice";
 import { Category, createProduct, Options, Variant, VariantDTO } from "./types";
-import ReactQuill from "react-quill";
-import 'react-quill/dist/quill.snow.css';
+// import ReactQuill from "react-quill";
+// import 'react-quill/dist/quill.snow.css';
 import { useGetOptionsQuery } from "../../features/user/apiOptionsSlice";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
@@ -365,7 +365,7 @@ const CreateProduct=()=> {
                   required
                   className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 /> */}
-              <ReactQuill theme="snow" value={value} onChange={setValue} />
+              {/* <ReactQuill theme="snow" value={value} onChange={setValue} /> */}
               </div>
 
             </div>
