@@ -78,6 +78,12 @@ namespace DAL
 
 
 
+            //START Many to many
+            modelBuilder.Entity<VariantProduct>()
+                .HasOne(vp => vp.Variant)
+                .WithMany(prod => prod.VariantProducts)
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             //START Many to one
             modelBuilder.Entity<Category>()

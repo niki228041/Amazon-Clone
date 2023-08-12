@@ -123,7 +123,7 @@ namespace ShopApi.Controllers
 
             string port = string.Empty;
             if (Request.Host.Port != null)
-            port = ":" + Request.Host.Port.ToString();
+                port = ":" + Request.Host.Port.ToString();
 
             var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/{DirectoriesInProject.MusicImages}/{fileName + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
             return Ok(new ImageLinkVM { Link = url, Id = 0 });

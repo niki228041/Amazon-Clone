@@ -55,6 +55,7 @@ const CreateTrack=()=>{
       isSuccess: boolean;
     };
 
+    console.log(genres);
 
     const [selectedSong, setSelectedSong] = useState<File | null>(null);
 
@@ -65,6 +66,7 @@ const CreateTrack=()=>{
 
     const handleCreateTrack= async (data:React.FormEvent<HTMLFormElement>)=>{
         data.preventDefault();
+        console.log(genresIds);
 
         var curentData = new FormData(data.currentTarget);
     
@@ -80,24 +82,31 @@ const CreateTrack=()=>{
 
         var songBytes:any = await Promise.resolve(promise);
         const numberArrayGenresIds: number[] = genresIds.map((str:string) => Number(str));
-        
 
+        var request:createTrack = {title:title,background:backgroundImageToSend,image:mainImageToSend,song:songBytes,genresIds:numberArrayGenresIds,userId:Number(user.id)};
+        console.log(request);
+    
         var request:createTrack = {title:title,background:backgroundImageToSend,image:mainImageToSend,song:songBytes,genresIds:numberArrayGenresIds,userId:Number(user.id)};
         createTrack(request);
         navigate("/music");
     }
 
     const HandleSetMainImage = async (event:any)=>{
+      console.log(mainImage);
 
       const files = event.target.files;
       if (files[0] && files[0].type.startsWith('image/')) {
+        console.log(files);
         
+        console.log("files_to_send");
+        console.log(mainImage);
         
         const promise = new Promise((resolve) => {
             let byte_img = toBase64(files[0]);
             byte_img.then((res: any) => {
             let res_byte_img = res.split(',')[1];
             let ext = getFileExtension(files[0].name);
+            console.log(ext);
             resolve(res_byte_img);
             });
         });
@@ -106,6 +115,7 @@ const CreateTrack=()=>{
           var base64img:any = await Promise.resolve(promise);
           setMainImageToSend(base64img);
           var response = await getImageByBase64({ image: base64img });
+          console.log(response.data.link);
           setMainImage(response.data.link);
         } catch (error) {
           console.error(error);
@@ -117,12 +127,17 @@ const CreateTrack=()=>{
       const files = event.target.files;
       if (files[0] && files[0].type.startsWith('image/')) {
         
+        console.log(files);
+        
+        console.log("files_to_send");
+        console.log(mainImage);
         
         const promise = new Promise((resolve) => {
             let byte_img = toBase64(files[0]);
             byte_img.then((res: any) => {
             let res_byte_img = res.split(',')[1];
             let ext = getFileExtension(files[0].name);
+            console.log(ext);
             resolve(res_byte_img);
           });
         });

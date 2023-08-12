@@ -6,7 +6,7 @@ using Infrastructure.Models.Caterories;
 using Services;
 
 namespace Infrastructure.Interfaces
-{ 
+{
     public interface ITrackService
     {
         Task<Track> CreateTrackAsync(TrackDTO model);

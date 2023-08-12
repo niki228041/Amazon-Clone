@@ -53,7 +53,7 @@ namespace Infrastructure.Services
         public string SaveSong(string base64)
         {
             var file_id = Guid.NewGuid().ToString();
-            var filename = string.Format(@"{0}", file_id + ".mp3"); 
+            var filename = string.Format(@"{0}", file_id + ".mp3");
 
             var dir = Path.Combine(Directory.GetCurrentDirectory(), DirectoriesInProject.MusicFiles);
             var path = Path.Combine(dir, filename);
@@ -137,7 +137,7 @@ namespace Infrastructure.Services
             var likedTracks = await _likedTracksService.GetLikedTracksByUserId(id);
             var list = new List<TrackVM>();
             likedTracks.ForEach(lt=>list.Add(lt.Track));
-            
+
             return list;
         }
 

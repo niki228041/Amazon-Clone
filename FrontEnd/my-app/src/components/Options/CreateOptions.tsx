@@ -11,6 +11,7 @@ interface createOptions{
   title:string,
   variants:createVariant[]
 }
+
 interface createVariant{
   title:string,
 }
@@ -118,7 +119,7 @@ const CreateOptions = () => {
               </div>
   
             </div>
-            
+
 
 
             <div className="flex">

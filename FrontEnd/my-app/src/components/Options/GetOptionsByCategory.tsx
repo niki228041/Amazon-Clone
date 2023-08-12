@@ -6,8 +6,10 @@ import { Options, Variant } from "../Admin/types";
 
 const GetOptionsByCategory=()=>{
     const params = useParams();
+    console.log(params.categoryId);
   
     const {data:options,isSuccess:isSuccessOptions}:{data:Options[],isSuccess:boolean} = apiOptionsSlice.useGetOptionsByCategoryIdQuery({id:params.categoryId});
+    console.log(options);
 
     return <>
 

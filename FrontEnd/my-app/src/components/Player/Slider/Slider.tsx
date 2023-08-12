@@ -30,6 +30,7 @@ function Slider({ percentage = 0, onChange }:any) {
     else{
       setVisible("invisible");
     }
+    console.log(("hi"));
   }
 
   return (

@@ -72,6 +72,7 @@ const MyCompany =()=> {
   }
 
   const HandleAddAvatarToCompany = async ()=>{
+    console.log(fileToSend);
     if(fileToSend!= "")
     {
     var request:AddAvatarToCompany = {image:fileToSend,companyId:company.id};

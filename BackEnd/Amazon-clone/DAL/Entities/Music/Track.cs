@@ -29,7 +29,7 @@ namespace DAL.Entities.Music
         public int? UserId { get; set; }
 
         public virtual ICollection<TrackGenre> TrackGenre { get; set; }
-        
+
         public virtual ICollection<LikedTracks> LikedTracks { get; set; }
         public virtual ICollection<TrackHistory> TrackHistory { get; set; }
 

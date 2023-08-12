@@ -21,6 +21,7 @@ const Avatar: React.FC = () => {
       // Here you can get the edited avatar data and save it to your server or perform any other action.
       const canvas = editorRef.current.getImageScaledToCanvas();
       const editedAvatarData = canvas.toDataURL(); // Base64 encoded image data
+      console.log(editedAvatarData);
     }
   };
   

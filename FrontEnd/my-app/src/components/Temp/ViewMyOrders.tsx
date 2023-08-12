@@ -8,6 +8,7 @@ import { OrderedOrder } from '../types';
 const ViewMyOrders=()=> {
   var user = useAppSelector(((state: { user: UserState; orders: Orders })=>state.user.user));
   var {data,isSuccess}:{data:OrderedOrder[],isSuccess:boolean} = useGetOrdersByUserIdQuery({id:user.id});
+  console.log(user);
 
   return (
     <div className=''>
