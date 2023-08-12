@@ -32,7 +32,7 @@ const wishsSlice = createSlice(
     initialState,
     reducers:
     {
-        
+
         addWishitem(state,action: PayloadAction<Order>){
             state.wishs.push(action.payload);
             console.log("hereeeee")

@@ -3,16 +3,8 @@ import { Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { LoginRequest } from './types'
 import { postLogin } from '../../features/user/user-slice'
-<<<<<<< HEAD
-<<<<<<< HEAD
-import { Link } from 'react-router-dom';
-import TestPage from '.././auxiliary pages/Sidebarauth';
-=======
-=======
->>>>>>> d26ae8829de56c05e3ed68d48945b1ff30b2befd
 import { Link, useNavigate } from 'react-router-dom';
-import TestPage from '.././test-page';
->>>>>>> 3d1c432ffbb768df135664d9e2e800f09e513fc9
+import TestPage from '.././auxiliary pages/Sidebarauth';
 import "./auth.css"
 import IconButton from '@mui/material/IconButton';
 

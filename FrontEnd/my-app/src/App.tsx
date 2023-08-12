@@ -46,13 +46,10 @@ import ShopsTable from './components/Admin_Page/shops-table';
 import ProductsTable from './components/Admin_Page/products-table';
 import OrdersTable from './components/Admin_Page/orders-table';
 import CustomersTable from './components/Admin_Page/customers-table';
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 import AboutUs from './components/auxiliary pages/AboutUs';
 import WishList from './components/WishList/main'
-=======
-=======
->>>>>>> d26ae8829de56c05e3ed68d48945b1ff30b2befd
+
 import { ProductList } from './components/Admin/ProductList';
 import { CategoryList } from './components/Admin/CategoryList';
 import { CompanyList } from './components/Admin/CompanyList';
@@ -70,10 +67,7 @@ import Likes from './components/Player/Likes';
 import MyTracks from './components/Player/MyTracks';
 
 
-<<<<<<< HEAD
->>>>>>> 3d1c432ffbb768df135664d9e2e800f09e513fc9
-=======
->>>>>>> d26ae8829de56c05e3ed68d48945b1ff30b2befd
+
 
 
 const App: React.FC = () => {
@@ -122,25 +116,16 @@ const App: React.FC = () => {
         <Route path='/'
           element={
             <>
-              <div className="flex flex-col" style={{ minHeight: "180vh" }}>
-                <Header />
+              <div className="flex flex-col" style={{ minHeight: "100vh", background: "rgb(231, 238, 240)" }}>
                 <Outlet />
-                <div className='mt-auto'>
-
-                  <Footer />
-                </div>
-
-
               </div>
             </>}>
-
           <Route path="login" element={<LoginScreen />} />
           <Route path="forgotpassword" element={<ForgotPasswordScreen />} />
           <Route path="otppage" element={<OtpPage />} />
 
           <Route path="resetpassword/" element={<ResetPasswordScreen />} />
           <Route path="registration" element={<Registration />} />
-
         </Route>
 
 
@@ -171,7 +156,7 @@ const App: React.FC = () => {
               <Route path='companies' element={<CompanyList />} />
             </Route>
             <Route path='create'>
-              <Route path='products' element={<CreateProduct />} />
+              {/* <Route path='products' element={<CreateProduct />} /> */}
               <Route path='categories' element={<CreateCategory />} />
             </Route>
           </Route>
@@ -222,11 +207,11 @@ const App: React.FC = () => {
 
           <Route path="product/:productId" element={<OneProduct />} />
           <Route path="profile" element={<Profile />} />
-          <Route path="aboutus"element={<AboutUs/>}/>
-          <Route path="wishlist"element={<WishList/>}/>
+          <Route path="aboutus" element={<AboutUs />} />
+          <Route path="wishlist" element={<WishList />} />
 
 
-          
+
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,10 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import './index.css';
+import aboutimag from '../../../images/About_us.jpg';
 
 const AboutUs = () => {
 
     return (
-        <div >
+        <div style={{height:"1450px"}} >
             <div style={{ width: "562px", marginLeft: "750px", marginTop: "100px" }}>
                 <a style={{ fontSize: "70px", fontWeight: "600" }}>Про нас</a>
             </div>
@@ -49,20 +50,29 @@ const AboutUs = () => {
             </div>
 
             <div style={{display:"inline-flex"}}>
-                <div style={{borderWidth:"1px",borderRadius:"30px",height:"200px",width:"500px",marginLeft:"365px"}}>
-                    <a>Наша мета</a>
-                    <a>Зручний та широкий вибір товарів,що доставляє радість прямо до вашого дому наша мета</a>
+                <div style={{  borderWidth:"1px",borderRadius:"30px",height:"200px",width:"550px",marginLeft:"365px"}}>
+                    <a style={{marginLeft:"200px",fontSize:"30px",fontWeight:"500" }}>Наша мета</a><br/>
+                    <a style={{marginLeft:"140px"}}>Зручний та широкий вибір товарів,що </a><br/>
+                    <a style={{marginLeft:"130px"}}>доставляє радість прямо до вашого дому</a><br/>
+                    <a style={{marginLeft:"230px"}}> наша мета</a>
                 </div>
 
-                <div style={{borderWidth:"1px",borderRadius:"30px",height:"200px",width:"500px",marginLeft:"110px"}}>
-                    
+                <div style={{borderWidth:"1px",borderRadius:"30px",height:"200px",width:"550px",marginLeft:"20px"}}>
+                <a style={{marginLeft:"160px",fontSize:"30px",fontWeight:"500" }}>Наша концепція</a><br/>
+                    <a style={{marginLeft:"70px"}}>Ми створюємо унікальний простір, де клієнти знаходять </a><br/>
+                    <a style={{marginLeft:"70px"}}>якісні товари та отримують комфорт та задоволення від</a><br/>
+                    <a style={{marginLeft:"100px"}}>покупок. Сучасний дизайн, зручна навігація та</a><br/>
+                    <a style={{marginLeft:"80px"}}>обистий підхід роблять кожного клієнта особливим у</a><br/>
+                    <a style={{marginLeft:"200px"}}>світі онлайн-шопінгу </a>
+
                 </div>
             </div>
 
            
 
-            <div>
-
+            <div style={{flexWrap: "wrap",display:"flex", marginLeft:"365px",width:"1120px",borderWidth:"1px",borderRadius:"30px",height:"500px",marginTop:"30px"}}>
+                <a style={{marginTop:"20px",marginLeft:"280px",fontSize:"40px",fontWeight:"500" }}>Ми - кращий інтернет-магазин</a>
+                <img style={{height:"400px",marginLeft:"300px"}} src={aboutimag}></img>
             </div>
         </div>
     );
