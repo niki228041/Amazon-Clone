@@ -67,6 +67,7 @@ import Likes from './components/Player/Likes';
 import MyTracks from './components/Player/MyTracks';
 import MiniPlayer from './components/Player/MiniPlayer';
 import ViewTrack from './components/Player/ViewTrack';
+import NotFound from './components/auxiliary pages/NotFound'
 import Description from './components/InteractionWithProducts/OneProductsTabs/Description';
 import Reviews from './components/InteractionWithProducts/OneProductsTabs/Reviews';
 import SearchTracks from './components/Player/SearchTracks';
@@ -136,8 +137,16 @@ const App: React.FC = () => {
           <Route path="resetpassword/" element={<ResetPasswordScreen />} />
           <Route path="registration" element={<Registration />} />
         </Route>
-
-
+        <Route path='/*'
+          element={
+            <>
+              <div className="flex flex-col" style={{ minHeight: "100vh", background: "rgb(231, 238, 240)" }}>
+                <Outlet />
+              </div>
+            </>}>
+            <Route path='notfound' element={<NotFound />} />
+        </Route>
+        
 
         <Route
           path='/'
@@ -174,6 +183,7 @@ const App: React.FC = () => {
 
           <Route path='orders' element={<Orders />} />
           <Route path='successful-purchase' element={<SuccessfulPurchase />} />
+
 
           <Route path="product/:productId" element={<OneProduct />} />
           <Route path="/profile" element={<Profile />} />

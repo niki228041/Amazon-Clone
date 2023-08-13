@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import SideBar from '.././SideBarProf';
+
 
 
 const EditProfile: React.FC = () => {
@@ -8,7 +8,7 @@ const EditProfile: React.FC = () => {
   return (
     <div className="flex bg-slate-100" >
 
-      <SideBar></SideBar>
+      
       <div className="">
         <div className="shipingheader" >
 

@@ -358,6 +358,7 @@ const CreateProduct=()=> {
 
 
             
+
             <div className=" w-full ml-1">
               <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">
                 Description
@@ -382,6 +383,7 @@ const CreateProduct=()=> {
                 Category
               </label>
 
+
               <div className='rounded-full flex flex-col mb-4  pr-3'>
                   <select name='Category' id="Category" className=' bg-yellowForInputs text-[15px] mediumFont outline-none rounded-full h-10 pl-3 pr-3'>
                     <option>-</option>
@@ -394,6 +396,7 @@ const CreateProduct=()=> {
             <div className=' rounded-full flex flex-col mb-4'>
               <span>Select Images</span>
       
+
               <input onChange={HandleFileSelection} name="Images" id="Images" multiple type="file" className='hidden' />
               <label htmlFor='Images' className=' bg-yellowForInputs hover:opacity-90 text-[15px] mediumFont outline-none rounded-full h-10 pl-3 pr-3 flex justify-center items-center cursor-pointer' >
                   Upload Images
