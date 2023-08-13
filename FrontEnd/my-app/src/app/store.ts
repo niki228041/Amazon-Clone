@@ -1,5 +1,7 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
-import userSlice from '../features/user/user-slice'
+import userSlice from '../features/user/user-slice';
+
+
 
 import { apiProductSlice } from "../features/user/apiProductSlice";
 import { apiCategorySlice } from "../features/user/apiCategorySlice";
@@ -14,6 +16,7 @@ import { apiOrderSlice } from "../features/user/apiOrderSlice";
 import { apiCompanySlice } from "../features/user/apiCompanySlice";
 import musicStateSlice from "../features/user/musicStateSlice";
 
+
 export const store = configureStore({
   reducer: {
     [apiProductSlice.reducerPath]:apiProductSlice.reducer,
@@ -24,7 +27,14 @@ export const store = configureStore({
     [apiCardSlice.reducerPath]:apiCardSlice.reducer,
     [apiAddressSlice.reducerPath]:apiAddressSlice.reducer,
     [apiOrderSlice.reducerPath]:apiOrderSlice.reducer,
+
+    [apiOrderSlice.reducerPath]:apiOrderSlice.reducer,
+    
+
     [apiCompanySlice.reducerPath]:apiCompanySlice.reducer,
+
+    [apiCompanySlice.reducerPath]:apiCompanySlice.reducer,
+
     user: userSlice,
     orders: ordersStateSlice,
     track: musicStateSlice,

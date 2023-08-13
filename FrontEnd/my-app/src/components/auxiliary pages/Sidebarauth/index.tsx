@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import './test-style.css';
+import './index.css';
 
 const TestPage = () => {
 
