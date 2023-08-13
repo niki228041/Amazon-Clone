@@ -88,8 +88,18 @@ export interface User {
     name: string,
     surname: string,
     username: string,
-    email: string
+    email: string,
+    avatar:string
 }
+
+export interface UserVM {
+    firstName: string,
+    lastName: string,
+    userName: string,
+    email: string,
+    avatar:string
+}
+
 export interface Login {
     email: string,
     password: string

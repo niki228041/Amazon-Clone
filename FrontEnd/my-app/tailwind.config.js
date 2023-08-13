@@ -30,7 +30,8 @@ module.exports = {
         middleGrayColor:"#353535",
         orangeColor:"#E9671E",
         almostWhiteColor:"#C9C9C9",
-        whiteGrayColor:"#474747"
+        whiteGrayColor:"#474747",
+        grayForCheckBox:"#1A1A1A",
       }
     },
     fontFamily: {

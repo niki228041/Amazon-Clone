@@ -18,9 +18,23 @@ import DotsMenu from "../../images/MenuDots.svg";
 import Like from "../../images/clickLike.png";
 import Comment from "../../images/createComment.png";
 import LikeOrange from "../../images/clickLike_orange.png";
-import { useGetTrackByIdQuery } from "../../features/user/apiPlayerSlice";
+import { apiPlayerSlice, useGetTrackByIdQuery, useGetTrackCommentsByTrackIdQuery } from "../../features/user/apiPlayerSlice";
 import { TrackFromServer } from "./Player";
+import { User, UserVM } from "../types";
+import { formatDistanceToNow, parseISO } from 'date-fns';
 
+
+export interface TrackComment{
+  message:string,
+  dateCreated:string,
+  user:UserVM
+}
+
+export interface AddTrackCommentDTO{
+  message:string,
+  userId:number,
+  trackId:number
+}
 
 const ViewTrack=()=>{
     var navigate = useNavigate();
@@ -28,22 +42,56 @@ const ViewTrack=()=>{
     const [isLikePressed, setLikePressed] = useState(false);
 
     const [isPlayPressed, setPlayPressed] = useState(false);
+    const [commentText, setCommentText] = useState("");
 
     const [previewDuration, setPreviewDuration] = useState<number>(0);
     const track = useAppSelector((state)=>state.track);
+    const user = useAppSelector((state)=>state.user.user);
+    const isPlay = useAppSelector((state)=>state.track.isPlay);
 
+    const [addCommentTrack,{}] = apiPlayerSlice.useAddTrackCommentMutation();
+    
 
+    const params = useParams();
+    const {data}: { data?: TrackFromServer} = useGetTrackByIdQuery({ Id: params.trackId });
+    
+    const {data:comments}: { data?: TrackComment[]} = useGetTrackCommentsByTrackIdQuery({ Id: params.trackId });
 
+    function formatDateDifference(dateString:string) {
+      const date = parseISO(dateString);
+      const now = new Date();
+
+    
+      const difference = formatDistanceToNow(date, { addSuffix: true });
+    
+      return difference;
+    }
+    
     useEffect(()=>{
-      if(track.currentTrack?.id == data?.id)
+      const handleKeyDown = (event:any) => {
+        if(event.key === "Enter" && commentText != "" && user.id != undefined) {
+          console.log("Im in");
+          var request:AddTrackCommentDTO = {message:commentText,userId:Number(user.id),trackId:Number(data?.id)};
+          setCommentText("");
+          addCommentTrack(request);
+        }
+        
+        
+      };
+  
+      document.addEventListener("keydown", handleKeyDown);
+
+      if(data?.id == track.currentTrack?.id && isPlay == true)
       {
+        setPlayPressed(true);
       }
 
-    },[])
+      return () => {
+        document.removeEventListener("keydown", handleKeyDown);
+      };
+    },[commentText,user.id,data?.id])
 
-    const isPlay = useAppSelector((state)=>state.track.isPlay);
-    // const onChangeLocal = useAppSelector((state)=>state.track.onChangeSlider);
-    const params = useParams();
+
 
     const onChangeLocal= (e:any)=>{
       
@@ -83,7 +131,7 @@ const ViewTrack=()=>{
     }
 
 
-    const { data, isSuccess }: { data?: TrackFromServer , isSuccess: boolean } = useGetTrackByIdQuery({ Id: params.trackId });
+
     
     const formatTime = (seconds:number) => {
       const minutes = Math.floor(seconds / 60);
@@ -193,14 +241,14 @@ const ViewTrack=()=>{
         <div className="bg-middleGrayColor rounded-lg text-white text-[15px] select-none col-span-6 ml-2 px-4 pt-4 pb-4">
           
           <div className="flex">
-            <span>13 Comments</span>
+            <span>{comments?.length} Comments</span>
             <img className="h-4 ml-2 self-center" src={Comment} />
           </div>
 
           <div className="grid grid-cols-12 w-full mt-2">
             <img className="h-12 w-12 rounded-full" src={img} />
             <div className="flex w-full px-2 col-span-11">
-                <input className=" outline-0 bg-almostBlackColor rounded-sm px-4 w-full text-sm" placeholder="Write comment..." />
+                <input onChange={(e)=>setCommentText(e.target.value)} value={commentText} className=" outline-0 bg-almostBlackColor rounded-sm px-4 w-full text-sm" placeholder="Write comment..." />
             </div>
           </div>
 
@@ -209,115 +257,23 @@ const ViewTrack=()=>{
               <div className=" bg-almostWhiteColor/60 h-[2px] rounded-full"/>
             </div>
           </div>
-
-          <div className="grid grid-cols-12 w-full mt-4">
-            <div className="flex justify-center col-start-2">
-              <img className="h-12 w-12 rounded-full" src={img} />
-            </div>
-            <div className="w-full px-2 col-span-10">
-              <div className="flex justify-between w-full">
-                  <span className=" text-almostWhiteColor hover:text-white">Uishjro</span>
-                  <span className="text-sm text-almostWhiteColor">3 days ago</span>
-              </div>
-              <div className="mt-2 text-sm">OMGG I LIKE THIS TRAK SO MUCH, i hear it literally every day....</div>
-
-            </div>
-          </div>
-
-          <div className="grid grid-cols-12 w-full mt-7">
-            <div className="flex justify-center col-start-2">
-              <img className="h-12 w-12 rounded-full" src={img} />
-            </div>
-            <div className="w-full px-2 col-span-10">
-              <div className="flex justify-between w-full">
-                  <span className=" text-almostWhiteColor hover:text-white">Uishjro</span>
-                  <span className="text-sm text-almostWhiteColor">3 days ago</span>
-              </div>
-              <div className="mt-2 text-sm">no way, it sound like shit. What kind of ppl u should be to like it? Disgusting
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</div>
-
-            </div>
-          </div>
-          <div className="grid grid-cols-12 w-full mt-7">
-            <div className="flex justify-center col-start-2">
-              <img className="h-12 w-12 rounded-full" src={img} />
-            </div>
-            <div className="w-full px-2 col-span-10">
-              <div className="flex justify-between w-full">
-                  <span className=" text-almostWhiteColor hover:text-white">Uishjro</span>
-                  <span className="text-sm text-almostWhiteColor">3 days ago</span>
-              </div>
-              <div className="mt-2 text-sm">no way, it sound like shit. What kind of ppl u should be to like it? Disgusting
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</div>
-
-            </div>
-          </div><div className="grid grid-cols-12 w-full mt-7">
-            <div className="flex justify-center col-start-2">
-              <img className="h-12 w-12 rounded-full" src={img} />
-            </div>
-            <div className="w-full px-2 col-span-10">
-              <div className="flex justify-between w-full">
-                  <span className=" text-almostWhiteColor hover:text-white">Uishjro</span>
-                  <span className="text-sm text-almostWhiteColor">3 days ago</span>
-              </div>
-              <div className="mt-2 text-sm">no way, it sound like shit. What kind of ppl u should be to like it? Disgusting
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</div>
-
-            </div>
-          </div><div className="grid grid-cols-12 w-full mt-7">
-            <div className="flex justify-center col-start-2">
-              <img className="h-12 w-12 rounded-full" src={img} />
-            </div>
-            <div className="w-full px-2 col-span-10">
-              <div className="flex justify-between w-full">
-                  <span className=" text-almostWhiteColor hover:text-white">Uishjro</span>
-                  <span className="text-sm text-almostWhiteColor">3 days ago</span>
-              </div>
-              <div className="mt-2 text-sm">no way, it sound like shit. What kind of ppl u should be to like it? Disgusting
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</div>
-
-            </div>
-          </div><div className="grid grid-cols-12 w-full mt-7">
-            <div className="flex justify-center col-start-2">
-              <img className="h-12 w-12 rounded-full" src={img} />
-            </div>
-            <div className="w-full px-2 col-span-10">
-              <div className="flex justify-between w-full">
-                  <span className=" text-almostWhiteColor hover:text-white">Uishjro</span>
-                  <span className="text-sm text-almostWhiteColor">3 days ago</span>
-              </div>
-              <div className="mt-2 text-sm">no way, it sound like shit. What kind of ppl u should be to like it? Disgusting
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</div>
-
-            </div>
-          </div><div className="grid grid-cols-12 w-full mt-7">
-            <div className="flex justify-center col-start-2">
-              <img className="h-12 w-12 rounded-full" src={img} />
-            </div>
-            <div className="w-full px-2 col-span-10">
-              <div className="flex justify-between w-full">
-                  <span className=" text-almostWhiteColor hover:text-white">Uishjro</span>
-                  <span className="text-sm text-almostWhiteColor">3 days ago</span>
-              </div>
-              <div className="mt-2 text-sm">no way, it sound like shit. What kind of ppl u should be to like it? Disgusting
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</div>
-
-            </div>
-          </div><div className="grid grid-cols-12 w-full mt-7">
-            <div className="flex justify-center col-start-2">
-              <img className="h-12 w-12 rounded-full" src={img} />
-            </div>
-            <div className="w-full px-2 col-span-10">
-              <div className="flex justify-between w-full">
-                  <span className=" text-almostWhiteColor hover:text-white">Uishjro</span>
-                  <span className="text-sm text-almostWhiteColor">3 days ago</span>
-              </div>
-              <div className="mt-2 text-sm">no way, it sound like shit. What kind of ppl u should be to like it? Disgusting
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</div>
-
-            </div>
-          </div>
           
+          {comments?.map((comment: TrackComment, id: number) => {
+          return(
+            <div key={id} className="grid grid-cols-12 w-full mt-6">
+            <div className="flex justify-center col-start-2">
+              <img className="h-12 w-12 rounded-full" src={comment.user.avatar != null ?comment.user.avatar : img} />
+            </div>
+            <div className="w-full px-2 col-span-10">
+              <div className="flex justify-between w-full">
+                  <span className=" text-almostWhiteColor hover:text-white">{comment.user.userName != null ? comment.user.userName : "Probably admin"}</span>
+                  <span className="text-sm text-almostWhiteColor">{formatDateDifference(comment.dateCreated)}</span>
+              </div>
+              <div className="mt-2 text-sm">{comment.message}</div>
+
+            </div>
+          </div>)
+           })}
 
         </div>
       </div>

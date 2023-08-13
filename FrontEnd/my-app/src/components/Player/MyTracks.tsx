@@ -51,7 +51,7 @@ export const TrackItem=({ track,changePressed }
     var [setLike,{}] = apiPlayerSlice.useSetLikeMutation();
     const [addHistory,{}]=apiPlayerSlice.useAddHistoryMutation();
     const [deleteTrack,{}]=apiPlayerSlice.useDeleteTrackMutation();
-    
+
 
     const changeTrack=()=>{
       if(globalTrack?.id != track.id)
@@ -79,6 +79,11 @@ export const TrackItem=({ track,changePressed }
       if(globalTrack?.id != track.id)
       {
         setSongPressed(false);
+      }
+
+      if(globalTrack?.id == track.id && isPlay == true)
+      {
+        setSongPressed(true);
       }
 
       if(!isPlay)
@@ -198,7 +203,12 @@ const MyTracks=()=> {
     <div className="bg-middleGrayColor rounded-lg mt-2 self-center gap-3 text-white text-[15px] select-none py-3 px-6">
         <div className='flex justify-between'>
             <p className=' text-xl font-semibold'>My Tracks</p>
-            <button onClick={()=>{navigate("/music/createTrack")}} className='px-10 transition-all active:bg-slate-50/50 py-2 bg-whiteGrayColor rounded-xl'>Add Song</button>
+            <div>
+              <button onClick={()=>{navigate("/music/createTrack")}} className='ml-2 px-10 transition-all active:bg-slate-50/50 py-2 bg-whiteGrayColor rounded-xl'>Add Song</button>
+
+              {user?.roles?.includes("admin") ? <button onClick={()=>{navigate("/music/createGenre")}} className='ml-2 px-10 transition-all active:bg-slate-50/50 py-2 bg-whiteGrayColor rounded-xl'>Add Genre</button> : ""}
+            </div>
+            
         </div>
 
         <div className=''>

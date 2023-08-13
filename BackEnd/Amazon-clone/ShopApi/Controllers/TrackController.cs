@@ -21,9 +21,11 @@ namespace ShopApi.Controllers
         private readonly ITrackService _trackService;
         private readonly IMapper _mapper;
         private readonly IImageService _imageService;
+        private readonly ITrackCommentService _trackCommentService;
 
-        public TrackController(IMapper mapper, ITrackService trackService, IImageService imageService)
+        public TrackController(IMapper mapper, ITrackService trackService, IImageService imageService,ITrackCommentService trackCommentService)
         {
+            _trackCommentService= trackCommentService;
             _mapper = mapper;
             _trackService = trackService;
             _imageService = imageService;
@@ -197,6 +199,46 @@ namespace ShopApi.Controllers
         public async Task DeleteTrackAsync([FromBody] FindByIdVM model)
         {
             await _trackService.DeleteTrackAsync(model.Id);
+        }
+
+
+        [HttpGet]
+        [Route("GetTrackComments")]
+        public async Task<List<TrackCommentVM>> GetTrackCommentsAsync()
+        {
+            var res = await _trackCommentService.GetTrackCommentsAsync();
+            return res;
+        }
+
+        [HttpPost]
+        [Route("AddTrackComment")]
+        public async Task<TrackComment> AddTrackCommentAsync(TrackCommentDTO model)
+        {
+            var res = await _trackCommentService.AddTrackCommentAsync(model);
+            return res;
+        }
+
+
+        [HttpPost]
+        [Route("GetTrackCommentsByTrackId")]
+        public async Task<List<TrackCommentVM>> GetTrackCommentsByTrackIdAsync(FindByIdVM model)
+        {
+            var res = await _trackCommentService.GetTrackCommentsByTrackIdAsync(model.Id);
+            return res;
+        }
+
+        [HttpPost]
+        [Route("GetSearchTracksByName")]
+        public async Task<List<TrackVM>> GetSearchTracksByNameAsync(SearchTrackDTO model)
+        {
+            var tracks = await _trackService.GetSearchTracksByNameAsync(model.Name);
+            foreach (var track in tracks)
+            {
+                track.Image = await GetFullLinkByImageName(track.Image);
+                track.Background = await GetFullLinkByImageName(track.Background);
+                track.Song = await GetFullLinkBySongName(track.Song);
+            }
+            return tracks;
         }
 
     }

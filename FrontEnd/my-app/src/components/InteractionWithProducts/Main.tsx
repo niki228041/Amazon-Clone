@@ -55,7 +55,7 @@ const Product_Component=({ data , productsImages}: { data: Product ,productsImag
 
   return<>
   <div >
-  <Link to={"/product/" + data.id}>
+  <Link to={"/product/description/" + data.id}>
     <div className='pb-2 px-3 mt-20 w-full'>
       <div>
           <div className='w-full h-[160px]' style={{ backgroundImage:"url("+ productsImages +")",backgroundPosition:"center",backgroundSize:"contain",backgroundRepeat:"no-repeat"}}>
@@ -86,7 +86,7 @@ const Product_Component=({ data , productsImages}: { data: Product ,productsImag
 
 const Main = () => {
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
+
 
 
 
@@ -106,9 +106,9 @@ const Main = () => {
   // };;  
 
   // console.log(imagesLinks);
-
-
   const navigate = useNavigate();
+  const searchParams = new URLSearchParams(location.search);
+
 
   const getSearchParams = () => {
     return new URLSearchParams(window.location.search);
@@ -116,7 +116,7 @@ const Main = () => {
 
   var [categoryId, setcategoryId] = useState(getSearchParams().get('id'));
 
-
+  var url = `/products?category=${encodeURIComponent("")}`;
 
 
   var [categoriesToView, setCategoriesToView] = useState([]);
@@ -124,7 +124,7 @@ const Main = () => {
   console.log(products);
 
   var [categoriesSequence, setCategoriesSequence] = useState<categorySequence[]>([]);
-  var url = `/products?category=${encodeURIComponent("")}`;
+
 
   // console.log("products");
   // console.log(products);

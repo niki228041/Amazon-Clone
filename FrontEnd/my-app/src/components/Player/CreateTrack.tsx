@@ -91,7 +91,7 @@ const CreateTrack=()=>{
     
         var request:createTrack = {title:title,background:backgroundImageToSend,image:mainImageToSend,song:songBytes,genresIds:numberArrayGenresIds,userId:Number(user.id)};
         createTrack(request);
-        navigate("/music");
+        navigate("/music/home");
     }
 
     const HandleSetMainImage = async (event:any)=>{

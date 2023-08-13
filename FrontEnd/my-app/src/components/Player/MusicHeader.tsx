@@ -1,12 +1,30 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import search from "../../images/search.png"
 
 import iconMenu from "../../images/iconMenu.png";
+import { useState } from "react";
 
 const MusicHeader=()=>{
     var navigate = useNavigate();
+    const [inputText, setInputText] = useState("");
+    const location = useLocation();
+
+    const handleChangeTab=()=>{
+      window.scrollTo(0, 0);
+      var url = `/music/searchTracks?search=${encodeURIComponent(inputText)}`;
+      navigate(url);
+    }
+    const searchParams = new URLSearchParams(location.search);
+  
+  
+    const getSearchParams = () => {
+      return new URLSearchParams(window.location.search);
+    };
+  
+    var [categoryId, setcategoryId] = useState(getSearchParams().get('id'));
+  
     
-    
+
     return(
       <div className="bg-cover w-full">
             
@@ -15,8 +33,8 @@ const MusicHeader=()=>{
 
           {/* <div className="bg-stone-950 rounded-md col-start-1  flex justify-center m-auto h-full w-full items-center cursor-pointer hover:translate-y-1 hover:bg-blue-600 font-medium text-sm select-none hover:scale-105  transition-all" onClick={()=>navigate("/products")}>Back To Site</div> */}
           <div className="col-start-7 col-span-3 flex justify-center py-1 relative my-auto self-center">
-            <input placeholder="Search..." className=" bg-white rounded-full h-6 w-full text-black text-[12px] px-4 pr-8"/>
-            <div className=" w-9 h-6 absolute mr-[-1.3px] cursor-pointer active:bg-blue-500   active:transition-none select-none right-0 rounded-r-[10px] flex flex-1 justify-center transition-all self-center m-auto">
+            <input value={inputText} onChange={event => setInputText(event.target.value)} placeholder="Search..." className=" bg-white rounded-full h-6 w-full text-black text-[12px] px-4 pr-8"/>
+            <div onClick={()=>handleChangeTab()} className=" w-9 h-6 absolute mr-[-1.3px] cursor-pointer active:bg-blue-500   active:transition-none select-none right-0 rounded-r-[10px] flex flex-1 justify-center transition-all self-center m-auto">
               <img className="h-4  m-auto" src={search} />
             </div>
           </div>

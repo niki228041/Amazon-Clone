@@ -26,7 +26,7 @@ namespace ShopApi.Controllers
 
         [HttpPost]
         [Route("CreateGenre")]
-        public async Task<IActionResult> CreateGenreAsync(GenreVM model)
+        public async Task<IActionResult> CreateGenreAsync(GenreDTO model)
         {
             var genre = await _genreService.CreateGenreAsync(model);
             return Ok(genre);

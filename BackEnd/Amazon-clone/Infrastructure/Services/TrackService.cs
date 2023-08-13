@@ -24,8 +24,11 @@ namespace Infrastructure.Services
         private readonly ILikedTracksService _likedTracksService;
         private readonly IUserRepository _userRepository;
         private readonly ITrackHistoryService _trackHistoryService;
+        private readonly ITrackCommentService _trackCommentService;
+        private readonly ITrackGenreRepository _trackGenreRepository;
+        private readonly IGenreService _genreService;
 
-        public TrackService(IMapper mapper, ITrackRepository trackRepository, IImageService imageService, ILikedTracksService likedTracksService, IUserRepository userRepository, ITrackHistoryService trackHistoryService)
+        public TrackService(IMapper mapper, ITrackRepository trackRepository, IImageService imageService, ILikedTracksService likedTracksService, IUserRepository userRepository, ITrackHistoryService trackHistoryService, ITrackCommentService trackCommentService, ITrackGenreRepository trackGenreRepository, IGenreService genreService)
         {
             _mapper = mapper;
             _trackRepository = trackRepository;
@@ -33,6 +36,9 @@ namespace Infrastructure.Services
             _likedTracksService = likedTracksService;
             _userRepository = userRepository;
             _trackHistoryService = trackHistoryService;
+            _trackCommentService = trackCommentService;
+            _trackGenreRepository = trackGenreRepository;
+            _genreService = genreService;
         }
 
         public async Task<Track> CreateTrackAsync(TrackDTO model)
@@ -47,6 +53,14 @@ namespace Infrastructure.Services
             track.Song = SaveSong(model.Song);
 
             await _trackRepository.Create(track);
+
+            foreach (var genreId in model.GenresIds)
+            {
+                var trackGenre = new TrackGenre() { TrackId = track.Id, GenreId = genreId };
+                await _trackGenreRepository.Create(trackGenre);
+            }
+
+            
             return track;
         }
 
@@ -179,6 +193,7 @@ namespace Infrastructure.Services
             var historyList = await _trackHistoryService.GetTrackHistoryByUserIdAsync(model.Id);
             var trackVms = new List<TrackVM>();
             var likedTracks = await _likedTracksService.GetLikedTracks();
+            var allHistory = await _trackHistoryService.GetAllTrackHistoryAsync();
 
             foreach (var historyItem in historyList)
             {
@@ -186,6 +201,7 @@ namespace Infrastructure.Services
                 trackVm.TrackHistoryDateCreated = historyItem.DateCreated;
                 trackVms.Add(trackVm);
             }
+            trackVms.ForEach(track => track.Views = allHistory.FindAll(his => his.TrackId == track.Id).Count);
 
             foreach (var track in trackVms)
             {
@@ -222,6 +238,41 @@ namespace Infrastructure.Services
             }
 
             return trackVM;
+        }
+
+        public async Task<List<TrackVM>> GetSearchTracksByNameAsync(string name)
+        {
+            var lowercaseName = string.IsNullOrEmpty(name) ? string.Empty : name.ToLower();
+
+            // Log auditing information here if needed
+
+            var tracks = _trackRepository.GetAll()
+                .Where(prod => string.IsNullOrEmpty(lowercaseName) || prod.Title.ToLower().Contains(lowercaseName))
+                .ToList();
+
+            var tracksVM = _mapper.Map<List<Track>, List<TrackVM>>(tracks);
+            var likedTracks = await _likedTracksService.GetLikedTracks();
+            var allHistory = await _trackHistoryService.GetAllTrackHistoryAsync();
+            
+
+
+
+
+            tracksVM.ForEach(track => track.Views = allHistory.FindAll(his => his.TrackId == track.Id).Count);
+
+            foreach (var track in tracksVM)
+            {
+                var comments = await _trackCommentService.GetTrackCommentsByTrackIdAsync(track.Id);
+                track.Genres = await _genreService.GetGenresByTrackIdAsync(track.Id);
+                track.Comments = comments.Count;
+                foreach (var likedTrack in likedTracks)
+                {
+                    if (likedTrack.Track.Id == track.Id)
+                        track.WasLikedByUsers.Add((int)likedTrack.UserId);
+                }
+            }
+
+            return tracksVM;
         }
     }
 }
