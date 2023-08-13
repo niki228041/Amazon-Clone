@@ -46,6 +46,10 @@ import ShopsTable from './components/Admin_Page/shops-table';
 import ProductsTable from './components/Admin_Page/products-table';
 import OrdersTable from './components/Admin_Page/orders-table';
 import CustomersTable from './components/Admin_Page/customers-table';
+
+import AboutUs from './components/auxiliary pages/AboutUs';
+import WishList from './components/WishList/main'
+
 import { ProductList } from './components/Admin/ProductList';
 import { CategoryList } from './components/Admin/CategoryList';
 import { CompanyList } from './components/Admin/CompanyList';
@@ -63,6 +67,7 @@ import Likes from './components/Player/Likes';
 import MyTracks from './components/Player/MyTracks';
 import MiniPlayer from './components/Player/MiniPlayer';
 import ViewTrack from './components/Player/ViewTrack';
+
 
 
 
@@ -114,25 +119,16 @@ const App: React.FC = () => {
         <Route path='/'
           element={
             <>
-              <div className="flex flex-col" style={{ minHeight: "180vh" }}>
-                <Header />
+              <div className="flex flex-col" style={{ minHeight: "100vh", background: "rgb(231, 238, 240)" }}>
                 <Outlet />
-                <div className='mt-auto'>
-
-                  <Footer />
-                </div>
-
-
               </div>
             </>}>
-
           <Route path="login" element={<LoginScreen />} />
           <Route path="forgotpassword" element={<ForgotPasswordScreen />} />
           <Route path="otppage" element={<OtpPage />} />
 
           <Route path="resetpassword/" element={<ResetPasswordScreen />} />
           <Route path="registration" element={<Registration />} />
-
         </Route>
 
 
@@ -163,7 +159,7 @@ const App: React.FC = () => {
               <Route path='companies' element={<CompanyList />} />
             </Route>
             <Route path='create'>
-              <Route path='products' element={<CreateProduct />} />
+              {/* <Route path='products' element={<CreateProduct />} /> */}
               <Route path='categories' element={<CreateCategory />} />
             </Route>
           </Route>
@@ -214,6 +210,8 @@ const App: React.FC = () => {
 
           <Route path="product/:productId" element={<OneProduct />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="aboutus" element={<AboutUs />} />
+          <Route path="wishlist" element={<WishList />} />
 
 
 

@@ -14,7 +14,7 @@ import star from "../../images/star (2).png"
 import empty_star from "../../images/star (3).png"
 import circle from "../../images/black-circle.png"
 import { apiCommentSlice, useGetCommentsByProductIdQuery } from '../../features/user/apiCommentSlice';
-
+import { addWishitem, updateWishitem } from '../../features/user/apiWishListItemSlice';
 import check from "../../images/check.png"
 import filled_star from "../../images/filled_star.svg"
 import unfilled_star from "../../images/unfiled_star.svg"
@@ -92,6 +92,27 @@ const OneProduct=()=>{
         }
     }
 
+
+    const handleAddNewWish=(data:OneProductVM)=>{
+        console.log(orders.orders);
+        var order = orders.orders.find(ord=>ord.product_id==data.id);
+        if(!order)
+        {
+            const newWish:Order = {
+                id: uuidv4(), name: data.name, product_id: data.id, price: data.price, count: 1,
+                discount: undefined
+            };
+            dispatch(addWishitem(newWish));
+        }
+        else{
+            var index = orders.orders.findIndex(order_=>order_.id==order?.id);
+            if(order.count<5)
+            {
+                var changeOrderCount:ChangeOrderCount = {index:index,count:order.count+1}; 
+                dispatch(updateWishitem(changeOrderCount));
+            }
+        }
+    }
     const changeStars=(star_id:string)=>{
 
         setStars(parseInt(star_id));

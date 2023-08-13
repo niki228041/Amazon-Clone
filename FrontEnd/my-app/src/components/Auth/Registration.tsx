@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { postRegistration } from "../../features/user/user-slice"
 import { useDispatch, useSelector } from 'react-redux'
 
-import TestPage from '.././test-page';
+import TestPage from '.././auxiliary pages/Sidebarauth';
 import "./auth.css"
 import IconButton from '@mui/material/IconButton';
 
