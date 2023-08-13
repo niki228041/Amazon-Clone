@@ -70,9 +70,9 @@ const AdminSite=()=> {
 
           <div className="flex content-center self-center text-center place-content-between mr-2">
               <span className="text-xl font-semibold leading-6 text-gray-900">{list}</span>
-              <div className="gap-2 grid grid-cols-2">
+              <div className="gap-2 flex">
                 { company == null && list=="products"?
-                ""
+                <span className="items-center rounded-md flex justify-center cursor-pointer bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">You need have a Company to create Product</span>
                 :
                 <button
                 type="button"
@@ -84,7 +84,7 @@ const AdminSite=()=> {
                  <button
                   type="button"
                   onClick={()=>{handleToCreateOptions()}}
-                  className=" inline-flex items-center rounded-md  cursor-pointer  bg-green-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                  className="items-center rounded-md  cursor-pointer  bg-green-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                   AddOptions
                 </button>
               </div>
