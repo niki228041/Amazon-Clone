@@ -33,9 +33,6 @@ namespace DAL.Entities.Music
         public virtual ICollection<LikedTracks> LikedTracks { get; set; }
         public virtual ICollection<TrackHistory> TrackHistory { get; set; }
 
-        public virtual ICollection<LikedTracks> LikedTracks { get; set; }
-        public virtual ICollection<TrackHistory> TrackHistory { get; set; }
-
     }
 }
 
