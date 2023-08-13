@@ -38,8 +38,8 @@ namespace Infrastructure.Services
         public async Task<Track> CreateTrackAsync(TrackDTO model)
         {
             var track = _mapper.Map<TrackDTO, Track>(model);
-            var mainImage = await _imageService.SaveImageAsync(model.Image, DirectoriesInProject.MusicImages);
-            var backgroundImage = await _imageService.SaveImageAsync(model.Background, DirectoriesInProject.MusicImages);
+            var mainImage = await _imageService.SaveImageAsync(model.Image,DirectoriesInProject.MusicImages);
+            var backgroundImage = await _imageService.SaveImageAsync(model.Background,DirectoriesInProject.MusicImages);
 
             track.Background = backgroundImage;
             track.Image = mainImage;
@@ -111,7 +111,7 @@ namespace Infrastructure.Services
 
         public async Task<List<TrackVM>> GetTracksByUserIdCreatedByUserAsync(int id)
         {
-            var tracks = _trackRepository.GetAll().Where(track => track.UserId == id).ToList();
+            var tracks = _trackRepository.GetAll().Where(track=>track.UserId == id).ToList();
             var tracksVM = _mapper.Map<List<Track>, List<TrackVM>>(tracks);
             var likedTracks = await _likedTracksService.GetLikedTracks();
             var allHistory = await _trackHistoryService.GetAllTrackHistoryAsync();
@@ -120,9 +120,9 @@ namespace Infrastructure.Services
 
             foreach (var track in tracksVM)
             {
-                foreach (var likedTrack in likedTracks)
+                foreach(var likedTrack in likedTracks)
                 {
-                    if (likedTrack.Track.Id == track.Id)
+                    if(likedTrack.Track.Id == track.Id)
                         track.WasLikedByUsers.Add((int)likedTrack.UserId);
                 }
             }
@@ -136,7 +136,7 @@ namespace Infrastructure.Services
             var tracksVM = _mapper.Map<List<Track>, List<TrackVM>>(tracks);
             var likedTracks = await _likedTracksService.GetLikedTracksByUserId(id);
             var list = new List<TrackVM>();
-            likedTracks.ForEach(lt => list.Add(lt.Track));
+            likedTracks.ForEach(lt=>list.Add(lt.Track));
 
             return list;
         }
@@ -145,7 +145,7 @@ namespace Infrastructure.Services
         {
             var track = await _trackRepository.GetById(model.TrackId);
             var user = await _userRepository.GetUserByIdAsync(model.UserId.ToString());
-            var trackVm = _mapper.Map<Track, TrackVM>(track);
+            var trackVm = _mapper.Map<Track, TrackVM> (track);
 
             if (track != null && user != null)
             {

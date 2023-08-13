@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using DAL.Constants;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,9 +57,9 @@ builder.Services.AddTransient<EmailService>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<ICommentImageRepository, CommentImageRepository>();
 
-builder.Services.AddScoped<IVariantRepository, VariantRepository>();
-builder.Services.AddScoped<IOptionsRepository, OptionsRepository>();
-builder.Services.AddScoped<IOptionsCategoryRepository, OptionsCategoryRepository>();
+builder.Services.AddScoped<IVariantRepository,VariantRepository>();
+builder.Services.AddScoped<IOptionsRepository,OptionsRepository>();
+builder.Services.AddScoped<IOptionsCategoryRepository,OptionsCategoryRepository>();
 builder.Services.AddScoped<IVariantProductRepository, VariantProductRepository>();
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddScoped<ITrackRepository, TrackRepository>();
@@ -91,7 +92,6 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<ILikedTracksService, LikedTracksService>();
 builder.Services.AddScoped<ITrackHistoryService, TrackHistoryService>();
-
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

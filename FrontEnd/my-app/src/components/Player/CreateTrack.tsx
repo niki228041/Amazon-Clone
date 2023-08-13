@@ -82,10 +82,14 @@ const CreateTrack=()=>{
 
         var songBytes:any = await Promise.resolve(promise);
         const numberArrayGenresIds: number[] = genresIds.map((str:string) => Number(str));
+        
+        console.log(user);
+        console.log(user.id);
 
         var request:createTrack = {title:title,background:backgroundImageToSend,image:mainImageToSend,song:songBytes,genresIds:numberArrayGenresIds,userId:Number(user.id)};
         console.log(request);
     
+        var request:createTrack = {title:title,background:backgroundImageToSend,image:mainImageToSend,song:songBytes,genresIds:numberArrayGenresIds,userId:Number(user.id)};
         createTrack(request);
         navigate("/music");
     }

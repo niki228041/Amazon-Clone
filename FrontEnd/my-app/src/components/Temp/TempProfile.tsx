@@ -10,8 +10,7 @@ import { CompanyModal } from '../BuyProduct/CompanyModal';
 
 const TempProfile=()=> {
     var user = useAppSelector(((state: { user: UserState; orders: Orders })=>state.user.user));
-    console.log(user?.roles);
-    console.log(user);
+
 
     const [isCardModalOpen,setCardModalOpen]= useState(false);
     const toggleCardModal = (prop:boolean)=>{setCardModalOpen(prop)};

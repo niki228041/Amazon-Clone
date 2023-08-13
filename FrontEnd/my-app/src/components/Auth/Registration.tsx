@@ -92,7 +92,6 @@ const Registration = () => {
       navigate("/products");
     }
     catch(error:any){
-      console.log("yo");
     }
   }
 

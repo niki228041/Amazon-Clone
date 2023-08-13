@@ -92,7 +92,6 @@ public class AppMappingProfile : Profile
         CreateMap<OrderedProduct, OrderedProductUpdatedVM>();
         CreateMap<OrderedProductUpdatedVM, OrderedProduct>();
 
-
         CreateMap<LikedTracks, SetLikedTrackDTO>();
         CreateMap<SetLikedTrackDTO, LikedTracks>();
 
@@ -104,6 +103,8 @@ public class AppMappingProfile : Profile
 
         CreateMap<AddTrackHistoryDTO, TrackHistory>();
         CreateMap<TrackHistory, AddTrackHistoryDTO>();
+
+        
     }
 
 

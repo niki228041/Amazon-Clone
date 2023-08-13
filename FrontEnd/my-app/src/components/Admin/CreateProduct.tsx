@@ -392,22 +392,22 @@ const CreateProduct=()=> {
     //         <div className=' rounded-full flex flex-col mb-4'>
     //           <span>Select Images</span>
 
-    //         <div className=" w-full ml-1">
-    //           <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">
-    //             Description
-    //           </label>
-    //           <div className="mt-2">
-    //             {/* <textarea
-    //               id="description"
-    //               name="description"
-    //               autoComplete="description"
-    //               required
-    //               className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-    //             /> */}
-    //           {/* <ReactQuill theme="snow" value={value} onChange={setValue} /> */}
-    //           </div>
-
-    //         </div>
+            
+            <div className=" w-full ml-1">
+              <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">
+                Description
+              </label>
+              <div className="mt-2">
+                <textarea
+                  id="description"
+                  name="description"
+                  autoComplete="description"
+                  required
+                  onChange={(e)=>setValue(e.target.value)}
+                  value={value}
+                  className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
 
     //         <div>
     //           <label htmlFor="address" className="block text-sm font-medium leading-6 text-gray-900">

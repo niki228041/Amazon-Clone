@@ -42,7 +42,7 @@ namespace DAL.Entities
 
         //Foreign keys:
 
-        //Every User have a company
+            //Every User have a company
         public Company Company { get; set; }
 
         [ForeignKey(nameof(Company))]

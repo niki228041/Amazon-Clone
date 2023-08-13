@@ -44,7 +44,7 @@ namespace ShopApi.Controllers
         {
             var tracks = await _trackService.GetAllAsync();
 
-            foreach (var track in tracks)
+            foreach(var track in tracks)
             {
                 track.Image = await GetFullLinkByImageName(track.Image);
                 track.Background = await GetFullLinkByImageName(track.Background);
@@ -138,7 +138,7 @@ namespace ShopApi.Controllers
                 port = ":" + Request.Host.Port.ToString();
 
             var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/{DirectoriesInProject.MusicImages}/{image + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
-            return url;
+            return  url;
         }
 
         [HttpPost]
