@@ -22,11 +22,11 @@
   margin-left: 60px;
   margin-right: 50px;
   border-radius: 20px;
-  padding: 0 20px; 
+  padding: 0 20px;
 }
 
 .headerSearchInput {
-  flex: 1; 
+  flex: 1;
   height: 40px;
   padding: 15px;
   border: none;
@@ -39,18 +39,18 @@
   height: 20px;
   width: 30px;
   border-radius: 20px 0 0 20px;
-  margin-right: 10px; 
+  margin-right: 10px;
 }
 
 .logodiv {
-  display: flex; 
-  align-items: center; 
-  margin-right: 50px; 
+  display: flex;
+  align-items: center;
+  margin-right: 50px;
 }
 
 .languagediv {
-  display: flex; 
-  align-items: center; 
+  display: flex;
+  align-items: center;
 }
 
 .alang {
@@ -62,14 +62,14 @@
 .languageico {
   height: 40px;
   width: 40px;
-  margin-left: 20px; 
+  margin-left: 20px;
 }
 
 .singindiv {
   color: #ff9a02;
-  display: flex; 
+  display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
   text-align: center;
 }
 
@@ -77,93 +77,105 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 70px; 
-  height: 21px; 
-  margin-bottom: 4px; 
+  width: 70px;
+  height: 21px;
+  margin-bottom: 4px;
 }
 
-  /* .numberOfOrders {
+/* .numberOfOrders {
     position: absolute;
     margin-left: 34px;
     margin-top: 5px;
   } */
 
-  .footerBackToTop{
-    display: block;
-    text-align: center;
-    background-color: #2B2B2B;
-    padding: 15px 0;
-    line-height: 19px;
-    font-size: 13px;
-    color:aqua;
+.footerBackToTop {
+  display: block;
+  text-align: center;
+  background-color: #2B2B2B;
+  padding: 15px 0;
+  line-height: 19px;
+  font-size: 13px;
+  color: aqua;
 }
 
 
 
-.navFooterLine{
-    background-color: #2B2B2B;
-    padding: 30px 0;
-    margin: 30px 0 0;
+.navFooterLine {
+  background-color: #2B2B2B;
+  padding: 30px 0;
+  margin: 30px 0 0;
 }
 
 
-.divove{
+.divove {
   color: white;
 }
-.navFooterStyle{
+
+.navFooterStyle {
   background-color: #002A42;
 
-  
+
 }
-.navFooterMoreInfoSpace{
-    font-family: inherit;
-    font-size: 13px;
-    line-height: 120%;
-    padding: 0 20px;
-    width: 4%;
+
+.navFooterMoreInfoSpace {
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 120%;
+  padding: 0 20px;
+  width: 4%;
 }
 
 .navFooterCopyright {
-    max-width: 100%;
-    font-size: 13px;
-    color: #DDD;
+  max-width: 100%;
+  font-size: 13px;
+  color: #DDD;
 }
 
-.navFooterMoreInfo{
-    max-width: 1000px;
-    margin: 0 auto;
+.navFooterMoreInfo {
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
-.navFooterMoreInfoHeader{
-    font-size: 12px!important;
-    padding: 0 0.75em;
-    vertical-align: top;
-    text-align: left;
-    line-height: 115%;
+.navFooterMoreInfoHeader {
+  font-size: 12px !important;
+  padding: 0 0.75em;
+  vertical-align: top;
+  text-align: left;
+  line-height: 115%;
 }
 
-.navFooterMoreInfoStyle{
+.navFooterMoreInfoStyle {
   color: white
 }
-.navFooterMoreInfoText{
-    font-size: 12px;
-    color: #a4a4a4;
-    line-height: 110%;
-    display: block;
-    margin-bottom: 1px;
-}
-.underheader
-{
-  height: 35px;
-  background-color:#FF9A02;
-  display: inline-flex;
+
+.navFooterMoreInfoText {
+  font-size: 12px;
+  color: #a4a4a4;
+  line-height: 110%;
+  display: block;
+  margin-bottom: 1px;
 }
 
-li{
+.underheader {
+  background-color: #FF9A02;
+}
+
+.underheader div {
+  border-right: 1px solid #002A42;
+  align-items: center;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  cursor: pointer;
+}
+.underheader div:last-child {
+  border-right: none;
+}
+
+li {
   color: #5a6068;
- 
   margin-top: 4px;
 }
+
 .top-header {
   display: flex;
   justify-content: space-between;
@@ -189,8 +201,8 @@ li{
   cursor: pointer;
 }
 
-.right-elements .settings-container, 
-.faq-container, 
+.right-elements .settings-container,
+.faq-container,
 .shop-container,
 .trackOrder-container {
   display: flex;
@@ -201,6 +213,7 @@ li{
   border-left: 1px solid #EEF0F4;
   cursor: pointer;
 }
+
 .right-elements .social-container {
   display: grid;
 
@@ -210,8 +223,8 @@ li{
   font-size: 12px;
   color: #7D8FA9;
   font-family: 'Roboto';
-  text-decoration: none; 
-  margin-left: 5px; 
+  text-decoration: none;
+  margin-left: 5px;
 }
 
 .hamburger {

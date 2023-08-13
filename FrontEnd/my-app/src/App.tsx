@@ -61,6 +61,7 @@ import Home from './components/Player/Home';
 import History from './components/Player/History';
 import Likes from './components/Player/Likes';
 import MyTracks from './components/Player/MyTracks';
+import HomePage from './components/HomePage';
 
 
 
@@ -113,7 +114,7 @@ const App: React.FC = () => {
             <>
               <div className="flex flex-col" style={{ minHeight: "180vh" }}>
                 <Header />
-                <Outlet />
+                <HomePage />
                 <div className='mt-auto'>
 
                   <Footer />
