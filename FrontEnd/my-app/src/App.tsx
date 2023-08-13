@@ -105,24 +105,6 @@ const App: React.FC = () => {
           <Route path='searchTracks' element={<SearchTracks/>} />
         </Route>
 
-        {/* <Route path='/admin'
-          element={
-            <>
-              <div className="flex flex-col" style={{ minHeight: "100vh", background: "rgb(231, 238, 240)" }}>
-                <AdminHeader />
-                <AdminSidebar></AdminSidebar>
-                <Outlet />
-              </div>
-            </>}>
-          <Route path='userstable' element={<UsersTable />} />
-          <Route path='shopstable' element={<ShopsTable />} />
-          <Route path='producttable' element={<ProductsTable />} />
-          <Route path='orderstable' element={<OrdersTable />} />
-          <Route path='customerstable' element={<CustomersTable />} />
-          <Route path='products' element={<CreateProduct />} />
-          <Route path='categories' element={<CreateCategory />} />
-          </Route> */}
-
         <Route path='/'
           element={
             <>
@@ -137,15 +119,7 @@ const App: React.FC = () => {
           <Route path="resetpassword/" element={<ResetPasswordScreen />} />
           <Route path="registration" element={<Registration />} />
         </Route>
-        <Route path='/*'
-          element={
-            <>
-              <div className="flex flex-col" style={{ minHeight: "100vh", background: "rgb(231, 238, 240)" }}>
-                <Outlet />
-              </div>
-            </>}>
-            <Route path='notfound' element={<NotFound />} />
-        </Route>
+        
         
 
         <Route
@@ -233,7 +207,19 @@ const App: React.FC = () => {
           <Route path="wishlist" element={<WishList />} />
           <Route path="aboutUs" element={<AboutUs/>} />
 
+          
 
+        </Route>
+
+        <Route path='/*'
+          element={
+            <>
+              
+              <Header/>
+              <NotFound />
+              <Footer/>
+              
+            </>}>
         </Route>
       </Routes>
     </BrowserRouter>
