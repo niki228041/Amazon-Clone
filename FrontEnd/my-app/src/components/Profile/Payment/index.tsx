@@ -1,126 +1,76 @@
 import React, { useRef, useState } from 'react';
-import SideBar from '.././SideBarProf';
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../../app/hooks";
+import { deleteWishitem, updateWishitem } from "../../../features/user/apiWishListItemSlice";
+import { useGetLinksForProductByProductsIdsQuery } from "../../../features/user/apiProductSlice";
+import { ChangeOrderCount, FindById, ImageLink, Order } from "../../types";
+import { useNavigate } from "react-router-dom";
+import "../index.css"
 
 
-const Payment: React.FC = () => {
-  // const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
 
 
-  // const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = event.target.files?.[0];
+// export const WishComponent: React.FC = ({ }) => {
 
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setProfilePhoto(reader.result as string);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
+//   const dispatch = useDispatch();
+//   const availableCounts = [1, 2, 3, 4, 5];
+//   const orders = useAppSelector((state) => state.orders.orders);
+
+//   const handleCountChange = (id: string, count: any) => {
+//     var index = orders.findIndex((ord: Order) => ord.id == id);
+//     var changeOrderCount: ChangeOrderCount = { index: index, count: Number(count.value) };
+//     console.log(changeOrderCount);
+//     dispatch(updateWishitem(changeOrderCount));
+//   }
+
+//   return <>
+
+//     <div className="rounded-lg p-3 grid grid-cols-10 mt-2">
+
+//     </div>
+
+
+//   </>
+// }
+
+
+export const Payment = () => {
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => {
+    setModal(!modal);
+  };
+
+  if (modal) {
+    document.body.classList.add('active-modal')
+  } else {
+    document.body.classList.remove('active-modal')
+  }
+
 
   return (
-    <div className="flex bg-slate-100" >
+    <div  >
 
-      <SideBar></SideBar>
-      <div className="">
-        <div className="paymentheader" >
-
-
-          <a className="paymenta">Payment</a>
-
-
-        </div>
-        <div className="paymentbody">
-
-          <div className="headerofpay">
-            <a className="cardsbody">Cards</a>
-          </div>
-
-          <div className="ADD">
-            <div className="inputsdiv">
-              <div className="cardnumb relative mb-3" data-te-input-wrapper-init>
-                <input
-                  type="email"
-                  className="inputcardnumb peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                  id="exampleFormControlInputEmail"
-                  placeholder="Example label" />
-
-                <label
-
-                  className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                >Card Number
-                </label>
-              </div>
-
-              <div className="namecard relative mb-3" data-te-input-wrapper-init>
-                <input
-                  type="email"
-                  className="inputnamecard peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                  id="exampleFormControlInputEmail"
-                  placeholder="Example label" />
-
-                <label
-
-                  className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                >Name of Card
-                </label>
-              </div>
-
-
-
-              <div className="month relative mb-3" data-te-input-wrapper-init>
-                <input
-                  type="email"
-                  className="monthinput peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                  id="exampleFormControlInputEmail"
-                  placeholder="Example label" />
-
-                <label
-
-                  className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                >MM
-                </label>
-              </div>
-
-              <div className="year relative mb-3" data-te-input-wrapper-init>
-                <input
-                  type="email"
-                  className="yearinput peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                  id="exampleFormControlInputEmail"
-                  placeholder="Example label" />
-
-                <label
-
-                  className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                >YY
-                </label>
-              </div>
-
-              <div className="cvv relative mb-3" data-te-input-wrapper-init>
-                <input
-                  type="email"
-                  className="cvvinput peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                  id="exampleFormControlInputEmail"
-                  placeholder="Example label" />
-
-                <label
-
-                  className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                >CVV
-                </label>
-              </div>
-
-            </div>
-            <button className="savebutton">
-              SAVE
-            </button>
-          </div>
-
-        </div>
-
-
+      <div style={{ borderWidth: "2px", borderRadius: "20px", height: "250px", width: "1150px", marginLeft: "300px", marginTop: "90px", display: "inline-flex" }}>
 
       </div>
+
+
+
+      <svg onClick={toggleModal} width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="48" cy="48" r="47.5" fill="#FF9C00" stroke="#FF9A02" />
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M51.2432 44.1081V24H44.1081V44.1081H24V51.2432H44.1081V72H51.2432V51.2432H72V44.1081H51.2432Z" fill="white" />
+      </svg>
+      {modal && (
+        <div className="modalpay">
+          <div onClick={toggleModal} className="overlaypay"></div>
+          
+
+            
+
+          
+        </div>
+      )}
+
     </div>
 
   );

@@ -212,7 +212,7 @@ const Header = () => {
             <a className="alang">Повідомлення</a>
           </Link>
 
-          <Link to="/favorite" className="singindiv">
+          <Link to="/wishlist" className="singindiv">
             <div className="image-container">
               <img src={favorite} alt="Favorites" />
             </div>

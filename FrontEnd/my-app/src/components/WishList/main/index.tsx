@@ -39,7 +39,7 @@ interface OrderComponentProps {
     productsImages: ImageLink[];
 }
 
-export const OrderComponent: React.FC<OrderComponentProps> = ({ order, productsImages }) => {
+export const WishComponent: React.FC<OrderComponentProps> = ({ order, productsImages }) => {
     console.log(productsImages);
     const dispatch = useDispatch();
     const availableCounts = [1, 2, 3, 4, 5];
@@ -120,7 +120,7 @@ export const WishList = () => {
 
                         <div className="w-full border border-grayColorForBorder rounded-lg pb-4 px-1">
 
-                            {orders.map((order: Order) => (<OrderComponent order={order} productsImages={productsImages} />))}
+                            {orders.map((order: Order) => (<WishComponent order={order} productsImages={productsImages} />))}
 
 
                             <div className=" flex justify-between p-2 mx-4">
