@@ -86,7 +86,7 @@ const Product_Component=({ data , productsImages}: { data: Product ,productsImag
 
 const Main = () => {
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
+
 
 
 
@@ -106,9 +106,9 @@ const Main = () => {
   // };;  
 
   // console.log(imagesLinks);
-
-
   const navigate = useNavigate();
+  const searchParams = new URLSearchParams(location.search);
+
 
   const getSearchParams = () => {
     return new URLSearchParams(window.location.search);
@@ -116,7 +116,7 @@ const Main = () => {
 
   var [categoryId, setcategoryId] = useState(getSearchParams().get('id'));
 
-
+  var url = `/products?category=${encodeURIComponent("")}`;
 
 
   var [categoriesToView, setCategoriesToView] = useState([]);
@@ -124,7 +124,7 @@ const Main = () => {
   console.log(products);
 
   var [categoriesSequence, setCategoriesSequence] = useState<categorySequence[]>([]);
-  var url = `/products?category=${encodeURIComponent("")}`;
+
 
   // console.log("products");
   // console.log(products);

@@ -104,6 +104,14 @@ public class AppMappingProfile : Profile
         CreateMap<AddTrackHistoryDTO, TrackHistory>();
         CreateMap<TrackHistory, AddTrackHistoryDTO>();
 
+        CreateMap<TrackComment, TrackCommentDTO>();
+        CreateMap<TrackCommentDTO, TrackComment>();
+
+        CreateMap<TrackComment, TrackCommentVM>();
+        CreateMap<TrackCommentVM, TrackComment>();
+
+        CreateMap<GenreDTO, Genre>();
+        CreateMap<Genre, GenreDTO>();
         
     }
 

@@ -112,11 +112,42 @@ export const apiPlayerSlice:any = createApi({
           }),
           providesTags:result=>['Player']
         }),
-        
+        getTrackCommentsByTrackId:builder.query<any,any>({
+          query:(todo)=>({
+            url:'/api/Track/GetTrackCommentsByTrackId',
+            method:"POST",
+            body:todo
+          }),
+          providesTags:result=>['Player']
+        }),
+        addTrackComment:builder.mutation<any,any>({
+          query:(todo)=>({
+            url:'/api/Track/AddTrackComment',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Player']
+        }),
+        getSearchTracksByName:builder.mutation<any,any>({
+          query:(todo)=>({
+            url:'/api/Track/GetSearchTracksByName',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Player']
+        }),
         
     })
 })
 
 
-export const {useGetGenresQuery,useGetTracksQuery,useGetTracksByUserIdQuery,useGetLikedTracksByUserIdQuery,useGetTrackHistoryByUserIdQuery,useGetTrackByIdQuery} = apiPlayerSlice
+export const {
+  useGetGenresQuery,
+  useGetTracksQuery,
+  useGetTracksByUserIdQuery,
+  useGetLikedTracksByUserIdQuery,
+  useGetTrackHistoryByUserIdQuery,
+  useGetTrackByIdQuery,
+  useGetTrackCommentsByTrackIdQuery,
+} = apiPlayerSlice
 

@@ -170,6 +170,14 @@ namespace DAL
                 .OnDelete(DeleteBehavior.Cascade);
             //END
 
+            //START Many to one
+            modelBuilder.Entity<Track>()
+                .HasMany(track => track.TrackComments)
+                .WithOne(com => com.Track)
+                .HasForeignKey(com => com.TrackId)
+                .OnDelete(DeleteBehavior.Cascade);
+            //END
+
             ////START Many to one
             //modelBuilder.Entity<Category>()
             //.HasMany(cat => cat.Subcategories)

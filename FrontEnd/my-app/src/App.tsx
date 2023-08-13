@@ -69,6 +69,7 @@ import MiniPlayer from './components/Player/MiniPlayer';
 import ViewTrack from './components/Player/ViewTrack';
 import Description from './components/InteractionWithProducts/OneProductsTabs/Description';
 import Reviews from './components/InteractionWithProducts/OneProductsTabs/Reviews';
+import SearchTracks from './components/Player/SearchTracks';
 
 
 
@@ -100,6 +101,7 @@ const App: React.FC = () => {
           <Route path='createGenre' element={<CreateGenre />} />
           <Route path='createTrack' element={<CreateTrack />} />
           <Route path='viewTrack/:trackId' element={<ViewTrack/>} />
+          <Route path='searchTracks' element={<SearchTracks/>} />
         </Route>
 
         {/* <Route path='/admin'

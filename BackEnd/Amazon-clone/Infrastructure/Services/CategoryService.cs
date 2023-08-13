@@ -120,6 +120,7 @@ namespace Infrastructure.Services
         {
             var category = _categoryRepository.Categories.Where(cat=>cat.Id==id).Include(cat=>cat.OptionsCategories).Include(cat=>cat.Products).Include(cat=>cat.Subcategories).FirstOrDefault();
 
+
              await _categoryRepository.Delete(category);
         }
 

@@ -23,64 +23,43 @@ const CreateGenre=()=>{
         request.title = curentData?.get("title")?.toString()!;
         request.description = curentData?.get("description")?.toString()!;
         createGenre(request);
-        navigate("/player");
+        navigate("/music/home");
     }
 
     return<>
-    <div className="pt-16 h-[100vh]" style={{backgroundImage:`url(${img})`,backgroundPosition:"center"}}>
-
-    <div className=" bg-gray-200 w-1/3 m-auto rounded-md p-10" >
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <form onSubmit={handleCreateGenre} className="bg-middleGrayColor rounded-lg mt-2 self-center gap-3 text-white text-[15px] select-none py-3 px-6">
+      <div className='flex justify-between'>
+          <p className=' text-xl font-semibold'>Add Genre</p>
           
-          <h2 className=" text-center text-2xl font-bold leading-9 tracking-tight  text-gray-900">
-           CREATE GENRE
-          </h2>
-        </div>
-
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" onSubmit={handleCreateGenre}>
-            <div>
-              <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">
-                Title
-              </label>
-              <div className="mt-2">
-                <input
-                  id="title"
-                  name="title"
-                  autoComplete="title"
-                  required
-                  className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">
-                Description
-              </label>
-              <input
-                  id="description"
-                  name="description"
-                  autoComplete="description"
-                  required
-                  className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-            </div>
-            
-            <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                Create
-              </button>
-            </div>
-
-          </form>
-
-          
-        </div>
       </div>
-    </div>
+      <div className='mt-6'>
+
+        <div className=" bg-whiteGrayColor ml-2 col-span-7 rounded-lg p-1 px-5">
+          <div className="mt-2">
+            <label className=" text-almostWhiteColor font-semibold">Title</label>
+            <br/>
+            <input id="title" name="title" placeholder="Type Title..." className="py-3 w-full mt-1 rounded-lg font-medium outline-0 bg-almostBlackColor px-3" />
+          </div>
+          <div className="mt-2">
+            <label className=" text-almostWhiteColor font-semibold">Description</label>
+            <br/>
+            <input id="description" name="description" placeholder="Type Description..." className="py-3 w-full mt-1 rounded-lg font-medium outline-0 bg-almostBlackColor px-3" />
+          </div>
+
+          <div className="my-5">
+            <button type="submit" className=" hover:bg-almostWhiteColor/60 py-3 w-full mt-1 rounded-lg font-medium outline-0 bg-almostBlackColor px-3" >
+            Add Genre
+            </button>
+          </div>
+
+        </div>
+      
+          
+    
+    
+      </div>
+      
+    </form>
 
     </>
 }

@@ -40,6 +40,7 @@ export const LikesItem=({ track,changePressed }
         addHistory(request);
       }
 
+
       if(isSongPressed)
       {
         setSongPressed(false);
@@ -58,6 +59,11 @@ export const LikesItem=({ track,changePressed }
       if(globalTrack?.id != track.id)
       {
         setSongPressed(false);
+      }
+
+      if(globalTrack?.id == track.id && isPlay == true)
+      {
+        setSongPressed(true);
       }
 
       if(!isPlay)

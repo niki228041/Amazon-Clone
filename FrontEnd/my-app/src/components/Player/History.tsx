@@ -71,6 +71,11 @@ export const HistoryItem=({ track,changePressed }
         setSongPressed(false);
       }
 
+      if(globalTrack?.id == track.id && isPlay == true)
+      {
+        setSongPressed(true);
+      }
+
       if(!isPlay)
       {
         setSongPressed(false);
@@ -133,7 +138,7 @@ export const HistoryItem=({ track,changePressed }
             {/* <span className=" text-[16px] self-center"> ダーリン (darling)</span> */}
           </div>
           <div className="flex">
-              <span className=' self-center mr-2 font-semibold'>200K  </span><img className='h-4 self-center' src={Play_small} />
+              <span className=' self-center mr-2 font-semibold'>{track.views} </span><img className='h-4 self-center' src={Play_small} />
           </div>
       </div>
 

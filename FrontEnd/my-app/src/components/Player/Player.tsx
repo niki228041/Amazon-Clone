@@ -40,9 +40,16 @@ export interface TrackFromServer{
   likes:string,
   id:number,
   dateCreated:string,
+  comments:number,
   wasLikedByUsers:any,
   trackHistoryDateCreated:string,
   views:number,
+  genres:GenreVM[]
+}
+
+export interface GenreVM{
+  title:string,
+  description:string,
 }
 
 
@@ -148,7 +155,8 @@ const Player=()=>{
       
     };
 
-
+    document.addEventListener("keydown", handleKeyDown);
+    
     const skipForward = () => {
       // Код для перемотки песни вперед на 5 секунд
       setPercentage(percentage+5);
@@ -162,7 +170,7 @@ const Player=()=>{
     };
     
 
-    document.addEventListener("keydown", handleKeyDown);
+    
 
     if(isPlay)
     {

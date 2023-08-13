@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetCategoriesQuery } from "../../features/user/apiCategorySlice";
 import { apiProductSlice } from "../../features/user/apiProductSlice";
 import { Category, createProduct, Options, Variant, VariantDTO } from "./types";
@@ -234,6 +234,11 @@ const CreateProduct=()=> {
     addElement();
     console.log(inputValues);
   }
+
+
+  useEffect(()=>{
+    // console.log(options);
+  },[options])
     
     return <>
     <div className="flex flex-col justify-center px-6 py-12 lg:px-8">
