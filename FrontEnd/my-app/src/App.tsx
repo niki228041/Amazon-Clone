@@ -67,6 +67,8 @@ import Likes from './components/Player/Likes';
 import MyTracks from './components/Player/MyTracks';
 import MiniPlayer from './components/Player/MiniPlayer';
 import ViewTrack from './components/Player/ViewTrack';
+import Description from './components/InteractionWithProducts/OneProductsTabs/Description';
+import Reviews from './components/InteractionWithProducts/OneProductsTabs/Reviews';
 
 
 
@@ -88,6 +90,8 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
+        
+        
         <Route path='/music' element={<><MusicHeader /><div className="flex flex-col bg-almostBlackColor" style={{ minHeight: "100vh" }}><Player /></div><MusicFooter /></>} >
           <Route path='home' element={<><MiniPlayer /><Home /></>} />
           <Route path='history' element={<History />} />
@@ -141,7 +145,6 @@ const App: React.FC = () => {
                 <Header />
                 <Outlet />
                 <div className='mt-auto'>
-
                   <Footer />
                 </div>
 
@@ -151,7 +154,6 @@ const App: React.FC = () => {
           }
         >
 
-
           <Route path='admin' element={<Outlet />}>
             <Route path='' element={<><AdminSite /></>}>
               <Route path='products' element={<ProductList />} />
@@ -159,7 +161,7 @@ const App: React.FC = () => {
               <Route path='companies' element={<CompanyList />} />
             </Route>
             <Route path='create'>
-              {/* <Route path='products' element={<CreateProduct />} /> */}
+              <Route path='products' element={<CreateProduct />} />
               <Route path='categories' element={<CreateCategory />} />
             </Route>
           </Route>
@@ -208,11 +210,16 @@ const App: React.FC = () => {
           <Route path='/orders' element={<Orders />} />
 
 
-          <Route path="product/:productId" element={<OneProduct />} />
+          <Route path="product" element={<OneProduct />}>
+            <Route path='description/:productId' element={<Description/>} />
+            <Route path='reviews/:productId' element={<Reviews/>}/>
+            <Route path='delivery' />
+          </Route>
+          
           <Route path="profile" element={<Profile />} />
           <Route path="aboutus" element={<AboutUs />} />
           <Route path="wishlist" element={<WishList />} />
-
+          <Route path="aboutUs" element={<AboutUs/>} />
 
 
         </Route>

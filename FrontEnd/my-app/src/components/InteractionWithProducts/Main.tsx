@@ -55,7 +55,7 @@ const Product_Component=({ data , productsImages}: { data: Product ,productsImag
 
   return<>
   <div >
-  <Link to={"/product/" + data.id}>
+  <Link to={"/product/description/" + data.id}>
     <div className='pb-2 px-3 mt-20 w-full'>
       <div>
           <div className='w-full h-[160px]' style={{ backgroundImage:"url("+ productsImages +")",backgroundPosition:"center",backgroundSize:"contain",backgroundRepeat:"no-repeat"}}>
