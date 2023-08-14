@@ -15,7 +15,7 @@ import Orders from './components/BuyProduct/Orders';
 import Payment from './components/Profile/Payment';
 import Address from './components/Profile/Address';
 import Order from './components/Profile/Order';
-import EditProfile from './components/Profile/EditProfile';
+import EditProfile from "./components/Profile/EditProfile"
 import Player from './components/Player/Player';
 import LoginScreen from './components/Auth/Login';
 import { useDispatch, useSelector } from 'react-redux';
@@ -165,7 +165,7 @@ const App: React.FC = () => {
           <Route path="/payment" element={<Payment />} />
           <Route path="/address" element={<Address />} />
           <Route path="/proforder" element={<Order />} />
-          <Route path="/editprofile" element={<EditProfile />} />
+          <Route path='/editprofile' element={<EditProfile/>}/>
 
           <Route path='/tempProfile' element={<TempProfile />} >
             <Route path='becomeASeller' element={<BecomeASeller />} />
@@ -214,7 +214,6 @@ const App: React.FC = () => {
         <Route path='/*'
           element={
             <>
-              
               <Header/>
               <NotFound />
               <Footer/>
