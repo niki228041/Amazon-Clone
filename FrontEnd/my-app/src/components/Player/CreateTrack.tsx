@@ -273,7 +273,7 @@ const CreateTrack=()=>{
                 </select>
                 <img className=" cursor-pointer h-10 self-center ml-2" onClick={()=>handelCreateNewVariant()} src={plusIcon} />
               </div>
-              <div className="flex mt-2">
+              <div className="mt-2">
                 {divContent}
                 
               </div>
