@@ -65,12 +65,16 @@ import Home from './components/Player/Home';
 import History from './components/Player/History';
 import Likes from './components/Player/Likes';
 import MyTracks from './components/Player/MyTracks';
+
+import HomePage from './components/HomePage';
+
 import MiniPlayer from './components/Player/MiniPlayer';
 import ViewTrack from './components/Player/ViewTrack';
 import NotFound from './components/auxiliary pages/NotFound'
 import Description from './components/InteractionWithProducts/OneProductsTabs/Description';
 import Reviews from './components/InteractionWithProducts/OneProductsTabs/Reviews';
 import SearchTracks from './components/Player/SearchTracks';
+
 
 
 
@@ -108,8 +112,20 @@ const App: React.FC = () => {
         <Route path='/'
           element={
             <>
+
+              <div className="flex flex-col" style={{ minHeight: "180vh" }}>
+                <Header />
+                <HomePage />
+                <div className='mt-auto'>
+
+                  <Footer />
+                </div>
+
+
+
               <div className="flex flex-col" style={{ minHeight: "100vh", background: "rgb(231, 238, 240)" }}>
                 <Outlet />
+
               </div>
             </>}>
           <Route path="login" element={<LoginScreen />} />

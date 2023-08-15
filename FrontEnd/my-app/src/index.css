@@ -18,3 +18,8 @@
     font-family: 'Inter';
     src: url('./fonts/Inter-Regular.ttf') format('truetype');
 }
+
+@font-face {
+    font-family: 'CenturyGothic';
+    src: url('./fonts/centurygothic.ttf') format('truetype');
+}

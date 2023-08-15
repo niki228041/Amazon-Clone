@@ -36,6 +36,7 @@ module.exports = {
     },
     fontFamily: {
       'header': ['Raleway'],
+      'mainImage': ['Centurygothic']
     }
   },
   plugins: [],
