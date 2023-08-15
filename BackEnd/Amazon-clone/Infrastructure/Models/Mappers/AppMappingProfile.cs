@@ -91,6 +91,28 @@ public class AppMappingProfile : Profile
 
         CreateMap<OrderedProduct, OrderedProductUpdatedVM>();
         CreateMap<OrderedProductUpdatedVM, OrderedProduct>();
+
+        CreateMap<LikedTracks, SetLikedTrackDTO>();
+        CreateMap<SetLikedTrackDTO, LikedTracks>();
+
+        CreateMap<LikedTracks, LikedTrackVM>();
+        CreateMap<LikedTrackVM, LikedTracks>();
+
+        CreateMap<LikedTrackVM, TrackForLikedTracksVM>();
+        CreateMap<TrackForLikedTracksVM, LikedTrackVM>();
+
+        CreateMap<AddTrackHistoryDTO, TrackHistory>();
+        CreateMap<TrackHistory, AddTrackHistoryDTO>();
+
+        CreateMap<TrackComment, TrackCommentDTO>();
+        CreateMap<TrackCommentDTO, TrackComment>();
+
+        CreateMap<TrackComment, TrackCommentVM>();
+        CreateMap<TrackCommentVM, TrackComment>();
+
+        CreateMap<GenreDTO, Genre>();
+        CreateMap<Genre, GenreDTO>();
+        
     }
 
 

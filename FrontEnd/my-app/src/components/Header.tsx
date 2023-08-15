@@ -152,7 +152,7 @@ const Header = () => {
         <div className="hamburger">
           <img src={union} />
         </div>
-        <div onClick={() => navigate("/")} className="pl-2 mr-10">
+        <div onClick={() => navigate("/products")} className="pl-2 mr-10">
           <div className="cursor-pointer">
             <span className="text-mainYellowColor font-['Raleway'] text-[48px]">ALL</span>
             <span className="text-grayColorForHeader font-['Raleway'] text-[48px]">mart</span>
@@ -164,7 +164,9 @@ const Header = () => {
             <input
               value={inputText}
               onChange={event => handleGo(event.target.value)}
-              className="h-9 bg-white border border-black rounded-full w-full text-black text-[14px] px-4 pr-12"
+
+              className="h-10 bg-white border border-black rounded-full w-full text-[12px] px-4 pr-12 text-black"
+
               type="text"
               placeholder="Пошук"
             />
@@ -188,7 +190,7 @@ const Header = () => {
                     console.log(item);
                     return inputText.toLowerCase() === ' ' ? item : item.name.toLowerCase().includes(inputText.toLowerCase());
                   }).map((product: any, it: any = 0) => (
-                    <div className="searchBar_selector px-4 bg-white border-gray-300 hover:bg-gray-400 cursor-pointer" key={(it++).toString()} onClick={() => openFoundedModel(product.id)}>
+                    <div className="text-black searchBar_selector px-4 bg-white border-gray-300 hover:bg-gray-400 cursor-pointer" key={(it++).toString()} onClick={() => openFoundedModel(product.id)}>
                       {product.name}
                     </div>
                   ))}
@@ -213,7 +215,7 @@ const Header = () => {
             <a className="alang">Повідомлення</a>
           </Link>
 
-          <Link to="/favorite" className="singindiv">
+          <Link to="/wishlist" className="singindiv">
             <div className="image-container">
               <img src={favorite} alt="Favorites" />
             </div>
@@ -239,12 +241,22 @@ const Header = () => {
         </div>
 
 
+
         <div className="underheader font-['Roboto'] text-[14px] grid grid-cols-5">
           <div onClick={() => navigate("/products")} className=" ml-3 text-white cursor-pointer h-full flex items-center justify-center">Сьогоднішні пропозиції</div>
-          <div onClick={() => navigate("/admin/products")} className="text-white cursor-pointer h-full flex items-center justify-center">Подарункові карти</div>
-          <div className="text-white cursor-pointer h-full flex items-center justify-center">Обслуговування клієнтів</div>
-          <div className="text-white cursor-pointer h-full flex items-center justify-center">Історія покупок</div>
-          <div className="text-white cursor-pointer h-full flex items-center justify-center ">Про нас</div>
+          <div className=" bg-black w-[1px] h-full"/>
+          <div onClick={() => navigate("/products")} className="text-white cursor-pointer h-full flex items-center justify-center">Подарункові карти </div>
+          <div className=" bg-black w-[1px] h-full"/>
+          <div onClick={() => navigate("/products")} className="text-white cursor-pointer h-full flex items-center justify-center">Обслуговування клієнтів </div>
+          <div className=" bg-black w-[1px] h-full"/>
+          <div onClick={() => navigate("/admin/products")} className="text-white cursor-pointer h-full flex items-center justify-center ">Сторінка для адміна</div>
+          <div className=" bg-black w-[1px] h-full"/>
+          <div onClick={() => navigate("/music/home")} className="text-white cursor-pointer h-full flex items-center justify-center ">Музика</div>
+          <div className=" bg-black w-[1px] h-full"/>
+          <div onClick={() => navigate("/tempProfile/becomeASeller")} className="text-white cursor-pointer h-full flex items-center justify-center ">Тимчасовий Профіль</div>
+          <div className=" bg-black w-[1px] h-full"/>
+          <div onClick={() => navigate("/aboutUs")} className="text-white cursor-pointer h-full flex items-center justify-center ">Про нас</div>
+
         </div>
       </div>
     </div>

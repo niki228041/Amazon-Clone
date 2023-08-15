@@ -18,7 +18,11 @@ namespace Infrastructure.Models
         public int UserId { get; set; }
         public List<int> GenresIds { get; set; }
         public string Song { get; set; }
+        public List<GenreVM> Genres { get; set; }
+        public List<int> WasLikedByUsers { get; set; }=new List<int>();
+        public int Views { get; set; }
+        public int Comments { get; set; }
         public DateTime DateCreated { get; set; }
-
+        public DateTime TrackHistoryDateCreated { get; set; }
     }
 }

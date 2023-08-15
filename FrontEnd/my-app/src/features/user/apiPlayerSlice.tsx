@@ -64,10 +64,90 @@ export const apiPlayerSlice:any = createApi({
           }),
           providesTags:result=>['Player']
         }),
+        setLike:builder.mutation<any,any>({
+          query:(todo)=>({
+            url:'/api/Track/SetLikedTrack',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Player']
+        }),
+        getLikedTracksByUserId:builder.query<any,any>({
+          query:(todo)=>({
+            url:'/api/Track/GetLikedTracksByUserId',
+            method:"POST",
+            body:todo
+          }),
+          providesTags:result=>['Player']
+        }),
+        getTrackHistoryByUserId:builder.query<any,any>({
+          query:(todo)=>({
+            url:'/api/Track/GetTrackHistoryByUserId',
+            method:"POST",
+            body:todo
+          }),
+          providesTags:result=>['Player']
+        }),
+        addHistory:builder.mutation<any,any>({
+          query:(todo)=>({
+            url:'/api/Track/AddTrackHistory',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Player']
+        }),
+        deleteTrack:builder.mutation<any,any>({
+          query:(todo)=>({
+            url:'/api/Track/DeleteTrack',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Player']
+        }),
+        getTrackById:builder.query<any,any>({
+          query:(todo)=>({
+            url:'/api/Track/GetTrackById',
+            method:"POST",
+            body:todo
+          }),
+          providesTags:result=>['Player']
+        }),
+        getTrackCommentsByTrackId:builder.query<any,any>({
+          query:(todo)=>({
+            url:'/api/Track/GetTrackCommentsByTrackId',
+            method:"POST",
+            body:todo
+          }),
+          providesTags:result=>['Player']
+        }),
+        addTrackComment:builder.mutation<any,any>({
+          query:(todo)=>({
+            url:'/api/Track/AddTrackComment',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Player']
+        }),
+        getSearchTracksByName:builder.mutation<any,any>({
+          query:(todo)=>({
+            url:'/api/Track/GetSearchTracksByName',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Player']
+        }),
         
     })
 })
 
 
-export const {useGetGenresQuery,useGetTracksQuery,useGetTracksByUserIdQuery} = apiPlayerSlice
+export const {
+  useGetGenresQuery,
+  useGetTracksQuery,
+  useGetTracksByUserIdQuery,
+  useGetLikedTracksByUserIdQuery,
+  useGetTrackHistoryByUserIdQuery,
+  useGetTrackByIdQuery,
+  useGetTrackCommentsByTrackIdQuery,
+} = apiPlayerSlice
 

@@ -87,6 +87,7 @@ namespace Infrastructure.Services
 
                 for (int i = 0; i < orderedProductsList.Count; i++)
                 {
+                    if (orderedProductsList[i].ProductId != null)
                     if (orderedProductsList[i].Product.CompanyId==id)
                     {
                         selectedProducts.Add(orderedProductsList[i]);

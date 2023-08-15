@@ -7,7 +7,7 @@ import { baseURL } from "../../api/axios";
 
 
 export interface Orders{
-    orders:Order[];
+    orders:Order[]; 
 }
 
 
@@ -34,7 +34,6 @@ const ordersSlice = createSlice(
     {
         addOrder(state,action: PayloadAction<Order>){
             state.orders.push(action.payload);
-            console.log("hereeeee")
         },
         deleteOrder(state,action: PayloadAction<string>){
             state.orders = state.orders.filter(function(item) {

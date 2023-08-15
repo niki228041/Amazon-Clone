@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetCategoriesQuery } from "../../features/user/apiCategorySlice";
 import { apiProductSlice } from "../../features/user/apiProductSlice";
 import { Category, createProduct, Options, Variant, VariantDTO } from "./types";
-import ReactQuill from "react-quill";
-import 'react-quill/dist/quill.snow.css';
+// import ReactQuill from "react-quill";
+// import 'react-quill/dist/quill.snow.css';
 import { useGetOptionsQuery } from "../../features/user/apiOptionsSlice";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
@@ -234,6 +234,11 @@ const CreateProduct=()=> {
     addElement();
     console.log(inputValues);
   }
+
+
+  useEffect(()=>{
+    // console.log(options);
+  },[options])
     
     return <>
     <div className="flex flex-col justify-center px-6 py-12 lg:px-8">
@@ -353,19 +358,22 @@ const CreateProduct=()=> {
 
 
             
+
             <div className=" w-full ml-1">
               <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">
                 Description
               </label>
               <div className="mt-2">
-                {/* <textarea
+                <textarea
                   id="description"
                   name="description"
                   autoComplete="description"
                   required
+                  value={value} 
+                  onChange={(e)=>setValue(e.target.value)}
                   className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                /> */}
-              <ReactQuill theme="snow" value={value} onChange={setValue} />
+                />
+              {/* <ReactQuill theme="snow" value={value} onChange={setValue} /> */}
               </div>
 
             </div>
@@ -374,6 +382,7 @@ const CreateProduct=()=> {
               <label htmlFor="address" className="block text-sm font-medium leading-6 text-gray-900">
                 Category
               </label>
+
 
               <div className='rounded-full flex flex-col mb-4  pr-3'>
                   <select name='Category' id="Category" className=' bg-yellowForInputs text-[15px] mediumFont outline-none rounded-full h-10 pl-3 pr-3'>
@@ -387,6 +396,7 @@ const CreateProduct=()=> {
             <div className=' rounded-full flex flex-col mb-4'>
               <span>Select Images</span>
       
+
               <input onChange={HandleFileSelection} name="Images" id="Images" multiple type="file" className='hidden' />
               <label htmlFor='Images' className=' bg-yellowForInputs hover:opacity-90 text-[15px] mediumFont outline-none rounded-full h-10 pl-3 pr-3 flex justify-center items-center cursor-pointer' >
                   Upload Images

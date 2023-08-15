@@ -15,7 +15,7 @@ import Orders from './components/BuyProduct/Orders';
 import Payment from './components/Profile/Payment';
 import Address from './components/Profile/Address';
 import Order from './components/Profile/Order';
-import EditProfile from './components/Profile/EditProfile';
+import EditProfile from "./components/Profile/EditProfile"
 import Player from './components/Player/Player';
 import LoginScreen from './components/Auth/Login';
 import { useDispatch, useSelector } from 'react-redux';
@@ -46,6 +46,10 @@ import ShopsTable from './components/Admin_Page/shops-table';
 import ProductsTable from './components/Admin_Page/products-table';
 import OrdersTable from './components/Admin_Page/orders-table';
 import CustomersTable from './components/Admin_Page/customers-table';
+
+import AboutUs from './components/auxiliary pages/AboutUs';
+import WishList from './components/WishList/main'
+
 import { ProductList } from './components/Admin/ProductList';
 import { CategoryList } from './components/Admin/CategoryList';
 import { CompanyList } from './components/Admin/CompanyList';
@@ -61,7 +65,17 @@ import Home from './components/Player/Home';
 import History from './components/Player/History';
 import Likes from './components/Player/Likes';
 import MyTracks from './components/Player/MyTracks';
+
 import HomePage from './components/HomePage';
+
+import MiniPlayer from './components/Player/MiniPlayer';
+import ViewTrack from './components/Player/ViewTrack';
+import NotFound from './components/auxiliary pages/NotFound'
+import Description from './components/InteractionWithProducts/OneProductsTabs/Description';
+import Reviews from './components/InteractionWithProducts/OneProductsTabs/Reviews';
+import SearchTracks from './components/Player/SearchTracks';
+
+
 
 
 
@@ -82,36 +96,23 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
+        
+        
         <Route path='/music' element={<><MusicHeader /><div className="flex flex-col bg-almostBlackColor" style={{ minHeight: "100vh" }}><Player /></div><MusicFooter /></>} >
-          <Route path='home' element={<Home />} />
+          <Route path='home' element={<><MiniPlayer /><Home /></>} />
           <Route path='history' element={<History />} />
           <Route path='likes' element={<Likes />} />
           <Route path='mytracks' element={<MyTracks />} />
           <Route path='createGenre' element={<CreateGenre />} />
           <Route path='createTrack' element={<CreateTrack />} />
+          <Route path='viewTrack/:trackId' element={<ViewTrack/>} />
+          <Route path='searchTracks' element={<SearchTracks/>} />
         </Route>
-
-        {/* <Route path='/admin'
-          element={
-            <>
-              <div className="flex flex-col" style={{ minHeight: "100vh", background: "rgb(231, 238, 240)" }}>
-                <AdminHeader />
-                <AdminSidebar></AdminSidebar>
-                <Outlet />
-              </div>
-            </>}>
-          <Route path='userstable' element={<UsersTable />} />
-          <Route path='shopstable' element={<ShopsTable />} />
-          <Route path='producttable' element={<ProductsTable />} />
-          <Route path='orderstable' element={<OrdersTable />} />
-          <Route path='customerstable' element={<CustomersTable />} />
-          <Route path='products' element={<CreateProduct />} />
-          <Route path='categories' element={<CreateCategory />} />
-          </Route> */}
 
         <Route path='/'
           element={
             <>
+
               <div className="flex flex-col" style={{ minHeight: "180vh" }}>
                 <Header />
                 <HomePage />
@@ -121,19 +122,21 @@ const App: React.FC = () => {
                 </div>
 
 
+
+              <div className="flex flex-col" style={{ minHeight: "100vh", background: "rgb(231, 238, 240)" }}>
+                <Outlet />
+
               </div>
             </>}>
-
           <Route path="login" element={<LoginScreen />} />
           <Route path="forgotpassword" element={<ForgotPasswordScreen />} />
           <Route path="otppage" element={<OtpPage />} />
 
           <Route path="resetpassword/" element={<ResetPasswordScreen />} />
           <Route path="registration" element={<Registration />} />
-
         </Route>
-
-
+        
+        
 
         <Route
           path='/'
@@ -143,7 +146,6 @@ const App: React.FC = () => {
                 <Header />
                 <Outlet />
                 <div className='mt-auto'>
-
                   <Footer />
                 </div>
 
@@ -152,7 +154,6 @@ const App: React.FC = () => {
             </>
           }
         >
-
 
           <Route path='admin' element={<Outlet />}>
             <Route path='' element={<><AdminSite /></>}>
@@ -173,13 +174,14 @@ const App: React.FC = () => {
           <Route path='orders' element={<Orders />} />
           <Route path='successful-purchase' element={<SuccessfulPurchase />} />
 
+
           <Route path="product/:productId" element={<OneProduct />} />
           <Route path="/profile" element={<Profile />} />
 
           <Route path="/payment" element={<Payment />} />
           <Route path="/address" element={<Address />} />
           <Route path="/proforder" element={<Order />} />
-          <Route path="/editprofile" element={<EditProfile />} />
+          <Route path='/editprofile' element={<EditProfile/>}/>
 
           <Route path='/tempProfile' element={<TempProfile />} >
             <Route path='becomeASeller' element={<BecomeASeller />} />
@@ -210,11 +212,29 @@ const App: React.FC = () => {
           <Route path='/orders' element={<Orders />} />
 
 
-          <Route path="product/:productId" element={<OneProduct />} />
+          <Route path="product" element={<OneProduct />}>
+            <Route path='description/:productId' element={<Description/>} />
+            <Route path='reviews/:productId' element={<Reviews/>}/>
+            <Route path='delivery' />
+          </Route>
+          
           <Route path="profile" element={<Profile />} />
+          <Route path="aboutus" element={<AboutUs />} />
+          <Route path="wishlist" element={<WishList />} />
+          <Route path="aboutUs" element={<AboutUs/>} />
 
+          
 
+        </Route>
 
+        <Route path='/*'
+          element={
+            <>
+              <Header/>
+              <NotFound />
+              <Footer/>
+              
+            </>}>
         </Route>
       </Routes>
     </BrowserRouter>

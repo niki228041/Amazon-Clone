@@ -1,7 +1,7 @@
 
 
 
-import { useParams} from 'react-router-dom'
+import { Outlet, useLocation, useNavigate, useParams} from 'react-router-dom'
 import img from '../../images/t-shirt-png.webp'
 import { useGetProductByIdQuery, useGetProductsQuery } from '../../features/user/apiProductSlice';
 import { ChangeOrderCount, OneProductVM, Order, Product, SelectedOption } from '../types';
@@ -14,7 +14,7 @@ import star from "../../images/star (2).png"
 import empty_star from "../../images/star (3).png"
 import circle from "../../images/black-circle.png"
 import { apiCommentSlice, useGetCommentsByProductIdQuery } from '../../features/user/apiCommentSlice';
-
+import { addWishitem, updateWishitem } from '../../features/user/apiWishListItemSlice';
 import check from "../../images/check.png"
 import filled_star from "../../images/filled_star.svg"
 import unfilled_star from "../../images/unfiled_star.svg"
@@ -25,7 +25,7 @@ import line from "../../images/Line.svg"
 import germany from "../../images/germany.png"
 import verified_user from "../../images/verified_user.svg"
 import planet from "../../images/planet.svg"
-import checkGray from "../../images/check_gray.svg"
+import classNames from 'classnames';
 
 
 
@@ -55,9 +55,13 @@ interface Comment{
 
 const OneProduct=()=>{
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const params = useParams();
     const orders = useAppSelector((state)=>state.orders);
     var [stars,setStars] = useState(5);
+
 
 
     var [mainImage,setMainImage] = useState("");
@@ -92,6 +96,27 @@ const OneProduct=()=>{
         }
     }
 
+
+    const handleAddNewWish=(data:OneProductVM)=>{
+        console.log(orders.orders);
+        var order = orders.orders.find(ord=>ord.product_id==data.id);
+        if(!order)
+        {
+            const newWish:Order = {
+                id: uuidv4(), name: data.name, product_id: data.id, price: data.price, count: 1,
+                discount: undefined
+            };
+            dispatch(addWishitem(newWish));
+        }
+        else{
+            var index = orders.orders.findIndex(order_=>order_.id==order?.id);
+            if(order.count<5)
+            {
+                var changeOrderCount:ChangeOrderCount = {index:index,count:order.count+1}; 
+                dispatch(updateWishitem(changeOrderCount));
+            }
+        }
+    }
     const changeStars=(star_id:string)=>{
 
         setStars(parseInt(star_id));
@@ -185,14 +210,14 @@ const OneProduct=()=>{
     }
 
     useEffect(()=>{
-        console.log("dfss");
+        console.log(location.pathname);
         if(isSuccess)
         {
             setMainImage(data?.payload.images[0]!);
             handleStarsRetingFunctionality();
         }
 
-    },[isSuccess,stars])
+    },[isSuccess,stars,location.pathname])
 
 
 
@@ -327,12 +352,22 @@ const OneProduct=()=>{
                 <div className='mr-2 mb-4 col-span-9'>
                     <div className='border border-grayColorForBorder rounded-lg pb-4'>
                         <div className=' flex '>
-                            <div className=' h-14'>
-                                <p className='select-none cursor-pointer px-10 p-4'>Опис</p>
+                            <div onClick={()=>navigate("/product/description/" + params.productId)} className=' h-14 '>
+                                <p className={classNames(
+                                  'select-none cursor-pointer px-10 p-4 ',
+                                  {
+                                    'text-grayForText': !location.pathname.includes('description'),
+                                  }
+                                )}>Опис</p>
                                 <div className=' bg-slate-500 h-0.5 w-11/12 mx-auto' />
                             </div>
-                            <div className=' h-14'>
-                                <p className='select-none cursor-pointer px-10 p-4 text-grayForText'>Відгуки</p>
+                            <div onClick={()=>navigate("/product/reviews/" + params.productId)} className=' h-14'>
+                                <p className={classNames(
+                                  'select-none cursor-pointer px-10 p-4 ',
+                                  {
+                                    'text-grayForText': !location.pathname.includes('reviews'),
+                                  }
+                                )}>Відгуки</p>
                                 <div className=' bg-slate-500 h-0.5 w-11/12 mx-auto' />
                             </div>
                             <div className=' h-14'>
@@ -345,84 +380,7 @@ const OneProduct=()=>{
                             </div>
                         </div>
                         <hr className='mb-2'/>
-                        <div  dangerouslySetInnerHTML={{ __html: data?.payload.description.toString()! }} className='mx-4 py-1 pb-3 w-11/12 text-gray-600'>
-                            
-                        </div>
-
-                        {/* ТАБЛИЦЯ З ІНФОРМАЦІЄЮ */}
-                        <div className=' ml-4'>
-                            <div className=' w-3/5 border'>
-                            <div className=' grid grid-cols-6'>
-                                <div className=' bg-grayColorForBorder col-span-2 p-1 px-2'>
-                                    Модель
-                                </div>
-                                <div className=' h-full col-span-4 px-4 self-center'>
-                                    #8786867
-                                </div>
-                            </div>
-                            <hr/>
-                            <div className=' grid grid-cols-6'>
-                                <div className=' bg-grayColorForBorder col-span-2 p-1 px-2'>
-                                    Стиль
-                                </div>
-                                <div className=' h-full col-span-4 px-4 self-center'>
-                                    Classic style
-                                </div>
-                            </div>
-                            <hr/>
-                            <div className=' grid grid-cols-6'>
-                                <div className=' bg-grayColorForBorder col-span-2 p-1 px-2'>
-                                    Сертифікат
-                                </div>
-                                <div className=' h-full col-span-4 px-4 self-center'>
-                                    ISO-898921212
-                                </div>
-                            </div>
-
-                            <hr/>
-                            <div className=' grid grid-cols-6'>
-                                <div className=' bg-grayColorForBorder col-span-2 p-1 px-2'>
-                                    Розмір
-                                </div>
-                                <div className=' h-full col-span-4 px-4 self-center'>
-                                    34mm x 450mm x 19mm
-                                </div>
-                            </div>
-                            <hr/>
-                            <div className=' grid grid-cols-6'>
-                                <div className=' bg-grayColorForBorder col-span-2 p-1 px-2'>
-                                    Модель
-                                </div>
-                                <div className=' h-full col-span-4 px-4 self-center'>
-                                    36GBRAM
-                                </div>
-                            </div>
-
-                            </div>
-                        </div>
-
-
-                        <div className='ml-4 mt-6'>
-                            <div className='flex py-2'>
-                                <img src={checkGray} />
-                                <p>Some great feature name here</p>
-                            </div>
-
-                            <div className='flex py-2'>
-                                <img src={checkGray} />
-                                <p>Lorem ipsum dolor sit amet, consectetur </p>
-                            </div>
-
-                            <div className='flex py-2'>
-                                <img src={checkGray} />
-                                <p>Duis aute irure dolor in reprehenderit</p>
-                            </div>
-
-                            <div className='flex py-2'>
-                                <img src={checkGray} />
-                                <p>Some great feature name here</p>
-                            </div>
-                        </div>
+                        <Outlet/>
                     </div>
                 </div>
 

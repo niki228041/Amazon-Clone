@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import SideBar from '.././SideBarProf';
+
 
 
 const Address: React.FC = () => {
@@ -9,7 +9,7 @@ const Address: React.FC = () => {
   return (
     <div className="flex bg-slate-100" >
 
-      <SideBar></SideBar>
+      
       <div className="">
         <div className="shipingheader" >
 

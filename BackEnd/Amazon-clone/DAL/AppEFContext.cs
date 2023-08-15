@@ -39,7 +39,9 @@ namespace DAL
         public DbSet<VariantProduct> VariantProduct { get; set; }
         public DbSet<Card> Card { get; set; }
         public DbSet<OrderedProduct> OrderedProducts { get; set; }
-
+        public DbSet<LikedTracks> LikedTracks { get; set; }
+        public DbSet<TrackHistory> TrackHistory { get; set; }
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -75,6 +77,12 @@ namespace DAL
 
 
 
+
+            //START Many to many
+            modelBuilder.Entity<VariantProduct>()
+                .HasOne(vp => vp.Variant)
+                .WithMany(prod => prod.VariantProducts)
+                .OnDelete(DeleteBehavior.Cascade);
 
 
             //START Many to one
@@ -133,6 +141,40 @@ namespace DAL
                 .HasMany(comp => comp.Users)
                 .WithOne(user => user.Company)
                 .HasForeignKey(user => user.CompanyId)
+                .OnDelete(DeleteBehavior.Cascade);
+            //END
+
+            //START Many to many
+            modelBuilder.Entity<LikedTracks>()
+                .HasOne(lt => lt.Track)
+                .WithMany(tr => tr.LikedTracks)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<LikedTracks>()
+                .HasOne(lt => lt.User)
+                .WithMany(us => us.LikedTracks)
+                .OnDelete(DeleteBehavior.Cascade);
+            //END
+
+            //START Many to many
+            modelBuilder.Entity<TrackHistory>()
+                .HasOne(lt => lt.Track)
+                .WithMany(tr => tr.TrackHistory)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<TrackHistory>()
+                .HasOne(lt => lt.User)
+                .WithMany(us => us.TrackHistory)
+                .OnDelete(DeleteBehavior.Cascade);
+            //END
+
+            //START Many to one
+            modelBuilder.Entity<Track>()
+                .HasMany(track => track.TrackComments)
+                .WithOne(com => com.Track)
+                .HasForeignKey(com => com.TrackId)
                 .OnDelete(DeleteBehavior.Cascade);
             //END
 

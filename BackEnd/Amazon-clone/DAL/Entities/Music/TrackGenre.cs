@@ -12,6 +12,11 @@ namespace DAL.Entities.Music
     public class TrackGenre : BaseEntity<int>
     {
         public virtual Track Track { get; set; }
+        [ForeignKey(nameof(Track))]
+        public int? TrackId { get; set; }
+
         public virtual Genre Genre { get; set; }
+        [ForeignKey(nameof(Genre))]
+        public int? GenreId { get; set; }
     }
 }

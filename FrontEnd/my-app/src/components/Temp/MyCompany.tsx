@@ -99,7 +99,9 @@ const MyCompany =()=> {
           <p>Company name : {company?.name}</p>
           <p>Company description : {company?.description}</p>
         </div>
-        <div className='ml-5 hover:bg-slate-100 active:scale-105 border flex justify-center select-none w-20 h-20  rounded-lg bg-cover' style={{ backgroundImage:"url("+company?.image+")", backgroundPosition:"center"}} >
+        <div>
+          <div className='ml-5 hover:bg-slate-100 active:scale-105 border flex justify-center select-none w-20 h-20  rounded-lg bg-cover' style={{ backgroundImage:"url("+company?.image+")", backgroundPosition:"center"}} >
+        </div>
         </div>
       </div>
 
