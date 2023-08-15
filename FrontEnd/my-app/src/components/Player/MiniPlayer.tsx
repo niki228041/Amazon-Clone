@@ -18,7 +18,7 @@ import { useDispatch } from 'react-redux';
 import { setIsPlay, setLikes, setOnChangeSlider } from '../../features/user/musicStateSlice';
 import { useAppSelector } from '../../app/hooks';
 import { useNavigate } from 'react-router-dom';
-import { setLike } from './MyTracks';
+import { setLike } from './Tabs/MyTracks';
 import { apiPlayerSlice } from '../../features/user/apiPlayerSlice';
 
 function MiniPlayer() {

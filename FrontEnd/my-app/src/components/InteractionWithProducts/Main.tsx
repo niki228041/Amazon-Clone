@@ -86,7 +86,7 @@ const Product_Component=({ data , productsImages}: { data: Product ,productsImag
 
 const Main = () => {
   const location = useLocation();
-
+  const searchParams = new URLSearchParams(location.search);
 
 
 
@@ -107,7 +107,7 @@ const Main = () => {
 
   // console.log(imagesLinks);
   const navigate = useNavigate();
-  const searchParams = new URLSearchParams(location.search);
+
 
 
   const getSearchParams = () => {

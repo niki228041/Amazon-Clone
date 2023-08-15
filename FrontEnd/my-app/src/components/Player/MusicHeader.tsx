@@ -3,9 +3,12 @@ import search from "../../images/search.png"
 
 import iconMenu from "../../images/iconMenu.png";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setMenu } from "../../features/user/musicStateSlice";
 
 const MusicHeader=()=>{
     var navigate = useNavigate();
+    var dispatch = useDispatch();
     const [inputText, setInputText] = useState("");
     const location = useLocation();
 
@@ -26,7 +29,7 @@ const MusicHeader=()=>{
     
 
     return(
-      <div className="bg-cover w-full">
+      <div className="bg-cover w-full z-20 relative">
             
         <div className="w-full bg-grayForPlayerColor text-white">
           <div className="grid py-1 grid-cols-12 w-5/6 m-auto px-4">
@@ -40,7 +43,7 @@ const MusicHeader=()=>{
           </div>
 
           <div className="col-start-12 self-center flex flex-row-reverse">
-            <img className="h-5 cursor-pointer" src={iconMenu} />
+            <img onClick={()=>dispatch(setMenu())} className="h-5 cursor-pointer" src={iconMenu} />
           </div>
 
           {/* <div className="bg-stone-950 rounded-md col-start-9  flex justify-center m-auto h-full w-full items-center cursor-pointer hover:translate-y-1 hover:bg-blue-600 font-medium text-sm select-none hover:scale-105  transition-all" onClick={()=>navigate("createTrack")}>New Track</div>

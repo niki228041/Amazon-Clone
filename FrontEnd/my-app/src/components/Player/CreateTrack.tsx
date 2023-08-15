@@ -186,7 +186,7 @@ const CreateTrack=()=>{
         // </div >
         <div key={value.toString()} className="flex w-full">
           <div id={value.toString()}  className="py-1 w-full text-almostBlackColor mt-1 rounded-lg font-medium outline-0  bg-almostWhiteColor/60 px-3">
-          {genres[value-1].title}
+          {genres.find(opt=>opt.id==value)?.title}
           </div>
           <img onClick={() => handleDeleteNewVariant(value.toString())} className=" cursor-pointer h-10 self-center ml-2" src={minusIcon} />
         </div>
