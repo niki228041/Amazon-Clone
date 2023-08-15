@@ -65,8 +65,11 @@
     flex-direction: row;
 }
 .second-section .container-for-carousel .card-main {
-    width: 272px;
-    height: 200px;
+    width: 400px;
+    height: 280px;
     background-color: blue;
     margin-right: 30px;
 }
+/* .card-main{
+    background-image: url("./../images/moda.jpg");
+} */
