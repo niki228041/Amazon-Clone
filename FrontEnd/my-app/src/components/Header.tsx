@@ -224,7 +224,7 @@ const Header = () => {
             <div className="image-container">
               <img src={basket} alt="Basket" />
             </div>
-            <a className="alang">Кошик({totalCount})</a>
+            <a className="alang">Кошик</a>
           </Link>
         </div>
       </div>

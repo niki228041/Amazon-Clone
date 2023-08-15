@@ -1,4 +1,91 @@
 .first-section .image-div{
-    height: 464px;
-    background-color: gray;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'CenturyGothic';
+    height: 430px;
+    background-color: #F3EDC9;
+}
+.first-section .image-div .left-elements-image {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 90px;
+
+}
+
+/* .first-section .image-div .right-elements-image {
+    position: relative;
+} */
+
+.first-section .image-div .right-elements-image .circle-block {
+    display: flex;
+    align-items: center;
+    background-color: #FF9A02;
+    width: 165px;
+    height: 159px;
+    border-radius: 83px;
+    color: white;
+    font-size: 47px;
+    position: relative;
+    top: 60px;
+    right: 210px;
+}
+.first-section .image-div .right-elements-image .circle-block span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%; 
+    height: 100%; 
+}
+
+.forButton {
+    margin-top: 20px;
+}
+
+.forButton button {
+    background-color: #FF9A02;
+    width: 151px;
+    height: 40px;
+    border-radius: 5px;
+    font-size: 15px;
+    color: white;
+}
+
+.second-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.second-section .container-for-carousel {
+    background: linear-gradient(#F3EDC9, #FFFFFF00);
+    padding-right: 40px;
+    padding-left: 40px;
+    display: flex;
+    flex-direction: row;
+}
+.second-section .container-for-carousel .card-main {
+    width: 272px;
+    height: 200px;
+    background-color: blue;
+    margin-right: 30px;
+}
+
+.slider-btns{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin: 10px auto 10px auto;
+}
+.swiper-button-next,
+.swiper-button-prev{
+    position: static !important;
+    transform: translate(0,0);
+    margin: 10px 0px 0px 10px !important;
+}
+.swiper-button-next::after,
+.swiper-button-prev::after{
+    font-size: 20px !important;
+    font-weight: 800;
+    color: #111111;
 }
