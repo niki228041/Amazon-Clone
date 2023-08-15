@@ -21,10 +21,6 @@ const HomePage = () => {
                 </div>
             </div>
             <div className="second-section">
-                <div className="slider-btns">
-                    <div className="swiper-button-prev"></div>
-                    <div className="swiper-button-next"></div>
-                </div>
                 <div className="container-for-carousel">
                     <div className="prev-item">
                         <img src={prev} alt="prev" />
