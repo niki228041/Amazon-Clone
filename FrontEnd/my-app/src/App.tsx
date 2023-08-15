@@ -15,7 +15,7 @@ import Orders from './components/BuyProduct/Orders';
 import Payment from './components/Profile/Payment';
 import Address from './components/Profile/Address';
 import Order from './components/Profile/Order';
-import EditProfile from './components/Profile/EditProfile';
+import EditProfile from "./components/Profile/EditProfile"
 import Player from './components/Player/Player';
 import LoginScreen from './components/Auth/Login';
 import { useDispatch, useSelector } from 'react-redux';
@@ -65,12 +65,16 @@ import Home from './components/Player/Home';
 import History from './components/Player/History';
 import Likes from './components/Player/Likes';
 import MyTracks from './components/Player/MyTracks';
+
+import HomePage from './components/HomePage';
+
 import MiniPlayer from './components/Player/MiniPlayer';
 import ViewTrack from './components/Player/ViewTrack';
 import NotFound from './components/auxiliary pages/NotFound'
 import Description from './components/InteractionWithProducts/OneProductsTabs/Description';
 import Reviews from './components/InteractionWithProducts/OneProductsTabs/Reviews';
 import SearchTracks from './components/Player/SearchTracks';
+
 
 
 
@@ -108,8 +112,20 @@ const App: React.FC = () => {
         <Route path='/'
           element={
             <>
+
+              <div className="flex flex-col" style={{ minHeight: "180vh" }}>
+                <Header />
+                <HomePage />
+                <div className='mt-auto'>
+
+                  <Footer />
+                </div>
+
+
+
               <div className="flex flex-col" style={{ minHeight: "100vh", background: "rgb(231, 238, 240)" }}>
                 <Outlet />
+
               </div>
             </>}>
           <Route path="login" element={<LoginScreen />} />
@@ -165,7 +181,7 @@ const App: React.FC = () => {
           <Route path="/payment" element={<Payment />} />
           <Route path="/address" element={<Address />} />
           <Route path="/proforder" element={<Order />} />
-          <Route path="/editprofile" element={<EditProfile />} />
+          <Route path='/editprofile' element={<EditProfile/>}/>
 
           <Route path='/tempProfile' element={<TempProfile />} >
             <Route path='becomeASeller' element={<BecomeASeller />} />
@@ -214,7 +230,6 @@ const App: React.FC = () => {
         <Route path='/*'
           element={
             <>
-              
               <Header/>
               <NotFound />
               <Footer/>

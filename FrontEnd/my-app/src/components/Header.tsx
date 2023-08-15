@@ -7,7 +7,7 @@ import currency from "../images/Currency.svg"
 import profile from "../images/Profile.svg"
 import message from "../images/Message.svg"
 import favorite from "../images/Favorite.svg"
-import basket from "../images/Basket.svg"
+import basket from "../images/shopping_basket.svg"
 import union from "../images/Union.svg"
 import youtube from "../images/Youtube.svg"
 import twitter from "../images/Twitter.svg"
@@ -112,12 +112,12 @@ const Header = () => {
       <div className="left-elements">
         <div className="language-container">
           <img src={languagelogo} />
-          <span>Language</span>
+          <span>Мова</span>
           <img src={arrowDown} />
         </div>
         <div className="currency-container">
           <img src={currency} />
-          <span>Currency</span>
+          <span>Валюта</span>
           <img src={arrowDown} />
         </div>
       </div>
@@ -131,15 +131,15 @@ const Header = () => {
         </div>
         <div className="trackOrder-container">
           <img src={trackOrder} />
-          <span>Track Order</span>
+          <span>Відслідкувати замовлення</span>
         </div>
         <div className="shop-container">
           <img src={shop} />
-          <span>Shop</span>
+          <span>Магазин</span>
         </div>
         <div className="settings-container">
           <img src={settings} />
-          <span>Settings</span>
+          <span>Налаштування</span>
         </div>
         <div className="faq-container">
           <span>FAQ</span>
@@ -164,11 +164,13 @@ const Header = () => {
             <input
               value={inputText}
               onChange={event => handleGo(event.target.value)}
+
               className="h-10 bg-white border border-black rounded-full w-full text-[12px] px-4 pr-12 text-black"
+
               type="text"
-              placeholder="Search for products"
+              placeholder="Пошук"
             />
-            <div className="w-10 rounded-l-full h-8 absolute cursor-pointer active:transition-none select-none mr-1 bg-mainYellowColor right-0 flex justify-center transition-all self-center"
+            <div className="w-12 rounded-l-full h-9 absolute cursor-pointer active:transition-none select-none bg-mainYellowColor right-0 flex justify-center transition-all self-center"
               style={{ transform: "scaleX(-1)" }}>
               <img src={arrowDownForSearch} onClick={() => handleToSearchPage()} className="self-center" />
             </div>
@@ -179,6 +181,7 @@ const Header = () => {
           {/* Батьківський контейнер з position: relative для результатів пошуку */}
           {dropdown &&
             <div className="absolute w-full">
+              {/* asdasd */}
               {/* Результати пошуку тут */}
               {products?.length > 0 && (
                 <div className="absolute left-6 right-6 mt-1 bg-white border border-gray-300 shadow-md">
@@ -223,7 +226,7 @@ const Header = () => {
             <div className="image-container">
               <img src={basket} alt="Basket" />
             </div>
-            <a className="alang">Корзина({totalCount})</a>
+            <a className="alang">Кошик</a>
           </Link>
         </div>
       </div>
@@ -238,20 +241,22 @@ const Header = () => {
         </div>
 
 
-        <div className="underheader flex justify-between px-10">
-          <div onClick={() => navigate("/products")} className=" w-full text-white hover:outline hover:outline-[1px]  outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Сьогоднішні пропозиції</div>
+
+        <div className="underheader font-['Roboto'] text-[14px] grid grid-cols-5">
+          <div onClick={() => navigate("/products")} className=" ml-3 text-white cursor-pointer h-full flex items-center justify-center">Сьогоднішні пропозиції</div>
           <div className=" bg-black w-[1px] h-full"/>
-          <div onClick={() => navigate("/products")} className="w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Подарункові карти </div>
+          <div onClick={() => navigate("/products")} className="text-white cursor-pointer h-full flex items-center justify-center">Подарункові карти </div>
           <div className=" bg-black w-[1px] h-full"/>
-          <div onClick={() => navigate("/products")} className="w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Обслуговування клієнтів </div>
+          <div onClick={() => navigate("/products")} className="text-white cursor-pointer h-full flex items-center justify-center">Обслуговування клієнтів </div>
           <div className=" bg-black w-[1px] h-full"/>
-          <div onClick={() => navigate("/admin/products")} className="w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Сторінка для адміна</div>
+          <div onClick={() => navigate("/admin/products")} className="text-white cursor-pointer h-full flex items-center justify-center ">Сторінка для адміна</div>
           <div className=" bg-black w-[1px] h-full"/>
-          <div onClick={() => navigate("/music/home")} className="w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Музика</div>
+          <div onClick={() => navigate("/music/home")} className="text-white cursor-pointer h-full flex items-center justify-center ">Музика</div>
           <div className=" bg-black w-[1px] h-full"/>
-          <div onClick={() => navigate("/tempProfile/becomeASeller")} className="w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Тимчасовий Профіль</div>
+          <div onClick={() => navigate("/tempProfile/becomeASeller")} className="text-white cursor-pointer h-full flex items-center justify-center ">Тимчасовий Профіль</div>
           <div className=" bg-black w-[1px] h-full"/>
-          <div onClick={() => navigate("/aboutUs")} className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Про нас</div>
+          <div onClick={() => navigate("/aboutUs")} className="text-white cursor-pointer h-full flex items-center justify-center ">Про нас</div>
+
         </div>
       </div>
     </div>
