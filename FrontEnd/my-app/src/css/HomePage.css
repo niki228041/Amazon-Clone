@@ -70,22 +70,3 @@
     background-color: blue;
     margin-right: 30px;
 }
-
-.slider-btns{
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-    margin: 10px auto 10px auto;
-}
-.swiper-button-next,
-.swiper-button-prev{
-    position: static !important;
-    transform: translate(0,0);
-    margin: 10px 0px 0px 10px !important;
-}
-.swiper-button-next::after,
-.swiper-button-prev::after{
-    font-size: 20px !important;
-    font-weight: 800;
-    color: #111111;
-}
