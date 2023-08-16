@@ -127,9 +127,7 @@ const App: React.FC = () => {
                 </div>
 
 
-              <div className="flex flex-col" style={{ minHeight: "100vh", background: "rgb(231, 238, 240)" }}>
-                <Outlet />
-              </div>
+              
               </div>
             </>
           }>
