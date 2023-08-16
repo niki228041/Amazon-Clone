@@ -74,6 +74,7 @@ import NotFound from './components/auxiliary pages/NotFound'
 import Description from './components/InteractionWithProducts/OneProductsTabs/Description';
 import Reviews from './components/InteractionWithProducts/OneProductsTabs/Reviews';
 import SearchTracks from './components/Player/SearchTracks';
+import Security from './components/Profile/Security';
 
 
 
@@ -111,7 +112,7 @@ const App: React.FC = () => {
         <Route path='/'
           element={
             <>
-              <div className="flex flex-col" style={{ minHeight: "180vh" }}>
+              <div className="flex flex-col" style={{ minHeight: "130vh" }}>
                 <Header />
                 <Outlet />
                 <div className='mt-auto'>
@@ -149,6 +150,8 @@ const App: React.FC = () => {
             <Route path="/profile" element={<Profile />} />
             
             <Route path="/payment" element={<Payment />} />
+
+            <Route path="/security" element={<Security />} />
             
             <Route path="/address" element={<Address />} />
             
