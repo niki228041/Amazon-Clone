@@ -152,7 +152,7 @@ const Header = () => {
         <div className="hamburger">
           <img src={union} />
         </div>
-        <div onClick={() => navigate("/products")} className="pl-2 mr-10">
+        <div onClick={() => navigate("/")} className="pl-2 mr-10">
           <div className="cursor-pointer">
             <span className="text-mainYellowColor font-['Raleway'] text-[48px]">ALL</span>
             <span className="text-grayColorForHeader font-['Raleway'] text-[48px]">mart</span>
