@@ -1,0 +1,10 @@
+.deletebtn {
+    border-color: #FF9A02;
+    border-width: 1px;
+    border-radius: 7px;
+    color: #FF9A02;
+
+    height: 50px;
+    width: 250px;
+    margin-top: 30px;
+}
