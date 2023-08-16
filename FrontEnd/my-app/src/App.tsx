@@ -61,10 +61,10 @@ import AddressSite from './components/Temp/AddressSite';
 import MyCompany from './components/Temp/MyCompany';
 import OrdersForSeller from './components/Temp/OrdersForSeller';
 import MusicFooter from './components/Player/MusicFooter';
-import Home from './components/Player/Home';
-import History from './components/Player/History';
-import Likes from './components/Player/Likes';
-import MyTracks from './components/Player/MyTracks';
+import Home from './components/Player/Tabs/Home';
+import History from './components/Player/Tabs/History';
+import Likes from './components/Player/Tabs/Likes';
+import MyTracks from './components/Player/Tabs/MyTracks';
 
 import HomePage from './components/HomePage';
 
@@ -74,6 +74,9 @@ import NotFound from './components/auxiliary pages/NotFound'
 import Description from './components/InteractionWithProducts/OneProductsTabs/Description';
 import Reviews from './components/InteractionWithProducts/OneProductsTabs/Reviews';
 import SearchTracks from './components/Player/SearchTracks';
+import MusicProfile from './components/Player/Account/MusicProfile';
+import MainProfile from './components/Player/Account/MainProfile';
+import SettingProfile from './components/Player/Account/SettingProfile';
 
 
 
@@ -104,8 +107,13 @@ const App: React.FC = () => {
           <Route path='mytracks' element={<MyTracks />} />
           <Route path='createGenre' element={<CreateGenre />} />
           <Route path='createTrack' element={<CreateTrack />} />
-          <Route path='viewTrack/:trackId' element={<ViewTrack />} />
-          <Route path='searchTracks' element={<SearchTracks />} />
+          <Route path='viewTrack/:trackId' element={<ViewTrack/>} />
+          <Route path='searchTracks' element={<SearchTracks/>} />
+          <Route path='profile' element={<MusicProfile/>} >
+            <Route path='main' element={<MainProfile/>}/>
+            <Route path='settings' element={<SettingProfile/>}/>
+          </Route>
+          
         </Route>
 
         <Route path='/'
@@ -117,6 +125,9 @@ const App: React.FC = () => {
                 <div className='mt-auto'>
                   <Footer />
                 </div>
+
+
+              
               </div>
             </>
           }>
