@@ -31,6 +31,7 @@
     "country-list": "^2.3.0",
     "date-fns": "^2.30.0",
     "flag-icons": "^6.7.0",
+    "formik": "^2.4.3",
     "leaflet-topography": "^0.2.1",
     "lexical": "^0.11.1",
     "react": "^18.2.0",
@@ -61,7 +62,8 @@
     "util": "^0.12.5",
     "uuid": "^9.0.0",
     "uuidv4": "^6.2.13",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^1.2.0"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -99,7 +99,31 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
+        {!isAuth ? 
+        <>
+          <Route path='/'
+            element={<>
+                <div className="flex flex-col" style={{ minHeight: "180vh" }}>
+                  <Outlet />
+                </div>
+              </>}>
+            <Route path='/' element={<LoginScreen/>}></Route>
+            <Route path="login" element={<LoginScreen />} />
+            <Route path="forgotpassword" element={<ForgotPasswordScreen />} />
+            <Route path="otppage" element={<OtpPage />} />
+            <Route path="resetpassword/" element={<ResetPasswordScreen />} />
+            <Route path="registration" element={<Registration />} />
+          </Route>
 
+          <Route path='/*'
+            element={
+            <>
+               <LoginScreen />
+            </>}>
+          </Route>
+          </>
+          :
+          <>
         <Route path='/music' element={<><MusicHeader /><div className="flex flex-col bg-almostBlackColor" style={{ minHeight: "100vh" }}><Player /></div><MusicFooter /></>} >
           <Route path='home' element={<><MiniPlayer /><Home /></>} />
           <Route path='history' element={<History />} />
@@ -211,6 +235,8 @@ const App: React.FC = () => {
 
           </Route>
         </Route>
+        
+        
 
         <Route path='/*'
           element={
@@ -221,6 +247,8 @@ const App: React.FC = () => {
 
             </>}>
         </Route>
+        </>
+        }
       </Routes>
     </BrowserRouter>
 
