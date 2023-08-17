@@ -58,6 +58,7 @@ const Player=()=>{
   const auth = useAppSelector((state)=>state.user.isAuth);
 
   const track = useAppSelector((state)=>state.track.currentTrack);
+  const isMenuOpen = useAppSelector((state)=>state.track.isMenuOpen);
   const onChangeSlider = useAppSelector((state)=>state.track.onChangeSlider);
   const isPlay = useAppSelector((state)=>state.track.isPlay);
 
@@ -289,7 +290,9 @@ const Player=()=>{
     return<>
     <audio onEnded={handleSongEnd} src={currentSong.song} ref={audioRef} onTimeUpdate={onPlaying} onTimeUpdateCapture={getCurrDuration}/>
     <div className=" w-5/6 mx-auto p-2 px-4 grid grid-cols-10 gap-2">
-      <div className=" col-span-8">
+      <div className={classNames(
+          'col-span-8'
+        )}>
         <div className="bg-middleGrayColor rounded-lg h-12 self-center gap-3 grid grid-cols-12 text-white text-[15px] px-5 select-none">
           <div onClick={() => changeTab("home")}
             className={
@@ -336,42 +339,46 @@ const Player=()=>{
 
 
 
-      <div className=" col-span-2 ">
-        <div className=" bg-middleGrayColor p-2 rounded-lg h-20 flex">
-          <img className=" h-16" src={circle} />
-          <div className="w-full grid flex-col h-full">
-            <div className="flex w-full justify-between text-white px-4">
-              <span>Uishjro</span>
-              <span className=" text-sm">Subscribers 89k</span>
+      <div className=" col-span-2">
+        
+        <div className={classNames(" transition-all duration-300 ",{" -translate-y-[365px]":isMenuOpen})}>
+          <div className={classNames(" bg-middleGrayColor hover:bg-whiteGrayColor p-2 rounded-lg h-20 flex transition-all select-none z-10")}>
+            <img className=" h-16" src={circle} />
+            <div className="w-full grid flex-col h-full">
+              <div className="flex w-full justify-between text-white px-4">
+                <span>Uishjro</span>
+                <span className=" text-sm">Subscribers 89k</span>
+              </div>
+
+              <div className="flex w-full self-end justify-between text-almostWhiteColor px-4">
+                <span className=" text-sm">+ Ultimate</span>
+              </div>
             </div>
+          </div>
 
-            <div className="flex w-full self-end justify-between text-almostWhiteColor px-4">
-              <span className=" text-sm">+ Ultimate</span>
+          <div className={classNames("bg-middleGrayColor p-2 rounded-lg mt-4 text-almostWhiteColor select-none transition-all")}>
+            <div onClick={()=>navigate("profile/main")} className="p-3 flex pl-5 hover:scale-105 transition-all cursor-pointer active:bg-slate-50/50 active:transition-none rounded-lg m-2">
+              <span>Account</span>
+            </div>
+            <div onClick={()=>navigate("profile/settings")} className="p-3 flex pl-5 hover:scale-105 transition-all cursor-pointer active:bg-slate-50/50 active:transition-none rounded-lg m-2">
+              <span>Settings</span>
+            </div>
+            <div className="p-3 flex pl-5 hover:scale-105 transition-all cursor-pointer active:bg-slate-50/50 active:transition-none rounded-lg m-2">
+              <span>Buy Ultimate+</span>
+            </div>
+            <div className="p-3 flex pl-5 hover:scale-105 transition-all cursor-pointer active:bg-slate-50/50 active:transition-none rounded-lg m-2">
+              <span>Log out</span>
             </div>
           </div>
-        </div>
-
-        <div className=" bg-middleGrayColor p-2 rounded-lg mt-2 text-almostWhiteColor select-none">
-          <div className="p-3 flex pl-5 hover:scale-105 transition-all cursor-pointer active:bg-slate-50/50 active:transition-none rounded-lg m-2">
-            <span>Account</span>
-          </div>
-          <div className="p-3 flex pl-5 hover:scale-105 transition-all cursor-pointer active:bg-slate-50/50 active:transition-none rounded-lg m-2">
-            <span>Settings</span>
-          </div>
-          <div className="p-3 flex pl-5 hover:scale-105 transition-all cursor-pointer active:bg-slate-50/50 active:transition-none rounded-lg m-2">
-            <span>Buy Ultimate+</span>
-          </div>
-          <div className="p-3 flex pl-5 hover:scale-105 transition-all cursor-pointer active:bg-slate-50/50 active:transition-none rounded-lg m-2">
-            <span>Log out</span>
-          </div>
-        </div>
-
+        
         <p className="text-white mt-4 mb-2">Recommended Artist ▼</p>
         <div className="flex">
           <div className="bg-whiteGrayColor h-20 w-20 rounded-lg mr-5" />
           <div className="bg-whiteGrayColor h-20 w-20 rounded-lg mr-5" />
           <div className="bg-whiteGrayColor h-20 w-20 rounded-lg mr-5" />
         </div>
+        </div>
+
       </div>
 
     </div>
