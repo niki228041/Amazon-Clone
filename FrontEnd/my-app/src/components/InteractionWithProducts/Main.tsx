@@ -248,7 +248,7 @@ const Main = () => {
   return (
     <div className='flex p-2 '>
 
-      <div className='whitespace-nowrap pl-2 pr-2 mt-2'>
+      <div style={{borderWidth:"2px"}} className='whitespace-nowrap pl-2 pr-2 mt-2'>
 
         <div>
           <h1 className='text-[30px] font-bold'>
