@@ -4,47 +4,46 @@ import { apiProductSlice, useGetProductsQuery } from '../../features/user/apiPro
 import { ImageLink, Product, categorySequence } from '../types';
 import { apiCategorySlice, useGetCategoriesQuery, useGetMainCategoriesQuery } from '../../features/user/apiCategorySlice';
 import "../../css/stars.css";
-import { Oval } from  'react-loader-spinner'
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { Oval } from 'react-loader-spinner'
 
-const loader=()=> {
-  return(
+const loader = () => {
+  return (
     <div className='m-auto pt-32'>
-    <Oval
-      height={80}
-      width={80}
-      color="#46424f"
-      wrapperStyle={{}}
-      wrapperClass=""
-      visible={true}
-      ariaLabel='oval-loading'
-      secondaryColor="#424a4f"
-      strokeWidth={2}
-      strokeWidthSecondary={2}/>
-</div>
+      <Oval
+        height={80}
+        width={80}
+        color="#46424f"
+        wrapperStyle={{}}
+        wrapperClass=""
+        visible={true}
+        ariaLabel='oval-loading'
+        secondaryColor="#424a4f"
+        strokeWidth={2}
+        strokeWidthSecondary={2} />
+    </div>
 
   )
 }
 
-const Product_Component=({ data , productsImages}: { data: Product ,productsImages:string})=>{
+const Product_Component = ({ data, productsImages }: { data: Product, productsImages: string }) => {
   var stars = 0;
 
-  const handleStarsFunctionality=()=>{
+  const handleStarsFunctionality = () => {
     var sumOfStars = 0;
-    data.comments.map(com=>sumOfStars += com.stars);
-    stars = Math.round(sumOfStars/(data.comments.length));
+    data.comments.map(com => sumOfStars += com.stars);
+    stars = Math.round(sumOfStars / (data.comments.length));
   }
 
-  const getStarts=()=>{
+  const getStarts = () => {
     var jsx_stars: JSX.Element[] = [];
     handleStarsFunctionality();
-    for(var i = 0;i<5;i++)
-    {
-      if(i<stars)
-      {
-        jsx_stars.push(<div key={i} className='star-small ml-0.5'/>);
+    for (var i = 0; i < 5; i++) {
+      if (i < stars) {
+        jsx_stars.push(<div key={i} className='star-small ml-0.5' />);
       }
-      else
-      {
+      else {
         jsx_stars.push(<div key={i} className='empty_star-small h-3 ml-0.5' />);
       }
     }
@@ -53,15 +52,55 @@ const Product_Component=({ data , productsImages}: { data: Product ,productsImag
   }
 
 
-  return<>
-  <div >
-  <Link to={"/product/description/" + data.id}>
-    <div className='pb-2 px-3 mt-20 w-full'>
-      <div>
-          <div className='w-full h-[160px]' style={{ backgroundImage:"url("+ productsImages +")",backgroundPosition:"center",backgroundSize:"contain",backgroundRepeat:"no-repeat"}}>
+  return <>
+
+
+<div >
+      <Link to={"/product/description/" + data.id}>
+      <div style={{ height: "290px", width: "200px", borderWidth: "1px", }}>
+      <div className=' max-h-[60px] overflow-hidden '>
+            <p className='text-blue-950 text-sm hover:text-red-700 cursor-pointer hover:underline '>
+              {data.name}
+            </p>
+          </div>
+          <div>
+            <div className='w-full h-[150px]' style={{ marginTop:"10px  ", width:"180px",marginLeft:"auto", backgroundImage: "url(" + productsImages + ")", backgroundPosition: "center", backgroundSize: "contain", backgroundRepeat: "no-repeat" }}>
 
             </div>
-            {/* <img src={data?.image ? "data:image/png;base64," + data?.image : img} className=' w-full h-[100px] ' />         */}
+             {/* <img src={data?.image ? "data:image/png;base64," + data?.image : img} className=' w-full h-[100px] ' />        */}
+          </div>
+        <div style={{ display:"flex"}}  className='p-1 '>
+          
+
+          {/* <div className='flex'>
+            {getStarts()}
+            <span className='ml-1 text-blue-950 hover:text-red-700 cursor-pointer hover:underline text-[12px] font-medium'>{data.comments.length}</span>
+          </div> */}
+
+          <p style={{ verticalAlign:"bottom",fontSize:"17px"}} className='text-sm  font-medium'>$ {data.price}</p>
+          {/* <button style={{ borderRadius: "7px", color: "white", background: "#FF9A02", height: "50px", width: "170px", marginLeft: "10px" }} type="submit">
+            Додати до кошика
+          </button> */}
+          <AddShoppingCartIcon style={{color:"#FF9A02",marginLeft:"30px",fontSize:"30px" }}></AddShoppingCartIcon>
+          <FavoriteBorderIcon style={{color:"#FF9A02",fontSize:"30px",marginLeft:"10px"}}></FavoriteBorderIcon>
+          
+
+        </div>
+      </div>
+
+    </Link>
+    </div >
+
+
+    
+    {/* <div >
+      <Link to={"/product/description/" + data.id}>
+        <div className='pb-2 px-3 mt-20 w-full'>
+          <div>
+            <div className='w-full h-[160px]' style={{ backgroundImage: "url(" + productsImages + ")", backgroundPosition: "center", backgroundSize: "contain", backgroundRepeat: "no-repeat" }}>
+
+            </div>
+             <img src={data?.image ? "data:image/png;base64," + data?.image : img} className=' w-full h-[100px] ' />       
           </div>
           <div className='p-1 '>
             <div className=' max-h-[60px] overflow-hidden '>
@@ -70,23 +109,23 @@ const Product_Component=({ data , productsImages}: { data: Product ,productsImag
               </p>
             </div>
 
-          <div className='flex'>
-            {getStarts()}
-            <span className='ml-1 text-blue-950 hover:text-red-700 cursor-pointer hover:underline text-[12px] font-medium'>{data.comments.length}</span>
-          </div>
+            <div className='flex'>
+              {getStarts()}
+              <span className='ml-1 text-blue-950 hover:text-red-700 cursor-pointer hover:underline text-[12px] font-medium'>{data.comments.length}</span>
+            </div>
 
-          <p className='text-sm text-red-700 font-medium'>$ {data.price}</p>
+            <p className='text-sm text-red-700 font-medium'>$ {data.price}</p>
+          </div>
         </div>
-      </div>
-    </Link>
-  </div>
+      </Link>
+    </div> */}
   </>
 }
 
 
 const Main = () => {
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
+
 
 
 
@@ -107,7 +146,7 @@ const Main = () => {
 
   // console.log(imagesLinks);
   const navigate = useNavigate();
-
+  const searchParams = new URLSearchParams(location.search);
 
 
   const getSearchParams = () => {
@@ -130,8 +169,8 @@ const Main = () => {
   // console.log(products);
 
 
-  useEffect(()=>{
-    if(categories)
+  useEffect(() => {
+    if (categories)
       setCategoriesToView(categories?.payload);
 
     // console.log("categoriesToView");
@@ -145,7 +184,7 @@ const Main = () => {
 
   }, [categories, categoryId])
 
-  
+
 
   const getProducts = async () => {
     var id = parseInt(getSearchParams().get('id')!);
@@ -250,14 +289,15 @@ const Main = () => {
         {/* <div className='text-blue-950 cursor-pointer hover:underline'>sdfds</div> */}
       </div>
 
-      {!isLoading?
-      <div className='grid grid-cols-6 gap-1 pr-44 pl-24 w-full'>
-        {/* grid */}
-        {products?.map((product: Product, id: number) => {
-          const b: Product = product;
-          return <div key={id}>{<Product_Component  data={b} productsImages={product?.image!} />}</div> })}
-      </div>
-      :loader()}
+      {!isLoading ?
+        <div className='grid grid-cols-6 gap-1 pr-44 pl-24 w-full'>
+          {/* grid */}
+          {products?.map((product: Product, id: number) => {
+            const b: Product = product;
+            return <div key={id}>{<Product_Component data={b} productsImages={product?.image!} />}</div>
+          })}
+        </div>
+        : loader()}
     </div>
   )
 }
