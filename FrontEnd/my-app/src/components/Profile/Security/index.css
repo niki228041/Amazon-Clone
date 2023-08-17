@@ -1,0 +1,77 @@
+
+.styled-label {
+    width: 426px;
+    height: 30px;
+    font-family: Inter, sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 32px;
+    letter-spacing: -0.2px;
+    text-align: left;
+    color: #6B6A6E;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+
+  .label-1{
+    margin-top: 175px;
+    margin-left: 141px;
+  }
+  .label-2{
+    margin-top: 20px;
+    margin-left: 141px;
+  }
+  .label-3{
+    margin-top: 175px;
+    margin-left: 360px;
+  }
+  .label-4{
+    margin-top: 25px;
+    margin-left: 360px;
+  }
+
+  .styled-input{
+    width: 529px;
+    height: 45px;
+    border-radius: 10px;
+    border: 1px solid #A1A1A1;
+  }   
+
+  .input-1{
+    margin-top: 25px;
+    margin-left: 151px;
+  }
+  .input-2{
+    margin-top: 25px;
+    margin-left: 151px;
+  }
+  .input-3{
+    margin-top: 25px;
+    margin-left: 370px;
+  }
+  .input-4{
+    margin-top: 25px;
+    margin-left: 370px;
+  }
+
+  .saveData{
+    width: 491px;
+    height: 53px;
+    top: 646px;
+    left: 475px
+  }
+
+  .saveDataButton{
+    margin-left: 630px;
+    margin-top: 100px;
+  }
+
+  
+  .password-toggle {
+    position: absolute;
+    transform: translateY(-50%);
+    cursor: pointer;
+    margin-top: 50px;
+    margin-left :-40px
+  }
