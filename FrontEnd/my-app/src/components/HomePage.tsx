@@ -9,6 +9,9 @@ import iphoneimg from './../images/iphone.jpg';
 import mibandimg from './../images/miband.jpg';
 import usbcimg from './../images/usbc.jpg';
 import example from './../images/example-pic.svg'
+import arrowRight from './../images/main-arrow-right.svg'
+import arrowLeft from './../images/main-arrow-left.svg'
+import headphonesMain from './../images/headphones-main.svg'
 
 import { url } from "inspector";
 
@@ -200,6 +203,151 @@ const HomePage = () => {
                             <button>Додати в кошик</button>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div className="our-products">
+                <div className="our-products-header flex justify-between">
+                    <h2 className="text-[#002A42]">Наші Товари</h2>
+                    <div className="our-products-header-variants">
+                        <h3 className="text-[#002A42]">Прості щомісячні платежі</h3>
+                        <h3>розпродаж</h3>
+                        <h3>Топ</h3>
+                    </div>
+                    <div className="our-products-header-arrows">
+                        <img className="mr-7" src={arrowLeft} />
+                        <img src={arrowRight} />
+                    </div>
+                </div>
+                <div className="our-products-main">
+                    <div className="our-products-main-special">
+                        <div className="our-products-main-special-img">
+                            <div>
+                                <h2 className="text-[#FF9A02]">Спеціальна</h2>
+                                <h2 className="second-span">пропозиція</h2>
+                            </div>
+                            <div className="our-products-right-circle">
+                                <div className="circle-block"><span>Save 10%</span></div>
+                            </div>
+                        </div>
+                        <div className="our-products-main-special-labels">
+                            <span className="text-lgMain">Nintendo Switch Console</span>
+                            <br />
+                            <span className="text-xlMain pr-5">12 399 грн</span>
+                            <span className="text-lgMain line-through">14 800 грн</span>
+                            <br />
+                            <span className="text-baseMain text-[#002A42] pr-10">Продано: 6</span>
+                            <span className="text-baseMain text-[#002A42]">В наявності: 30</span>
+                        </div>
+                    </div>
+                    <div className="container-main-cards">
+                        <div className="first-container-main">
+                            <div className="our-products-main-card">
+                                <span>Bin Bakar Електроніка</span>
+                                <h4>Gree Air Conditioner..</h4>
+                                <img src={example} />
+                                <div className="price-container flex justify-between">
+                                    <span className="old-price">14 800 грн</span>
+                                    <span className="new-price">12 399 грн</span>
+                                </div>
+                                <button>Додати в кошик</button>
+                            </div>
+                            <div className="our-products-main-card">
+                                <span>Bin Bakar Електроніка</span>
+                                <h4>Gree Air Conditioner..</h4>
+                                <img src={example} />
+                                <div className="price-container flex justify-between">
+                                    <span className="old-price">14 800 грн</span>
+                                    <span className="new-price">12 399 грн</span>
+                                </div>
+                                <button>Додати в кошик</button>
+                            </div>
+                            <div className="our-products-main-card">
+                                <span>Bin Bakar Електроніка</span>
+                                <h4>Gree Air Conditioner..</h4>
+                                <img src={example} />
+                                <div className="price-container flex justify-between">
+                                    <span className="old-price">14 800 грн</span>
+                                    <span className="new-price">12 399 грн</span>
+                                </div>
+                                <button>Додати в кошик</button>
+                            </div>
+                            <div className="our-products-main-card">
+                                <span>Bin Bakar Електроніка</span>
+                                <h4>Gree Air Conditioner..</h4>
+                                <img src={example} />
+                                <div className="price-container flex justify-between">
+                                    <span className="old-price">14 800 грн</span>
+                                    <span className="new-price">12 399 грн</span>
+                                </div>
+                                <button>Додати в кошик</button>
+                            </div>
+                            <div className="our-products-main-card">
+                                <span>Bin Bakar Електроніка</span>
+                                <h4>Gree Air Conditioner..</h4>
+                                <img src={example} />
+                                <div className="price-container flex justify-between">
+                                    <span className="old-price">14 800 грн</span>
+                                    <span className="new-price">12 399 грн</span>
+                                </div>
+                                <button>Додати в кошик</button>
+                            </div>
+                        </div>
+
+                        <div className="second-container-main">
+                            <div className="our-products-main-card">
+                                <span>Bin Bakar Електроніка</span>
+                                <h4>Gree Air Conditioner..</h4>
+                                <img src={example} />
+                                <div className="price-container flex justify-between">
+                                    <span className="old-price">14 800 грн</span>
+                                    <span className="new-price">12 399 грн</span>
+                                </div>
+                                <button>Додати в кошик</button>
+                            </div>
+                            <div className="our-products-main-card">
+                                <span>Bin Bakar Електроніка</span>
+                                <h4>Gree Air Conditioner..</h4>
+                                <img src={example} />
+                                <div className="price-container flex justify-between">
+                                    <span className="old-price">14 800 грн</span>
+                                    <span className="new-price">12 399 грн</span>
+                                </div>
+                                <button>Додати в кошик</button>
+                            </div>
+                            <div className="our-products-main-card">
+                                <span>Bin Bakar Електроніка</span>
+                                <h4>Gree Air Conditioner..</h4>
+                                <img src={example} />
+                                <div className="price-container flex justify-between">
+                                    <span className="old-price">14 800 грн</span>
+                                    <span className="new-price">12 399 грн</span>
+                                </div>
+                                <button>Додати в кошик</button>
+                            </div>
+                            <div className="our-products-main-card">
+                                <span>Bin Bakar Електроніка</span>
+                                <h4>Gree Air Conditioner..</h4>
+                                <img src={example} />
+                                <div className="price-container flex justify-between">
+                                    <span className="old-price">14 800 грн</span>
+                                    <span className="new-price">12 399 грн</span>
+                                </div>
+                                <button>Додати в кошик</button>
+                            </div>
+                            <div className="our-products-main-card">
+                                <span>Bin Bakar Електроніка</span>
+                                <h4>Gree Air Conditioner..</h4>
+                                <img src={example} />
+                                <div className="price-container flex justify-between">
+                                    <span className="old-price">14 800 грн</span>
+                                    <span className="new-price">12 399 грн</span>
+                                </div>
+                                <button>Додати в кошик</button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 

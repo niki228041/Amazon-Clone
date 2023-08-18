@@ -9,6 +9,9 @@ module.exports = {
       base: ['16px', '24px'],
       lg: ['20px', '28px'],
       xl: ['24px', '32px'],
+      lgMain: ['20px', '32px'],
+      xlMain: ['24px', '32px'],
+      baseMain: ['19px', '32px'],
     },
     screens:{
       sm:'480px',
