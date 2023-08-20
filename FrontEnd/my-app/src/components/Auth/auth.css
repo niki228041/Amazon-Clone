@@ -29,6 +29,27 @@
     margin-bottom: 50px;
 }
 
+.hederofreg {
+    font-size: 40px;
+
+    font-weight: 500;
+    margin-left: 40%;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.passinputregist {
+    width: 80%;
+    margin-left: 12%;
+    margin-top: 2%;
+}
+.emailinputreg
+{
+    width: 80%;
+    margin-left: 12%;
+    margin-top: 2%;
+}
+
 .passinput {
     margin-top: 30px;
     width: 80%;
@@ -38,11 +59,30 @@
 .emailinput {
     width: 80%;
     margin-left: 12%;
+    margin-top: 2%;
 }
+
+.nicname {
+    width: 80%;
+    margin-left: 12%;
+}
+
+.nameinp {
+    margin-left: 12%;
+    margin-top: 2%;
+    width: 39%;
+}
+
+.surninp {
+    margin-top: 2%;
+    margin-left: 2%;
+    width: 39%;
+}
+
 .submitbut {
     width: 80%;
     margin-left: 12%;
-    
+
 }
 
 
@@ -94,6 +134,7 @@ body.active-modal {
 
 .forgotpass {
     margin-left: 75%;
+    margin-top: 100px;
 }
 
 
@@ -124,10 +165,19 @@ body.active-modal {
     }
 
     .hederoflog {
-        font-size: 35   px;
+        font-size: 35 px;
 
         font-weight: 500;
         margin-left: 50%;
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+
+    .hederofreg {
+        font-size: 40px;
+
+        font-weight: 500;
+        margin-left: 35%;
         margin-top: 50px;
         margin-bottom: 50px;
     }
@@ -142,10 +192,11 @@ body.active-modal {
         width: 80%;
         margin-left: 12%;
     }
+
     .submitbut {
         width: 80%;
         margin-left: 12%;
-        
+
     }
 
 
@@ -199,7 +250,7 @@ body.active-modal {
         margin-left: 70%;
     }
 
-    
+
 }
 
 
@@ -247,10 +298,11 @@ body.active-modal {
         width: 80%;
         margin-left: 12%;
     }
+
     .submitbut {
         width: 80%;
         margin-left: 12%;
-        
+
     }
 
     body.active-modal {
@@ -359,10 +411,11 @@ body.active-modal {
         width: 80%;
         margin-left: 12%;
     }
+
     .submitbut {
         width: 80%;
         margin-left: 12%;
-        
+
     }
 
 
@@ -463,7 +516,7 @@ body.active-modal {
     }
 
     .passinput {
-        
+
         margin-top: 30px;
 
         width: 80%;
@@ -526,14 +579,14 @@ body.active-modal {
         margin-left: 230px;
     }
 
-    
 
-    
+
+
 
     .submitbut {
         width: 80%;
         margin-left: 12%;
-        
+
     }
 }
 
@@ -639,5 +692,5 @@ body.active-modal {
         margin-left: 60%;
     }
 
-   
+
 }

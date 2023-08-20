@@ -10,13 +10,13 @@
         display: flex;
         flex-wrap: wrap;
         height: 930px;
-        width: 810px;
+        width: 1010px;
         margin-left:0px;
     }
     
     .ipadgray{
         height: 770px;
-        width: 710px;
+        width: 910px;
         /* margin-top: 50PX; */
         margin-left: 100px;
         border-width: 6px 0 0 6px;
@@ -32,7 +32,7 @@
     }
     .ipadblack{
         height: 764px;
-        width: 704px; 
+        width: 904px; 
         /* margin-top: 50PX; */
         
         border-width: 40px 0 0 40px;
