@@ -6,7 +6,7 @@ pipeline  {
          stage("Change IP in configs")
          {
              steps{
-                sh "cd .. && find Amazon-Clone/ -type f -exec sed  -i 's/localhost/172.20.10.3/g' {} +"
+                sh "cd .. && find Amazon-Clone/ -type f -exec sed  -i 's/localhost/10.0.0.4/g' {} +"
              }
          } 
         stage("Create frontend docker image") {
