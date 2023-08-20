@@ -10,7 +10,7 @@
 }
 
 .logosing {
-    margin-left: 300px;
+    margin-left: 28%;
     margin-top: 100px;
 }
 
@@ -22,23 +22,27 @@
 
 .hederoflog {
     font-size: 40px;
-    
+
     font-weight: 500;
-    margin-left: 420px;
+    margin-left: 47%;
     margin-top: 50px;
     margin-bottom: 50px;
 }
 
 .passinput {
-    margin-left: 280px;
     margin-top: 30px;
-   
-    width: 400px;
+    width: 80%;
+    margin-left: 12%;
 }
-.emailinput{
-    margin-left: 280px;
+
+.emailinput {
+    width: 80%;
+    margin-left: 12%;
+}
+.submitbut {
+    width: 80%;
+    margin-left: 12%;
     
-    width: 400px;
 }
 
 
@@ -49,11 +53,12 @@ body.active-modal {
 .btn-modal {
     padding: 10px 20px;
     display: block;
-    margin:  auto 0;
+    margin: auto 0;
     font-size: 18px;
 }
 
-.modal, .overlay {
+.modal,
+.overlay {
     width: 100vw;
     height: 100vh;
     top: 0;
@@ -64,8 +69,9 @@ body.active-modal {
 }
 
 .overlay {
-    background: rgba(49,49,49,0.8);
+    background: rgba(49, 49, 49, 0.8);
 }
+
 .modal-content {
     position: absolute;
     top: 40%;
@@ -84,4 +90,554 @@ body.active-modal {
     top: 10px;
     right: 10px;
     padding: 5px 7px;
+}
+
+.forgotpass {
+    margin-left: 75%;
+}
+
+
+
+
+
+@media screen and (max-width: 1440px) {
+    .logininputs {
+        height: 500px;
+        width: 200px;
+        background-color: aqua;
+
+    }
+
+    .overlogin {
+        display: flex;
+    }
+
+    .logosing {
+        margin-left: 28%;
+        margin-top: 100px;
+    }
+
+    .leftside {
+        background-color: #e6e6d3f2;
+        height: 830px;
+        width: 610px;
+    }
+
+    .hederoflog {
+        font-size: 35   px;
+
+        font-weight: 500;
+        margin-left: 50%;
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+
+    .passinput {
+        margin-top: 30px;
+        width: 80%;
+        margin-left: 12%;
+    }
+
+    .emailinput {
+        width: 80%;
+        margin-left: 12%;
+    }
+    .submitbut {
+        width: 80%;
+        margin-left: 12%;
+        
+    }
+
+
+    body.active-modal {
+        overflow-y: hidden;
+    }
+
+    .btn-modal {
+        padding: 10px 20px;
+        display: block;
+        margin: auto 0;
+        font-size: 18px;
+    }
+
+    .modal,
+    .overlay {
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        position: fixed;
+    }
+
+    .overlay {
+        background: rgba(49, 49, 49, 0.8);
+    }
+
+    .modal-content {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        line-height: 1.4;
+        background: #f1f1f1;
+        padding: 14px 28px;
+        border-radius: 3px;
+        max-width: 600px;
+        min-width: 300px;
+    }
+
+    .close-modal {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 5px 7px;
+    }
+
+    .forgotpass {
+        margin-left: 70%;
+    }
+
+    
+}
+
+
+
+
+@media screen and (max-width: 1200px) {
+    .logininputs {
+        height: 500px;
+        width: 200px;
+        background-color: aqua;
+
+    }
+
+    .overlogin {
+        display: flex;
+    }
+
+    .logosing {
+        margin-left: 100px;
+        margin-top: 100px;
+    }
+
+    .leftside {
+        background-color: #e6e6d3f2;
+        height: 830px;
+        width: 510px;
+    }
+
+    .hederoflog {
+        font-size: 40px;
+
+        font-weight: 500;
+        margin-left: 220px;
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+
+    .passinput {
+        margin-top: 30px;
+        width: 80%;
+        margin-left: 12%;
+    }
+
+    .emailinput {
+        width: 80%;
+        margin-left: 12%;
+    }
+    .submitbut {
+        width: 80%;
+        margin-left: 12%;
+        
+    }
+
+    body.active-modal {
+        overflow-y: hidden;
+    }
+
+    .btn-modal {
+        padding: 10px 20px;
+        display: block;
+        margin: auto 0;
+        font-size: 18px;
+    }
+
+    .modal,
+    .overlay {
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        position: fixed;
+    }
+
+    .overlay {
+        background: rgba(49, 49, 49, 0.8);
+    }
+
+    .modal-content {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        line-height: 1.4;
+        background: #f1f1f1;
+        padding: 14px 28px;
+        border-radius: 3px;
+        max-width: 600px;
+        min-width: 300px;
+    }
+
+    .close-modal {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 5px 7px;
+    }
+
+    .forgotpass {
+        margin-left: 350px;
+    }
+
+    .sing {
+        margin-left: 80px;
+    }
+
+    .singbut {
+        border-radius: 7px;
+        color: "white";
+        background-color: #FF9A02;
+        height: "50px";
+        width: "30px";
+        margin-top: "30px";
+    }
+}
+
+@media screen and (max-width: 998px) {
+    .logininputs {
+        height: 500px;
+        width: 200px;
+        background-color: aqua;
+
+    }
+
+    .overlogin {
+        display: flex;
+    }
+
+    .logosing {
+        margin-left: 100px;
+        margin-top: 100px;
+    }
+
+    .leftside {
+        background-color: #e6e6d3f2;
+        height: 930px;
+        width: 49 0px;
+    }
+
+    .hederoflog {
+        font-size: 40px;
+
+        font-weight: 500;
+        margin-left: 220px;
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+
+    .passinput {
+        margin-top: 30px;
+        width: 80%;
+        margin-left: 12%;
+    }
+
+    .emailinput {
+        width: 80%;
+        margin-left: 12%;
+    }
+    .submitbut {
+        width: 80%;
+        margin-left: 12%;
+        
+    }
+
+
+    body.active-modal {
+        overflow-y: hidden;
+    }
+
+    .btn-modal {
+        padding: 10px 20px;
+        display: block;
+        margin: auto 0;
+        font-size: 18px;
+    }
+
+    .modal,
+    .overlay {
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        position: fixed;
+    }
+
+    .overlay {
+        background: rgba(49, 49, 49, 0.8);
+    }
+
+    .modal-content {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        line-height: 1.4;
+        background: #f1f1f1;
+        padding: 14px 28px;
+        border-radius: 3px;
+        max-width: 600px;
+        min-width: 300px;
+    }
+
+    .close-modal {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 5px 7px;
+    }
+
+    .forgotpass {
+        margin-left: 300px;
+    }
+
+    .sing {
+        margin-left: 60px;
+    }
+
+    .singbut {
+        border-radius: 7px;
+        color: "white";
+        background-color: #FF9A02;
+        height: "50px";
+        width: "370px";
+        margin-top: "30px";
+    }
+}
+
+@media screen and (max-width: 769px) {
+    .logininputs {
+        height: 500px;
+        width: 200px;
+        background-color: aqua;
+
+    }
+
+    .overlogin {
+        display: flex;
+    }
+
+    .logosing {
+        margin-left: 40px;
+        margin-top: 100px;
+    }
+
+    .leftside {
+        background-color: #e6e6d3f2;
+        height: 930px;
+        width: 80%;
+    }
+
+    .hederoflog {
+        font-size: 40px;
+
+        font-weight: 500;
+        margin-left: 160px;
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+
+    .passinput {
+        
+        margin-top: 30px;
+
+        width: 80%;
+        margin-left: 12%;
+    }
+
+    .emailinput {
+        width: 80%;
+        margin-left: 12%;
+    }
+
+
+    body.active-modal {
+        overflow-y: hidden;
+    }
+
+    .btn-modal {
+        padding: 10px 20px;
+        display: block;
+        margin: auto 0;
+        font-size: 18px;
+    }
+
+    .modal,
+    .overlay {
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        position: fixed;
+    }
+
+    .overlay {
+        background: rgba(49, 49, 49, 0.8);
+    }
+
+    .modal-content {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        line-height: 1.4;
+        background: #f1f1f1;
+        padding: 14px 28px;
+        border-radius: 3px;
+        max-width: 600px;
+        min-width: 300px;
+    }
+
+    .close-modal {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 5px 7px;
+    }
+
+    .forgotpass {
+        margin-left: 230px;
+    }
+
+    
+
+    
+
+    .submitbut {
+        width: 80%;
+        margin-left: 12%;
+        
+    }
+}
+
+
+@media screen and (max-width: 576px) {
+    .logininputs {
+        height: 500px;
+        width: 200px;
+        background-color: aqua;
+
+    }
+
+    .overlogin {
+        display: flex;
+    }
+
+    .logosing {
+        margin-left: 15%;
+        margin-top: 100px;
+    }
+
+    .leftside {
+        background-color: #e6e6d3f2;
+        height: 844px;
+        width: 100%;
+    }
+
+    .hederoflog {
+        font-size: 40px;
+
+        font-weight: 500;
+        margin-left: 38%;
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+
+    .passinput {
+        margin-left: 10%;
+        margin-top: 30px;
+        min-width: 310px;
+        width: 80%;
+    }
+
+    .emailinput {
+        margin-left: 10%;
+        min-width: 310px;
+        width: 80%;
+    }
+
+    .submitbut {
+        width: 80%;
+        margin-left: 10%;
+    }
+
+
+    body.active-modal {
+        overflow-y: hidden;
+    }
+
+    .btn-modal {
+        padding: 10px 20px;
+        display: block;
+        margin: auto 0;
+        font-size: 18px;
+    }
+
+    .modal,
+    .overlay {
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        position: fixed;
+    }
+
+    .overlay {
+        background: rgba(49, 49, 49, 0.8);
+    }
+
+    .modal-content {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        line-height: 1.4;
+        background: #f1f1f1;
+        padding: 14px 28px;
+        border-radius: 3px;
+        max-width: 600px;
+        min-width: 300px;
+    }
+
+    .close-modal {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 5px 7px;
+    }
+
+    .forgotpass {
+        margin-left: 60%;
+    }
+
+   
 }

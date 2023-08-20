@@ -111,13 +111,13 @@ const App: React.FC = () => {
           <Route path='mytracks' element={<MyTracks />} />
           <Route path='createGenre' element={<CreateGenre />} />
           <Route path='createTrack' element={<CreateTrack />} />
-          <Route path='viewTrack/:trackId' element={<ViewTrack/>} />
-          <Route path='searchTracks' element={<SearchTracks/>} />
-          <Route path='profile' element={<MusicProfile/>} >
-            <Route path='main' element={<MainProfile/>}/>
-            <Route path='settings' element={<SettingProfile/>}/>
+          <Route path='viewTrack/:trackId' element={<ViewTrack />} />
+          <Route path='searchTracks' element={<SearchTracks />} />
+          <Route path='profile' element={<MusicProfile />} >
+            <Route path='main' element={<MainProfile />} />
+            <Route path='settings' element={<SettingProfile />} />
           </Route>
-          
+
         </Route>
 
         <Route path='/'
@@ -131,16 +131,13 @@ const App: React.FC = () => {
                 </div>
 
 
-              
+
               </div>
             </>
           }>
-          <Route path='/' element={<HomePage/>}></Route>
-          <Route path="login" element={<LoginScreen />} />
-          <Route path="forgotpassword" element={<ForgotPasswordScreen />} />
-          <Route path="otppage" element={<OtpPage />} />
-          <Route path="resetpassword/" element={<ResetPasswordScreen />} />
-          <Route path="registration" element={<Registration />} />
+          <Route path='/' element={<HomePage />}></Route>
+
+
 
           <Route>
             <Route path='admin' element={<Outlet />}>
@@ -156,21 +153,21 @@ const App: React.FC = () => {
             </Route>
 
             <Route path='orders' element={<Orders />} />
-            
+
             <Route path='successful-purchase' element={<SuccessfulPurchase />} />
-            
+
             <Route path="product/:productId" element={<OneProduct />} />
-            
+
             <Route path="/profile" element={<Profile />} />
-            
+
             <Route path="/payment" element={<Payment />} />
 
             <Route path="/security" element={<Security />} />
-            
+
             <Route path="/address" element={<Address />} />
-            
+
             <Route path="/proforder" element={<Order />} />
-            
+
             <Route path='/editprofile' element={<EditProfile />} />
 
             <Route path='/tempProfile' element={<TempProfile />} >
@@ -221,11 +218,25 @@ const App: React.FC = () => {
         <Route path='/*'
           element={
             <>
-              <Header />
+
               <NotFound />
-              <Footer />
+
 
             </>}>
+        </Route>
+        <Route path='/'
+          element={
+            <>
+
+              <Outlet></Outlet>
+
+
+            </>}>
+          <Route path="login" element={<LoginScreen />} />
+          <Route path="forgotpassword" element={<ForgotPasswordScreen />} />
+          <Route path="otppage" element={<OtpPage />} />
+          <Route path="resetpassword/" element={<ResetPasswordScreen />} />
+          <Route path="registration" element={<Registration />} />
         </Route>
       </Routes>
     </BrowserRouter>
