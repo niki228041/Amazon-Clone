@@ -2,8 +2,7 @@
 import { createSlice,PayloadAction,nanoid,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios"
 import {Order} from "../../components/types";
-
-const baseURL ='https://localhost:5034';
+import { baseURL } from "../../api/axios";
 
 
 

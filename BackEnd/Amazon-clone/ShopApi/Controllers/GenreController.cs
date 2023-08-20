@@ -1,4 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using DAL.Entities.FilterEntities;
+using DAL.Entities.Music;
+using DAL.Interfaces;
+using Infrastructure.Interfaces;
+using Infrastructure.Models;
+using Infrastructure.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ShopApi.Controllers
@@ -7,14 +14,31 @@ namespace ShopApi.Controllers
     [ApiController]
     public class GenreController : ControllerBase
     {
+        private readonly IGenreService _genreService;
+        private readonly IMapper _mapper;
 
-        //[HttpGet]
-        //[Route("GetAll")]
-        //public async Task<IActionResult> GetAllAsync()
-        //{
-        //    //var res = await _commentService.GetAllAsync();
-        //    return Ok(res);
-        //}
+        public GenreController(IMapper mapper, IGenreService genreRepository)
+        {
+            _mapper = mapper;
+            _genreService = genreRepository;
+        }
+
+
+        [HttpPost]
+        [Route("CreateGenre")]
+        public async Task<IActionResult> CreateGenreAsync(GenreVM model)
+        {
+            var genre = await _genreService.CreateGenreAsync(model);
+            return Ok(genre);
+        }
+
+        [HttpGet]
+        [Route("GetAllGenres")]
+        public async Task<IActionResult> GetAllGenresAsync()
+        {
+            var genres = await _genreService.GetAllGenresAsync();
+            return Ok(genres);
+        }
 
     }
 }

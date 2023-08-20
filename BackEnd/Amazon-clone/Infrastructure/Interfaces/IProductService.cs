@@ -14,4 +14,6 @@ public interface IProductService
     Task<ServiceResponse> GetProductsAsync();
     Task<ServiceResponse> GetProductByCategoryId(int id);
     Task DeleteProductAsync(int id);
+    public Task<ServiceResponse> GetProductByFiltersAsync(FilterVM model);
+
 }

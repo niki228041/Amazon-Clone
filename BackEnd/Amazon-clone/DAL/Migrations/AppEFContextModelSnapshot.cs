@@ -22,6 +22,21 @@ namespace DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("CategoryOptions", b =>
+                {
+                    b.Property<int>("CategoriesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OptionsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoriesId", "OptionsId");
+
+                    b.HasIndex("OptionsId");
+
+                    b.ToTable("CategoryOptions");
+                });
+
             modelBuilder.Entity("DAL.Entities.Address", b =>
                 {
                     b.Property<int>("Id")
@@ -64,7 +79,7 @@ namespace DAL.Migrations
                         .IsUnique()
                         .HasFilter("[OrderId] IS NOT NULL");
 
-                    b.ToTable("tblAddresses", (string)null);
+                    b.ToTable("tblAddresses");
                 });
 
             modelBuilder.Entity("DAL.Entities.Category", b =>
@@ -91,7 +106,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("tblCategories", (string)null);
+                    b.ToTable("tblCategories");
                 });
 
             modelBuilder.Entity("DAL.Entities.Comment", b =>
@@ -101,9 +116,6 @@ namespace DAL.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -119,8 +131,7 @@ namespace DAL.Migrations
 
                     b.Property<string>("Message")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -133,8 +144,7 @@ namespace DAL.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
@@ -145,7 +155,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("tblComments", (string)null);
+                    b.ToTable("tblComments");
                 });
 
             modelBuilder.Entity("DAL.Entities.CommentImage", b =>
@@ -175,7 +185,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("CommentId");
 
-                    b.ToTable("tblCommentImages", (string)null);
+                    b.ToTable("tblCommentImages");
                 });
 
             modelBuilder.Entity("DAL.Entities.Company", b =>
@@ -193,7 +203,126 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tblCompanies", (string)null);
+                    b.ToTable("tblCompanies");
+                });
+
+            modelBuilder.Entity("DAL.Entities.FilterEntities.Options", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("tblOptions");
+                });
+
+            modelBuilder.Entity("DAL.Entities.FilterEntities.OptionsCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("OptionsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("OptionsId");
+
+                    b.ToTable("tblOptionCategory");
+                });
+
+            modelBuilder.Entity("DAL.Entities.FilterEntities.Variant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("OptionsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OptionsId");
+
+                    b.ToTable("tblVariant");
+                });
+
+            modelBuilder.Entity("DAL.Entities.FilterEntities.VariantProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("VariantId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("VariantId");
+
+                    b.ToTable("tblVariantProduct");
                 });
 
             modelBuilder.Entity("DAL.Entities.Identity.RoleEntity", b =>
@@ -266,7 +395,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tblAlbum", (string)null);
+                    b.ToTable("tblAlbum");
                 });
 
             modelBuilder.Entity("DAL.Entities.Music.Genre", b =>
@@ -294,7 +423,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tblGenre", (string)null);
+                    b.ToTable("tblGenre");
                 });
 
             modelBuilder.Entity("DAL.Entities.Music.Track", b =>
@@ -326,6 +455,9 @@ namespace DAL.Migrations
                     b.Property<int>("NumberOfPlays")
                         .HasColumnType("int");
 
+                    b.Property<string>("Song")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
@@ -341,7 +473,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("tblTrack", (string)null);
+                    b.ToTable("tblTrack");
                 });
 
             modelBuilder.Entity("DAL.Entities.Music.TrackGenre", b =>
@@ -373,7 +505,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("TrackId");
 
-                    b.ToTable("tblTrackGenre", (string)null);
+                    b.ToTable("tblTrackGenre");
                 });
 
             modelBuilder.Entity("DAL.Entities.Order", b =>
@@ -417,7 +549,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("tblOrders", (string)null);
+                    b.ToTable("tblOrders");
                 });
 
             modelBuilder.Entity("DAL.Entities.Product", b =>
@@ -485,7 +617,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("SubcategoryId");
 
-                    b.ToTable("tblProducts", (string)null);
+                    b.ToTable("tblProducts");
                 });
 
             modelBuilder.Entity("DAL.Entities.ProductImage", b =>
@@ -518,7 +650,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("tblProductImages", (string)null);
+                    b.ToTable("tblProductImages");
                 });
 
             modelBuilder.Entity("DAL.Entities.Subcategory", b =>
@@ -539,7 +671,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Subcategories", (string)null);
+                    b.ToTable("Subcategories");
                 });
 
             modelBuilder.Entity("DAL.Entities.User", b =>
@@ -712,6 +844,36 @@ namespace DAL.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ProductVariant", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VariantsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "VariantsId");
+
+                    b.HasIndex("VariantsId");
+
+                    b.ToTable("ProductVariant");
+                });
+
+            modelBuilder.Entity("CategoryOptions", b =>
+                {
+                    b.HasOne("DAL.Entities.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DAL.Entities.FilterEntities.Options", null)
+                        .WithMany()
+                        .HasForeignKey("OptionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("DAL.Entities.Address", b =>
                 {
                     b.HasOne("DAL.Entities.Order", "Order")
@@ -752,6 +914,45 @@ namespace DAL.Migrations
                         .HasForeignKey("CommentId");
 
                     b.Navigation("Comment");
+                });
+
+            modelBuilder.Entity("DAL.Entities.FilterEntities.OptionsCategory", b =>
+                {
+                    b.HasOne("DAL.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("DAL.Entities.FilterEntities.Options", "Options")
+                        .WithMany()
+                        .HasForeignKey("OptionsId");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Options");
+                });
+
+            modelBuilder.Entity("DAL.Entities.FilterEntities.Variant", b =>
+                {
+                    b.HasOne("DAL.Entities.FilterEntities.Options", "Options")
+                        .WithMany("Variants")
+                        .HasForeignKey("OptionsId");
+
+                    b.Navigation("Options");
+                });
+
+            modelBuilder.Entity("DAL.Entities.FilterEntities.VariantProduct", b =>
+                {
+                    b.HasOne("DAL.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("DAL.Entities.FilterEntities.Variant", "Variant")
+                        .WithMany()
+                        .HasForeignKey("VariantId");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Variant");
                 });
 
             modelBuilder.Entity("DAL.Entities.Identity.UserRoleEntity", b =>
@@ -904,6 +1105,21 @@ namespace DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ProductVariant", b =>
+                {
+                    b.HasOne("DAL.Entities.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DAL.Entities.FilterEntities.Variant", null)
+                        .WithMany()
+                        .HasForeignKey("VariantsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("DAL.Entities.Category", b =>
                 {
                     b.Navigation("Products");
@@ -923,6 +1139,11 @@ namespace DAL.Migrations
                     b.Navigation("Products");
 
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("DAL.Entities.FilterEntities.Options", b =>
+                {
+                    b.Navigation("Variants");
                 });
 
             modelBuilder.Entity("DAL.Entities.Identity.RoleEntity", b =>

@@ -16,6 +16,7 @@ using Compass.Services.Configurations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using DAL.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,11 +55,18 @@ builder.Services.AddTransient<EmailService>();
 
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<ICommentImageRepository, CommentImageRepository>();
-builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddScoped<IVariantRepository,VariantRepository>();
+builder.Services.AddScoped<IOptionsRepository,OptionsRepository>();
+builder.Services.AddScoped<IOptionsCategoryRepository,OptionsCategoryRepository>();
+builder.Services.AddScoped<IVariantProductRepository, VariantProductRepository>();
+builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+builder.Services.AddScoped<ITrackRepository, TrackRepository>();
 
 
 
 //Services
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -68,6 +76,9 @@ builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<ICommentImageService, CommentImageService>();
 
 builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IGenreService, GenreService>();
+builder.Services.AddScoped<ITrackService, TrackService>();
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -100,6 +111,17 @@ builder.Services.AddAuthentication(options => {
     jwt.TokenValidationParameters = tokenValidationParameters;
 });
 
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowAllOrigins",
+//        builder =>
+//        {
+//            builder.AllowAnyOrigin()
+//                   .AllowAnyHeader()
+//                   .AllowAnyMethod()
+//                   .AllowCredentials();
+//        });
+//});
 
 
 var app = builder.Build();
@@ -114,26 +136,41 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 
-var dir = Path.Combine(Directory.GetCurrentDirectory(), "images");
-if (!Directory.Exists(dir))
-    Directory.CreateDirectory(dir);
+string[] directoriesToCreate = {
+    DirectoriesInProject.ProductImages,
+    DirectoriesInProject.CommentImages,
+    DirectoriesInProject.MusicImages,
+    DirectoriesInProject.MusicFiles
+};
 
-var dir_2 = Path.Combine(Directory.GetCurrentDirectory(), "comment_images");
-if (!Directory.Exists(dir_2))
-    Directory.CreateDirectory(dir_2);
-
-app.UseStaticFiles(new StaticFileOptions
+// Создание директорий, если они не существуют
+foreach (var directoryName in directoriesToCreate)
 {
-    FileProvider = new PhysicalFileProvider(dir),
-    RequestPath="/images"
-});
+    var dir = Path.Combine(Directory.GetCurrentDirectory(), directoryName);
+    if (!Directory.Exists(dir))
+        Directory.CreateDirectory(dir);
+
+    // Настройка статических файлов
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(dir),
+        RequestPath = "/" + directoryName
+    });
+}
+
+
+
 
 app.UseCors(options => options
-    .WithOrigins("http://localhost:3000", "http://localhost:4200")
+    //.WithOrigins("http://localhost:3000", "http://localhost:4200")
+    .AllowAnyOrigin()
     .AllowAnyHeader()
-    .AllowCredentials()
+    //.AllowCredentials()
     .AllowAnyMethod()
 );
+
+app.UseCors("AllowAllOrigins");
+
 app.MapControllers();
 
 app.SeedData();

@@ -12,6 +12,13 @@ export interface Product{
     address: String,
     image: any,
     comments: Comment[],
+    options: SelectedOption[],
+}
+
+export interface SelectedOption{
+    title:string,
+    variant:string,
+    variantId:number
 }
 
 export interface Comment{

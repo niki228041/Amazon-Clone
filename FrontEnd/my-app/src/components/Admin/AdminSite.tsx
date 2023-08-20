@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { apiProductSlice, useGetProductsQuery } from "../../features/user/apiProductSlice";
 import { apiCategorySlice, useGetCategoriesQuery } from "../../features/user/apiCategorySlice";
 import { Category } from "./types";
@@ -25,7 +25,7 @@ const AdminSite=()=> {
       if(isSuccess && isSuccessCategory)
       switch(list){
         case "products" :return productList(data.payload,isSuccess,deleteProductHandle);
-        case "categories" :return categoryList(categories.payload,isSuccessCategory,deleteCategoryHandle);
+        case "categories" :return categoryList(categories.payload,isSuccessCategory,deleteCategoryHandle,handleToCreateOptions,navigate);
       }
     }
 
@@ -35,6 +35,10 @@ const AdminSite=()=> {
 
     const deleteCategoryHandle=(id:number)=>{
       deleteCategory_({id:id});
+    }
+
+    const handleToCreateOptions=()=>{
+      navigate("/createOptions");
     }
 
 
@@ -67,12 +71,21 @@ const AdminSite=()=> {
 
             <div className="flex content-center self-center text-center place-content-between">
                 <span className="text-xl font-semibold leading-6 text-gray-900">{list}</span>
-                <button
-                   type="button"
-                   onClick={()=>{navigate("create/" + list)}}
-                   className="inline-flex items-center rounded-md   cursor-pointer bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                   Create
-                 </button>
+                <div className="gap-2 grid grid-cols-2">
+                  <button
+                     type="button"
+                     onClick={()=>{navigate("create/" + list)}}
+                     className="items-center rounded-md flex justify-center cursor-pointer bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                     Create
+                   </button>
+                   <button
+                    type="button"
+                    onClick={()=>{handleToCreateOptions()}}
+                    className=" inline-flex items-center rounded-md  cursor-pointer  bg-green-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    AddOptions
+                  </button>
+                </div>
+                
             </div>
             
 
@@ -118,19 +131,26 @@ const AdminSite=()=> {
   </>;
   }
 
-  const categoryList=(data:Category[],isSuccess:boolean,deleteCategory:any)=>{
+  const categoryList=(data:Category[],isSuccess:boolean,deleteCategory:any,handleToCreateOptions=(id:number)=>{},navigate=(text:string)=>{})=>{
     return <>
       {
-      isSuccess ? data.map((category:any) => (
-    <li key={category.id} className="flex justify-between gap-x-6 py-5">
-      <div className="flex gap-x-4">
+      isSuccess ? data.map((category:Category) => (
+    <li key={category.id} className="grid grid-cols-3 justify-between gap-x-6 py-5">
+      <div className="flex gap-x-4 ">
         <div className="min-w-0 flex-auto">
           <p className="text-sm font-semibold leading-6 text-gray-900">{category.name}</p>
           <p className="mt-1 truncate text-xs leading-5 text-gray-500">{category.name}</p>
         </div>
       </div>
 
-      <div className="">
+      <div className="grid grid-cols-6 justify-end gap-2">
+        
+          <button onClick={()=>{navigate("/get-options-by-category/"+category.id)}} className="w-full bg-purple-500 mt-2 mr-1 rounded-md col-span-2 text-white">
+            See Options
+          </button>
+      </div>
+
+      <div className="flex justify-end">
         <button
          type="button"
          onClick={()=>{deleteCategory(category.id)}}
