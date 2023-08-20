@@ -115,15 +115,11 @@ const ResetPasswordScreen = () => {
 
 
                     {/* style={{ width:"800px",display: "flex", marginLeft: "280" }} */}
-                    <div style={{ marginLeft: "280px", }}>
-                        <button
-                            style={{ borderRadius: "7px", color: "white", background: "#FF9A02", height: "50px", width: "400px", marginTop: "30px" }}
-                            type="submit" onClick={toggleModal} className="btn-modal"
-
-                        >
+                    
+                        <button style={{ borderRadius: "7px", color: "white", background: "#FF9A02", height: "50px",  marginTop: "30px" }} type="submit" onClick={toggleModal} className="submitbut btn-modal">
                             Зберегти пароль
                         </button>
-                    </div>
+                    
 
 
                 </div>
