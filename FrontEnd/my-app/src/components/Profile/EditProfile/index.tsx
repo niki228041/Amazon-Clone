@@ -74,7 +74,7 @@ const EditProfile: React.FC = () => {
 
             <input type="text" className="userNameInput" placeholder="Імʼя користувача"/>
         </div>
-        <div>
+        <div style={{width:"100%",height:"200px"}}>
             <div className='personalInfolabel label-1'>Персональна інформація</div>
             <div>
                 <input type="text" className="personalInfoInput input-1" placeholder="Імʼя "/>
@@ -91,7 +91,7 @@ const EditProfile: React.FC = () => {
                 <input type="text" className="personalInfoInput input-7" placeholder="E-mail"/>
             </div>
         </div>
-        <div>
+        {/* <div>
             <div className='personalInfolabel label-3'>Адреса доставки</div>
             <div>
                 <input type="text" className="personalInfoInput input-8" placeholder="Країна"/>
@@ -100,7 +100,7 @@ const EditProfile: React.FC = () => {
                 <input type="text" className="personalInfoInput input-11" placeholder="Номер будинку/квартири"/>
                 <input type="text" className="personalInfoInput input-12" placeholder="Номер відділення"/>
             </div>
-        </div>
+        </div> */}
         <div className='plusSvg'>   
             <svg width="70" height="70" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="25" cy="25" r="24.5" fill="#FF9C00" stroke="#FF9A02"/>
