@@ -9,6 +9,9 @@ import search from "../../images/search.png";
 import '../NumberFieldWithoutArrows.css';
 import { VariantDTO } from '../Admin/types';
 import { Oval } from  'react-loader-spinner'
+import classNames from 'classnames';
+
+import check from "../../images/check_gray.svg"
 
 interface AllFilters{
   categoryId:number,
@@ -70,7 +73,7 @@ const Product_Component=({ data , productsImages}: { data: Product ,productsImag
   return<>
   <div >
   <Link to={"/product/" + data.id}>
-    <div className='pb-2 mt-20 w-full border border-1 border-gray-100 h-[450px]'>
+    <div className='pb-2 mt-20 w-full border border-1 border-gray-100 h-[350px]'>
       <div>
           <div className='w-full h-[300px] m-0 py-10' style={{ backgroundImage:"url("+ productsImages?.image +")",backgroundPosition:"center",backgroundSize:"contain",backgroundRepeat:"no-repeat"}}>
 
@@ -106,6 +109,19 @@ const Product_Component=({ data , productsImages}: { data: Product ,productsImag
 const PageWithOptions = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
+
+
+
+
+  const [selectedBrends, setSelectedBrends] = useState<string[]>([]);
+
+  const handleCheckboxChange = (value: any) => {
+    if (selectedBrends.includes(value)) {
+      setSelectedBrends(selectedBrends.filter((item) => item !== value));
+    } else {
+      setSelectedBrends([...selectedBrends, value]);
+    }
+  };
 
   const { data, isSuccess, error } = useGetProductsQuery();
 
@@ -256,59 +272,161 @@ const PageWithOptions = () => {
   }
 
   return (
-    <div className='flex p-2 '>
-
-      <div className='whitespace-nowrap pl-2 pr-2 mt-2'>
-
-        <div>
-          <h1 className='text-[30px] font-bold'>
-            Best Sellers
-          </h1>
-        </div>
-
-        <div className='ml-3 mt-10'>
-          <div className='font-medium text-sm mb-2 cursor-pointer'>Filters</div>
-
-          <form className='ml-1 text-sm ' onSubmit={handlePriceFilter}>
-              <div className='font-medium cursor-pointer '>Price</div>
-              <div className=''>
-                <input id='min-price' name='min-price' 
-                className='border w-8 mr-1 outline-none rounded-md p-1 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent' type='number'></input>
-                <span>-</span>
-                <input id='max-price'  name='max-price' className='border w-8 ml-1 outline-none rounded-md p-1 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent' type='number'></input>
-                <button type='submit' className=' self-center absolute ml-2 border p-1.5'>
-                    <img className='h-4 self-center' src={search}></img>
-                </button>
-              </div>
-          </form>
-
-          <div className='mt-4 ml-1'>
-            <div className='font-medium text-sm cursor-pointer'>Customer Review</div>
-            <div className='ml-1'>
-              <div className='flex select-none cursor-pointer hover:underline mt-1 m-auto text-sm' onClick={()=>setStarts(4)}>{getStarts(4)} & Up</div>
-              <div className='flex select-none cursor-pointer hover:underline mt-1 m-auto text-sm' onClick={()=>setStarts(3)}>{getStarts(3)} & Up</div>
-              <div className='flex select-none cursor-pointer hover:underline mt-1 m-auto text-sm' onClick={()=>setStarts(2)}>{getStarts(2)} & Up</div>
-              <div className='flex select-none cursor-pointer hover:underline mt-1 m-auto text-sm' onClick={()=>setStarts(1)}>{getStarts(1)} & Up</div>
-              <div className='flex select-none cursor-pointer hover:underline mt-1 ml-1 m-auto text-sm' onClick={()=>setStarts(-1)}>None & Up</div>
-            </div>
-          </div>
-          
-         
-        </div>
-      </div>
-
-
-
-        {/* grid */}
+    <div className='flex'>
+      
+      <div className='  w-11/12 m-auto'>
 
       
-      {!isLoading?
-      <div className='grid grid-cols-5 gap-2 pr-44 pl-24 w-full'>
-        {products?.map((product: Product, id: number) => {
-          const b: Product = product;
-          return <div key={id}>{<Product_Component  data={b} productsImages={imagesLinks?.find((img:ImageLink)=>img.productId==product.id)!} />}</div> })}
+      <div className=' '>
+        Головна / одяг / жіноче
       </div>
-      :loader()}
+
+      <div className='whitespace-nowrap pl-2 pr-2 mt-10'>
+
+      
+        <div className=' grid grid-cols-10 gap-4'>
+    
+          <div className='col-span-2'>
+            <div className='bg-optionsGrayColor p-4 rounded-lg'>
+              <div className='font-semibold text-sm mb-2 cursor-pointer text-optionsGrayDarkBlueColor'>Категорії</div>
+
+              <div className=' text-sm mb-2 cursor-pointer '>
+                <div className='my-3'>
+                  <span className=' font-semibold mr-3 text-optionsGrayDarkBlueColor'>Все</span>
+                  <span className=' text-optionsGrayBlueColor'>(10487)</span>
+                </div>
+                <div className='my-3'>
+                  <span className=' mr-3 text-optionsGrayDarkBlueColor'>Телебачення та аудіо</span>
+                  <span className=' text-optionsGrayBlueColor'>(10487)</span>
+                </div>
+                <div className='my-3'>
+                  <span className=' mr-3 text-optionsGrayDarkBlueColor'>Смартфони</span>
+                  <span className=' text-optionsGrayBlueColor'>(5236)</span>
+                </div>
+                <div className='my-3'>
+                  <span className=' mr-3 text-optionsGrayDarkBlueColor'>Ноутбуки та ПК</span>
+                  <span className=' text-optionsGrayBlueColor'>(290)</span>
+                </div>
+
+              </div>
+            </div>
+            
+            <div className=' p-4 rounded-lg mt-4 border border-grayColorForBorder'>
+              <div className='font-semibold text-sm mb-2 cursor-pointer text-optionsGrayDarkBlueColor'>Бренди</div>
+              
+              <div className=' text-sm mb-2 cursor-pointer '>
+                <div className='my-3'>
+
+                  <label className="flex self-center" onClick={()=>handleCheckboxChange("1")}>
+                    <div
+                      
+                      className={classNames("mr-2 h-[17px] w-[17px] self-center justify-center flex rounded-sm border border-optionsGrayDarkBlueColor",{
+                        "   ":selectedBrends.includes("1"),
+                        "  ":!selectedBrends.includes("1")
+                      })}
+                    >
+                     {selectedBrends.includes("1") ? <img src={check} className=' h-2 self-center' /> :""}
+                    </div>
+                    <span className=' mr-3 text-optionsWhiterDarkBlueColor'>Apple</span>
+                    <span className='  text-almostWhiteColor'>(6422)</span>
+                  </label>
+
+                </div>
+                <div className='my-3'>
+
+                  <label className="flex self-center" onClick={()=>handleCheckboxChange("2")}>
+                    <div
+                      
+                      className={classNames("mr-2 h-[17px] w-[17px] self-center justify-center flex rounded-sm border border-optionsGrayDarkBlueColor",{
+                        "   ":selectedBrends.includes("2"),
+                        "  ":!selectedBrends.includes("2")
+                      })}
+                    >
+                     {selectedBrends.includes("2") ? <img src={check} className=' h-2 self-center' /> :""}
+                    </div>
+                    <span className=' mr-3 text-optionsWhiterDarkBlueColor'>Samsung</span>
+                    <span className='  text-almostWhiteColor'>(725)</span>
+                  </label>
+
+                  
+                </div>
+                <div className='my-3'>
+
+                  <label className="flex self-center" onClick={()=>handleCheckboxChange("3")}>
+                    <div
+                      
+                      className={classNames("mr-2 h-[17px] w-[17px] self-center justify-center flex rounded-sm border border-optionsGrayDarkBlueColor",{
+                        "   ":selectedBrends.includes("3"),
+                        "  ":!selectedBrends.includes("3")
+                      })}
+                    >
+                     {selectedBrends.includes("3") ? <img src={check} className=' h-2 self-center' /> :""}
+                    </div>
+                    <span className=' mr-3 text-optionsWhiterDarkBlueColor'>Lenovo</span>
+                    <span className='  text-almostWhiteColor'>(631)</span>
+                  </label>
+                  
+                </div>
+
+              </div>
+            </div>
+            
+
+    
+            {/* <form className='ml-1 text-sm ' onSubmit={handlePriceFilter}>
+                <div className='font-medium cursor-pointer '>Price</div>
+                <div className=''>
+                  <input id='min-price' name='min-price' 
+                  className='border w-8 mr-1 outline-none rounded-md p-1 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent' type='number'></input>
+                  <span>-</span>
+                  <input id='max-price'  name='max-price' className='border w-8 ml-1 outline-none rounded-md p-1 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent' type='number'></input>
+                  <button type='submit' className=' self-center absolute ml-2 border p-1.5'>
+                      <img className='h-4 self-center' src={search}></img>
+                  </button>
+                </div>
+            </form>
+    
+            <div className='mt-4 ml-1'>
+              <div className='font-medium text-sm cursor-pointer'>Customer Review</div>
+              <div className='ml-1'>
+                <div className='flex select-none cursor-pointer hover:underline mt-1 m-auto text-sm' onClick={()=>setStarts(4)}>{getStarts(4)} & Up</div>
+                <div className='flex select-none cursor-pointer hover:underline mt-1 m-auto text-sm' onClick={()=>setStarts(3)}>{getStarts(3)} & Up</div>
+                <div className='flex select-none cursor-pointer hover:underline mt-1 m-auto text-sm' onClick={()=>setStarts(2)}>{getStarts(2)} & Up</div>
+                <div className='flex select-none cursor-pointer hover:underline mt-1 m-auto text-sm' onClick={()=>setStarts(1)}>{getStarts(1)} & Up</div>
+                <div className='flex select-none cursor-pointer hover:underline mt-1 ml-1 m-auto text-sm' onClick={()=>setStarts(-1)}>None & Up</div>
+              </div>
+            </div> */}
+            
+           
+          </div>
+    
+    
+          {/* grid */}
+    
+        
+          {!isLoading?
+          <div className='col-span-8 '>
+
+            <button className='border rounded-md justify-start flex px-10 py-2 border-grayColorForHeader'>
+              Рейтингом
+            </button>
+
+            <div className='grid grid-cols-4 gap-4  px-10 w-full'>
+            
+
+              {products?.map((product: Product, id: number) => {
+                const b: Product = product;
+                return <div key={id}>{<Product_Component  data={b} productsImages={imagesLinks?.find((img:ImageLink)=>img.productId==product.id)!} />}</div> })}
+            </div>
+          </div>
+
+          :loader()}
+        </div>
+
+      </div>
+
+      </div>
+
     </div>
   )
 }

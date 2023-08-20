@@ -35,6 +35,12 @@ module.exports = {
         almostWhiteColor:"#C9C9C9",
         whiteGrayColor:"#474747",
         grayForCheckBox:"#1A1A1A",
+        optionsGrayColor:"#EEF0F4",
+        optionsGrayBlueColor: "#7D8FA9",
+        optionsGrayDarkBlueColor: "#002A42",
+        optionsWhiterDarkBlueColor: "#586A84",
+
+
       }
     },
     fontFamily: {

@@ -31,17 +31,17 @@ import { apiOrderSlice } from "../../features/user/apiOrderSlice";
 export const BuyLater=()=>{
   return<>
   
-  <div className="px-6">
-    <div className="border p-6 rounded-md">
-      <div className=" h-[200px] mx-1 rounded-md bg-contain bg-center bg-no-repeat m-2" style={{backgroundImage:'url('+tablet+')'}}/>
+  <div className="px-6 xl:text-lg text-sm">
+    <div className="border xl:p-6 rounded-md">
+      <div className=" xl:h-[200px] h-[100px] mx-1 rounded-md bg-contain bg-center bg-no-repeat m-2" style={{backgroundImage:'url('+tablet+')'}}/>
     </div>
     
-    <p className="mt-2">2600грн.</p>
-    <p className="mt-1 text-[15px] text-grayForText font-normal">GoPro HERO6 4K Action </p>
-    <p className="mt-[-5px] text-[15px] text-grayForText font-normal">Camera - Black</p>
+    <p className="mt-2 xl:text-lg text-[12px]">2600грн.</p>
+    <p className="mt-1 text-grayForText font-normal xl:text-[15px] text-[10px]">GoPro HERO6 4K Action </p>
+    <p className="mt-[-5px] text-grayForText font-normal xl:text-[15px] text-[10px]">Camera - Black</p>
 
-    <button className="mt-2 flex border hover:bg-slate-100 border-grayColorForBorder text-sm py-2 px-5 rounded-lg">
-      <img className=" self-center px-1" src={basket}></img>
+    <button className="mt-2 flex border hover:bg-slate-100 border-grayColorForBorder  xl:text-sm text-[10px] xl:py-2 xl:px-5 rounded-lg">
+      <img className=" self-center px-1 xl:h-5 h-3" src={basket}></img>
       Додати в кошик</button>
   </div>
 
@@ -179,7 +179,7 @@ export const Orders=()=>{
         
         <div className="grid grid-cols-4 gap-5 mt-5">
 
-          <div className="col-span-3">
+          <div className="xl:col-span-3 col-span-4 ">
             <div className="w-full border border-grayColorForBorder rounded-lg pb-4 px-1">
             {/* ВИВІД ПРОДУКТІВ */}
             { orders.length>0 ?
@@ -204,9 +204,9 @@ export const Orders=()=>{
             }
             </div> 
 
-            <div className="grid grid-cols-3 mt-7">
+            <div className="grid grid-cols-3 mt-7 xl:text-md text-sm">
               <div className="flex">
-                <img className="h-16 mr-3" src={lock}/>
+                <img className="xl:h-16 h-10 mr-3" src={lock}/>
                 <div>
                   <p> Безпечний платіж</p>
                   <p className=" text-grayForText text-sm">рвариврвт</p>
@@ -214,7 +214,7 @@ export const Orders=()=>{
 
               </div>
               <div className="flex">
-                <img className="h-16 mr-3" src={message}/>
+                <img className="xl:h-16 h-10 mr-3" src={message}/>
                 <div>
                   <p>Підтримка клієнтів</p>
                   <p className=" text-grayForText text-sm">пвімвм</p>
@@ -222,7 +222,7 @@ export const Orders=()=>{
 
               </div>
               <div className="flex">
-                <img className="h-16 mr-3" src={car}/>
+                <img className="xl:h-16 h-10 mr-3" src={car}/>
                 <div>
                   <p>Безкоштовна доставка</p>
                   <p className=" text-grayForText text-sm">впівпп</p>
@@ -235,7 +235,7 @@ export const Orders=()=>{
 
           </div> 
 
-          <div className="">
+          <div className="xl:col-span-1 col-span-4">
             <div className="p-4 border border-grayColorForBorder rounded-lg">
               <p>Маєте промокод?</p>
               <div className="flex mt-3">
