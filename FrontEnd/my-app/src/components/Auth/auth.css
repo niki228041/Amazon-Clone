@@ -43,8 +43,8 @@
     margin-left: 12%;
     margin-top: 2%;
 }
-.emailinputreg
-{
+
+.emailinputreg {
     width: 80%;
     margin-left: 12%;
     margin-top: 2%;
@@ -79,38 +79,73 @@
     width: 39%;
 }
 
+.firsotpinp {
+    margin-left: 30%;
+    width: 50px;
+}
+
+.otpinp {
+    margin-left: 2%;
+    width: 50px;
+}
+
 .submitbut {
     width: 80%;
     margin-left: 12%;
 
 }
-.resopass
-{
+
+.resopass {
     font-size: 40px;
-     font-weight: 500;
-      margin-left: 28%;
-       margin-top: 50px;
-       margin-bottom: 50px;
-}
-.createpass{
-    font-size: 15px;
-     font-weight: 500;
-      margin-left: 25%;
-       margin-top: 15px;
-        margin-bottom: 15px;
+    font-weight: 500;
+    margin-left: 28%;
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
+.createpass {
+    font-size: 15px;
+    font-weight: 500;
+    margin-left: 25%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.otppas {
+    font-size: 15px;
+    font-weight: 500;
+    margin-left: 30%;
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+.otphed {
+    font-size: 40px;
+    font-weight: 500;
+    margin-left: 40%;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.timer {
+    margin-left: 30%;
+}
+
+.resendcod {
+    margin-left: 10%;
+}
 
 body.active-modal {
     overflow-y: hidden;
 }
 
 .btn-modal {
-     padding: 10px 20px; 
-     display: block; 
+    padding: 10px 20px;
+    display: block;
 
     font-size: 18px;
-} 
+}
+
 /* .submitbutres{
     width: 80%;
     margin-left: 12%;
@@ -154,14 +189,15 @@ body.active-modal {
     margin-left: 75%;
     margin-top: 100px;
 }
-.resetinp{
-    font-size: 17px; 
+
+.resetinp {
+    font-size: 17px;
     font-weight: 500;
     margin-left: 33%;
 }
-.resetpas
-{
-    font-size: 40px; 
+
+.resetpas {
+    font-size: 40px;
     font-weight: 500;
     margin-left: 33%;
     margin-top: 5%;
@@ -237,7 +273,7 @@ body.active-modal {
     .btn-modal {
         padding: 10px 20px;
         display: block;
-        
+
         font-size: 18px;
     }
 
@@ -278,6 +314,35 @@ body.active-modal {
 
     .forgotpass {
         margin-left: 70%;
+    }
+
+    .otppas {
+        font-size: 15px;
+        font-weight: 500;
+        margin-left: 20%;
+        margin-top: 15px;
+        margin-bottom: 30px;
+    }
+
+    .otphed {
+        font-size: 40px;
+        font-weight: 500;
+        margin-left: 37%;
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+
+    .timer {
+        margin-left: 18%;
+    }
+
+    .resendcod {
+        margin-left: 20%;
+    }
+
+    .firsotpinp {
+        margin-left: 23%;
+        width: 50px;
     }
 
 
@@ -342,7 +407,7 @@ body.active-modal {
     .btn-modal {
         padding: 10px 20px;
         display: block;
-       
+
         font-size: 18px;
     }
 
@@ -396,6 +461,35 @@ body.active-modal {
         height: "50px";
         width: "30px";
         margin-top: "30px";
+    }
+
+    .otppas {
+        font-size: 15px;
+        font-weight: 500;
+        margin-left: 12%;
+        margin-top: 15px;
+        margin-bottom: 30px;
+    }
+
+    .otphed {
+        font-size: 40px;
+        font-weight: 500;
+        margin-left: 30%;
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+
+    .timer {
+        margin-left: 15%;
+    }
+
+    .resendcod {
+        margin-left: 10%;
+    }
+
+    .firsotpinp {
+        margin-left: 17%;
+        width: 50px;
     }
 }
 
@@ -456,7 +550,7 @@ body.active-modal {
     .btn-modal {
         padding: 10px 20px;
         display: block;
-       
+
         font-size: 18px;
     }
 
@@ -510,6 +604,35 @@ body.active-modal {
         height: "50px";
         width: "370px";
         margin-top: "30px";
+    }
+
+    .otppas {
+        font-size: 14px;
+        font-weight: 500;
+        margin-left: 10%;
+        margin-top: 15px;
+        margin-bottom: 30px;
+    }
+
+    .otphed {
+        font-size: 40px;
+        font-weight: 500;
+        margin-left: 30%;
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+
+    .timer {
+        margin-left: 15%;
+    }
+
+    .resendcod {
+        margin-left: 10%;
+    }
+
+    .firsotpinp {
+        margin-left: 14%;
+        width: 50px;
     }
 }
 
@@ -566,7 +689,7 @@ body.active-modal {
     .btn-modal {
         padding: 10px 20px;
         display: block;
-       
+
         font-size: 18px;
     }
 
@@ -679,7 +802,7 @@ body.active-modal {
     .btn-modal {
         padding: 10px 20px;
         display: block;
-        
+
         font-size: 18px;
     }
 
