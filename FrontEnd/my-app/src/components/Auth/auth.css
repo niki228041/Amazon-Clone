@@ -84,6 +84,21 @@
     margin-left: 12%;
 
 }
+.resopass
+{
+    font-size: 40px;
+     font-weight: 500;
+      margin-left: 28%;
+       margin-top: 50px;
+       margin-bottom: 50px;
+}
+.createpass{
+    font-size: 15px;
+     font-weight: 500;
+      margin-left: 25%;
+       margin-top: 15px;
+        margin-bottom: 15px;
+}
 
 
 body.active-modal {
@@ -91,12 +106,15 @@ body.active-modal {
 }
 
 .btn-modal {
-    padding: 10px 20px;
-    display: block;
+     padding: 10px 20px; 
+     display: block; 
 
     font-size: 18px;
-}
-
+} 
+/* .submitbutres{
+    width: 80%;
+    margin-left: 12%;
+} */
 .modal,
 .overlay {
     width: 100vw;
@@ -219,7 +237,7 @@ body.active-modal {
     .btn-modal {
         padding: 10px 20px;
         display: block;
-        margin: auto 0;
+        
         font-size: 18px;
     }
 
@@ -324,7 +342,7 @@ body.active-modal {
     .btn-modal {
         padding: 10px 20px;
         display: block;
-        margin: auto 0;
+       
         font-size: 18px;
     }
 
@@ -438,7 +456,7 @@ body.active-modal {
     .btn-modal {
         padding: 10px 20px;
         display: block;
-        margin: auto 0;
+       
         font-size: 18px;
     }
 
@@ -548,7 +566,7 @@ body.active-modal {
     .btn-modal {
         padding: 10px 20px;
         display: block;
-        margin: auto 0;
+       
         font-size: 18px;
     }
 
@@ -661,7 +679,7 @@ body.active-modal {
     .btn-modal {
         padding: 10px 20px;
         display: block;
-        margin: auto 0;
+        
         font-size: 18px;
     }
 
