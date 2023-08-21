@@ -39,7 +39,14 @@ module.exports = {
         optionsGrayBlueColor: "#7D8FA9",
         optionsGrayDarkBlueColor: "#002A42",
         optionsWhiterDarkBlueColor: "#586A84",
-
+        optionsBlueThumbColor: "#319DFF",
+        optionsGrayForBorder:"#5A5B6A",
+        bodyColor:"#FFFFFF",
+        almostWhiteBlue:"#EBF2FF",
+        almostWhiteGreen:"#ECF7ED",
+        optionsGreenColorFor:"#37833B",
+        whiteColor:"#FFFFFF",
+        whiteGray:"#8B96A5"
 
       }
     },

@@ -1,0 +1,24 @@
+
+
+.example-thumb{
+    background-color: #319DFF;
+    border: 2px solid white;
+    height: 17px;
+    width: 17px;
+    border-radius: 20px;
+    outline: none;
+    margin: auto;
+    margin-top: -5px;
+    color: rgba(240, 248, 255, 0);
+}
+
+.example-track{
+    background-color: #ffffff;
+    height: 5px;
+    border-radius: 20px;
+}
+
+.example-track.example-track-1{
+    background-color: #108cff;
+    height: 5px;
+}
