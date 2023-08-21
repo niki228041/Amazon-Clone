@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using DAL.Constants;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +30,6 @@ builder.Services.AddDbContext<AppEFContext>(opt =>
 builder.Services.AddIdentity<User, RoleEntity>(opt =>
 {
     opt.Password.RequireDigit = false;
-    opt.Password.RequiredLength = 5;
     opt.Password.RequireNonAlphanumeric = false;
     opt.Password.RequireUppercase = false;
     opt.Password.RequireLowercase = false;
@@ -46,38 +46,48 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductImageRepository, ProductImageRepository>();
 //builder.Services.AddTransient<UserService>();
 builder.Services.AddTransient<EmailService>();
 //builder.Services.AddTransient<JwtTokenService>();
-
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<ICommentImageRepository, CommentImageRepository>();
-
 builder.Services.AddScoped<IVariantRepository,VariantRepository>();
 builder.Services.AddScoped<IOptionsRepository,OptionsRepository>();
 builder.Services.AddScoped<IOptionsCategoryRepository,OptionsCategoryRepository>();
 builder.Services.AddScoped<IVariantProductRepository, VariantProductRepository>();
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddScoped<ITrackRepository, TrackRepository>();
+builder.Services.AddScoped<ICardRepository, CardRepository>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderedProductRepository, OrderedProductRepository>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<ILikedTracksRepository, LikedTracksRepository>();
+builder.Services.AddScoped<ITrackHistoryRepository, TrackHistoryRepository>();
+builder.Services.AddScoped<ITrackCommentRepository, TrackCommentRepository>();
+builder.Services.AddScoped<ITrackGenreRepository, TrackGenreRepository>();
 
 
 
 //Services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
-
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductImageService, ProductImageService>();
-
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<ICommentImageService, CommentImageService>();
-
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<ITrackService, TrackService>();
+builder.Services.AddScoped<ICardService, CardService>();
+builder.Services.AddScoped<IAddressService, AddressService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<ICompanyService, CompanyService>();
+builder.Services.AddScoped<ILikedTracksService, LikedTracksService>();
+builder.Services.AddScoped<ITrackHistoryService, TrackHistoryService>();
+builder.Services.AddScoped<ITrackCommentService, TrackCommentService>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -140,7 +150,8 @@ string[] directoriesToCreate = {
     DirectoriesInProject.ProductImages,
     DirectoriesInProject.CommentImages,
     DirectoriesInProject.MusicImages,
-    DirectoriesInProject.MusicFiles
+    DirectoriesInProject.MusicFiles,
+    DirectoriesInProject.CompanyImages
 };
 
 // Создание директорий, если они не существуют

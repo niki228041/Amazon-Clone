@@ -57,6 +57,62 @@ public class AppMappingProfile : Profile
 
         CreateMap<Track, TrackDTO>();
         CreateMap<TrackDTO, Track>();
+
+        CreateMap<Card, CardVM>();
+        CreateMap<CardVM, Card>();
+
+        CreateMap<Card, CardDTO>();
+        CreateMap<CardDTO, Card>();
+
+        CreateMap<Address, AddressDTO>();
+        CreateMap<AddressDTO, Address>();
+        
+        CreateMap<OrderDTO, Order>();
+        CreateMap<Order, OrderDTO>();
+
+        CreateMap<OrderedProduct, OrderedProductDTO>();
+        CreateMap<OrderedProductDTO, OrderedProduct>();
+
+        CreateMap<OrderedProduct, OrderedProductVM>();
+        CreateMap<OrderedProductVM, OrderedProduct>();
+
+        CreateMap<OrderVM, Order>();
+        CreateMap<Order, OrderVM>();
+
+        CreateMap<ProductOneVM, Product>();
+        CreateMap<Product, ProductOneVM>();
+
+        CreateMap<Company, CompanyDTO>();
+        CreateMap<CompanyDTO, Company>();
+
+        CreateMap<CompanyVM, Company>();
+        CreateMap<Company, CompanyVM>();
+
+
+        CreateMap<OrderedProduct, OrderedProductUpdatedVM>();
+        CreateMap<OrderedProductUpdatedVM, OrderedProduct>();
+
+        CreateMap<LikedTracks, SetLikedTrackDTO>();
+        CreateMap<SetLikedTrackDTO, LikedTracks>();
+
+        CreateMap<LikedTracks, LikedTrackVM>();
+        CreateMap<LikedTrackVM, LikedTracks>();
+
+        CreateMap<LikedTrackVM, TrackForLikedTracksVM>();
+        CreateMap<TrackForLikedTracksVM, LikedTrackVM>();
+
+        CreateMap<AddTrackHistoryDTO, TrackHistory>();
+        CreateMap<TrackHistory, AddTrackHistoryDTO>();
+
+        CreateMap<TrackComment, TrackCommentDTO>();
+        CreateMap<TrackCommentDTO, TrackComment>();
+
+        CreateMap<TrackComment, TrackCommentVM>();
+        CreateMap<TrackCommentVM, TrackComment>();
+
+        CreateMap<GenreDTO, Genre>();
+        CreateMap<Genre, GenreDTO>();
+        
     }
 
 

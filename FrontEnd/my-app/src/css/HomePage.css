@@ -1,0 +1,298 @@
+body {
+    background-color: #FFFFFF;
+}
+.first-section .image-div{
+    display: flex;
+    justify-content: space-between;
+    font-family: 'CenturyGothic';
+    height: 430px;
+    background-color: #F3EDC9;
+}
+.first-section .image-div .left-elements-image {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 90px;
+
+}
+
+.first-section .image-div .right-elements-image .circle-block {
+    display: flex;
+    align-items: center;
+    background-color: #FF9A02;
+    width: 165px;
+    height: 159px;
+    border-radius: 83px;
+    color: white;
+    font-size: 47px;
+    position: relative;
+    top: 60px;
+    right: 210px;
+}
+.first-section .image-div .right-elements-image .circle-block span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%; 
+    height: 100%; 
+}
+
+.forButton {
+    margin-top: 20px;
+}
+
+.forButton button {
+    background-color: #FF9A02;
+    width: 151px;
+    height: 40px;
+    border-radius: 5px;
+    font-size: 15px;
+    color: white;
+}
+
+.second-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.second-section .container-for-carousel {
+    background: linear-gradient(#F3EDC9, #FFFFFF00);
+    padding-right: 40px;
+    padding-left: 40px;
+    display: flex;
+    flex-direction: row;
+}
+.second-section .container-for-carousel .card-main {
+    width: 400px;
+    height: 280px;
+    background-color: blue;
+    margin-right: 30px;
+}
+/* .card-main{
+    background-image: url("./../images/moda.jpg");
+} */
+
+.arrivals {
+    background-color: #FFFFFF;
+    padding-top: 60px;
+    padding-bottom: 50px;
+    padding-left: 105px;
+    padding-right: 105px;
+    font-family: 'CenturyGothic';
+}
+
+.arrivals .arrivals-header {
+    margin-bottom: 20px;
+}
+
+.arrivals .arrivals-header span {
+    color: #002A42;
+    font-size: 19px;
+}
+
+.arrivals .arrivals-header h2 {
+    font-size: 28px;
+    color: #FF9A02;
+    text-transform: uppercase;
+}
+
+.arrivals .container-for-card {
+    display: flex;
+    justify-content: column;
+}
+
+.container-for-card .arrivals-card {
+    height: 287px;
+    width: 190px;
+    margin-right: 25px;
+    border: 1px solid rgba(0, 0, 0, 0.13);
+    padding-top: 8px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 8px;
+}
+
+.container-for-card .arrivals-card>span {
+    font-size: 12px;
+    color: #000000;
+}
+
+.container-for-card .arrivals-card h4 {
+    font-size: 15px;
+    white-space: nowrap;
+    color: rgba(3, 78, 83, 1);
+}
+
+.container-for-card .arrivals-card img {
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.price-container {
+    align-items: center;
+}
+
+.price-container .old-price {
+    font-size: 13px;
+    color: rgba(105, 116, 117, 1);
+    text-decoration: line-through;
+}
+
+.price-container .new-price {
+    font-size: 15px;
+    color: rgba(0, 42, 66, 1);
+}
+
+.arrivals-card button {
+    margin-top: 5px;
+    background-color: rgba(255, 154, 2, 1);
+    width: 158px;
+    height: 35px;
+    color: white;
+    font-size: 15px;
+    border: none;
+}
+
+.our-products {
+    margin-top: 25px;
+    font-family: 'CenturyGothic';
+    
+    padding-left: 105px;
+    padding-right: 105px;
+}
+
+.our-products .our-products-header>h2 {
+    font-size: 28px;
+    text-transform: uppercase;
+}
+
+.our-products .our-products-header .our-products-header-variants,
+.our-products-header-arrows {
+    display: flex;
+    justify-content: column;
+}
+
+.our-products .our-products-header .our-products-header-variants h3 {
+    font-size: 19px;
+    margin-right: 80px;
+    text-transform: uppercase;
+}
+
+.our-products .our-products-main {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 55px;
+}
+
+.our-products .our-products-main .our-products-main-special {
+    height: 585px;
+    width: 472px;
+    background-color: rgba(251, 247, 247, 1);
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    padding-right: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.11);
+    align-items: center;
+    justify-content: center;
+    position	: relative;
+}
+
+.our-products .our-products-main .our-products-main-special>img {
+    height: 430px;
+}
+
+.our-products .our-products-main .our-products-main-special .our-products-main-special-img{
+    background-image: url(./../images/headphones-main.svg);
+    height: 430px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.our-products .our-products-main .our-products-main-special .our-products-main-special-img h2{
+    font-size: 36px;
+}
+
+.our-products-right-circle .circle-block{
+    display: flex;
+    align-items: center;
+    background-color: #FF9A02;
+    width: 115px;
+    height: 111px;
+    border-radius: 83px;
+    font-size: 47px;
+}
+
+.our-products-right-circle .circle-block>span{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%; 
+    height: 100%; 
+    font-size: 28px;
+}
+
+/* // */
+
+.container-main-cards {
+    display: flex;
+    flex-direction: column;
+}
+
+.our-products-main-card {
+    height: 287px;
+    width: 190px;
+    margin-right: 10px;
+    padding-top: 8px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 8px;
+    background-color: white;
+    margin-bottom: 10px;
+}
+
+.our-products-main-card>span {
+    font-size: 12px;
+    color: #000000;
+}
+
+.our-products-main-card h4 {
+    font-size: 15px;
+    white-space: nowrap;
+}
+
+.our-products-main-card img {
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.price-container {
+    align-items: center;
+}
+
+.price-container .old-price {
+    font-size: 13px;
+    color: rgba(105, 116, 117, 1);
+    text-decoration: line-through;
+}
+
+.price-container .new-price {
+    font-size: 15px;
+    color: rgba(0, 42, 66, 1);
+}
+
+.our-products-main-card button {
+    margin-top: 5px;
+    background-color: rgba(255, 154, 2, 1);
+    width: 158px;
+    height: 35px;
+    color: white;
+    font-size: 15px;
+    border: none;
+}
+.first-container-main, .second-container-main {
+    display: flex;
+    flex-direction: row;
+}

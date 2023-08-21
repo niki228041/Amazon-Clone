@@ -1,0 +1,4 @@
+.is-music-profile {
+  transition: height 0.5s ease; /* Apply a smooth transition to the height property */
+}
+

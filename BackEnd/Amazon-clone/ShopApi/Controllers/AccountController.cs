@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Services;
-using ShopApi.Constants;
 using Infrastructure.Services;
 using ExternalLoginRequest = DAL.Entities.ExternalLoginRequest;
 using LoginViewModel = DAL.Entities.LoginViewModel;
@@ -23,6 +22,7 @@ using Google.Apis.Gmail.v1;
 using Google.Apis.Gmail.v1.Data;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Util.Store;
+using DAL.Constants;
 
 namespace ShopApi.Controllers
 {
@@ -59,28 +59,29 @@ namespace ShopApi.Controllers
             }
             else
             {
-                return BadRequest(validationResult.Errors);
+                return Ok(new ServiceResponse { Message= validationResult.Errors[0].ErrorMessage });
             }
 
         }
 
-        [HttpPost]
-        [Route("register")]
+        [AllowAnonymous]
+        [HttpPost("register")]
         public async Task<IActionResult> RegisterAsync([FromBody] RegisterViewModel model)
         {
-            var user = await _userManager.FindByNameAsync(model.Email);
+            var user = await _userManager.FindByEmailAsync(model.Email);
             var resp = await _userService.RegisterUserAsync(model);
 
             if (user != null)
             {
-                return BadRequest(new ServiceResponse { Message = "Ви вже зареєстровані" });
+                resp.Message = "Ви вже зареєстровані";
+                return Ok(resp);
             }
 
 
 
             if (!resp.IsSuccess)
             {
-                return BadRequest(new ServiceResponse { Message = "Виникла якась проблема" });
+                return Ok(resp);
             }
 
             return Ok(resp);
@@ -211,6 +212,17 @@ namespace ShopApi.Controllers
             var user = await _userManager.FindByIdAsync(model.UserId);
             var res = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
             return Ok();
+        }
+
+        [HttpPost("BecomeASeller")]
+        public async Task<IActionResult> BecomeASeller([FromBody] FindByIdVM model) // айді юзера, токен, пароль
+        {
+            var user = await _userManager.FindByIdAsync(model.Id.ToString());
+            var res = await _userManager.AddToRoleAsync(user,Roles.Seller);
+            string token = await _jwtTokenService.CreateToken(user);
+
+
+            return Ok(token);
         }
 
     }   

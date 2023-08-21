@@ -1,5 +1,7 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
-import userSlice from '../features/user/user-slice'
+import userSlice from '../features/user/user-slice';
+
+
 
 import { apiProductSlice } from "../features/user/apiProductSlice";
 import { apiCategorySlice } from "../features/user/apiCategorySlice";
@@ -8,6 +10,12 @@ import {apiOptionsSlice} from "../features/user/apiOptionsSlice"
 import ordersStateSlice from "../features/user/ordersStateSlice";
 import { apiCommentSlice } from "../features/user/apiCommentSlice";
 import { apiPlayerSlice } from "../features/user/apiPlayerSlice";
+import { apiCardSlice } from "../features/user/apiCardSlice";
+import { apiAddressSlice } from "../features/user/apiAddressSlice";
+import { apiOrderSlice } from "../features/user/apiOrderSlice";
+import { apiCompanySlice } from "../features/user/apiCompanySlice";
+import musicStateSlice from "../features/user/musicStateSlice";
+
 
 export const store = configureStore({
   reducer: {
@@ -16,8 +24,20 @@ export const store = configureStore({
     [apiOptionsSlice.reducerPath]:apiOptionsSlice.reducer,
     [apiCommentSlice.reducerPath]:apiCommentSlice.reducer,
     [apiPlayerSlice.reducerPath]:apiPlayerSlice.reducer,
+    [apiCardSlice.reducerPath]:apiCardSlice.reducer,
+    [apiAddressSlice.reducerPath]:apiAddressSlice.reducer,
+    [apiOrderSlice.reducerPath]:apiOrderSlice.reducer,
+
+    [apiOrderSlice.reducerPath]:apiOrderSlice.reducer,
+    
+
+    [apiCompanySlice.reducerPath]:apiCompanySlice.reducer,
+
+    [apiCompanySlice.reducerPath]:apiCompanySlice.reducer,
+
     user: userSlice,
     orders: ordersStateSlice,
+    track: musicStateSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -25,7 +45,11 @@ export const store = configureStore({
       apiCategorySlice.middleware,
       apiOptionsSlice.middleware,
       apiCommentSlice.middleware,
-      apiPlayerSlice.middleware),
+      apiPlayerSlice.middleware,
+      apiCardSlice.middleware,
+      apiOrderSlice.middleware,
+      apiAddressSlice.middleware,
+      apiCompanySlice.middleware),
 });
 
 

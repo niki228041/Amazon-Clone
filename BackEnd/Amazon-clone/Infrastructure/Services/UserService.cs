@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using SixLabors.ImageSharp.Formats.Webp;
 using Infrastructure.Interfaces;
 using Microsoft.AspNetCore.WebUtilities;
+using DAL.Constants;
 
 namespace Infrastructure.Services
 {
@@ -53,6 +54,7 @@ namespace Infrastructure.Services
             var newUser = _mapper.Map<RegisterViewModel, User>(model);
 
             var result = await _userRepository.RegisterUserAsync(newUser, model.Password);
+            await _userRepository.AddRoleAsync(newUser,Roles.User);
             if (result.Succeeded)
             {
                 var token = await _userRepository.GenerateEmailConfirmationTokenAsync(newUser);
@@ -79,7 +81,7 @@ namespace Infrastructure.Services
             {
                 return new ServiceResponse
                 {
-                    Message = "Error user not created.",
+                    Message = result.Errors.FirstOrDefault().Description,
                     IsSuccess = false,
                     Errors = result.Errors.Select(e => e.Description)
                 };

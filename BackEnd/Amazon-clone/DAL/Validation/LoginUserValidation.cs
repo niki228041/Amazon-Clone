@@ -13,8 +13,8 @@ namespace DAL.Validation
     {
         public LoginUserValidation()
         {
-            RuleFor(r => r.email).NotEmpty().EmailAddress();
-            RuleFor(r => r.password).NotEmpty().MinimumLength(6);
+            RuleFor(r => r.email).NotEmpty().EmailAddress().WithMessage("Email must be not empty!!");
+            RuleFor(r => r.password).NotEmpty().MinimumLength(6).WithMessage("Password minimum lengtg is 6 chars!!");
         }
     }
 }
