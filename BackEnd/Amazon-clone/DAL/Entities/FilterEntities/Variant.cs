@@ -20,6 +20,6 @@ namespace DAL.Entities.FilterEntities
         public int? OptionsId { get; set; }
 
 
-        public ICollection<Product> Product { get; set; }
+        public virtual ICollection<VariantProduct> VariantProducts { get; set; }
     }
 }

@@ -4,7 +4,7 @@ import axios from "axios"
 import parseJwt from "../../api/jwtDecodeToken";
 
 import { SetAccessToken,SetRefreshToken } from "../../api/jwtDecodeToken";
-import { LoginRequest } from "../../components/Auth/types";
+import { ForgotPasswordRequest, LoginRequest } from "../../components/Auth/types";
 import { baseURL } from "../../api/axios";
 
 
@@ -23,14 +23,14 @@ interface User{
     email:string,
     name:string,
     surname:string,
-    roles:string,
+    roles:any,
     id:string,
 }
 
 
 // UserState :
 const initialState:UserState= {
-    user:{email:"",name:"",surname:"",roles:"",id:""},
+    user:{email:"",name:"",surname:"",roles:[],id:""},
     accessToken:"",
     refreshToken:"",
     loading:false,
@@ -57,6 +57,26 @@ export const postLogin:any = createAsyncThunk('/api/Account/login',async(dateFro
         return err.message;
     }
 })
+// ----------------------------- Доробити під forgotpassword -----------------------------
+export const postForgotPassword:any = createAsyncThunk('/api/Account/login',async(dateFromFrontend:ForgotPasswordRequest)=>{
+    try{
+        const response = await axios.post(baseURL + '/api/Account/login',dateFromFrontend);
+        return response.data;
+    }catch(err:any){
+        return err.message;
+    }
+})
+
+export const becomeASeller:any = createAsyncThunk('/api/Account/BecomeASeller',async(dateFromFrontend:LoginRequest)=>{
+    try{
+        const response = await axios.post(baseURL + '/api/Account/BecomeASeller',dateFromFrontend);
+        return response.data;
+    }catch(err:any){
+        return err.message;
+    }
+})
+
+
 
 
 export const AuthUser:any = createAsyncThunk('',(token:string)=>{
@@ -89,20 +109,22 @@ const userSlice = createSlice(
             .addCase(postRegistration.fulfilled,(state,action)=>{
                 state.loading = false;
                 state.accessToken = action.payload;
-                SetAccessToken(action.payload.payload);
-                console.log(action.payload.payload);
-
-                if(action.payload.payload != undefined)
+                if(action.payload.payload != null)
                 {
-                    state.user = parseJwt(action.payload.payload);
+                    SetAccessToken(action.payload.payload);
+                    console.log(action.payload.payload);
+                    
+                    if(action.payload.payload != undefined)
+                    {
+                        state.user = parseJwt(action.payload.payload);
+                    }
+                    else{
+                        state.user = {email:"",name:"",surname:"",roles:[],id:""};
+                    }
+                    console.log(action.payload);
+                    console.log(action.error);
+                    state.isAuth = true;
                 }
-                else{
-                    state.user = {email:"",name:"",surname:"",roles:"",id:""};
-                }
-                console.log(action.payload);
-                console.log(action.error);
-                state.isAuth = true;
-
             })
             .addCase(postLogin.pending,(state,action)=>{
                 console.log("bro");
@@ -111,18 +133,21 @@ const userSlice = createSlice(
             .addCase(postLogin.fulfilled,(state,action)=>{
                 state.loading = false;
                 state.accessToken = action.payload;
-                SetAccessToken(action.payload.payload);
-                console.log(action.payload.payload);
-
-                if(action.payload.payload != undefined)
+                if(action.payload.payload != null)
                 {
-                    state.user = parseJwt(action.payload.payload);
+                    SetAccessToken(action.payload.payload);
+                    console.log(action.payload.payload);
+                    
+                    if(action.payload.payload != undefined)
+                    {
+                        state.user = parseJwt(action.payload.payload);
+                    }
+                    else{
+                        state.user = {email:"",name:"",surname:"",roles:[],id:""};
+                    }
+                    console.log(action.payload);
+                    state.isAuth = true;
                 }
-                else{
-                    state.user = {email:"",name:"",surname:"",roles:"",id:""};
-                }
-                console.log(action.payload);
-                state.isAuth = true;
             })
             .addCase(AuthUser.fulfilled,(state,action)=>{
                 if(action.payload == "")
@@ -134,6 +159,27 @@ const userSlice = createSlice(
                     state.isAuth = true;
                 }
                 state.user = action.payload;
+            })
+            .addCase(becomeASeller.pending,(state,action)=>{
+                console.log("bro");
+                state.loading = true;
+            })
+            .addCase(becomeASeller.fulfilled,(state,action)=>{
+                state.accessToken = action;
+                console.log(action);
+                SetAccessToken(action.payload);
+                console.log(action.payload);
+
+                if(action.payload != undefined)
+                {
+                    state.user = parseJwt(action.payload);
+                }
+                else{
+                    state.user = {email:"",name:"",surname:"",roles:[],id:""};
+                }
+                console.log(action);
+                console.log(action.error);
+                state.isAuth = true;
             })
     }
 });

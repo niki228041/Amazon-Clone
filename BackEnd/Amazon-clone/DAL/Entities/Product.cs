@@ -51,13 +51,6 @@ namespace DAL.Entities
 
     //Foreign keys:
 
-        //Every product have a order
-        public Order Order { get; set; }
-
-        [ForeignKey(nameof(Order))]
-        public int? OrderId { get; set; }
-
-
         //Every product have a company
         public Company Company { get; set; }
 
@@ -71,11 +64,11 @@ namespace DAL.Entities
         [ForeignKey(nameof(Category))]
         public int? CategoryId { get; set; }
 
-        public List<Variant> Variants { get; set; } = new List<Variant>();
+        public virtual ICollection<VariantProduct> VariantProducts { get; set; } = new List<VariantProduct>();
 
         public virtual ICollection<Comment> Comments { get; set; }
-
         public virtual ICollection<ProductImage> ProductImages { get; set; }
+        public virtual ICollection<OrderedProduct> OrderedProducts { get; set; }
     }
 }
 

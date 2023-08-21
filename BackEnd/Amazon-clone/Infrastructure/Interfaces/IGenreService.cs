@@ -10,7 +10,8 @@ namespace Infrastructure.Interfaces
 {
     public interface IGenreService
     {
-        Task<Genre> CreateGenreAsync(GenreVM model);
+        Task<Genre> CreateGenreAsync(GenreDTO model);
         Task<List<Genre>> GetAllGenresAsync();
+        Task<List<GenreVM>> GetGenresByTrackIdAsync(int id);
     }
 }

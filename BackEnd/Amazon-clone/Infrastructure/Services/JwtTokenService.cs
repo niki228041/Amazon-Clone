@@ -41,7 +41,8 @@ namespace Infrastructure.Services
                 new Claim("name", user.FirstName),
                 new Claim("id", user.Id.ToString()),
                 new Claim("surname", user.LastName),
-                new Claim("email", user.Email),
+                new Claim("username", user.UserName),
+                new Claim("email", user.Email)
             };
 
             foreach (var role in roles)

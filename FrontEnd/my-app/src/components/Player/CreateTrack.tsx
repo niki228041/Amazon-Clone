@@ -4,6 +4,15 @@ import { apiPlayerSlice, useGetGenresQuery} from "../../features/user/apiPlayerS
 import { useNavigate } from "react-router-dom";
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
+import './styleForSmallPlayer.css';
+
+import plusIcon from "../../images/plusIcon.png"
+import minusIcon from "../../images/minusIcon.png"
+
+import Play from "../../images/Play.svg";
+import Stop from "../../images/Stop.svg";
+import SkipRight from "../../images/Skip right.svg";
+import { useAppSelector } from "../../app/hooks";
 
 export interface createTrack{
     title:string,
@@ -11,6 +20,7 @@ export interface createTrack{
     image:string,
     genresIds:number[],
     song:string,
+    userId:number,
 }
 
 export interface Genre{
@@ -23,13 +33,19 @@ const CreateTrack=()=>{
     const [getImageByBase64,{}] = apiPlayerSlice.useGetImageLinkByBase64Mutation();
     const [createTrack,{}] = apiPlayerSlice.useCreateTrackMutation();
 
+
     const navigate = useNavigate();
 
+    const user = useAppSelector((state)=>state.user.user);
+    
     const [mainImage,setMainImage]=useState("");
     const [backgroundImage,setBackgroundImage]=useState("");
 
     const [mainImageToSend,setMainImageToSend]=useState("");
     const [backgroundImageToSend,setBackgroundImageToSend]=useState("");
+
+    const [isImageHover,setImageHover]=useState(false);
+
 
     const [divContent, setDivContent] = useState<JSX.Element[]>([]);
     const [genresIds, setGenresIds] = useState<string[]>([]);
@@ -66,15 +82,21 @@ const CreateTrack=()=>{
 
         var songBytes:any = await Promise.resolve(promise);
         const numberArrayGenresIds: number[] = genresIds.map((str:string) => Number(str));
+        
+        console.log(user);
+        console.log(user.id);
 
-        var request:createTrack = {title:title,background:backgroundImageToSend,image:mainImageToSend,song:songBytes,genresIds:numberArrayGenresIds};
+        var request:createTrack = {title:title,background:backgroundImageToSend,image:mainImageToSend,song:songBytes,genresIds:numberArrayGenresIds,userId:Number(user.id)};
         console.log(request);
     
+        var request:createTrack = {title:title,background:backgroundImageToSend,image:mainImageToSend,song:songBytes,genresIds:numberArrayGenresIds,userId:Number(user.id)};
         createTrack(request);
-        navigate("/music");
+        navigate("/music/home");
     }
 
     const HandleSetMainImage = async (event:any)=>{
+      console.log(mainImage);
+
       const files = event.target.files;
       if (files[0] && files[0].type.startsWith('image/')) {
         console.log(files);
@@ -159,9 +181,15 @@ const CreateTrack=()=>{
       if(e.value != "-")
       {
       const newElement = (
-        <div key={value.toString()} className=" cursor-pointer hover:underline ml-2" onClick={() => handleDeleteNewVariant(value.toString())}>
-          <p className="mt-1" id={value.toString()}>-{genres[value-1].title}</p>
-        </div >
+        // <div key={value.toString()} className=" cursor-pointer hover:underline ml-2" onClick={() => handleDeleteNewVariant(value.toString())}>
+        //   <p className="mt-1" id={value.toString()}>-{genres[value-1].title}</p>
+        // </div >
+        <div key={value.toString()} className="flex w-full">
+          <div id={value.toString()}  className="py-1 w-full text-almostBlackColor mt-1 rounded-lg font-medium outline-0  bg-almostWhiteColor/60 px-3">
+          {genres.find(opt=>opt.id==value)?.title}
+          </div>
+          <img onClick={() => handleDeleteNewVariant(value.toString())} className=" cursor-pointer h-10 self-center ml-2" src={minusIcon} />
+        </div>
       );
       var canBeCreated:boolean = true;
       
@@ -199,8 +227,114 @@ const CreateTrack=()=>{
       console.log(files[0]);
     }
 
+    const customProgressBarStyles = {
+      backgroundColor: 'blue', // Change to your desired color
+    };
+  
+    const customProgressTrackStyles = {
+      backgroundColor: 'red', // Change to your desired color
+    };
+
     return<>
-    <div className="pt-16 h-[100vh]" style={{backgroundImage:`url(${img})`,backgroundPosition:"center"}}>
+
+    <form onSubmit={handleCreateTrack} className="bg-middleGrayColor rounded-lg mt-2 self-center gap-3 text-white text-[15px] select-none py-3 px-6">
+      <div className='flex justify-between'>
+          <p className=' text-xl font-semibold'>Add Song</p>
+          
+      </div>
+      <div className='mt-6 grid-cols-9 grid'>
+        <label style={{ backgroundImage:"url("+mainImage+")", backgroundPosition:"center"}} htmlFor="mainImage" className=" bg-cover bg-almostWhiteColor col-span-2 cursor-pointer active:scale-95 transition-all rounded-lg p-2 h-64 flex justify-center hover:bg-almostWhiteColor/80 ">
+          {/* <img className={"h-24 self-center"+(isImageHover ? " " : " hidden ")} src={plusIcon} /> */}
+        </label>
+
+        <input
+        onChange={HandleSetMainImage}
+        id="mainImage"
+        name="mainImage"
+        autoComplete="mainImage"
+        accept="image/*" // Принимаем только изображения
+        type="file"
+        className="hidden " />
+
+        <div className=" bg-whiteGrayColor ml-2 col-span-7 rounded-lg p-1 px-5">
+          <div className="mt-2">
+            <label className=" text-almostWhiteColor font-semibold">Title</label>
+            <br/>
+            <input id="title" name="title" placeholder="Type Title..." className="py-3 w-full mt-1 rounded-lg font-medium outline-0 bg-almostBlackColor px-3" />
+          </div>
+
+          <div className="grid grid-cols-5 gap-4 mt-2">
+            <div className="col-span-2">
+              <label className=" text-almostWhiteColor font-semibold">Genre</label>
+              <br/>
+              <div className="flex">
+                <select name="Genres" id="Genres" placeholder="Enter..." className="py-3 w-full mt-1 rounded-lg font-medium outline-0 bg-almostBlackColor px-3" >
+                  {isGenresSuccess ? genres.map((a:Genre)=>{return <option value={a.id} key={a.id}>{a.title}</option>;}) : ""}
+                </select>
+                <img className=" cursor-pointer h-10 self-center ml-2" onClick={()=>handelCreateNewVariant()} src={plusIcon} />
+              </div>
+              <div className="mt-2">
+                {divContent}
+                
+              </div>
+              
+            </div>
+
+            <div className=" col-span-3">
+              <label className=" text-almostWhiteColor font-semibold">Select Audio</label>
+              <br/>
+              <div className="flex">
+                <label htmlFor="song" className="py-3 w-full mt-1 flex justify-center cursor-pointer rounded-lg font-medium outline-0 bg-almostBlackColor px-3">
+                  <span>Select song</span>
+                </label>
+                <input
+                  onChange={handleSetSong}
+                  id="song"
+                  name="song"
+                  accept="audio/*"
+                  type="file"
+                  className="hidden"
+                />
+              </div>
+              <div className="mt-4">
+                {selectedSong && selectedSong.type.startsWith('audio/') ? (
+                  <AudioPlayer
+                    src={URL.createObjectURL(selectedSong)}
+                    defaultCurrentTime="Loading" defaultDuration="Loading"
+                    customVolumeControls={[]}
+                    customAdditionalControls={[]}
+                    customIcons={{
+                      play: <img src={Play} />,
+                      pause: <img src={Stop} />,
+                      forward:<img className="self-center h-7 m-auto" src={SkipRight} />,
+                      rewind:<img className=" rotate-180 self-center h-7 m-auto" src={SkipRight} />,
+                    }}
+                  />
+                ) : null}
+              </div>
+              
+
+            </div>
+
+
+          </div>
+
+          <div className="my-5">
+            <button type="submit" placeholder="Type Title..." className=" hover:bg-almostWhiteColor/60 py-3 w-full mt-1 rounded-lg font-medium outline-0 bg-almostBlackColor px-3" >
+            Add Song
+            </button>
+          </div>
+
+        </div>
+      
+          
+    
+    
+      </div>
+      
+    </form>
+
+    {/* <div className="pt-16 h-[100vh]" style={{backgroundImage:`url(${img})`,backgroundPosition:"center"}}>
 
     <div className=" bg-gray-200 w-1/3 m-auto rounded-md p-10" >
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -245,7 +379,6 @@ const CreateTrack=()=>{
                   required
                   className="hidden "
                 />
-                {/* onClick={()=>{handleDeleteImg(img)}} key={it} */}
                 { backgroundImage!=""? <div className="h-40 w-full mt-3 bg-cover  rounded-xl hover:scale-[1.05] transition-all" style={{ backgroundImage:"url("+backgroundImage+")", backgroundPosition:"center"}}></div>:""}
               </div>
             </div>
@@ -286,7 +419,6 @@ const CreateTrack=()=>{
                   <div className='rounded-full flex flex-col w-full'>
                     <select name='Genres' id="Genres"  className=' bg-yellowForInputs text-[15px] mediumFont outline-none rounded-md h-10 pl-3 pr-3 bg-slate-100'>
                       <option>-</option>
-                      {/* {companys.data.map} */}
                       {isGenresSuccess ? genres.map((a:Genre)=>{return <option value={a.id} key={a.id}>{a.title}</option>;}) : ""}
                     </select>
                   </div>
@@ -334,7 +466,7 @@ const CreateTrack=()=>{
           
         </div>
       </div>
-    </div>
+    </div> */}
 
   </>
 }
