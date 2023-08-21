@@ -154,8 +154,8 @@ const Header = () => {
         </div>
         <div onClick={() => navigate("/")} className="pl-2 mr-10">
           <div className="cursor-pointer">
-            <span className="text-mainYellowColor font-['Raleway'] text-[48px]">ALL</span>
-            <span className="text-grayColorForHeader font-['Raleway'] text-[48px]">mart</span>
+            <span className="text-mainYellowColor font-['Raleway']  xl:text-[48px] text-lg">ALL</span>
+            <span className="text-grayColorForHeader font-['Raleway'] xl:text-[48px]  text-lg">mart</span>
           </div>
         </div>
 
@@ -200,10 +200,10 @@ const Header = () => {
           }
         </div>
 
-        <div className="grid grid-cols-4 pr-9">
+        <div className=" grid grid-cols-4 xl:pr-9">
           <Link to="/profile" className="singindiv">
             <div className="image-container">
-              <img src={profile} alt="Profile" />
+              <img src={profile} alt="Profile"  />
             </div>
             <a className="alang">Профіль</a>
           </Link>
@@ -233,7 +233,7 @@ const Header = () => {
 
     </div>
 
-    <div className="flex flex-col">
+    <div className="flex flex-col xl:text-[16px] sm:text-[10px] ">
       {/* header  */}
       <div className="flex flex-col">
         <div>
@@ -242,14 +242,14 @@ const Header = () => {
 
 
 
-        <div className="underheader flex justify-between px-10">
-          <div onClick={() => navigate("/products")} className=" w-full text-white hover:outline hover:outline-[1px]  outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Сьогоднішні пропозиції</div>
-          <div onClick={() => navigate("/products")} className="w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Подарункові карти </div>
-          <div onClick={() => navigate("/products")} className="w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Обслуговування клієнтів </div>
-          <div onClick={() => navigate("/admin/products")} className="w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Сторінка для адміна</div>
-          <div onClick={() => navigate("/music/home")} className="w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Музика</div>
-          <div onClick={() => navigate("/tempProfile/becomeASeller")} className="w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Тимчасовий Профіль</div>
-          <div onClick={() => navigate("/aboutUs")} className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Про нас</div>
+        <div className="underheader flex justify-between px-10 xl:h-10 h-7">
+          <div onClick={() => navigate("/products")}                  className=" w-full text-white hover:outline hover:outline-[1px]  outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Сьогоднішні пропозиції</div>
+          <div onClick={() => navigate("/products")}                  className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Подарункові карти </div>
+          <div onClick={() => navigate("/products")}                  className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Обслуговування клієнтів </div>
+          <div className="hidden xl:block w-full"><div onClick={() => navigate("/admin/products")}            className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Сторінка для адміна</div></div>
+          <div onClick={() => navigate("/music/home")}                className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Музика</div>
+          <div onClick={() => navigate("/tempProfile/becomeASeller")} className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Тимчасовий Профіль</div>
+          <div className="hidden xl:block w-full"><div onClick={() => navigate("/aboutUs")}                   className="  w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Про нас</div></div>
         </div>
       </div>
     </div>

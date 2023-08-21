@@ -8,7 +8,7 @@ namespace Infrastructure.Interfaces
 { 
     public interface ICategoryService
     {
-        Task<int> Create(CategoryCreateVM model);
+        Task<ServiceResponse> Create(CategoryCreateVM model);
         Task<ServiceResponse> GetAllAsync();
         Task<Category> GetByIdAsync(int id);
         Task DeleteCategoryAsync(int id);

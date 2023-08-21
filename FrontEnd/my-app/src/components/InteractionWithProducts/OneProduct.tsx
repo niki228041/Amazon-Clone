@@ -225,25 +225,31 @@ const OneProduct=()=>{
 
     return <>
         <div className="mx-auto mt-10 w-9/12">
-            <div className='grid grid-cols-10 p-2 py-4 gap-4 border border-grayColorForBorder rounded-lg'>
+            <div className='grid xl:grid-cols-10 grid-cols-3 sm:grid-cols-1 p-2 py-4 gap-4 border border-grayColorForBorder rounded-lg'>
                 <div className='col-span-3'>
                     <div className='rounded-lg border border-grayColorForBorder '>
                         <div className='h-[410px] bg-contain bg-no-repeat bg-center' style={{backgroundImage: `url(${mainImage})`}} />
                     </div>
                     <div className='grid grid-cols-5 mt-3 gap-3 px-3'>
                         {data?.payload.images.map((image:string)=>{return<div>
-                            <div onMouseEnter={()=>setMainImage(image)} className='rounded-md bg-contain bg-no-repeat bg-center h-[66px] w-full border border-grayColorForBorder'  style={{backgroundImage: `url(${image})`}}/>
+                            <div onMouseEnter={()=>setMainImage(image)} className='rounded-md bg-cover bg-no-repeat bg-center h-[66px] w-full border border-grayColorForBorder'  style={{backgroundImage: `url(${image})`}}/>
                         </div>})}
                     </div>
 
                 </div>
                 <div className='col-span-4 px-8'>
                     <div className='flex '>
-                        <img className='h-6 self-center' src={check} /> 
-                        <p className='self-center text-green-500'>В наявності</p>
+                        <img className='h-6 self-center' src={data?.payload.isInTheStock ? check : ""} /> 
+                        <p className={classNames(
+                                  'self-center ',
+                                  {
+                                    ' text-green-500': data?.payload.isInTheStock,
+                                    ' text-red-500 font-semibold': !data?.payload.isInTheStock,
+                                  }
+                                )}>{data?.payload?.isInTheStock ? "В наявності" : "Не в наявності"}</p>
                     </div>
                     <div className='flex w-3/4'>
-                        <p className='self-center font-semibold text-[18px]'>Mens Long Sleeve T-shirt Cotton Base Layer Slim Muscle</p>
+                        <p className='self-center font-semibold text-[18px]'>{data?.payload.name}</p>
                     </div>
                     <div className='flex mt-1 text-grayForText'>
                         <div className='flex rounded-full self-center'>
@@ -349,12 +355,12 @@ const OneProduct=()=>{
 
 
             <div className='grid grid-cols-12 mt-12'>
-                <div className='mr-2 mb-4 col-span-9'>
+                <div className='mr-2 mb-4 xl:col-span-9 col-span-12'>
                     <div className='border border-grayColorForBorder rounded-lg pb-4'>
                         <div className=' flex '>
                             <div onClick={()=>navigate("/product/description/" + params.productId)} className=' h-14 '>
                                 <p className={classNames(
-                                  'select-none cursor-pointer px-10 p-4 ',
+                                  'select-none cursor-pointer xl:px-10 px-2 p-4 ',
                                   {
                                     'text-grayForText': !location.pathname.includes('description'),
                                   }
@@ -363,7 +369,7 @@ const OneProduct=()=>{
                             </div>
                             <div onClick={()=>navigate("/product/reviews/" + params.productId)} className=' h-14'>
                                 <p className={classNames(
-                                  'select-none cursor-pointer px-10 p-4 ',
+                                  'select-none cursor-pointer xl:px-10 px-2 p-4 ',
                                   {
                                     'text-grayForText': !location.pathname.includes('reviews'),
                                   }
@@ -371,11 +377,11 @@ const OneProduct=()=>{
                                 <div className=' bg-slate-500 h-0.5 w-11/12 mx-auto' />
                             </div>
                             <div className=' h-14'>
-                                <p className='select-none cursor-pointer px-10 p-4 text-grayForText'>Доставка</p>
+                                <p className='select-none cursor-pointer xl:px-10 px-2 p-4 text-grayForText'>Доставка</p>
                                 <div className=' bg-slate-500 h-0.5 w-11/12 mx-auto' />
                             </div>
                             <div className=' h-14'>
-                                <p className='select-none cursor-pointer px-10 p-4 text-grayForText'>Про продавця</p>
+                                <p className='select-none cursor-pointer xl:px-10 px-2 p-4 text-grayForText'>Про продавця</p>
                                 <div className=' bg-slate-500 h-0.5 w-11/12 mx-auto' />
                             </div>
                         </div>
@@ -384,7 +390,7 @@ const OneProduct=()=>{
                     </div>
                 </div>
 
-                <div className='ml-2 col-span-3'>
+                <div className='ml-2 col-span-3 hidden  xl:block'>
                     <div className='border border-grayColorForBorder rounded-lg p-4'>
                         <p className=' font-semibold'>Вам може сподобатись</p>
 
@@ -432,47 +438,47 @@ const OneProduct=()=>{
             </div>
 
 
-            <div className='p-2 border rounded-lg mb-4'>
+            <div className='p-2 border rounded-lg mb-4 xl:text-lg text-[10px]'>
                 <p className='p-2 text-lg font-semibold'>Схожі товари</p>
                 <div className='mb-4 grid grid-cols-6'>
                     <div>
                         <div className='p-2'>
-                            <div className='h-[200px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
+                            <div className=' h-[100px] xl:h-[220px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
                             <p className='mt-2'>Xiaomi Redmi 8 Original </p>
                             <p className=' text-sm text-grayForText'>1800 -2500 грн.</p>
                         </div>
                     </div>
                     <div>
                         <div className='p-2'>
-                            <div className='h-[200px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
+                            <div className=' h-[100px] xl:h-[220px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
                             <p className='mt-2'>Xiaomi Redmi 8 Original </p>
                             <p className=' text-sm text-grayForText'>1800 -2500 грн.</p>
                         </div>
                     </div>
                     <div>
                         <div className='p-2'>
-                            <div className='h-[200px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
+                            <div className=' h-[100px] xl:h-[220px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
                             <p className='mt-2'>Xiaomi Redmi 8 Original </p>
                             <p className=' text-sm text-grayForText'>1800 -2500 грн.</p>
                         </div>
                     </div>
                     <div>
                         <div className='p-2'>
-                            <div className='h-[200px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
+                            <div className=' h-[100px] xl:h-[220px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
                             <p className='mt-2'>Xiaomi Redmi 8 Original </p>
                             <p className=' text-sm text-grayForText'>1800 -2500 грн.</p>
                         </div>
                     </div>
                     <div>
                         <div className='p-2'>
-                            <div className='h-[200px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
+                            <div className=' h-[100px] xl:h-[220px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
                             <p className='mt-2'>Xiaomi Redmi 8 Original </p>
                             <p className=' text-sm text-grayForText'>1800 -2500 грн.</p>
                         </div>
                     </div>
                     <div>
                         <div className='p-2'>
-                            <div className='h-[200px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
+                            <div className=' h-[100px] xl:h-[220px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
                             <p className='mt-2'>Xiaomi Redmi 8 Original </p>
                             <p className=' text-sm text-grayForText'>1800 -2500 грн.</p>
                         </div>

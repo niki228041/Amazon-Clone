@@ -31,7 +31,7 @@ namespace Infrastructure.Services
             _optionsCategoryRepository = optionsCategoryRepository;
         }
 
-        public async Task<int> Create(CategoryCreateVM model)
+        public async Task<ServiceResponse> Create(CategoryCreateVM model)
         {
             var category_child = _mapper.Map<CategoryCreateVM, Category>(model);
 
@@ -82,7 +82,11 @@ namespace Infrastructure.Services
 
             }
 
-            return 000;
+            return new ServiceResponse
+            {
+                Message = "Category was created",
+                IsSuccess = true,
+            };
         }
 
         public async Task<ServiceResponse> GetMainCategoriesAsync()
