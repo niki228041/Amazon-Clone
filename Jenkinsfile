@@ -3,21 +3,38 @@
 pipeline  {
     agent any;
     stages {
-         stage("Change IP in configs")
+         stage("Change IP in axios.js")
          {
              steps{
-                sh "cd .. && find Amazon-Clone/ -type f -exec sed  -i 's/localhost/10.0.0.4/g' {} +"
+                sh "sed  -i 's#localhost#amazonclone.monster/api#g' FrontEnd/my-app/src/api/axios.js"
+                sh "sed"
              }
-         } 
+         }
+          stage("Change IP in appsettings.json")
+         {
+             steps{
+                sh "sed  -i 's#localhost:81#amazonclone.monster/#g' BackEnd/Amazon-clone/ShopApi/appsettings.json"
+             }
+         }
+         stage ("Remove all containers"){
+            steps{
+                sh "docker rm -f $(docker ps -aq)"
+            }
+         }
+         stage ("Remove all images"){
+             steps{
+                sh "docker rmi $(docker images -aq)"
+            }
+         }  
         stage("Create frontend docker image") {
             steps {
-                echo 'Creating docker image ...'
+                echo 'Creating frontend docker image ...'
                 sh " cd /var/lib/jenkins/workspace/Amazon-Clone/FrontEnd/my-app && docker build --no-cache -t alkaponees/amazon-clone-frontend   . "                
             }
         }
         stage("Create backend docker image") {
             steps {
-                echo 'Creating docker image ...'
+                echo 'Creating backend docker image ...'
                 sh " cd /var/lib/jenkins/workspace/Amazon-Clone/BackEnd/Amazon-clone/ && docker build --no-cache -t alkaponees/amazon-clone-backend  . "
             }
         }
