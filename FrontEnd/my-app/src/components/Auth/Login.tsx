@@ -148,7 +148,7 @@ const LoginScreen = () => {
           </div>
 
 
-          
+          <div>
           {/* style={{ width:"800px",display: "flex", marginLeft: "280" }} */}
           
             <button className="submitbut" style={{ borderRadius:"7px",color: "white", background: "#FF9A02", height: "50px",marginTop:"30px" }} type="submit">
