@@ -1,13 +1,15 @@
 body {
     background-color: #F7F7F7;
 }
-.first-section .image-div{
+
+.first-section .image-div {
     display: flex;
     justify-content: space-between;
-    font-family: 'CenturyGothic';
+    font-family: 'Inter';
     height: 430px;
     background-color: #F3EDC9;
 }
+
 .first-section .image-div .left-elements-image {
     display: flex;
     flex-direction: column;
@@ -29,13 +31,14 @@ body {
     top: 60px;
     right: 210px;
 }
+
 .first-section .image-div .right-elements-image .circle-block span {
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    width: 100%; 
-    height: 100%; 
+    width: 100%;
+    height: 100%;
 }
 
 .forButton {
@@ -63,12 +66,14 @@ body {
     display: flex;
     flex-direction: row;
 }
+
 .second-section .container-for-carousel .card-main {
     width: 400px;
     height: 280px;
     background-color: blue;
     margin-right: 30px;
 }
+
 /* .card-main{
     background-image: url("./../images/moda.jpg");
 } */
@@ -79,7 +84,7 @@ body {
     padding-bottom: 50px;
     padding-left: 105px;
     padding-right: 105px;
-    font-family: 'CenturyGothic';
+    font-family: 'Inter';
 }
 
 .arrivals .arrivals-header {
@@ -156,8 +161,8 @@ body {
 
 .our-products {
     margin-top: 25px;
-    font-family: 'CenturyGothic';
-    
+    font-family: 'Inter';
+
     padding-left: 105px;
     padding-right: 105px;
 }
@@ -196,25 +201,25 @@ body {
     border: 1px solid rgba(0, 0, 0, 0.11);
     align-items: center;
     justify-content: center;
-    position	: relative;
+    position: relative;
 }
 
 .our-products .our-products-main .our-products-main-special>img {
     height: 430px;
 }
 
-.our-products .our-products-main .our-products-main-special .our-products-main-special-img{
+.our-products .our-products-main .our-products-main-special .our-products-main-special-img {
     background-image: url(./../images/headphones-main.svg);
     height: 430px;
     display: flex;
     justify-content: space-between;
 }
 
-.our-products .our-products-main .our-products-main-special .our-products-main-special-img h2{
+.our-products .our-products-main .our-products-main-special .our-products-main-special-img h2 {
     font-size: 36px;
 }
 
-.our-products-right-circle .circle-block{
+.our-products-right-circle .circle-block {
     display: flex;
     align-items: center;
     background-color: #FF9A02;
@@ -224,13 +229,13 @@ body {
     font-size: 47px;
 }
 
-.our-products-right-circle .circle-block>span{
+.our-products-right-circle .circle-block>span {
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    width: 100%; 
-    height: 100%; 
+    width: 100%;
+    height: 100%;
     font-size: 28px;
 }
 
@@ -292,7 +297,37 @@ body {
     font-size: 15px;
     border: none;
 }
-.first-container-main, .second-container-main {
+
+.first-container-main,
+.second-container-main {
     display: flex;
     flex-direction: row;
+}
+
+.new-receipts {
+    margin-top: 80px;
+    background: linear-gradient(to right#697475, #102048);
+    display: flex;
+    flex-direction: column;
+}
+
+.new-receipts-header {
+    text-transform: uppercase;
+
+}
+
+.new-receipts-header>h1 {
+    font-size: 52px;
+}
+
+.new-receipts-main {
+    background-image: url(./../images/headphones-main.svg);
+    height: 425px;
+    display: flex;
+    
+}
+
+.new-receipts-main>h2 {
+    font-size: 36px;
+
 }

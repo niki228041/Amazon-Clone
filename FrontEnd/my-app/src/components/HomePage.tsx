@@ -18,7 +18,7 @@ import { url } from "inspector";
 const HomePage = () => {
 
     return (
-        <div style={{ height: "3000px" }}>
+        <div style={{ height: "4500px" }}>
             <div className="first-section">
                 <div className="image-div">
                     <div className="left-elements-image">
@@ -346,11 +346,35 @@ const HomePage = () => {
                                 <button>Додати в кошик</button>
                             </div>
                         </div>
+
                     </div>
+
 
                 </div>
             </div>
+            <div className="best-offers">
 
+            </div>
+            <div className="winMart">
+
+            </div>
+            <div className="new-receipts">
+                <div className="new-receipts-header">
+                    <h1 className="text-[#FF9A02]">Нові</h1>
+                    <h1 className="text-[#000000]">Надходження</h1>
+                </div>
+                <div className="new-receipts-main">
+                    <div className="our-products-main-special-img">
+                        <div>
+                            <h2 className="text-[#FF9A02]">Спеціальна</h2>
+                            <h2 className="second-span">пропозиція</h2>
+                        </div>
+                        <div className="our-products-right-circle">
+                            <div className="circle-block"><span>Save 10%</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 
