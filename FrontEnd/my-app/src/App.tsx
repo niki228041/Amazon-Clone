@@ -81,7 +81,7 @@ import MusicProfile from './components/Player/Account/MusicProfile';
 import MainProfile from './components/Player/Account/MainProfile';
 import SettingProfile from './components/Player/Account/SettingProfile';
 
-
+import "./index.css"
 
 
 

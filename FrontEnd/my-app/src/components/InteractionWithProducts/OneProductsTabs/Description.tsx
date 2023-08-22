@@ -11,7 +11,7 @@ const Description=()=> {
 
 
   return (
-    <div>
+    <div className='text-lg '>
 
     <div  dangerouslySetInnerHTML={{ __html: data?.payload.description.toString()! }} className='mx-4 py-1 pb-3 w-11/12 text-gray-600'>
                             
