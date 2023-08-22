@@ -4,6 +4,9 @@ import { apiProductSlice } from "../../features/user/apiProductSlice";
 import { Category, Options, Variant, createCategory, createProduct } from "./types";
 import { v4 as uuidv4 } from 'uuid';
 import { useGetOptionsQuery } from "../../features/user/apiOptionsSlice";
+import { useFormik } from "formik";
+import { createCategorySchema } from "./Validation/CreateCategoryValidation";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -11,41 +14,71 @@ const CreateCategory=()=> {
     var [createCategory,{}] = apiCategorySlice.useCreateCategoryMutation();
 
     const {data:categories,isSuccess} = useGetCategoriesQuery();
+    const [showServerErrorLogin, setServerErrorLogin] = useState(false);
+    var navigate = useNavigate();
 
     const {data:options,isSuccess:isOptionsSuccess} = useGetOptionsQuery() as {
       data: Options[];
       isSuccess: boolean;
     };
 
+    const formik = useFormik({
+      initialValues: {
+        name: '',
+      },
+      validationSchema:createCategorySchema,
+      onSubmit: values => {
 
+        var e:any = document.getElementById("Category");
+        var categoryId = e.value;
+        var canCreate:boolean=true;
+
+        
+        
+        var optionsIds:number[] = [];
+  
+        inputIds.forEach(id=>optionsIds.push(parseInt(id)));
+        
+        if(e.value=="-")
+        {
+          categoryId = 0;
+        }
+
+        if(optionsIds.length <=0)
+        {
+          console.log("Select at least 1 Option");
+          canCreate = false;
+        }
+
+        if(canCreate)
+        {
+        var newCategory:createCategory = {
+          name:values.name,
+          categoryId:categoryId,
+          optionsIds:optionsIds
+        };
+        
+        var err = createCategory(newCategory);
+        
+        err.then((res:any)=>{
+          console.log(res.data.message);
+          setServerErrorLogin(res.data.message);
+          if(res.data.isSuccess)
+          {
+            navigate("/admin/categories");
+          }
+        })
+      
+        }
+
+      
+      },
+    });
 
     const handleCreate=(data:React.FormEvent<HTMLFormElement>)=>{
 
       data.preventDefault();
-      var curentData = new FormData(data.currentTarget);
-
-      var e:any = document.getElementById("Category");
-      var categoryId = e.value;
-      if(e.value=="-")
-      {
-        categoryId = 0;
-      }
-      
-      var name = curentData?.get("name")?.toString()!;
-
-      var optionsIds:number[] = [];
-
-      inputIds.forEach(id=>optionsIds.push(parseInt(id)));
-
-      
-      var newCategory:createCategory = {
-        name:name,
-        categoryId:categoryId,
-        optionsIds:optionsIds
-      };
-
-      console.log(newCategory);
-      createCategory(newCategory);
+     
   }
 
   
@@ -148,7 +181,7 @@ const CreateCategory=()=> {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST" onSubmit={handleCreate}>
+          <form className="space-y-6" action="#" method="POST" onSubmit={formik.handleSubmit}>
             <div>
               <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
                 Name
@@ -159,6 +192,8 @@ const CreateCategory=()=> {
                   name="name"
                   autoComplete="name"
                   required
+                  onChange={formik.handleChange}
+                  value={formik.values.name}
                   className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>

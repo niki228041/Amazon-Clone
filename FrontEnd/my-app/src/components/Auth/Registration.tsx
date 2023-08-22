@@ -18,9 +18,9 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
 import { useState } from 'react'
 
-// interface Props {
-//   history: RouteComponentProps['history']
-// }
+
+import { useFormik } from 'formik';
+import { registrationSchema } from "./Validation/Registration";
 
 interface RegistrationRequest {
   userName: string,
@@ -33,27 +33,50 @@ interface RegistrationRequest {
 }
 
 const Registration = () => {
-  // const [firstName, setFirstName] = useState('')
-  // const [lastName, setLastName] = useState('')
-  // const [email, setEmail] = useState('')
-  // const [password, setPassword] = useState('')
 
-  // const submitHandler = async (e: SyntheticEvent) => {
-  //   e.preventDefault()
 
-  //   await fetch('http://localhost:8081/api/register', {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({
-  //       first_name: firstName,
-  //       last_name: lastName,
-  //       email,
-  //       password,
-  //     }),
-  //   })
+  const formik = useFormik({
+    initialValues: {
+      userName: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      repeatPassword: '',
+    },
+    validationSchema:registrationSchema,
+    onSubmit: values => {
 
-  //   history.push('/login')
-  // }
+
+      var userName = values.userName;
+      var firstName = values.firstName;
+      var lastName = values.lastName;
+
+      var email = values.email;
+      var password = values.password;
+      var repeatPassword = values.repeatPassword;
+
+      var request: RegistrationRequest = { userName: userName, firstName: firstName, lastName: lastName, email: email, password: password, checkPassword: repeatPassword, avatarImage: "" };
+      console.log(request);
+      // var request:RegistrationRequest = {email:email,password:password};
+
+      var res = dispatch(postRegistration(request));
+      res.then((promise:any)=>{
+        console.log(promise.payload.message);
+        console.log(promise);
+        setServerError(promise.payload.message);
+        if(promise.payload.isSuccess)
+        {
+          navigate("/products");
+        }
+
+      });
+      
+
+      },
+  });
+
+  const [showServerError, setServerError] = useState(false);
 
   var dispatch = useDispatch();
   var navigate = useNavigate();
@@ -85,7 +108,7 @@ const Registration = () => {
 
     var res = dispatch(postRegistration(request));
     res.then((res_:any)=>{
-      console.log(res_.payload.message);
+      // console.log(res_.payload.message);
       console.log(res_);
 
     });
@@ -96,7 +119,7 @@ const Registration = () => {
   }
 
   return (
-    <form className='overlogin' onSubmit={submitHandler}>
+    <form className='overlogin' onSubmit={formik.handleSubmit}>
       <div className="leftside">
 
         <svg className="logosing" width="345" height="92" viewBox="0 0 345 92" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -116,22 +139,30 @@ const Registration = () => {
             name="userName"
             autoComplete="userName"
             required
+            onChange={formik.handleChange}
+            value={formik.values.userName}
           />
+          {formik.errors.userName ? <div className='emailinput text-red-500 text-sm font-semibold'>{formik.errors.userName}</div> : null}
           <OutlinedInput className="nameinp" 
             placeholder="Ім'я"
             id="firstName"
             name="firstName"
             autoComplete="firstName"
             required
+            onChange={formik.handleChange}
+            value={formik.values.firstName}
           />
+          
           <OutlinedInput  className="surninp" 
             placeholder='Прізвище'
             id="lastName"
             name="lastName"
             autoComplete="lastName"
             required
-
+            onChange={formik.handleChange}
+            value={formik.values.lastName}
           />
+          
           <OutlinedInput className="emailinputreg"  
             placeholder='Електронна адреса'
             id="email"
@@ -139,8 +170,10 @@ const Registration = () => {
             type="email"
             autoComplete="current-password"
             required
+            onChange={formik.handleChange}
+            value={formik.values.email}
           />
-
+          {formik.errors.email ? <div className='emailinput text-red-500 text-sm font-semibold'>{formik.errors.email}</div> : null}
 
           <OutlinedInput className="passinputregist" 
             placeholder='Пароль'
@@ -150,6 +183,8 @@ const Registration = () => {
             type={showPassword ? 'text' : 'password'}
             autoComplete="current-password"
             required
+            onChange={formik.handleChange}
+            value={formik.values.password}
             // id="outlined-adornment-password"
             // 
             endAdornment={
@@ -166,6 +201,7 @@ const Registration = () => {
             }
 
           />
+          {formik.errors.password ? <div className='emailinput text-red-500 text-sm font-semibold'>{formik.errors.password}</div> : null}
 
           <OutlinedInput className="passinputregist" 
             placeholder='Підтвердіть пароль'
@@ -175,6 +211,8 @@ const Registration = () => {
             type={showPassword ? 'text' : 'repeatPassword'}
             autoComplete="current-password"
             required
+            onChange={formik.handleChange}
+            value={formik.values.repeatPassword}
             // id="outlined-adornment-password"
             // 
             endAdornment={
@@ -192,13 +230,13 @@ const Registration = () => {
 
           />
 
-
+          {formik.errors.repeatPassword ? <div className='emailinput text-red-500 text-sm font-semibold'>{formik.errors.repeatPassword}</div> : null}
 
 
         </div>
 
 
-        <div style={{ marginTop: "80px" }}>
+        <div style={{ marginTop: "120px" }}>
 
 
 
@@ -208,7 +246,9 @@ const Registration = () => {
             <button className="submitbut" style={{ borderRadius: "7px", color: "white", background: "#FF9A02", height: "50px",  marginTop: "30px" }} type="submit">
               Реєстріція
             </button>
-          
+
+            {showServerError ? <div className=' text-red-500 font-semibold'>{showServerError}</div> : null}
+
 
           <p style={{ fontSize: "15px", color: "#FF9A02" }} className="mt-5 text-center text-sm ">
             Вже маєте обліковий запис?{' '}

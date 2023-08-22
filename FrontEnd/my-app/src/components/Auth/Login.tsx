@@ -1,5 +1,4 @@
 import { SyntheticEvent, useState, useEffect } from 'react'
-import { Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { LoginRequest } from './types'
 import { postLogin } from '../../features/user/user-slice'
@@ -9,15 +8,49 @@ import "./auth.css"
 import IconButton from '@mui/material/IconButton';
 
 import OutlinedInput from '@mui/material/OutlinedInput';
+import { useFormik } from 'formik';
 
 import InputAdornment from '@mui/material/InputAdornment';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
+import { loginSchema } from './Validation/LoginValidation';
 
 
 const LoginScreen = () => {
 
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validationSchema:loginSchema,
+    onSubmit: values => {
+
+      var email = values.email;
+      var password = values.password;
+
+      var request: LoginRequest = { email: email, password: password };
+      var err = dispatch(postLogin(request));
+
+      err.then((res:any)=>{
+        console.log(res.payload.message);
+        console.log(res);
+        setServerErrorLogin(res.payload.message);
+        if(res.payload.isSuccess)
+        {
+          navigate("/products");
+        }
+      })
+
+      },
+  });
+
+  const [showServerErrorLogin, setServerErrorLogin] = useState(false);
+
   const [showPassword, setShowPassword] = useState(false);
+
+
+
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -27,23 +60,23 @@ const LoginScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const submitHandler = async (data: React.FormEvent<HTMLFormElement>) => {
-    data.preventDefault()
-    var curentData = new FormData(data.currentTarget);
+  // const submitHandler = async (data: React.FormEvent<HTMLFormElement>) => {
+  //   data.preventDefault()
+  //   var curentData = new FormData(data.currentTarget);
 
-    var email = curentData?.get("email")?.toString()!;
-    var password = curentData?.get("password")?.toString()!;
+  //   var email = curentData?.get("email")?.toString()!;
+  //   var password = curentData?.get("password")?.toString()!;
 
-    var request: LoginRequest = { email: email, password: password };
-    dispatch(postLogin(request));
-    console.log(request);
-    navigate("/products");
-  }
+  //   var request: LoginRequest = { email: email, password: password };
+  //   dispatch(postLogin(request));
+  //   console.log(request);
+  //   navigate("/products");
+  // }
 
 
 
   return (
-    <form className='overlogin' onSubmit={submitHandler}>
+    <form className='overlogin' onSubmit={formik.handleSubmit}>
       <div className="leftside">
 
         <svg className="logosing" width="345" height="92" viewBox="0 0 345 92" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -64,8 +97,10 @@ const LoginScreen = () => {
             type="email"
             autoComplete="current-password"
             required
+            onChange={formik.handleChange}
+            value={formik.values.email}
           />
-
+          {formik.errors.email ? <div className='emailinput text-red-500 text-sm font-semibold'>{formik.errors.email}</div> : null}
 
 
           <OutlinedInput className='passinput'
@@ -76,6 +111,8 @@ const LoginScreen = () => {
             type={showPassword ? 'text' : 'password'}
             autoComplete="current-password"
             required
+            onChange={formik.handleChange}
+            value={formik.values.password}
             // id="outlined-adornment-password"
             // 
             endAdornment={
@@ -95,15 +132,19 @@ const LoginScreen = () => {
 
 
 
-
         </div>
+
 
 
         <div style={{ marginTop: "80px" }}>
           <div  className="forgotpass text-sm">
+
             <Link style={{ color: "#FF9A02" }} to="/forgotpassword" className="font-semibold text-indigo-600 hover:text-indigo-500">
               Забули пароль?
             </Link>
+            {formik.errors.password ? <div className=' text-red-500 font-semibold'>{formik.errors.password}</div> : null}
+            
+            
           </div>
 
 
@@ -113,7 +154,9 @@ const LoginScreen = () => {
             <button className="submitbut" style={{ borderRadius:"7px",color: "white", background: "#FF9A02", height: "50px",marginTop:"30px" }} type="submit">
               Увійти
             </button>
-          
+
+            {showServerErrorLogin ? <div className=' text-red-500 font-semibold'>{showServerErrorLogin}</div> : null}
+          </div>
 
           <p style={{ fontSize:"14px",color: "#FF9A02" }} className="mt-10 text-center text-sm ">
             Створити обліковий запис?{' '}
@@ -131,70 +174,3 @@ const LoginScreen = () => {
 }
 
 export default LoginScreen;
-{/* <div className="flex min-h-full  flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Sign in to your account
-          </h2>
-        </div>
-
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST" onSubmit={submitHandler}>
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                Email address
-              </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                  Password
-                </label>
-                <div className="text-sm">
-                  <Link to="/forgotpassword" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                    Forgot password?
-                  </Link>
-                </div>
-              </div>
-              <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-gray-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Sign in
-              </button>
-            </div>
-          </form>
-
-          <p className="mt-10 text-center text-sm text-gray-500">
-            Not a member?{' '}
-            <Link to="/registration" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-              Registration
-            </Link>
-          </p>
-        </div>
-      </div> */}

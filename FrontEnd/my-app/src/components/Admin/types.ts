@@ -1,13 +1,13 @@
 
 export interface createProduct{
-    name: String,
+    name: string,
     price: number,
     discount: number,
-    description: String,
+    description: string,
     quantity: number,
-    isInTheStock: Boolean,
+    isInTheStock: boolean,
     numberOfDaysForDelivery: number,
-    address: String,
+    address: string,
     categoryId: number,
     images_:any,
     Variants_:VariantDTO[],
@@ -16,19 +16,19 @@ export interface createProduct{
 
 
 export interface imgDTO{
-    data: String,
-    extension: String
+    data: string,
+    extension: string
 }
 
 export interface createCategory{
-    name: String,
+    name: string,
     categoryId: number,
     optionsIds:number[]
 }
 
 export interface Category{
     id: number,
-    name: String,
+    name: string,
 }
 
 
