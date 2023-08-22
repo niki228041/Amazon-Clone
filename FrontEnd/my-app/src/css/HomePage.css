@@ -306,14 +306,16 @@ body {
 
 .new-receipts {
     margin-top: 80px;
-    background: linear-gradient(to right#697475, #102048);
     display: flex;
     flex-direction: column;
+    font-family: 'Inter';
 }
 
 .new-receipts-header {
     text-transform: uppercase;
-
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 .new-receipts-header>h1 {
@@ -321,13 +323,74 @@ body {
 }
 
 .new-receipts-main {
-    background-image: url(./../images/headphones-main.svg);
-    height: 425px;
+    background: linear-gradient(to right, #697475, #102048);
     display: flex;
-    
+    flex-direction: row;
+    justify-content: center;
 }
+
 
 .new-receipts-main>h2 {
     font-size: 36px;
 
+}
+
+.new-receipts-product {
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.new-reseipts-right-circle .receipts-circle-block {
+    display: flex;
+    align-items: center;
+    background-color: #FF9A02;
+    width: 150px;
+    height: 143px;
+    border-radius: 83px;
+    font-size: 36px;
+    color: white;
+}
+
+.new-reseipts-right-circle .receipts-circle-block>span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+
+.new-receipts-product-img {
+    background-image: url(./../images/product-img.svg);
+    height: 285px;
+    display: flex;
+    background-repeat: no-repeat;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+.new-receipts-product-card:last-child {
+    margin-right: 0;
+}
+.new-reseipts-right-circle {
+    display: flex;
+    padding-right: 20px;
+    flex-direction: row;
+    margin-left: auto;
+}
+
+.receipts-product-img-labels {
+    padding-left: 20px;
+}
+
+
+.new-receipts-product-card {
+    height: 425px;
+    width: 415px;
+    background-color: white;
+    margin-right: 40px;
 }

@@ -14,6 +14,7 @@ import arrowLeft from './../images/main-arrow-left.svg'
 import headphonesMain from './../images/headphones-main.svg'
 
 import { url } from "inspector";
+import { right } from "@popperjs/core";
 
 const HomePage = () => {
 
@@ -364,13 +365,71 @@ const HomePage = () => {
                     <h1 className="text-[#000000]">Надходження</h1>
                 </div>
                 <div className="new-receipts-main">
-                    <div className="our-products-main-special-img">
-                        <div>
-                            <h2 className="text-[#FF9A02]">Спеціальна</h2>
-                            <h2 className="second-span">пропозиція</h2>
+
+                    <div className="new-receipts-product">
+                        <div className="new-receipts-product-card">
+                            <div className="new-receipts-product-img">
+                                <div className="new-reseipts-right-circle">
+                                    <div className="receipts-circle-block"><span>Save <br /> 10%</span></div>
+                                </div>
+                            </div>
+                            <div className="receipts-product-img-labels">
+                                <span className="text-lgMain">Nintendo Switch Console</span>
+                                <br />
+                                <span className="text-xlBiggerMain text-[#002A42] pr-4">12 399 грн</span>
+                                <span className="text-baseMain line-through text-[#828282]">14 800 грн</span>
+                                <br />  
+                                <span className="text-baseMain text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span>
+                                <span className="text-baseMain text-[#002A42]">В наявності: 30</span>
+                            </div>
                         </div>
-                        <div className="our-products-right-circle">
-                            <div className="circle-block"><span>Save 10%</span></div>
+                        <div className="new-receipts-product-card">
+                            <div className="new-receipts-product-img">
+                                <div className="new-reseipts-right-circle">
+                                    <div className="receipts-circle-block"><span>Save <br /> 10%</span></div>
+                                </div>
+                            </div>
+                            <div className="receipts-product-img-labels">
+                                <span className="text-lgMain">Nintendo Switch Console</span>
+                                <br />
+                                <span className="text-xlBiggerMain text-[#002A42] pr-4">12 399 грн</span>
+                                <span className="text-baseMain line-through text-[#828282]">14 800 грн</span>
+                                <br />  
+                                <span className="text-baseMain text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span>
+                                <span className="text-baseMain text-[#002A42]">В наявності: 30</span>
+                            </div>
+                        </div>
+                        <div className="new-receipts-product-card">
+                            <div className="new-receipts-product-img">
+                                <div className="new-reseipts-right-circle">
+                                    <div className="receipts-circle-block"><span>Save <br /> 10%</span></div>
+                                </div>
+                            </div>
+                            <div className="receipts-product-img-labels">
+                                <span className="text-lgMain">Nintendo Switch Console</span>
+                                <br />
+                                <span className="text-xlBiggerMain text-[#002A42] pr-4">12 399 грн</span>
+                                <span className="text-baseMain line-through text-[#828282]">14 800 грн</span>
+                                <br />  
+                                <span className="text-baseMain text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span>
+                                <span className="text-baseMain text-[#002A42]">В наявності: 30</span>
+                            </div>
+                        </div>
+                        <div className="new-receipts-product-card">
+                            <div className="new-receipts-product-img">
+                                <div className="new-reseipts-right-circle">
+                                    <div className="receipts-circle-block"><span>Save <br /> 10%</span></div>
+                                </div>
+                            </div>
+                            <div className="receipts-product-img-labels">
+                                <span className="text-lgMain">Nintendo Switch Console</span>
+                                <br />
+                                <span className="text-xlBiggerMain text-[#002A42] pr-4">12 399 грн</span>
+                                <span className="text-baseMain line-through text-[#828282]">14 800 грн</span>
+                                <br />  
+                                <span className="text-baseMain text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span>
+                                <span className="text-baseMain text-[#002A42]">В наявності: 30</span>
+                            </div>
                         </div>
                     </div>
                 </div>
