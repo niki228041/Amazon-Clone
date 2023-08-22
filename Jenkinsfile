@@ -15,16 +15,14 @@ pipeline  {
                 sh "sed  -i 's#localhost:81#amazonclone.monster/#g' BackEnd/Amazon-clone/ShopApi/appsettings.json"
              }
          }
-         stage ("Remove all containers"){
+         stage ("Remove all containers and images"){
             steps{
-                sh "docker rm -f $(docker ps -aq)"
+               sh'''#!/bin/sh 
+            /home/azureuser/delete.sh
+'''
             }
          }
-         stage ("Remove all images"){
-             steps{
-                sh "docker rmi $(docker images -aq)"
-            }
-         }  
+         
         stage("Create frontend docker image") {
             steps {
                 echo 'Creating frontend docker image ...'
