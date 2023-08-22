@@ -249,7 +249,7 @@ const OneProduct=()=>{
                                 )}>{data?.payload?.isInTheStock ? "В наявності" : "Не в наявності"}</p>
                     </div>
                     <div className='flex xl:w-3/4'>
-                        <p className='self-center font-semibold text-lg'>{data?.payload.name}</p>
+                        <p className='self-center font-semibold text-[18px]'>{data?.payload.name}</p>
                     </div>
                     <div className='flex mt-1 text-grayForText'>
                         <div className='flex rounded-full self-center'>
@@ -440,8 +440,8 @@ const OneProduct=()=>{
             </div>
 
 
-            <div className='p-2 border rounded-lg mb-4 xl:text-lg text-[10px]'>
-                <p className='p-2 text-lg font-semibold'>Схожі товари</p>
+            <div className='p-2 border rounded-lg mb-4 text-[18px]'>
+                <p className='p-2  font-semibold'>Схожі товари</p>
                 <div className='mb-4 grid grid-cols-3 xl:grid-cols-6  xl:gap-2'>
                     <div>
                         <div className='p-2'>

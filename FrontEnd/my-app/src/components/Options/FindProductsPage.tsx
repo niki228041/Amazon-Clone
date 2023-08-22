@@ -755,7 +755,7 @@ const PageWithOptions = () => {
               <div className='h-16 w-16 justify-center m-auto flex rounded-full bg-slate-400'>
                 <img src={headphones} />
               </div>
-              <div className='mt-1 font-semibold flex justify-center text-lg '>
+              <div className='mt-1 font-semibold flex justify-center text-sm '>
                 Підтримка продукту
               </div>
               <div className='text-sm mt-3 text-center'>
@@ -768,7 +768,7 @@ const PageWithOptions = () => {
               <div className='h-16 w-16 justify-center m-auto flex rounded-full bg-slate-400'>
                 <img src={userAvatar} />
               </div>
-              <div className='mt-1 font-semibold flex justify-center text-lg '>
+              <div className='mt-1 font-semibold flex justify-center text-sm '>
                 Підтримка продукту
               </div>
               <div className='text-sm mt-3 text-center'>
@@ -781,7 +781,7 @@ const PageWithOptions = () => {
               <div className='h-16 w-16 justify-center m-auto flex rounded-full bg-slate-400'>
                 <img src={discount} />
               </div>
-              <div className='mt-1 font-semibold flex justify-center text-lg '>
+              <div className='mt-1 font-semibold flex justify-center text-sm '>
                 Підтримка продукту
               </div>
               <div className='text-sm mt-3 justify-center text-center'>
