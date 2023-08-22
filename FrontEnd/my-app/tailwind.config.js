@@ -5,11 +5,10 @@ module.exports = {
   ],
   theme: {
     fontSize: {
-      sm: ['0.6em', '0.6em'],
-      base: ['0.7em', '0.7em'],
-      lg: ['1.0em', '1.0em'],
-      xl: ['2em', '2em'],
-      xlBiggerMain: ['27px', '32px'],
+      sm: ['14px', '20px'],
+      base: ['16px', '24px'],
+      lg: ['20px', '28px'],
+      xl: ['24px', '32px'],
       lgMain: ['20px', '32px'],
       xlMain: ['24px', '32px'],
       baseMain: ['19px', '32px'],
