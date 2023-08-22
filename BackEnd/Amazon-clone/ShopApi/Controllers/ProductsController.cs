@@ -182,12 +182,14 @@ namespace ShopApi.Controllers
                 var image = await _productImageService.GetMainImageByIdAsync(byId.Id);
 
 
-
-                string port = string.Empty;
-                if (Request.Host.Port != null)
-                    port = ":" + Request.Host.Port.ToString();
-                var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/images/{image.Name + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
-                images.Add(new ProductImageLinkVM { image = url, productId = byId.Id });
+                if (image != null)
+                {
+                    string port = string.Empty;
+                    if (Request.Host.Port != null)
+                        port = ":" + Request.Host.Port.ToString();
+                    var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/images/{image.Name + "_" + (int)Qualities.QualitiesSelector.LOW + ".jpg"}";
+                    images.Add(new ProductImageLinkVM { image = url, productId = byId.Id });
+                }
             }
             return images;
         }
@@ -204,7 +206,7 @@ namespace ShopApi.Controllers
             {
                 if (Request.Host.Port != null)
                     port = ":" + Request.Host.Port.ToString();
-                var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/images/{image.Name + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
+                var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/images/{image.Name + "_" + (int)Qualities.QualitiesSelector.LOW + ".jpg"}";
                 imagesLinks.Add(url);
             }
 

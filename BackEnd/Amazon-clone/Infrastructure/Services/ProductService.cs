@@ -80,10 +80,50 @@ public class ProductService : IProductService
 
         //_categoryRepository.
         var category = await _categoryService.GetByIdAsync(model.CategoryId);
+
+        if(category == null)
+        {
+            return new ServiceResponse
+            {
+                Message = "Select Category for Product!",
+                IsSuccess = false,
+            };
+        }
+
         var user = await _userRepository.GetUserByIdAsync(model.UserId.ToString());
+        var roles = await _userRepository.GetRolesAsync(user);
+
+        if (user == null)
+        {
+            return new ServiceResponse
+            {
+                Message = "You need to login at first!",
+                IsSuccess = false,
+            };
+        }
 
         product.CategoryId = category.Id;
+
+        if (user.CompanyId == null)
+        {
+            return new ServiceResponse
+            {
+                Message = "You need to have a Comapany!",
+                IsSuccess = false,
+            };
+        }
+
+        if (!roles.Contains(Roles.Seller))
+        {
+            return new ServiceResponse
+            {
+                Message = "You need to be a Seller (you can check if you'r a Seller in your Profile)!",
+                IsSuccess = false,
+            };
+        }
+
         product.CompanyId = user.CompanyId;
+
 
 
         bool isFirstPicture = true;
@@ -105,6 +145,17 @@ public class ProductService : IProductService
             {
                 var imgTemplate = img.Data;
                 var imgFileName = await _imageService.SaveImageAsync(imgTemplate,DirectoriesInProject.ProductImages);
+                
+                if (string.IsNullOrEmpty(imgFileName))
+                {
+                    return new ServiceResponse
+                    {
+                        Message = "Error with image, may be wrong format!",
+                        IsSuccess = false,
+                    };
+                }
+
+
                 ProductImage new_img_to_upload = new ProductImage { Name = imgFileName, ProductId = product.Id };
 
                 if (isFirstPicture == true)
@@ -118,7 +169,7 @@ public class ProductService : IProductService
 
             return new ServiceResponse
             {
-                Message = "CreateProduct",
+                Message = "Product was created",
                 IsSuccess = true,
                 Payload = "ok"
             };

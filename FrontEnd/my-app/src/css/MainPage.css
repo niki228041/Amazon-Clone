@@ -162,8 +162,6 @@
 .underheader div {
   border-right: 1px solid #002A42;
   align-items: center;
-  padding-top: 7px;
-  padding-bottom: 7px;
   cursor: pointer;
 }
 .underheader div:last-child {
