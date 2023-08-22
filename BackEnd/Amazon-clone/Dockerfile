@@ -18,5 +18,9 @@ RUN dotnet publish "ShopApi/ShopApi.csproj" -c Release -o /app/publish
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY ShopApi/images /app/images
+COPY ShopApi/comment_images /app/comment_images
+COPY ShopApi/company_images /app/company_images
+COPY ShopApi/music_images /app/music_images
 EXPOSE 5034
 ENTRYPOINT ["dotnet", "ShopApi.dll","--urls","http://0.0.0.0:5034"]

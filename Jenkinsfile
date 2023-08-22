@@ -6,8 +6,7 @@ pipeline  {
          stage("Change IP in axios.js")
          {
              steps{
-                sh "sed  -i 's#localhost#amazonclone.monster/api#g' FrontEnd/my-app/src/api/axios.js"
-                sh "sed"
+                sh "sed  -i 's#localhost:5034#amazonclone.monster/api#g' FrontEnd/my-app/src/api/axios.js"
              }
          }
           stage("Change IP in appsettings.json")
@@ -36,6 +35,22 @@ pipeline  {
             steps {
                 echo 'Creating backend docker image ...'
                 sh " cd /var/lib/jenkins/workspace/Amazon-Clone/BackEnd/Amazon-clone/ && docker build --no-cache -t alkaponees/amazon-clone-backend  . "
+            }
+        }
+        stage("docker frontend run") {
+            steps {
+                echo " ============== Creating frontend docker container =================="
+                sh '''
+                docker run -d --restart=always -p 80:80 alkaponees/amazon-clone-frontend
+                '''
+            }
+        }
+         stage("docker backend run") {
+            steps {
+                echo " ============== Creating backend docker container =================="
+                sh '''
+                docker run -d --restart=always -p 5034:5034 alkaponees/amazon-clone-backend
+                '''
             }
         }
         stage("docker login") {
