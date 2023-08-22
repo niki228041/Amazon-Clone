@@ -15,13 +15,13 @@ pipeline  {
                 sh "sed  -i 's#localhost:81#amazonclone.monster/#g' BackEnd/Amazon-clone/ShopApi/appsettings.json"
              }
          }
-         stage ("Remove all containers and images"){
-            steps{
-               sh'''#!/bin/sh 
-           /var/lib/jenkins/delete.sh
-'''
-            }
-         }
+//          stage ("Remove all containers and images"){
+//             steps{
+//                sh'''#!/bin/sh 
+//            /var/lib/jenkins/delete.sh
+// '''
+//             }
+//          }
          
         stage("Create frontend docker image") {
             steps {
@@ -35,22 +35,22 @@ pipeline  {
                 sh " cd /var/lib/jenkins/workspace/Amazon-Clone/BackEnd/Amazon-clone/ && docker build --no-cache -t alkaponees/amazon-clone-backend  . "
             }
         }
-        stage("docker frontend run") {
-            steps {
-                echo " ============== Creating frontend docker container =================="
-                sh '''
-                docker run -d --restart=always -p 80:80 alkaponees/amazon-clone-frontend
-                '''
-            }
-        }
-         stage("docker backend run") {
-            steps {
-                echo " ============== Creating backend docker container =================="
-                sh '''
-                docker run -d --restart=always -p 5034:5034 alkaponees/amazon-clone-backend
-                '''
-            }
-        }
+        // stage("docker frontend run") {
+        //     steps {
+        //         echo " ============== Creating frontend docker container =================="
+        //         sh '''
+        //         docker run -d --restart=always -p 80:80 alkaponees/amazon-clone-frontend
+        //         '''
+        //     }
+        // }
+        //  stage("docker backend run") {
+        //     steps {
+        //         echo " ============== Creating backend docker container =================="
+        //         sh '''
+        //         docker run -d --restart=always -p 5034:5034 alkaponees/amazon-clone-backend
+        //         '''
+        //     }
+        // }
         stage("docker login") {
             steps {
                 echo " ============== docker login =================="
