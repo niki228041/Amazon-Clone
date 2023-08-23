@@ -18,7 +18,7 @@ pipeline  {
          stage("Change DB IP in appsettings.json")
          {
              steps{
-                sh "sed  -i 's#194.44.93.225#20.240.140.153#g' BackEnd/Amazon-clone/ShopApi/appsettings.json"
+                sh "sed  -i 's#194.44.93.225, 1426#20.240.140.153, 1433#g' BackEnd/Amazon-clone/ShopApi/appsettings.json"
              }
          }
         stage ("Remove all containers and images"){
