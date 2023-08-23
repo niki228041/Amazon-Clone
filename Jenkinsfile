@@ -51,6 +51,22 @@ pipeline  {
                 }
             }
         }
+        stage("docker frontend run") {
+             steps {
+                 echo " ============== Creating frontend docker container =================="
+                 sh '''
+                 docker run -d --restart=always -p 81:80 --name=frontend alkaponees/amazon-clone-frontend
+                 '''
+             }
+         }
+        stage("docker backend run") {
+             steps {
+                 echo " ============== Creating backend docker container =================="
+                 sh '''
+                 docker run -d --restart=always -p 5034:5034 --name=backned alkaponees/amazon-clone-backend
+                 '''
+             }
+        }
         
         stage("docker frontend push") {
             steps {
@@ -68,22 +84,7 @@ pipeline  {
                 '''
             }
         }
-        stage("docker frontend run") {
-             steps {
-                 echo " ============== Creating frontend docker container =================="
-                 sh '''
-                 docker run -d --restart=always -p 80:80 --name=frontend alkaponees/amazon-clone-frontend
-                 '''
-             }
-         }
-        stage("docker backend run") {
-             steps {
-                 echo " ============== Creating backend docker container =================="
-                 sh '''
-                 docker run -d --restart=always -p 5034:5034 --name=backned alkaponees/amazon-clone-backend
-                 '''
-             }
-        }
+        
     }
     post{
         always{
