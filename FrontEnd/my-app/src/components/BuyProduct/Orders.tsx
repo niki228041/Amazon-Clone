@@ -27,6 +27,11 @@ import bigBasket from "../../images/BigBasket.png"
 import { useGetDefaultCardByUserIdQuery } from "../../features/user/apiCardSlice";
 import { useGetAddressByUserIdQuery } from "../../features/user/apiAddressSlice";
 import { apiOrderSlice } from "../../features/user/apiOrderSlice";
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Typography from '@mui/material/Typography';
+import BreadcrumbsLink from '@mui/material/Link';
+import Stack from '@mui/material/Stack';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 export const BuyLater=()=>{
   return<>
@@ -126,6 +131,30 @@ export const Orders=()=>{
     const { data: address, isSuccess: isAddress }:{data:Card,isSuccess:boolean} = useGetAddressByUserIdQuery({id:user.id});
     const [addOrder,{}]= apiOrderSlice.useAddOrderMutation();
     
+    const breadcrumbs = [
+      <BreadcrumbsLink underline="hover" key="1" color="inherit" href="/">
+        Головна
+      </BreadcrumbsLink>,
+      <BreadcrumbsLink
+        underline="hover"
+        key="2"
+        color="inherit"
+        href=""
+       >
+        Одяг
+      </BreadcrumbsLink>,
+      <BreadcrumbsLink
+          underline="hover"
+          key="3"
+          color="inherit"
+          href=""
+      >
+          Чоловічий одяг
+      </BreadcrumbsLink>,
+      <Typography key="3" color="text.primary">
+        Мій кошик
+      </Typography>,
+    ];
 
     var totalCount:number = 0;
 
@@ -171,6 +200,13 @@ export const Orders=()=>{
     return <>
     <AdressModal isOpen={isAdressModalOpen} onClose={toggleModal}/>
     <CardModal isOpen={isCardModalOpen} onClose={toggleCardModal}/>
+    <div className="breadCrumbsStyle">
+        <Stack spacing={2}>
+            <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                {breadcrumbs}
+            </Breadcrumbs>
+        </Stack>
+      </div>
 
     <div className="mx-auto mt-10 w-9/12 ">
       {/* КОШИК */}

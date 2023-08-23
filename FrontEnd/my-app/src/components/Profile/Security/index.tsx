@@ -1,8 +1,11 @@
 import React, { useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import "../Security/index.css";
-import OutlinedInput from "@mui/material/OutlinedInput";
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
+import Stack from '@mui/material/Stack';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 const Security: React.FC = () => {
   const [passwordVisible1, setPasswordVisible1] = useState(false);
@@ -16,12 +19,34 @@ const Security: React.FC = () => {
     setPasswordVisible2(!passwordVisible2);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-  };
+    const breadcrumbs = [
+      <Link underline="hover" key="1" color="inherit" href="/">
+        Головна
+      </Link>,
+      <Link
+        underline="hover"
+        key="2"
+        color="inherit"
+        href="../profile"
+       >
+        Профіль
+      </Link>,
+      <Typography key="3" color="text.primary">
+        Логін і безпека
+      </Typography>,
+    ];
+  
 
   return (
     <div>
+        <div className="breadCrumbsStyle">
+            <Stack spacing={2}>
+                <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                    {breadcrumbs}
+                </Breadcrumbs>
+            </Stack>
+        </div>
+       
       <div style={{ display: "flex", flexDirection: "row" }}>
         <div>
           <div>
