@@ -15,6 +15,12 @@ pipeline  {
                 sh "sed  -i 's#http://localhost:81#https://amazonclone.monster/#g' BackEnd/Amazon-clone/ShopApi/appsettings.json"
              }
          }
+         stage("Change DB IP in appsettings.json")
+         {
+             steps{
+                sh "sed  -i 's#194.44.93.225#20.240.140.153#g' BackEnd/Amazon-clone/ShopApi/appsettings.json"
+             }
+         }
 //          stage ("Remove all containers and images"){
 //             steps{
 //                sh'''#!/bin/sh 
