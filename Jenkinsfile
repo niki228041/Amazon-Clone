@@ -6,13 +6,13 @@ pipeline  {
          stage("Change IP in axios.js")
          {
              steps{
-                sh "sed  -i 's#localhost:5034#amazonclone.monster/api#g' FrontEnd/my-app/src/api/axios.js"
+                sh "sed  -i 's#http://localhost:5034#https://amazonclone.monster/api#g' FrontEnd/my-app/src/api/axios.js"
              }
          }
           stage("Change IP in appsettings.json")
          {
              steps{
-                sh "sed  -i 's#localhost:81#amazonclone.monster/#g' BackEnd/Amazon-clone/ShopApi/appsettings.json"
+                sh "sed  -i 's#http://localhost:81#https://amazonclone.monster/#g' BackEnd/Amazon-clone/ShopApi/appsettings.json"
              }
          }
 //          stage ("Remove all containers and images"){

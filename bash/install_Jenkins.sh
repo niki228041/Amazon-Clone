@@ -1,6 +1,10 @@
 #!/bin/bash
 
 # Update the package list
+sudo apt update && sudo apt install nginx -y
+
+sudo apt update && sudo snap install certbot --classic
+
 sudo apt update
 
 # Install Java Development Kit (JDK)
