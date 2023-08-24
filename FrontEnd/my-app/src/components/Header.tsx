@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 
 import { useEffect, useState } from "react";
-import loginlogo from "../images/login.svg"
 import languagelogo from "../images/Languagae-topheader.svg"
 import currency from "../images/Currency.svg"
 import profile from "../images/Profile.svg"
@@ -20,7 +19,6 @@ import settings from "../images/Settings.svg"
 import arrowDown from "../images/arrow_down.svg"
 import arrowDownForSearch from "../images/arrowDownForSearch.svg"
 import arrowDownWhite from "../images/arrowDownWhite.svg"
-import cart from "../images/cart.svg"
 import "../css/MainPage.css"
 
 import { LiaSistrix } from "react-icons/lia";
@@ -37,6 +35,7 @@ import { useSelector } from "react-redux";
 import { UserState } from "../features/user/user-slice";
 import { Orders } from "../features/user/ordersStateSlice";
 import search from "../images/search.png"
+import { BurgerModal } from "./BurgerModal";
 
 
 const Header = () => {
@@ -103,11 +102,13 @@ const Header = () => {
     // console.log(isSuccess);
   }
 
+  const [isBurgerOpen,setIsBurgerOpen] = useState(false);
 
+  console.log(isBurgerOpen);
 
-
-  return (<div>
-
+  return (<div className=" ">
+    <BurgerModal isOpen={isBurgerOpen} onClose={setIsBurgerOpen}  />
+    <div className="sticky z-30 bg-white">
     <div className="top-header text-sm">
       <div className="left-elements">
         <div className="language-container">
@@ -149,7 +150,7 @@ const Header = () => {
 
     <div className="header grid text-whiteForHeader ">
       <div className="languagediv">
-        <div className="hamburger xl:p-5 p-2">
+        <div className="hamburger xl:p-5 p-2" onClick={()=>{setIsBurgerOpen(!isBurgerOpen)}}>
           <img src={union} />
         </div>
         <div onClick={() => navigate("/")} className="pl-2 xl:mr-10 mr-2">
@@ -180,7 +181,7 @@ const Header = () => {
 
           {/* Батьківський контейнер з position: relative для результатів пошуку */}
           {dropdown &&
-            <div className="absolute w-full">
+            <div className="absolute w-full z-10">
               {/* asdasd */}
               {/* Результати пошуку тут */}
               {products?.length > 0 && (
@@ -235,6 +236,7 @@ const Header = () => {
       </div>
 
     </div>
+    </div>
 
     <div className="flex flex-col w-full xl:text-[16px] sm:text-[10px] ">
       {/* header  */}
@@ -256,6 +258,7 @@ const Header = () => {
         </div>
       </div>
     </div>
+
   </div>
   );
 

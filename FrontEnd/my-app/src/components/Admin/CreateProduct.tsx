@@ -162,6 +162,7 @@ const CreateProduct=()=> {
           var err = createProduct(newProduct);
 
           err.then((res:any)=>{
+            console.log(res);
             console.log(res.data.message);
             console.log(res.data.message);
             setServerErrorLogin(res.data.message);

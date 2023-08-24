@@ -261,13 +261,13 @@ const OneProduct=()=>{
                             <img onClick={()=>changeStars("5")} id='5' className='h-[13px]  hover:contrast-75 image-container' src={filled_star} /> */}
                         </div>
 
-                        <span className='px-1 self-center text-mainYellowColor ml-2 flex text-sm lg:text-lg xl:text-lg'>{starsRating}</span>
+                        <span className='px-1 self-center text-mainYellowColor ml-2 flex text-sm '>{starsRating}</span>
                         <img className='px-1 self-center h-1.5' src={Dot} />
                         <img className='px-1 self-center h-4' src={message_img} />
-                        <span className='px-1 self-center flex  hover:underline cursor-pointer select-none text-sm lg:text-lg xl:text-lg'>{data?.payload.comments.length} відгуки</span>
+                        <span className='px-1 self-center flex  hover:underline cursor-pointer select-none text-sm '>{data?.payload.comments.length} відгуки</span>
                         <img className='px-1 self-center h-1.5' src={Dot} />
                         <img className='px-1 self-center h-4' src={miniBasket} />
-                        <span className='px-1 self-center text-sm lg:text-lg xl:text-lg flex'>154 продано</span>
+                        <span className='px-1 self-center text-sm flex'>154 продано</span>
 
                     </div>
 
@@ -290,7 +290,7 @@ const OneProduct=()=>{
 
                     <div className='w-full mt-2 py-3 text-[15px]'>
                         <div className='my-2 grid grid-cols-4'>
-                            <span className=' text-grayForText col-span-1 text-base xl:text-lg lg:text-lg self-center'>Ціна:</span>
+                            <span className=' text-grayForText col-span-1  self-center'>Ціна:</span>
                             <span className='col-span-3'>${data?.payload.price}</span>
                         </div>
 
@@ -298,7 +298,7 @@ const OneProduct=()=>{
 
                         {data?.payload.options.map((opt:SelectedOption,index:number)=>
                             <div key={index} className='my-2 grid grid-cols-4'>
-                                <span className=' text-grayForText col-span-1  text-base xl:text-lg lg:text-lg self-center'>{opt.title}:</span>
+                                <span className=' text-grayForText col-span-1  text-sm self-center'>{opt.title}:</span>
                                 <span className='col-span-3'>{opt.variant}</span>
                             </div>
                         )}
@@ -306,7 +306,7 @@ const OneProduct=()=>{
                         <hr className='my-1' />
 
                         <div className='my-2 grid grid-cols-4'>
-                            <span className=' text-grayForText col-span-1  text-base xl:text-lg lg:text-lg self-center'>Кастомізація:</span>
+                            <span className=' text-grayForText col-span-1  text-sm self-center'>Кастомізація:</span>
                             <span className='col-span-3'>Індивідуальний логотип та дизайн індивідуальних пакетів</span>
                         </div>
                         
@@ -361,7 +361,7 @@ const OneProduct=()=>{
                         <div className=' flex '>
                             <div onClick={()=>navigate("/product/description/" + params.productId)} className=' '>
                                 <p className={classNames(
-                                  'select-none cursor-pointer xl:px-10 px-2 p-4 text-base xl:text-lg lg:text-lg ',
+                                  'select-none cursor-pointer xl:px-10 px-2 p-4 text-sm ',
                                   {
                                     'text-grayForText': !location.pathname.includes('description'),
                                   }
@@ -370,7 +370,7 @@ const OneProduct=()=>{
                             </div>
                             <div onClick={()=>navigate("/product/reviews/" + params.productId)} className=''>
                                 <p className={classNames(
-                                  'select-none cursor-pointer xl:px-10 px-2 p-4 text-base xl:text-lg lg:text-lg ',
+                                  'select-none cursor-pointer xl:px-10 px-2 p-4 text-sm ',
                                   {
                                     'text-grayForText': !location.pathname.includes('reviews'),
                                   }
@@ -378,11 +378,11 @@ const OneProduct=()=>{
                                 <div className=' bg-slate-500 h-0.5 w-11/12 mx-auto' />
                             </div>
                             <div className=''>
-                                <p className='select-none cursor-pointer xl:px-10 px-2 p-4 text-base xl:text-lg lg:text-lg  text-grayForText'>Доставка</p>
+                                <p className='select-none cursor-pointer xl:px-10 px-2 p-4 text-sm  text-grayForText'>Доставка</p>
                                 <div className=' bg-slate-500 h-0.5 w-11/12 mx-auto' />
                             </div>
                             <div className=''>
-                                <p className='select-none cursor-pointer xl:px-10 px-2 text-base xl:text-lg lg:text-lg p-4 text-grayForText'>Про продавця</p>
+                                <p className='select-none cursor-pointer xl:px-10 px-2 text-sm p-4 text-grayForText'>Про продавця</p>
                                 <div className=' bg-slate-500 h-0.5 w-11/12 mx-auto' />
                             </div>
                         </div>

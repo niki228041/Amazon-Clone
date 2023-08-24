@@ -162,7 +162,6 @@ const App: React.FC = () => {
           <Route path='/' element={<HomePage />}></Route>
 
 
-
           <Route>
             <Route path='admin' element={<Outlet />}>
               <Route path='' element={<><AdminSite /></>}>
@@ -244,9 +243,9 @@ const App: React.FC = () => {
         <Route path='/*'
           element={
             <>
-
+              <Header/>
               <NotFound />
-
+              <Footer/>
 
             </>}>
         </Route>
