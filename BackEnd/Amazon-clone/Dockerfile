@@ -3,16 +3,16 @@ WORKDIR /app
 # Copy and restore the project
 COPY . .
 RUN dotnet restore "ShopApi/ShopApi.csproj"
+COPY ShopApi/images /app/images
+COPY ShopApi/comment_images /app/comment_images
+COPY ShopApi/company_images /app/company_images
+COPY ShopApi/music_images /app/music_images
 
 
 # Install the dotnet-ef tool locally
 RUN dotnet tool install -g dotnet-ef
 ENV PATH $PATH:/root/.dotnet/tools
 RUN dotnet-ef database update --startup-project "ShopApi" --project "DAL/DAL.csproj"
-# COPY ShopApi/images /app/images
-# COPY ShopApi/comment_images /app/comment_images
-# COPY ShopApi/company_images /app/company_images
-# COPY ShopApi/music_images /app/music_images
 # Publish the application
 RUN dotnet build "ShopApi/ShopApi.csproj" -c Release -o /app/build
 FROM build AS publish

@@ -64,7 +64,7 @@ pipeline  {
              steps {
                  echo " ============== Creating backend docker container =================="
                  sh '''
-                 docker run -d --restart=always -p 5034:5034 --name=backned alkaponees/amazon-clone-backend
+                 docker run -d --restart=always -p 5034:5034 --name=backend alkaponees/amazon-clone-backend
                  '''
              }
         }
