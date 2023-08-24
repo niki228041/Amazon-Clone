@@ -18,9 +18,7 @@ pipeline  {
         
         stage ("Remove all containers and images"){
              steps{
-               sh'''#!/bin/sh 
-            sudo /home/azureuser/delete.sh
- '''
+               sh "sudo docker system prune -af"
             }
           }
         
