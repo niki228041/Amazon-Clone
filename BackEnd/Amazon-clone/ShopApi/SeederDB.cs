@@ -10,6 +10,7 @@ using Infrastructure.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
+using static Bogus.DataSets.Name;
 using static System.Int32;
 
 namespace ShopApi
@@ -102,29 +103,111 @@ namespace ShopApi
 
                 if (!categoryRepository.Categories.Any())
                 {
-                    var faker = new Faker<Category>()
-                        .RuleFor(c => c.Name, f => f.Commerce.Department());
-                    List<Category> res = faker.Generate(10);
-                    foreach (var c in res)
+                    var categories = new List<Category>();
+
+                    categories.Add(new Category { Name = "Електроніка" });
+                    categories.Add(new Category { Name = "Комп'ютери" });
+                    categories.Add(new Category { Name = "Мистецтво" });
+                    categories.Add(new Category { Name = "Автомобілі" });
+                    categories.Add(new Category { Name = "Діти" });
+                    categories.Add(new Category { Name = "Краса та догляд" });
+                    categories.Add(new Category { Name = "Мода" });
+                    categories.Add(new Category { Name = "Здоров'я" });
+                    categories.Add(new Category { Name = "Дім та кухня" });
+                    categories.Add(new Category { Name = "Сумки і багаж" });
+                    categories.Add(new Category { Name = "Товири для тварин" });
+                    categories.Add(new Category { Name = "Спорт на природі" });
+                    categories.Add(new Category { Name = "Іграшки" });
+
+                    foreach (var c in categories)
                     {
                         await categoryRepository.Create(c);
                     }
 
-                    var faker2 = new Faker<Product>()
-                            .RuleFor(p => p.Category, f => f.PickRandom(res))
-                            .RuleFor(p => p.Name, f => f.Commerce.ProductName())
-                            .RuleFor(p => p.Description, f => f.Commerce.ProductDescription());
-                    var res2 = faker2.Generate(100);
-                    Random rnd = new Random();
-                    foreach (var r in res2)
+                    var subCategories = new List<Category>();
+
+                    subCategories.Add(new Category { Name = "Аксесуари та витратні матеріали", ParentId = categories[0].Id });
+                    subCategories.Add(new Category { Name = "Камера та фото", ParentId = categories[0].Id });
+                    subCategories.Add(new Category { Name = "Автомобільна електроніка", ParentId = categories[0].Id });
+                    subCategories.Add(new Category { Name = "Стільникові телефони та аксесуари", ParentId = categories[0].Id });
+                    subCategories.Add(new Category { Name = "GPS та навігація", ParentId = categories[0].Id });
+                    subCategories.Add(new Category { Name = "Навушники", ParentId = categories[0].Id });
+                    subCategories.Add(new Category { Name = "Домашнє аудіо", ParentId = categories[0].Id });
+                    subCategories.Add(new Category { Name = "Офісна електроніка", ParentId = categories[0].Id });
+                    subCategories.Add(new Category { Name = "Портативне аудіо та відео", ParentId = categories[0].Id });
+                    subCategories.Add(new Category { Name = "Безпека та спостереження", ParentId = categories[0].Id });
+                    subCategories.Add(new Category { Name = "Телебачення та відео", ParentId = categories[0].Id });
+                    subCategories.Add(new Category { Name = "Ігрові аксесуари", ParentId = categories[0].Id });
+                    subCategories.Add(new Category { Name = "Відеопроектори", ParentId = categories[0].Id });
+                    subCategories.Add(new Category { Name = "Годинники", ParentId = categories[0].Id });
+                    subCategories.Add(new Category { Name = "Електронні книги", ParentId = categories[0].Id });
+
+                    subCategories.Add(new Category { Name = "Комп'ютерні аксесуари та професійні пристрої", ParentId = categories[1].Id });
+                    subCategories.Add(new Category { Name = "Комп'ютерні компоненти", ParentId = categories[1].Id });
+                    subCategories.Add(new Category { Name = "Комп'ютерни та планшети", ParentId = categories[1].Id });
+                    subCategories.Add(new Category { Name = "Зберігання данних", ParentId = categories[1].Id });
+                    subCategories.Add(new Category { Name = "Зовнішні компоненти", ParentId = categories[1].Id });
+                    subCategories.Add(new Category { Name = "Аксесуари для ноутбуків", ParentId = categories[1].Id });
+                    subCategories.Add(new Category { Name = "Монітори", ParentId = categories[1].Id });
+                    subCategories.Add(new Category { Name = "Мережеві продукти", ParentId = categories[1].Id });
+                    subCategories.Add(new Category { Name = "Подовжувачі живлення та проистрої захисту від перенапруг", ParentId = categories[1].Id });
+                    subCategories.Add(new Category { Name = "Принтери", ParentId = categories[1].Id });
+                    subCategories.Add(new Category { Name = "Сканери", ParentId = categories[1].Id });
+                    subCategories.Add(new Category { Name = "Аксесуари для планшетів", ParentId = categories[1].Id });
+                    subCategories.Add(new Category { Name = "Гарантії та послуги", ParentId = categories[1].Id });
+
+                    subCategories.Add(new Category { Name = "Живопис, креслення та приладдя для мистецтва", ParentId = categories[2].Id });
+                    subCategories.Add(new Category { Name = "Виготовлення бісеру та ювельрних виробів", ParentId = categories[2].Id });
+                    subCategories.Add(new Category { Name = "Крафт", ParentId = categories[2].Id });
+                    subCategories.Add(new Category { Name = "Тканина", ParentId = categories[2].Id });
+                    subCategories.Add(new Category { Name = "Тканина", ParentId = categories[2].Id });
+                    subCategories.Add(new Category { Name = "Декорування тканини", ParentId = categories[2].Id });
+                    subCategories.Add(new Category { Name = "В'ящання спицями та гачком", ParentId = categories[2].Id });
+                    subCategories.Add(new Category { Name = "Рукоділля", ParentId = categories[2].Id });
+                    subCategories.Add(new Category { Name = "Організація, зберігання та транспотування", ParentId = categories[2].Id });
+                    subCategories.Add(new Category { Name = "Естамп", ParentId = categories[2].Id });
+                    subCategories.Add(new Category { Name = "Скрапбукінг і тиснення", ParentId = categories[2].Id });
+                    subCategories.Add(new Category { Name = "Шиття", ParentId = categories[2].Id });
+                    subCategories.Add(new Category { Name = "Прикраси та приладдя для вечірок", ParentId = categories[2].Id });
+                    subCategories.Add(new Category { Name = "Засоби для упакування подарунків", ParentId = categories[2].Id });
+
+                    subCategories.Add(new Category { Name = "Догляд за автомобілем", ParentId = categories[3].Id });
+                    subCategories.Add(new Category { Name = "Автомобільна електроніка та аксесуари", ParentId = categories[3].Id });
+                    subCategories.Add(new Category { Name = "Зовнішні аксесуари ", ParentId = categories[3].Id });
+                    subCategories.Add(new Category { Name = "Інтер'єрні аксесуари", ParentId = categories[3].Id });
+                    subCategories.Add(new Category { Name = "Світильники та освітлення", ParentId = categories[3].Id });
+                    subCategories.Add(new Category { Name = "Мотоцикл і силовий спорт", ParentId = categories[3].Id });
+                    subCategories.Add(new Category { Name = "Масла та рідини", ParentId = categories[3].Id });
+                    subCategories.Add(new Category { Name = "Фарба", ParentId = categories[3].Id });
+
+                    foreach (var c in subCategories)
                     {
-                        r.Price = rnd.Next(100, 1000000);
+                        await categoryRepository.Create(c);
                     }
 
-                    foreach (var c in res2)
-                    {
-                        await productRepository.Create(c);
-                    }
+                    //var faker = new Faker<Category>()
+                    //    .RuleFor(c => c.Name, f => f.Commerce.Department());
+                    //List<Category> res = faker.Generate(10);
+                    //foreach (var c in res)
+                    //{
+                    //    await categoryRepository.Create(c);
+                    //}
+
+                    //var faker2 = new Faker<Product>()
+                    //        .RuleFor(p => p.Category, f => f.PickRandom(res))
+                    //        .RuleFor(p => p.Name, f => f.Commerce.ProductName())
+                    //        .RuleFor(p => p.Description, f => f.Commerce.ProductDescription());
+                    //var res2 = faker2.Generate(100);
+                    //Random rnd = new Random();
+                    //foreach (var r in res2)
+                    //{
+                    //    r.Price = rnd.Next(100, 1000000);
+                    //}
+
+                    //foreach (var c in res2)
+                    //{
+                    //    await productRepository.Create(c);
+                    //}
                 }
 
             }
