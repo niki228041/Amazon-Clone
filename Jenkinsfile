@@ -18,10 +18,16 @@ pipeline  {
         
         stage ("Remove all containers and images"){
              steps{
-               sh "sudo docker system prune -af"
+               sh'''#!/bin/sh 
+            sudo /home/azureuser/delete.sh
+ '''
             }
           }
-        
+        stage ("Remove docker cache"){
+         steps{
+            sh "sudo docker system prune -af"
+         }   
+        }
         stage ("Run MSSQL container"){
             steps{
                 sh 'docker run -v /home/db:/var/opt/mssql -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Qwerty-1" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest'
