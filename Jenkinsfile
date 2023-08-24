@@ -6,13 +6,13 @@ pipeline  {
          stage("Change IP in axios.js")
          {
              steps{
-                sh "sed  -i 's#http://localhost:5034#https://amazonclone.monster/api#g' FrontEnd/my-app/src/api/axios.js"
+                sh "find FrontEnd/my-app/ -type f -exec sed  -i 's#http://localhost:5034#https://amazonclone.monster/api#g' {} +"
              }
          }
           stage("Change IP in appsettings.json")
          {
              steps{
-                sh "sed  -i 's#http://localhost:81#https://amazonclone.monster/#g' BackEnd/Amazon-clone/ShopApi/appsettings.json"
+                sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#http://localhost:81#https://amazonclone.monster/#g' {} +"
              }
          }
         
