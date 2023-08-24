@@ -6,13 +6,13 @@ pipeline  {
          stage("Change IP in axios.js")
          {
              steps{
-                sh "sed  -i 's#http://localhost:5034#https://amazonclone.monster/api#g' FrontEnd/my-app/src/api/axios.js"
+                sh "sed  -i 's#http://localhost:5034#http://10.0.0.5:5034#g' FrontEnd/my-app/src/api/axios.js"
              }
          }
           stage("Change IP in appsettings.json")
          {
              steps{
-                sh "sed  -i 's#http://localhost:81#https://amazonclone.monster/#g' BackEnd/Amazon-clone/ShopApi/appsettings.json"
+                sh "sed  -i 's#http://localhost:81#http://10.0.0.5:81#g' BackEnd/Amazon-clone/ShopApi/appsettings.json"
              }
          }
         
@@ -23,6 +23,7 @@ pipeline  {
  '''
             }
           }
+        
         stage ("Run MSSQL container"){
             steps{
                 sh 'docker run -v /home/db:/var/opt/mssql -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Qwerty-1" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest'
