@@ -12,6 +12,7 @@ import example from './../images/example-pic.svg'
 import arrowRight from './../images/main-arrow-right.svg'
 import arrowLeft from './../images/main-arrow-left.svg'
 import headphonesMain from './../images/headphones-main.svg'
+import laptopExample from './../images/laptop-example.svg'
 
 import { url } from "inspector";
 import { right } from "@popperjs/core";
@@ -207,7 +208,7 @@ const HomePage = () => {
                 </div>
             </div>
 
-            <div className="our-products">
+            <div className="our-products bg-[#F7F7F7]">
                 <div className="our-products-header flex justify-between">
                     <h2 className="text-[#002A42]">Наші Товари</h2>
                     <div className="our-products-header-variants">
@@ -353,12 +354,62 @@ const HomePage = () => {
 
                 </div>
             </div>
-            <div className="best-offers">
+            <div className="best-offers bg-[#F7F7F7]">
+                <div className="best-offers-header flex justify-between mb-10">
+                    <h2 className="text-[#002A42]">Найкращі пропозиції</h2>
+                    <div className="best-offers-header-variants">
+                        <h3 className="text-[#002A42]">Кухонна техніка</h3>
+                        <h3>Аксесуари</h3>
+                        <h3>ТБ та відео</h3>
+                        <h3>Смартфони</h3>
+                        <h3>Продукти</h3>
+                    </div>
+                    <div className="best-offers-header-arrows">
+                        <img className="mr-7" src={arrowLeft} />
+                        <img src={arrowRight} />
+                    </div>
+                </div>
+                <div className="best-offers-main grid-rows-2 ">
+                    <div className="bg-white">
+                        <div className="best-offers-main-element flex justify-between ">
+                            <div>
+                                <h4 className="text-[20px]">Nintendo Switch <br />Console</h4>
+                                <span className="text-[22px] text-[#002A42]">12 399 грн</span>
+                                <br />
+                                <span className="text-[19px] text-[#828282] line-through">14 800 грн</span>
+                                <div className="mt-5">
+                                    <button className="">ЗНИЖКА 10%</button>
+                                </div>
+                            </div>
+                            <div className="element-2">
+                                <span className="text-[#FF9A02] text-[24px]">Спеціальна</span>
+                                <br />
+                                <span className="text-[24px]">пропозиція</span>
+                                <div className="img-container">   
+                                    <img src={laptopExample} alt="laptop" />
+                                </div>
+                            </div>
+                        </div>
 
+                    </div>
+                    <span className="row-span-2">2</span>
+                    <div>
+                        <span>3</span>
+                    </div>
+                    <span>4</span>
+                    <div>
+                        <span>5</span>
+                    </div>
+
+
+
+                </div>
             </div>
+
             <div className="winMart">
 
             </div>
+
             <div className="new-receipts">
                 <div className="new-receipts-header">
                     <h1 className="text-[#FF9A02]">Нові</h1>
@@ -378,7 +429,7 @@ const HomePage = () => {
                                 <br />
                                 <span className="text-xlBiggerMain text-[#002A42] pr-4">12 399 грн</span>
                                 <span className="text-baseMain line-through text-[#828282]">14 800 грн</span>
-                                <br />  
+                                <br />
                                 <span className="text-baseMain text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span>
                                 <span className="text-baseMain text-[#002A42]">В наявності: 30</span>
                             </div>
@@ -394,7 +445,7 @@ const HomePage = () => {
                                 <br />
                                 <span className="text-xlBiggerMain text-[#002A42] pr-4">12 399 грн</span>
                                 <span className="text-baseMain line-through text-[#828282]">14 800 грн</span>
-                                <br />  
+                                <br />
                                 <span className="text-baseMain text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span>
                                 <span className="text-baseMain text-[#002A42]">В наявності: 30</span>
                             </div>
@@ -410,7 +461,7 @@ const HomePage = () => {
                                 <br />
                                 <span className="text-xlBiggerMain text-[#002A42] pr-4">12 399 грн</span>
                                 <span className="text-baseMain line-through text-[#828282]">14 800 грн</span>
-                                <br />  
+                                <br />
                                 <span className="text-baseMain text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span>
                                 <span className="text-baseMain text-[#002A42]">В наявності: 30</span>
                             </div>
@@ -426,7 +477,7 @@ const HomePage = () => {
                                 <br />
                                 <span className="text-xlBiggerMain text-[#002A42] pr-4">12 399 грн</span>
                                 <span className="text-baseMain line-through text-[#828282]">14 800 грн</span>
-                                <br />  
+                                <br />
                                 <span className="text-baseMain text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span>
                                 <span className="text-baseMain text-[#002A42]">В наявності: 30</span>
                             </div>

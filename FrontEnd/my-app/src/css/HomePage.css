@@ -1,5 +1,5 @@
 body {
-    background-color: #FFFFFF;
+    background-color: #f7f7f7;
 }
 
 .first-section .image-div {
@@ -80,11 +80,12 @@ body {
 
 .arrivals {
     background-color: #FFFFFF;
-    padding-top: 60px;
+    /* padding-top: 60px; */
     padding-bottom: 50px;
     padding-left: 105px;
     padding-right: 105px;
     font-family: 'Inter';
+    /* margin-top: 50px; */
 }
 
 .arrivals .arrivals-header {
@@ -159,7 +160,8 @@ body {
     border: none;
 }
 
-.our-products {
+.our-products,
+.best-offers {
     margin-top: 25px;
     font-family: 'Inter';
 
@@ -167,18 +169,23 @@ body {
     padding-right: 105px;
 }
 
-.our-products .our-products-header>h2 {
+.our-products .our-products-header>h2,
+.best-offers-header>h2 {
     font-size: 28px;
     text-transform: uppercase;
 }
 
 .our-products .our-products-header .our-products-header-variants,
-.our-products-header-arrows {
+.our-products-header-arrows,
+.best-offers-header-variants,
+.best-offers-header-arrows {
     display: flex;
-    justify-content: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.our-products .our-products-header .our-products-header-variants h3 {
+.our-products .our-products-header .our-products-header-variants h3,
+.best-offers-header-variants h3 {
     font-size: 19px;
     margin-right: 80px;
     text-transform: uppercase;
@@ -393,4 +400,33 @@ body {
     width: 415px;
     background-color: white;
     margin-right: 40px;
+}
+
+.best-offers-main {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.best-offers-main-element {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 25px;
+    
+}
+
+.best-offers-main button{
+    width: 140px;
+    height: 90px;
+    background-color: #FF9A02;
+    font-size: 24px;
+}
+
+.element-2 {
+    position: relative;
+}
+
+.img-container {
+    bottom: 0;
+    position: absolute;
 }
