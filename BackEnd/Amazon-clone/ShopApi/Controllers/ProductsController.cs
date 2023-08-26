@@ -113,9 +113,9 @@ namespace ShopApi.Controllers
         }
 
         [HttpPost("GetProductByCategoryId")]
-        public async Task<IActionResult> GetProductByCategoryIdAsync([FromBody] FindByIdVM Id)
+        public async Task<IActionResult> GetProductByCategoryIdAsync([FromBody] GetProductsWithPaginationAndByCategoryIdDTO model)
         {
-            var productsBoxing = await _productService.GetProductByCategoryId(Id.Id);
+            var productsBoxing = await _productService.GetProductByCategoryIdWithPagination(model);
             var products = (List<ProductVM>)productsBoxing.Payload;
             var ids = new List<FindByIdVM>();
             products.ForEach(prod=> ids.Add(new FindByIdVM() { Id=prod.Id}));
