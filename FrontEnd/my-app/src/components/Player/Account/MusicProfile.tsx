@@ -42,7 +42,7 @@ const MusicProfile=()=> {
       <div className="your-container">
       <div
         className={classNames(
-          'px-4 mt-2 rounded-tl-lg rounded-tr-lg bg-cover bg-center flex transition-all is-music-profile',
+          'px-4 mt-2 rounded-tl-lg rounded-tr-lg bg-cover duration-500 bg-center flex transition-all is-music-profile',
           {
             '': isMusicProfile,
           }
