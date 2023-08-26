@@ -4,6 +4,7 @@ using DAL.Entities;
 using DAL.Entities.DTO_s;
 using DAL.Entities.FilterEntities;
 using DAL.Interfaces;
+using DAL.Migrations;
 using DAL.Repositories;
 using Infrastructure.Enum_s;
 using Infrastructure.Interfaces;
@@ -12,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Services;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Runtime.InteropServices;
 
 namespace Infrastructure.Services;
@@ -274,6 +276,7 @@ public class ProductService : IProductService
 
     public async Task<ServiceResponse> GetProductByFiltersAsync(FilterVM model)
     {
+       
         var res =  await GetProductByCategoryId(model.CategoryId);
         var res_2 = (List<ProductVM>)res.Payload;
         var res_3 = new List<ProductVM>();
@@ -340,30 +343,60 @@ public class ProductService : IProductService
         if(!string.IsNullOrWhiteSpace(model.ProductName))
         res_3 = res_3.FindAll(prod => prod.Name.Contains(model.ProductName));
 
-        foreach (var product in res_3)
+        if (model.Variants.Count > 0)
         {
-            bool isValid = false;
-            if(product.Options != null)
-                foreach (var variant in product.Options)
-                {
-                    if (isValid) { break; }
-
-                    foreach (var chousedVariants in model.Variants)
+            foreach (var product in res_3)
+            {
+                bool isValid = false;
+                if (product.Options != null)
+                    foreach (var variant in product.Options)
                     {
-                        if (isValid) { break;}
+                        if (isValid) { break; }
 
-                        if (variant.VariantId == chousedVariants.Id)
+                        foreach (var chousedVariants in model.Variants)
                         {
-                            productVMs.Add(product);
-                            isValid= true;
+                            if (isValid) { break; }
+
+                            if (variant.VariantId == chousedVariants.Id)
+                            {
+                                productVMs.Add(product);
+                                isValid = true;
+                            }
                         }
                     }
+                else
+                {
+                    //productVMs.Add(product);
                 }
-            else
-            {
-                productVMs.Add(product);
             }
         }
+        else
+        {
+            productVMs = res_3;
+        }
+
+        switch (model.SortBy)
+        {
+            case "Рейтингом":
+                productVMs = productVMs
+            .OrderByDescending(p => p.Comments.Any() ? p.Comments.Average(com => com.stars) : 0)
+            .ToList(); break;
+            case "Назвою": productVMs = productVMs.OrderBy(p => p.Name).ToList(); break;
+            case "Ціною": productVMs = productVMs.OrderBy(p => p.Price).ToList(); break;
+        }
+
+
+        var page = model.Page;
+        var limit = model.Limit;
+
+        var startIndex = (page - 1) * limit;
+        var endIndex = page * limit;
+
+        List<ProductVM> productVMsFinal = productVMs
+            .Skip(startIndex)
+            .Take(limit)
+            .ToList();
+
 
 
 
@@ -371,7 +404,7 @@ public class ProductService : IProductService
         {
             Message = "GetProduct",
             IsSuccess = true,
-            Payload = productVMs
+            Payload = productVMsFinal
         };
     }
 
@@ -436,14 +469,23 @@ public class ProductService : IProductService
         };
     }
 
-
-    public async Task<ServiceResponse> GetProductByCategoryId(int id)
+    public async Task<ServiceResponse> GetProductByCategoryIdWithPagination(GetProductsWithPaginationAndByCategoryIdDTO model)
     {
-        var categories = await _categoryService.GetAllSubcategoriesByCategoryId(id);
+        var categories = await _categoryService.GetAllSubcategoriesByCategoryId(model.Id);
         var categories_vms = categories;
 
+        var page = model.Page;
+        var limit = model.Limit;
 
-        List<Product> res = _productRepository.GetAll().Include(prod=>prod.VariantProducts).ToList();
+        var startIndex = (page-1) * limit;
+        var endIndex = page * limit;
+
+
+        List<Product> res = _productRepository.GetAll()
+            .Include(prod=>prod.VariantProducts)
+            .Skip(startIndex)
+            .Take(limit)
+            .ToList();
         List<ProductVM> res_to_send = new List<ProductVM>();
 
 
@@ -453,7 +495,7 @@ public class ProductService : IProductService
             for (int i = 0; i < res.Count; i++)
             {
                 Product product = res[i];
-                if (product.CategoryId == id || categories_vms.Find(categ => categ.Id == product.CategoryId) != null)
+                if (product.CategoryId == model.Id || categories_vms.Find(categ => categ.Id == product.CategoryId) != null)
                 {
                     var comments = await _commentService.GetCommentsByProductIdAsync(product.Id);
                     var item = _mapper.Map<Product, ProductVM>(product);
@@ -488,6 +530,79 @@ public class ProductService : IProductService
                 //if (mainImage != null)
                 //    p.Image = _productImageService.GetBase64ByName(mainImage.Name, Qualities.QualitiesSelector.LOW);
             }
+
+            return new ServiceResponse
+            {
+                Message = "GetProducts without category sort",
+                IsSuccess = true,
+                Payload = list_with_prod_vms
+            };
+        }
+    }
+
+    public async Task<ServiceResponse> GetProductByCategoryId(int id)
+    {
+        var categories = await _categoryService.GetAllSubcategoriesByCategoryId(id);
+        var categories_vms = categories;
+
+
+        List<Product> res = _productRepository.GetAll()
+            .Include(prod => prod.VariantProducts)
+            .ToList();
+        List<ProductVM> res_to_send = new List<ProductVM>();
+
+
+
+        if (categories != null)
+        {
+            for (int i = 0; i < res.Count; i++)
+            {
+                Product product = res[i];
+                if (product.CategoryId == id || categories_vms.Find(categ => categ.Id == product.CategoryId) != null)
+                {
+                    var comments = await _commentService.GetCommentsByProductIdAsync(product.Id);
+                    var item = _mapper.Map<Product, ProductVM>(product);
+                    item.Options = new List<SelectedOptionVM>();
+                    item.Options.AddRange(product.VariantProducts.Select(oneProd => new SelectedOptionVM { VariantId = (int)oneProd.VariantId }));
+                    //var mainImage = await _productImageService.GetMainImageByIdAsync(item.Id);
+
+                    item.Comments = comments;
+
+                    //if (mainImage != null)
+                    //    item.Image = _productImageService.GetBase64ByName(mainImage.Name,Qualities.QualitiesSelector.LOW);
+
+                    res_to_send.Add(item);
+                }
+            }
+
+            return new ServiceResponse
+            {
+                Message = "GetProducts",
+                IsSuccess = true,
+                Payload = res_to_send
+            };
+        }
+        else
+        {
+            var list_with_prod_vms = new List<ProductVM>();
+
+            for (int i = 0; i < res.Count; i++)
+            {
+                Product product = res[i];
+                var comments = await _commentService.GetCommentsByProductIdAsync(product.Id);
+                var item = _mapper.Map<Product, ProductVM>(product);
+                item.Options = new List<SelectedOptionVM>();
+                item.Options.AddRange(product.VariantProducts.Select(oneProd => new SelectedOptionVM { VariantId = (int)oneProd.VariantId }));
+                //var mainImage = await _productImageService.GetMainImageByIdAsync(item.Id);
+
+                item.Comments = comments;
+
+                //if (mainImage != null)
+                //    item.Image = _productImageService.GetBase64ByName(mainImage.Name,Qualities.QualitiesSelector.LOW);
+
+                list_with_prod_vms.Add(item);
+            }
+
 
             return new ServiceResponse
             {

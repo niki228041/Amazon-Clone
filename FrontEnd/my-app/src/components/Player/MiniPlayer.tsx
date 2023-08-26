@@ -86,9 +86,9 @@ function MiniPlayer() {
           <div className="flex p-1">
             <div className="col-span-1 mr-2 h-28 w-28 bg-cover bg-center rounded-lg" style={{backgroundImage:`url(${track?.currentTrack?.image})`}}>
             </div>
-            <div className="flex rounded-lg w-full">
-              <div className="bg-whiteGrayColor w-full justify-center rounded-lg flex relative self-center h-full">
-                <div className=" self-center relative w-full">
+            <div className="flex rounded-lg w-full ">
+              <div className="bg-whiteGrayColor w-full  justify-center rounded-lg flex relative self-center h-full">
+                <div className=" self-center relative w-full ">
                   <div className="flex flex-col m-auto self-center mt-2">
                     <p className=" text-[16px] self-center">{track?.currentTrack?.title}</p>
                     <div className="flex justify-center mt-2">
@@ -97,7 +97,7 @@ function MiniPlayer() {
                       <img src={SkipRight} className="transition-all self-center active:scale-105 px-1 h-7" />
                     </div>
                   </div>
-                  <div className="flex justify-between text-white text-[12px] w-full px-2 absolute mt-[-12px]">
+                  <div className="flex  justify-between text-white text-[12px] w-full px-2 absolute mt-[-12px]">
                     <div className="">{formatTime(Math.trunc(track.currentTime))}</div>
                     <div className="">{formatTime(Math.trunc(track.duration))}</div>
                   </div>

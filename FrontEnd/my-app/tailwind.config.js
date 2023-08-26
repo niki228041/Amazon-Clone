@@ -46,7 +46,8 @@ module.exports = {
         almostWhiteGreen:"#ECF7ED",
         optionsGreenColorFor:"#37833B",
         whiteColor:"#FFFFFF",
-        whiteGray:"#8B96A5"
+        whiteGray:"#8B96A5",
+        musicHeaderGray:"#697475"
 
       }
     },

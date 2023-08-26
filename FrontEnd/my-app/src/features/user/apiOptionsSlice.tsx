@@ -32,8 +32,18 @@ export const apiOptionsSlice:any = createApi({
           }),
           providesTags:result=>['Options']
         }),
+        getAllBaseOptionsAsync:builder.query<any,any>({
+          query:(todo)=>({
+            url:'/api/Options/GetAllBaseOptionsAsync',
+            method:"GET",
+            body:todo
+          }),
+          providesTags:result=>['Options']
+        }),
+        
+        
     })
 })
 
 
-export const {useGetOptionsQuery,useGetOptionsByCategoryIdQuery} = apiOptionsSlice
+export const {useGetOptionsQuery,useGetAllBaseOptionsAsyncQuery,useGetOptionsByCategoryIdQuery} = apiOptionsSlice

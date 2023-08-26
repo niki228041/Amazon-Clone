@@ -41,6 +41,16 @@ namespace ShopApi.Controllers
             return Ok(optionsVms);
         }
 
+        [HttpGet]
+        [Route("GetAllBaseOptionsAsync")]
+        public async Task<IActionResult> GetAllBaseOptionsAsync()
+        {
+            var res = _optionsRepository.GetAll().Include(c => c.Variants).Where(opt=>opt.isBaseOptions).ToList();
+            var optionsVms = _mapper.Map<List<Options>, List<OptionsVM>>(res);
+
+            return Ok(optionsVms);
+        }
+
         [HttpPost]
         [Route("GetOptionsByCategoryId")]
         public async Task<IActionResult> GetOptionsByCategoryIdAsync(FindByIdVM model)
@@ -48,10 +58,13 @@ namespace ShopApi.Controllers
             var categories = _categoryRepository.Categories.Include(category => category.OptionsCategories).FirstOrDefault(category=>category.Id == model.Id);
             var optionsList = new List<Options>();
 
-            foreach(var opt in categories.OptionsCategories)
+            if(categories != null)
             {
-                var res = _optionsRepository.GetAll().Include(op=>op.Variants).FirstOrDefault(op=>op.Id==opt.OptionsId);
-                optionsList.Add(res);
+                foreach(var opt in categories.OptionsCategories)
+                {
+                    var res = _optionsRepository.GetAll().Include(op=>op.Variants).FirstOrDefault(op=>op.Id==opt.OptionsId);
+                    optionsList.Add(res);
+                }
             }
 
             var optionsVms = _mapper.Map<List<Options>, List<OptionsVM>>(optionsList);
