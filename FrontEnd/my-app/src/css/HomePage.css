@@ -32,6 +32,8 @@ body {
     right: 210px;
 }
 
+
+
 .first-section .image-div .right-elements-image .circle-block span {
     display: flex;
     align-items: center;
@@ -236,6 +238,24 @@ body {
     font-size: 47px;
 }
 
+.offers-circle-block {
+    display: flex;
+    align-items: center;
+    background-color: #FF9A02;
+    width: 141px;
+    height: 143px;
+    border-radius: 83px;
+}
+
+.offers-circle-block-4 {
+    display: flex;
+    align-items: center;
+    background-color: #FF9A02;
+    width: 93px;
+    height: 91px;
+    border-radius: 83px;
+}
+
 .our-products-right-circle .circle-block>span {
     display: flex;
     align-items: center;
@@ -244,6 +264,51 @@ body {
     width: 100%;
     height: 100%;
     font-size: 28px;
+}
+
+.offers-circle-block>span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    font-size: 30px;
+    line-height: 36px;
+    color: white;
+}
+
+.offers-circle-block-4>span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    font-size: 20px;
+    line-height: 24px;
+    color: #151A1B;
+}
+
+.offers-circle-block-5 {
+    display: flex;
+    align-items: center;
+    background-color: #FF9A02;
+    width: 141px;
+    height: 143px;
+    border-radius: 83px;
+}
+
+.offers-circle-block-5>span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    font-size: 30px;
+    line-height: 36px;
+    color: #151A1B;
 }
 
 /* // */
@@ -380,6 +445,32 @@ body {
     margin-left: 20px;
     margin-top: 20px;
 }
+
+.best-offers-main-element-img {
+    background-image: url(./../images/product-img.svg);
+    height: 459px;
+    display: flex;
+    padding-left: 20px;
+    padding-top: 20px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    justify-content: center;
+    background-position: center center;
+}
+
+.best-offers-main-element-img-5 {
+    background-image: url(./../images/laptop-example-2.svg);
+    height: 200px;
+    display: flex;
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-right: 20px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    justify-content: center;
+    background-position: center center;
+}
+
 .new-receipts-product-card:last-child {
     margin-right: 0;
 }
@@ -390,11 +481,22 @@ body {
     margin-left: auto;
 }
 
-.receipts-product-img-labels {
-    padding-left: 20px;
+.best-offers-right-circle {
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
 }
 
-/* test */
+.best-offers-right-circle-4 {
+    display: flex;
+    flex-direction: row;
+}
+
+.receipts-product-img-labels {
+    padding-left: 20px;
+    padding-bottom: 10px;
+}
+
 .new-receipts-product-card {
     height: 425px;
     width: 415px;
@@ -402,31 +504,80 @@ body {
     margin-right: 40px;
 }
 
+.best-offers-main-element-2 {
+    background-color: white;
+}
+
 .best-offers-main {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    
 }
 
-.best-offers-main-element {
-    padding-top: 15px;
-    padding-bottom: 15px;
-    padding-left: 15px;
+.best-offers-main-element,
+.best-offers-main-element-3,
+.best-offers-main-element-4 {
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-left: 25px;
     padding-right: 25px;
     
 }
 
-.best-offers-main button{
+.best-offers-main-element button{
     width: 140px;
     height: 90px;
     background-color: #FF9A02;
     font-size: 24px;
 }
 
+.best-offers-main-element-3 button {
+    width: 162px;
+    height: 103px;
+    max-width: 100%;
+    /* background: linear-gradient(180deg, #EECFCC 0%, rgba(238, 207, 204, 0) 100%); */
+    background-color: #EECFCC;
+    font-size: 36px;
+    line-height: 43px;
+    text-transform: uppercase;
+    white-space: normal; 
+}
+
 .element-2 {
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.special-offer div {
+    display:flex;
+    flex-direction: column;
+}
+
+.special-offer>span {
+    display: block; 
+    line-height: 29px; 
 }
 
 .img-container {
-    bottom: 0;
-    position: absolute;
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.img-container-4 {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.img-container img {
+    max-width: 100%;
+}
+
+.best-offers-main-element-border,
+.best-offers-main-element-2 {
+    border: 1px solid rgba(0, 0, 0, 0.11);
 }

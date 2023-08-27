@@ -369,8 +369,8 @@ const HomePage = () => {
                         <img src={arrowRight} />
                     </div>
                 </div>
-                <div className="best-offers-main grid-rows-2 ">
-                    <div className="bg-white">
+                <div className="best-offers-main grid-rows-2 gap-5">
+                    <div className="bg-white best-offers-main-element-border">
                         <div className="best-offers-main-element flex justify-between ">
                             <div>
                                 <h4 className="text-[20px]">Nintendo Switch <br />Console</h4>
@@ -382,23 +382,115 @@ const HomePage = () => {
                                 </div>
                             </div>
                             <div className="element-2">
-                                <span className="text-[#FF9A02] text-[24px]">Спеціальна</span>
-                                <br />
-                                <span className="text-[24px]">пропозиція</span>
-                                <div className="img-container">   
+                                <div className="special-offer">
+                                    <span className="text-[#FF9A02] text-[24px]">Спеціальна</span>
+                                    <span className="text-[24px]">пропозиція</span>
+                                </div>
+                                <div className="img-container">
                                     <img src={laptopExample} alt="laptop" />
                                 </div>
                             </div>
                         </div>
 
                     </div>
-                    <span className="row-span-2">2</span>
-                    <div>
-                        <span>3</span>
+
+                    <div className="row-span-2 best-offers-main-element-2">
+                        <div className="best-offers-main-element-img">
+                            <div>
+                                <span className="text-[#FF9A02] text-[24px]">Спеціальна</span>
+                                <br />
+                                <span className="text-[24px]">пропозиція</span>
+
+                            </div>
+                            <div className="best-offers-right-circle">
+                                <div className="offers-circle-block"><span>ЗНИЖКА <br /> 10%</span></div>
+                            </div>
+                        </div>
+                        <div className="receipts-product-img-labels">
+                            <span className="text-[22px]">Nintendo Switch Console</span>
+                            <br />
+                            <span className="text-[27px] text-[#002A42] pr-4">12 399 грн</span>
+                            <span className="text-[19px] line-through text-[#828282]">14 800 грн</span>
+                            <br />
+                            <span className="text-[20px] text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span>
+                            <span className="text-[20px] text-[#002A42]">В наявності: 30</span>
+                        </div>
                     </div>
-                    <span>4</span>
-                    <div>
-                        <span>5</span>
+
+                    <div className="bg-white best-offers-main-element-border">
+                        <div className="best-offers-main-element-3 flex justify-between ">
+                            <div>
+                                <h4 className="text-[20px]">Nintendo Switch <br />Console</h4>
+                                <span className="text-[22px] text-[#002A42]">12 399 грн</span>
+                                <br />
+                                <span className="text-[19px] text-[#828282] line-through">14 800 грн</span>
+                                <div className=" mt-5">
+                                    <button className="">Save <br /> 10%</button>
+                                </div>
+                            </div>
+                            <div className="element-2">
+                                <div className="special-offer">
+                                    <span className="text-[#FF9A02] text-[24px]">Спеціальна</span>
+                                    <span className="text-[24px]">пропозиція</span>
+                                </div>
+                                <div className="img-container">
+                                    <img src={laptopExample} alt="laptop" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="bg-white best-offers-main-element-border">
+                        <div className="best-offers-main-element-4 flex justify-between ">
+                            <div className="special-offer">
+                                <span className="text-[#FF9A02] text-[26px]">Спеціальна</span>
+                                <span className="text-[26px]">пропозиція</span>
+                                <div>
+                                    <span className="text-[20px]">Nintendo Switch</ span>
+                                    <div>
+                                        <span className="text-[22px] text-[#002A42]">12 399 грн</span>
+                                        <span className="text-[19px] text-[#828282] line-through">14 800 грн</span>
+
+                                    </div>
+                                    <div>
+                                        <span className="text-[17px] text-[#002A42]">Продано: 6</span>
+                                        <span className="text-[17px] text-[#002A42]">В наявності: 30</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="element-2">
+                                <div className="best-offers-right-circle-4">
+                                    <div className="offers-circle-block-4"><span>ЗНИЖКА <br /> 10%</span></div>
+                                </div>
+                                <div className="img-container-4">
+                                    <img src={laptopExample} alt="laptop" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div className="bg-white best-offers-main-element-border">
+                        <div className="best-offers-main-element-img-5">
+                            <div>
+                                <span className="text-[#FF9A02] text-[20px]">Спеціальна</span>
+                                <br />
+                                <span className="text-[20px]">пропозиція</span>
+
+                            </div>
+                            <div className="best-offers-right-circle">
+                                <div className="offers-circle-block-5 "><span>ЗНИЖКА <br /> 10%</span></div>
+                            </div>
+                        </div>
+                        <div className="receipts-product-img-labels">
+                            <span className="text-[22px]">Nintendo Switch Console</span>
+                            <br />
+                            <span className="text-[27px] text-[#002A42] pr-4">12 399 грн</span>
+                            <span className="text-[19px] line-through text-[#828282]">14 800 грн</span>
+                            <br />
+                            <span className="text-[20px] text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span>
+                            <span className="text-[20px] text-[#002A42]">В наявності: 30</span>
+                        </div>
                     </div>
 
 
