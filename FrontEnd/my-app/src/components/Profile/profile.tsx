@@ -2,14 +2,38 @@ import React, { useRef, useState } from 'react';
 
 import "./index.css";
 import { Link } from 'react-router-dom';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Typography from '@mui/material/Typography';
+import BreadcrumbsLink from '@mui/material/Link';
+import Stack from '@mui/material/Stack';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 
 
 const ProfilePage: React.FC = () => {
 
+  const breadcrumbs = [
+    <BreadcrumbsLink underline="hover" key="1" color="inherit" href="/">
+      Головна
+    </BreadcrumbsLink>,
 
+    <Typography key="3" color="text.primary">
+      Профіль
+    </Typography>,
+  ];
 
   return (
+    <div>
+        <div className="breadCrumbsStyle">
+            <Stack spacing={2}>
+                <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                    {breadcrumbs}
+                </Breadcrumbs>
+            </Stack>
+        </div>
+      <div style={{ display: "inline-flex", flexWrap: "wrap" }}>
+        <Link to="/editprofile">
+          <div style={{ borderWidth: "2px", borderRadius: "20px", height: "250px", width: "450px", marginLeft: "250px", marginTop: "70px", display: "inline-flex" }}>
     <div >
 
       <div className="overhead" style={{ marginTop: "90px", display: "flex", width: "100%" }}>
@@ -22,6 +46,7 @@ const ProfilePage: React.FC = () => {
           </div>
         </Link>
         <Link to="/payment">
+          <div style={{ borderWidth: "2px", borderRadius: "20px", height: "250px", width: "450px", marginLeft: "20px", marginTop: "70px", display: "inline-flex" }}>
           <div className="paymcards">
             <svg style={{ marginLeft: "30px", marginTop: "60px" }} width="131" height="131" viewBox="0 0 131 131" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M109.167 21.8333H21.8334C15.7747 21.8333 10.9713 26.6912 10.9713 32.7499L10.9167 98.2499C10.9167 104.309 15.7747 109.167 21.8334 109.167H109.167C115.226 109.167 120.083 104.309 120.083 98.2499V32.7499C120.083 26.6912 115.226 21.8333 109.167 21.8333ZM109.167 98.2499H21.8334V65.4999H109.167V98.2499ZM109.167 43.6666H21.8334V32.7499H109.167V43.6666Z" fill="#6B6A6E" />
@@ -29,6 +54,8 @@ const ProfilePage: React.FC = () => {
             <a style={{ fontSize: "40px", fontWeight: "600", marginTop: "80px", marginLeft: "30px", color: "#6B6A6E" }}>Мої картки</a>
           </div>
         </Link>
+        <Link to="">
+          <div style={{ borderWidth: "2px", borderRadius: "20px", height: "250px", width: "450px", marginLeft: "20px", marginTop: "70px", display: "inline-flex" }}>
         <Link to="/proforder">
           <div className="cardsord">
             <svg style={{ marginLeft: "30px", marginTop: "60px" }} width="109" height="109" viewBox="0 0 109 109" fill="none" xmlns="http://www.w3.org/2000/svg">
