@@ -1,8 +1,6 @@
 .header {
   height: 92px;
   align-items: center;
-  position: sticky;
-  top: 0;
   z-index: 100;
   border-top: 1px solid #EEF0F4;
 }
@@ -158,18 +156,16 @@
 
 .underheader {
   background-color: #FF9A02;
-
 }
+
 .underheader div {
   border-right: 1px solid #002A42;
-  align-items: center;
-  padding-top: 7px;
-  padding-bottom: 7px;
   cursor: pointer;
 }
 .underheader div:last-child {
   border-right: none;
 }
+
 
 li {
   color: #5a6068;
@@ -227,7 +223,6 @@ li {
   margin-left: 5px;
 }
 
-.hamburger {
+.hamburger{
   cursor: pointer;
-  padding: 30px;
 }

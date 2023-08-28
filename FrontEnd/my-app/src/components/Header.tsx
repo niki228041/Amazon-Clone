@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
-import "../index.css"
+
 import { useEffect, useState } from "react";
-import loginlogo from "../images/login.svg"
 import languagelogo from "../images/Languagae-topheader.svg"
 import currency from "../images/Currency.svg"
 import profile from "../images/Profile.svg"
@@ -20,7 +19,6 @@ import settings from "../images/Settings.svg"
 import arrowDown from "../images/arrow_down.svg"
 import arrowDownForSearch from "../images/arrowDownForSearch.svg"
 import arrowDownWhite from "../images/arrowDownWhite.svg"
-import cart from "../images/cart.svg"
 import "../css/MainPage.css"
 
 import { LiaSistrix } from "react-icons/lia";
@@ -37,6 +35,7 @@ import { useSelector } from "react-redux";
 import { UserState } from "../features/user/user-slice";
 import { Orders } from "../features/user/ordersStateSlice";
 import search from "../images/search.png"
+import { BurgerModal } from "./BurgerModal";
 
 
 const Header = () => {
@@ -103,12 +102,14 @@ const Header = () => {
     // console.log(isSuccess);
   }
 
+  const [isBurgerOpen,setIsBurgerOpen] = useState(false);
 
+  console.log(isBurgerOpen);
 
-
-  return (<div>
-
-    <div className="top-header">
+  return (<div className=" ">
+    <BurgerModal isOpen={isBurgerOpen} onClose={setIsBurgerOpen}  />
+    <div className="sticky z-30 bg-white">
+    <div className="top-header text-sm">
       <div className="left-elements">
         <div className="language-container">
           <img src={languagelogo} />
@@ -149,28 +150,28 @@ const Header = () => {
 
     <div className="header grid text-whiteForHeader ">
       <div className="languagediv">
-        <div className="hamburger">
+        <div className="hamburger xl:p-5 p-2" onClick={()=>{setIsBurgerOpen(!isBurgerOpen)}}>
           <img src={union} />
         </div>
-        <div onClick={() => navigate("/")} className="pl-2 mr-10">
+        <div onClick={() => navigate("/")} className="pl-2 xl:mr-10 mr-2">
           <div className="cursor-pointer">
-            <span className="text-mainYellowColor font-['Raleway'] text-[48px]">ALL</span>
-            <span className="text-grayColorForHeader font-['Raleway'] text-[48px]">mart</span>
+            <span className="text-mainYellowColor font-['Raleway'] text-sm  xl:text-[48px] lg:text-lg ">ALL</span>
+            <span className="text-grayColorForHeader font-['Raleway'] xl:text-[48px]  text-sm lg:text-lg ">mart</span>
           </div>
         </div>
 
         <div className="relative grow">
-          <div className="flex justify-between items-center relative my-auto">
+          <div className="flex justify-between items-center relative my-auto mr-2">
             <input
               value={inputText}
               onChange={event => handleGo(event.target.value)}
 
-              className="h-10 bg-white border border-black rounded-full w-full text-[12px] px-4 pr-12 text-black"
+              className="xl:h-10 lg:h-8 h-6 bg-white border border-black rounded-full w-full text-[12px] px-4 pr-12 text-black"
 
               type="text"
               placeholder="Пошук"
             />
-            <div className="w-12 rounded-l-full h-10 absolute cursor-pointer active:transition-none select-none bg-mainYellowColor right-0 flex justify-center transition-all self-center"
+            <div className="xl:w-12 lg:w-10 mr-[2px] rounded-l-full w-7 xl:h-9  lg:h-7 h-5 absolute cursor-pointer active:transition-none select-none bg-mainYellowColor right-0 flex justify-center transition-all self-center"
               style={{ transform: "scaleX(-1)" }}>
               <img src={arrowDownForSearch} onClick={() => handleToSearchPage()} className="self-center" />
             </div>
@@ -180,7 +181,7 @@ const Header = () => {
 
           {/* Батьківський контейнер з position: relative для результатів пошуку */}
           {dropdown &&
-            <div className="absolute w-full">
+            <div className="absolute w-full z-10">
               {/* asdasd */}
               {/* Результати пошуку тут */}
               {products?.length > 0 && (
@@ -200,10 +201,11 @@ const Header = () => {
           }
         </div>
 
-        <div className="grid grid-cols-4 pr-9">
+      <div className=" xl:block lg:block sm:block hidden">
+        <div className=" grid grid-cols-4 xl:pr-9">
           <Link to="/profile" className="singindiv">
             <div className="image-container">
-              <img src={profile} alt="Profile" />
+              <img src={profile} alt="Profile"  />
             </div>
             <a className="alang">Профіль</a>
           </Link>
@@ -231,9 +233,12 @@ const Header = () => {
         </div>
       </div>
 
+      </div>
+
+    </div>
     </div>
 
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full xl:text-[16px] sm:text-[10px] ">
       {/* header  */}
       <div className="flex flex-col">
         <div>
@@ -242,23 +247,18 @@ const Header = () => {
 
 
 
-        <div className="underheader flex justify-between px-10">
-          <div onClick={() => navigate("/products")} className=" w-full text-white hover:outline hover:outline-[1px]  outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Сьогоднішні пропозиції</div>
-          <div className=" bg-black w-[1px] h-full"/>
-          <div onClick={() => navigate("/products")} className="w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Подарункові карти </div>
-          <div className=" bg-black w-[1px] h-full"/>
-          <div onClick={() => navigate("/products")} className="w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Обслуговування клієнтів </div>
-          <div className=" bg-black w-[1px] h-full"/>
-          <div onClick={() => navigate("/admin/products")} className="w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Сторінка для адміна</div>
-          <div className=" bg-black w-[1px] h-full"/>
-          <div onClick={() => navigate("/music/home")} className="w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Музика</div>
-          <div className=" bg-black w-[1px] h-full"/>
-          <div onClick={() => navigate("/tempProfile/becomeASeller")} className="w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Тимчасовий Профіль</div>
-          <div className=" bg-black w-[1px] h-full"/>
-          <div onClick={() => navigate("/aboutUs")} className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  p-auto h-full flex items-center font-medium justify-center">Про нас</div>
+        <div className="underheader text-[6px] lg:text-sm xl:text-sm flex justify-between px-10 xl:h-10 h-6">
+          <div onClick={() => navigate("/products")}                  className="  w-full text-white hover:outline hover:outline-[1px]  outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center ">Сьогоднішні пропозиції</div>
+          <div className="hidden xl:block w-full"><div onClick={() => navigate("/products")}                  className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer   h-full flex items-center font-medium justify-center ">Подарункові карти </div></div>
+          <div onClick={() => navigate("/products")}                  className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Обслуговування клієнтів </div>
+          <div className="hidden xl:block w-full"><div onClick={() => navigate("/admin/products")}            className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Сторінка для адміна</div></div>
+          <div onClick={() => navigate("/music/home")}                className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer h-full flex items-center font-medium justify-center">Музика</div>
+          <div onClick={() => navigate("/tempProfile/becomeASeller")} className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Тимчасовий Профіль</div>
+          <div className="hidden xl:block w-full"><div onClick={() => navigate("/aboutUs")}                   className="  w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer h-full flex items-center font-medium justify-center">Про нас</div></div>
         </div>
       </div>
     </div>
+
   </div>
   );
 

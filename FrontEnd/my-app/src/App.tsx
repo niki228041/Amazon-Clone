@@ -61,10 +61,10 @@ import AddressSite from './components/Temp/AddressSite';
 import MyCompany from './components/Temp/MyCompany';
 import OrdersForSeller from './components/Temp/OrdersForSeller';
 import MusicFooter from './components/Player/MusicFooter';
-import Home from './components/Player/Home';
-import History from './components/Player/History';
-import Likes from './components/Player/Likes';
-import MyTracks from './components/Player/MyTracks';
+import Home from './components/Player/Tabs/Home';
+import History from './components/Player/Tabs/History';
+import Likes from './components/Player/Tabs/Likes';
+import MyTracks from './components/Player/Tabs/MyTracks';
 
 import HomePage from './components/HomePage';
 
@@ -74,8 +74,14 @@ import NotFound from './components/auxiliary pages/NotFound'
 import Description from './components/InteractionWithProducts/OneProductsTabs/Description';
 import Reviews from './components/InteractionWithProducts/OneProductsTabs/Reviews';
 import SearchTracks from './components/Player/SearchTracks';
+
 import Security from './components/Profile/Security';
 
+import MusicProfile from './components/Player/Account/MusicProfile';
+import MainProfile from './components/Player/Account/MainProfile';
+import SettingProfile from './components/Player/Account/SettingProfile';
+
+import "./index.css"
 
 
 
@@ -97,7 +103,31 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
+        {!isAuth ? 
+        <>
+          <Route path='/'
+            element={<>
+                <div className="flex flex-col" style={{ minHeight: "180vh" }}>
+                  <Outlet />
+                </div>
+              </>}>
+            <Route path='/' element={<LoginScreen/>}></Route>
+            <Route path="login" element={<LoginScreen />} />
+            <Route path="forgotpassword" element={<ForgotPasswordScreen />} />
+            <Route path="otppage" element={<OtpPage />} />
+            <Route path="resetpassword/" element={<ResetPasswordScreen />} />
+            <Route path="registration" element={<Registration />} />
+          </Route>
 
+          <Route path='/*'
+            element={
+            <>
+               <LoginScreen />
+            </>}>
+          </Route>
+          </>
+          :
+          <>
         <Route path='/music' element={<><MusicHeader /><div className="flex flex-col bg-almostBlackColor" style={{ minHeight: "100vh" }}><Player /></div><MusicFooter /></>} >
           <Route path='home' element={<><MiniPlayer /><Home /></>} />
           <Route path='history' element={<History />} />
@@ -107,6 +137,11 @@ const App: React.FC = () => {
           <Route path='createTrack' element={<CreateTrack />} />
           <Route path='viewTrack/:trackId' element={<ViewTrack />} />
           <Route path='searchTracks' element={<SearchTracks />} />
+          <Route path='profile' element={<MusicProfile />} >
+            <Route path='main' element={<MainProfile />} />
+            <Route path='settings' element={<SettingProfile />} />
+          </Route>
+
         </Route>
 
         <Route path='/'
@@ -118,15 +153,14 @@ const App: React.FC = () => {
                 <div className='mt-auto'>
                   <Footer />
                 </div>
+
+
+
               </div>
             </>
           }>
-          <Route path='/' element={<HomePage/>}></Route>
-          <Route path="login" element={<LoginScreen />} />
-          <Route path="forgotpassword" element={<ForgotPasswordScreen />} />
-          <Route path="otppage" element={<OtpPage />} />
-          <Route path="resetpassword/" element={<ResetPasswordScreen />} />
-          <Route path="registration" element={<Registration />} />
+          <Route path='/' element={<HomePage />}></Route>
+
 
           <Route>
             <Route path='admin' element={<Outlet />}>
@@ -142,21 +176,21 @@ const App: React.FC = () => {
             </Route>
 
             <Route path='orders' element={<Orders />} />
-            
+
             <Route path='successful-purchase' element={<SuccessfulPurchase />} />
-            
+
             <Route path="product/:productId" element={<OneProduct />} />
-            
+
             <Route path="/profile" element={<Profile />} />
-            
+
             <Route path="/payment" element={<Payment />} />
 
             <Route path="/security" element={<Security />} />
-            
+
             <Route path="/address" element={<Address />} />
-            
+
             <Route path="/proforder" element={<Order />} />
-            
+
             <Route path='/editprofile' element={<EditProfile />} />
 
             <Route path='/tempProfile' element={<TempProfile />} >
@@ -203,16 +237,37 @@ const App: React.FC = () => {
 
           </Route>
         </Route>
+        
+        
 
         <Route path='/*'
           element={
             <>
-              <Header />
+              <Header/>
               <NotFound />
-              <Footer />
+              <Footer/>
 
             </>}>
         </Route>
+
+        <Route path='/'
+          element={
+            <>
+
+              <Outlet></Outlet>
+
+
+            </>}>
+          <Route path="login" element={<LoginScreen />} />
+          <Route path="forgotpassword" element={<ForgotPasswordScreen />} />
+          <Route path="otppage" element={<OtpPage />} />
+          <Route path="resetpassword/" element={<ResetPasswordScreen />} />
+          <Route path="registration" element={<Registration />} />
+        </Route>
+
+        </>
+        }
+
       </Routes>
     </BrowserRouter>
 

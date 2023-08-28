@@ -14,6 +14,9 @@ namespace Infrastructure.Models
         public int Max_Preis { get; set; }
         public int Stars { get; set; }
         public string ProductName { get; set; }
+        public string SortBy { get; set; }
         public List<VariantDTO> Variants { get; set; }
+        public int Page { get; set; }
+        public int Limit { get; set; }
     }
 }

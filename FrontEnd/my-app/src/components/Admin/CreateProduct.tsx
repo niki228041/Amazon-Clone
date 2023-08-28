@@ -9,6 +9,20 @@ import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
 import { UserState } from "../../features/user/user-slice";
 import { Orders } from "../../features/user/ordersStateSlice";
+import { useFormik } from "formik";
+import { createProductSchema } from "./Validation/ProductCreateValidation";
+
+
+interface createProductValues{
+  name: string,
+  price: number,
+  discount: number,
+  description: string,
+  quantity: number,
+  isInTheStock: boolean,
+  numberOfDaysForDelivery: number,
+  address: string,
+}
 
 const CreateProduct=()=> {
   const [value, setValue] = useState('');
@@ -27,86 +41,146 @@ const CreateProduct=()=> {
       isSuccess: boolean;
     };
 
-    console.log(options);
+    // console.log(options);
 
     var [getLinksFromServer,{}]= apiProductSlice.useGetLinksForProductMutation();
 
 
-    const handleCreate=async (data:React.FormEvent<HTMLFormElement>)=>{
-      data.preventDefault();
-
-      var curentData = new FormData(data.currentTarget);
+    const formik = useFormik<createProductValues>({
+      initialValues: {
+        name: '',
+        isInTheStock:false,
+        price: 0,
+        discount: 0,
+        description: '',
+        quantity: 0,
+        numberOfDaysForDelivery: 0,
+        address: ''
+      },
+      validationSchema:createProductSchema,
+      onSubmit: values => {
+        console.log("values");
 
       var e:any = document.getElementById("Category");
       var categoryId = e.value;
       
-      var name = curentData?.get("name")?.toString()!;
-      var price = parseFloat(curentData?.get("price")?.toString()!);
-      var discount = parseInt(curentData?.get("discount")?.toString()!);
-      var description = value;
-      var quantity = parseInt(curentData?.get("quantity")?.toString()!);
-      var isInTheStock = curentData?.get("isInTheStock");
-      var numberOfDaysForDelivery = parseInt(curentData?.get("numberOfDaysForDelivery")?.toString()!);
-      var address = curentData?.get("address")?.toString()!;
-
-      var isInTheStock_bool = true;
-      
-      if(isInTheStock == null)
-      isInTheStock_bool = false;
-
-      var {files}:any = document?.getElementById("Images");
-
-      var imagesBytes = [];
-
-      
-      for(var it =0;it<files.length;it++){
-        imagesBytes.push(files[it]);
-      } 
-
-      const promises = filesToSend.map((img: any) => {
-        return new Promise((resolve) => {
-          let byte_img = toBase64(img);
-          byte_img.then((res: any) => {
-            let res_byte_img = res.split(',')[1];
-            let ext = getFileExtension(img.name);
-            
-            resolve({ data: res_byte_img, extension: ext });
-          });
-        });
-      });
-
-      console.log(filesToSend);
+      var canCreate:boolean=true;
 
       var variantsIds:VariantDTO[] = [];
 
       inputIds.forEach(id=>{
         var e:any = document.getElementById(id);
-        variantsIds.push({id:parseInt(e.value)})
+        if(Number.isInteger(Number(e.value)))
+        {
+          variantsIds.push({id:parseInt(e.value)})
+        }
+        else
+        {
+          canCreate=false;
+          console.log("Not all selected field was filled!!");
+        }
+      });
+
+      if(imagesToShow.length <=0)
+      {
+        console.log("Select at least one picture!!");
+        setServerErrorLogin("Select at least one picture!!");
+        canCreate=false;
+      }
+
+      if(categoryId == '-')
+      {
+        console.log("Select product Category!!");
+        setServerErrorLogin("Select product Category!!");
+        canCreate=false;
+      }
+
+      if(variantsIds.length<=0 )
+      {
+        console.log("Select at least one Variant!!");
+        setServerErrorLogin("Select at least one Variant!!");
+
+        canCreate=false;
+      }
+
+      if(canCreate)
+      {
+        setServerErrorLogin("");
+
+        console.log("YES U CAN");
+
+        console.log(values);
+
+        var {files}:any = document?.getElementById("Images");
+
+        var imagesBytes = [];
+
+      
+        for(var it =0;it<files.length;it++){
+          imagesBytes.push(files[it]);
+        } 
+
+        const promises = filesToSend.map((img: any) => {
+          return new Promise((resolve) => {
+            let byte_img = toBase64(img);
+            byte_img.then((res: any) => {
+              let res_byte_img = res.split(',')[1];
+              let ext = getFileExtension(img.name);
+
+              resolve({ data: res_byte_img, extension: ext });
+            });
+          });
         });
 
-      console.log(variantsIds);
 
-      Promise.all(promises).then((imagesBytes_toSend) => {
-        var newProduct: createProduct = {
-          name: name,
-          price: price,
-          discount: discount,
-          description: description,
-          quantity: quantity,
-          isInTheStock: isInTheStock_bool,
-          numberOfDaysForDelivery: numberOfDaysForDelivery,
-          address: address,
-          categoryId: categoryId,
-          images_: imagesBytes_toSend,
-          Variants_:variantsIds,
-          userId:Number(user.id),
-        };
-        console.log(newProduct);
-      
-        createProduct(newProduct);
-      });
-      navigate("/products");
-  }
+        var variantsIds:VariantDTO[] = [];
+
+        inputIds.forEach(id=>{
+          var e:any = document.getElementById(id);
+          variantsIds.push({id:parseInt(e.value)})
+          });
+
+        console.log(variantsIds);
+
+        Promise.all(promises).then((imagesBytes_toSend) => {
+          var newProduct: createProduct = {
+            name: values.name,
+            price: values.price,
+            discount: values.discount,
+            description: values.description,
+            quantity: values.quantity,
+            isInTheStock: values.isInTheStock,
+            numberOfDaysForDelivery: values.numberOfDaysForDelivery,
+            address: values.address,
+            categoryId: categoryId,
+            images_: imagesBytes_toSend,
+            Variants_:variantsIds,
+            userId:Number(user.id),
+          };
+          console.log(newProduct);
+        
+          var err = createProduct(newProduct);
+
+          err.then((res:any)=>{
+            console.log(res);
+            console.log(res.data.message);
+            console.log(res.data.message);
+            setServerErrorLogin(res.data.message);
+            if(res.data.isSuccess)
+            {
+              // navigate("/products");
+            }
+          })
+
+        });
+
+      }
+      // navigate("/products");
+  
+      },
+  });
+  
+    const [showServerErrorLogin, setServerErrorLogin] = useState("");
 
   const toBase64:any = (file:File) => new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -252,7 +326,7 @@ const CreateProduct=()=> {
         </div>
 
         <div className="mt-10 ">
-          <form className="space-y-6" action="#" method="POST" onSubmit={handleCreate}>
+          <form className="space-y-6" onSubmit={formik.handleSubmit}>
             
             <div className="flex">
               <div className=" w-full  mr-1">
@@ -264,9 +338,13 @@ const CreateProduct=()=> {
                     id="name"
                     name="name"
                     autoComplete="name"
+                    onChange={formik.handleChange}
+                    value={formik.values.name}
                     required
                     className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
+                  {formik.errors.name ? <div className=' text-red-500 text-sm font-semibold'>{formik.errors.name}</div> : null}
+
                 </div>
               </div>
   
@@ -280,9 +358,13 @@ const CreateProduct=()=> {
                     name="discount"
                     type="number"
                     autoComplete="discount"
+                    onChange={formik.handleChange}
+                    value={formik.values.discount}
                     required
                     className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
+                  {formik.errors.discount ? <div className=' text-red-500 text-sm font-semibold'>{formik.errors.discount}</div> : null}
+
                 </div>
               </div>
             </div>
@@ -299,9 +381,13 @@ const CreateProduct=()=> {
                   id="price"
                   name="price"
                   autoComplete="price"
+                  onChange={formik.handleChange}
+                  value={formik.values.price}
                   required
                   className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {formik.errors.price ? <div className=' text-red-500 text-sm font-semibold'>{formik.errors.price}</div> : null}
+
               </div>
             </div>
 
@@ -314,9 +400,12 @@ const CreateProduct=()=> {
                   id="address"
                   name="address"
                   autoComplete="address"
+                  onChange={formik.handleChange}
+                  value={formik.values.address}
                   required
                   className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {formik.errors.address ? <div className=' text-red-500 text-sm font-semibold'>{formik.errors.address}</div> : null}
               </div>
             </div>
             </div>
@@ -333,9 +422,12 @@ const CreateProduct=()=> {
                   name="quantity"
                   type="number"
                   autoComplete="quantity"
+                  onChange={formik.handleChange}
+                  value={formik.values.quantity}
                   required
                   className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {formik.errors.quantity ? <div className=' text-red-500 text-sm font-semibold'>{formik.errors.quantity}</div> : null}
               </div>
             </div>
 
@@ -349,9 +441,12 @@ const CreateProduct=()=> {
                   name="numberOfDaysForDelivery"
                   type="number"
                   autoComplete="numberOfDaysForDelivery"
+                  onChange={formik.handleChange}
+                  value={formik.values.numberOfDaysForDelivery}
                   required
                   className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {formik.errors.numberOfDaysForDelivery ? <div className=' text-red-500 text-sm font-semibold'>{formik.errors.numberOfDaysForDelivery}</div> : null}
               </div>
             </div>
             </div>
@@ -369,10 +464,11 @@ const CreateProduct=()=> {
                   name="description"
                   autoComplete="description"
                   required
-                  value={value} 
-                  onChange={(e)=>setValue(e.target.value)}
+                  onChange={formik.handleChange}
+                  value={formik.values.description}
                   className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {formik.errors.description ? <div className=' text-red-500 text-sm font-semibold'>{formik.errors.description}</div> : null}
               {/* <ReactQuill theme="snow" value={value} onChange={setValue} /> */}
               </div>
 
@@ -418,6 +514,8 @@ const CreateProduct=()=> {
                         <input
                           id="isInTheStock"
                           name="isInTheStock"
+                          onChange={formik.handleChange}
+                          checked={formik.values.isInTheStock}
                           type="checkbox"
                           className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                         />
@@ -464,7 +562,7 @@ const CreateProduct=()=> {
                 Create
               </button>
             </div>
-
+            {showServerErrorLogin ? <div className=' text-red-500 font-semibold'>{showServerErrorLogin}</div> : null}
           </form>
 
           

@@ -14,7 +14,7 @@ import { TrackFromServer } from './Player';
 import { useDispatch } from 'react-redux';
 import { changeTrack, setIsPlay, setLikes } from '../../features/user/musicStateSlice';
 import { useAppSelector } from '../../app/hooks';
-import { addHistoryElement, setLike } from './MyTracks';
+import { addHistoryElement, setLike } from './Tabs/MyTracks';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 

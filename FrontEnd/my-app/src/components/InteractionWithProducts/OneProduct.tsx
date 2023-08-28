@@ -229,11 +229,11 @@ const OneProduct=()=>{
       {
         if(i<stars_)
         {
-          jsx_stars.push(<img key={i} className='ml-0.5' src={filled_star}/>);
+          jsx_stars.push(<img key={i} className='ml-0.5 h-3 xl:h-4' src={filled_star}/>);
         }
         else
         {
-          jsx_stars.push(<img key={i} className='ml-0.5'  src={unfilled_star}  />);
+          jsx_stars.push(<img key={i} className='ml-0.5 h-3  xl:h-4'  src={unfilled_star}  />);
         }
       }
       return jsx_stars;
@@ -263,24 +263,32 @@ const OneProduct=()=>{
         </div>
         <div className="mx-auto mt-10 w-9/12">
             <div className='grid grid-cols-10 p-2 py-4 gap-4 border border-grayColorForBorder rounded-lg'>
+        <div className="mx-auto mt-10 w-11/12 lg:w-10/12 xl:w-9/12">
+            <div className='grid xl:grid-cols-10 grid-cols-3 sm:grid-cols-1 p-2 xl:py-4 xl:gap-4 border border-grayColorForBorder rounded-lg'>
                 <div className='col-span-3'>
                     <div className='rounded-lg border border-grayColorForBorder '>
                         <div className='h-[410px] bg-contain bg-no-repeat bg-center' style={{backgroundImage: `url(${mainImage})`}} />
                     </div>
                     <div className='grid grid-cols-5 mt-3 gap-3 px-3'>
                         {data?.payload.images.map((image:string)=>{return<div>
-                            <div onMouseEnter={()=>setMainImage(image)} className='rounded-md bg-contain bg-no-repeat bg-center h-[66px] w-full border border-grayColorForBorder'  style={{backgroundImage: `url(${image})`}}/>
+                            <div onMouseEnter={()=>setMainImage(image)} className='rounded-md bg-cover bg-no-repeat bg-center h-[66px] w-full border border-grayColorForBorder'  style={{backgroundImage: `url(${image})`}}/>
                         </div>})}
                     </div>
 
                 </div>
-                <div className='col-span-4 px-8'>
+                <div className='col-span-4 xl:px-8'>
                     <div className='flex '>
-                        <img className='h-6 self-center' src={check} /> 
-                        <p className='self-center text-green-500'>В наявності</p>
+                        <img className='h-6 self-center' src={data?.payload.isInTheStock ? check : ""} /> 
+                        <p className={classNames(
+                                  'self-center ',
+                                  {
+                                    ' text-green-500': data?.payload.isInTheStock,
+                                    ' text-red-500 font-semibold': !data?.payload.isInTheStock,
+                                  }
+                                )}>{data?.payload?.isInTheStock ? "В наявності" : "Не в наявності"}</p>
                     </div>
-                    <div className='flex w-3/4'>
-                        <p className='self-center font-semibold text-[18px]'>Mens Long Sleeve T-shirt Cotton Base Layer Slim Muscle</p>
+                    <div className='flex xl:w-3/4'>
+                        <p className='self-center font-semibold text-[18px]'>{data?.payload.name}</p>
                     </div>
                     <div className='flex mt-1 text-grayForText'>
                         <div className='flex rounded-full self-center'>
@@ -292,13 +300,13 @@ const OneProduct=()=>{
                             <img onClick={()=>changeStars("5")} id='5' className='h-[13px]  hover:contrast-75 image-container' src={filled_star} /> */}
                         </div>
 
-                        <span className='px-1 self-center text-mainYellowColor ml-2 flex'>{starsRating}</span>
+                        <span className='px-1 self-center text-mainYellowColor ml-2 flex text-sm '>{starsRating}</span>
                         <img className='px-1 self-center h-1.5' src={Dot} />
                         <img className='px-1 self-center h-4' src={message_img} />
-                        <span className='px-1 self-center flex hover:underline cursor-pointer select-none'>{data?.payload.comments.length} відгуки</span>
+                        <span className='px-1 self-center flex  hover:underline cursor-pointer select-none text-sm '>{data?.payload.comments.length} відгуки</span>
                         <img className='px-1 self-center h-1.5' src={Dot} />
                         <img className='px-1 self-center h-4' src={miniBasket} />
-                        <span className='px-1 self-center flex'>154 продано</span>
+                        <span className='px-1 self-center text-sm flex'>154 продано</span>
 
                     </div>
 
@@ -321,7 +329,7 @@ const OneProduct=()=>{
 
                     <div className='w-full mt-2 py-3 text-[15px]'>
                         <div className='my-2 grid grid-cols-4'>
-                            <span className=' text-grayForText col-span-1'>Ціна:</span>
+                            <span className=' text-grayForText col-span-1  self-center'>Ціна:</span>
                             <span className='col-span-3'>${data?.payload.price}</span>
                         </div>
 
@@ -329,7 +337,7 @@ const OneProduct=()=>{
 
                         {data?.payload.options.map((opt:SelectedOption,index:number)=>
                             <div key={index} className='my-2 grid grid-cols-4'>
-                                <span className=' text-grayForText col-span-1'>{opt.title}:</span>
+                                <span className=' text-grayForText col-span-1  text-sm self-center'>{opt.title}:</span>
                                 <span className='col-span-3'>{opt.variant}</span>
                             </div>
                         )}
@@ -337,7 +345,7 @@ const OneProduct=()=>{
                         <hr className='my-1' />
 
                         <div className='my-2 grid grid-cols-4'>
-                            <span className=' text-grayForText col-span-1'>Кастомізація:</span>
+                            <span className=' text-grayForText col-span-1  text-sm self-center'>Кастомізація:</span>
                             <span className='col-span-3'>Індивідуальний логотип та дизайн індивідуальних пакетів</span>
                         </div>
                         
@@ -345,7 +353,7 @@ const OneProduct=()=>{
                     
 
                 </div>
-                <div className='col-span-3 px-2 pl-10'>
+                <div className='col-span-3 px-2 xl:pl-10'>
                     <div className='border border-grayColorForBorder rounded-lg p-3'>
                         <div className=' flex'>
                             <div className=' bg-slate-400 w-16 h-16 rounded-lg bg-cover'  style={{backgroundImage: `url(${data?.payload.companyVM?.image})`}}/>
@@ -386,42 +394,44 @@ const OneProduct=()=>{
 
 
             <div className='grid grid-cols-12 mt-12'>
-                <div className='mr-2 mb-4 col-span-9'>
+                <div className='xl:mr-2 mb-4 xl:col-span-9 col-span-12'>
                     <div className='border border-grayColorForBorder rounded-lg pb-4'>
+                        <div className='flex flex-col'>
                         <div className=' flex '>
-                            <div onClick={()=>navigate("/product/description/" + params.productId)} className=' h-14 '>
+                            <div onClick={()=>navigate("/product/description/" + params.productId)} className=' '>
                                 <p className={classNames(
-                                  'select-none cursor-pointer px-10 p-4 ',
+                                  'select-none cursor-pointer xl:px-10 px-2 p-4 text-sm ',
                                   {
                                     'text-grayForText': !location.pathname.includes('description'),
                                   }
                                 )}>Опис</p>
                                 <div className=' bg-slate-500 h-0.5 w-11/12 mx-auto' />
                             </div>
-                            <div onClick={()=>navigate("/product/reviews/" + params.productId)} className=' h-14'>
+                            <div onClick={()=>navigate("/product/reviews/" + params.productId)} className=''>
                                 <p className={classNames(
-                                  'select-none cursor-pointer px-10 p-4 ',
+                                  'select-none cursor-pointer xl:px-10 px-2 p-4 text-sm ',
                                   {
                                     'text-grayForText': !location.pathname.includes('reviews'),
                                   }
                                 )}>Відгуки</p>
                                 <div className=' bg-slate-500 h-0.5 w-11/12 mx-auto' />
                             </div>
-                            <div className=' h-14'>
-                                <p className='select-none cursor-pointer px-10 p-4 text-grayForText'>Доставка</p>
+                            <div className=''>
+                                <p className='select-none cursor-pointer xl:px-10 px-2 p-4 text-sm  text-grayForText'>Доставка</p>
                                 <div className=' bg-slate-500 h-0.5 w-11/12 mx-auto' />
                             </div>
-                            <div className=' h-14'>
-                                <p className='select-none cursor-pointer px-10 p-4 text-grayForText'>Про продавця</p>
+                            <div className=''>
+                                <p className='select-none cursor-pointer xl:px-10 px-2 text-sm p-4 text-grayForText'>Про продавця</p>
                                 <div className=' bg-slate-500 h-0.5 w-11/12 mx-auto' />
                             </div>
                         </div>
                         <hr className='mb-2'/>
+                        </div>
                         <Outlet/>
                     </div>
                 </div>
 
-                <div className='ml-2 col-span-3'>
+                <div className='ml-2 col-span-3 hidden  xl:block'>
                     <div className='border border-grayColorForBorder rounded-lg p-4'>
                         <p className=' font-semibold'>Вам може сподобатись</p>
 
@@ -469,47 +479,47 @@ const OneProduct=()=>{
             </div>
 
 
-            <div className='p-2 border rounded-lg mb-4'>
-                <p className='p-2 text-lg font-semibold'>Схожі товари</p>
-                <div className='mb-4 grid grid-cols-6'>
+            <div className='p-2 border rounded-lg mb-4 text-[18px]'>
+                <p className='p-2  font-semibold'>Схожі товари</p>
+                <div className='mb-4 grid grid-cols-3 xl:grid-cols-6  xl:gap-2'>
                     <div>
                         <div className='p-2'>
-                            <div className='h-[200px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
+                            <div className='h-[70px] lg:h-[150px] xl:h-[220px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center xl:mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
                             <p className='mt-2'>Xiaomi Redmi 8 Original </p>
                             <p className=' text-sm text-grayForText'>1800 -2500 грн.</p>
                         </div>
                     </div>
                     <div>
                         <div className='p-2'>
-                            <div className='h-[200px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
+                            <div className='h-[70px] lg:h-[150px] xl:h-[220px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center  xl:mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
                             <p className='mt-2'>Xiaomi Redmi 8 Original </p>
                             <p className=' text-sm text-grayForText'>1800 -2500 грн.</p>
                         </div>
                     </div>
                     <div>
                         <div className='p-2'>
-                            <div className='h-[200px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
+                            <div className='h-[70px] lg:h-[150px] xl:h-[220px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center  xl:mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
                             <p className='mt-2'>Xiaomi Redmi 8 Original </p>
                             <p className=' text-sm text-grayForText'>1800 -2500 грн.</p>
                         </div>
                     </div>
                     <div>
                         <div className='p-2'>
-                            <div className='h-[200px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
+                            <div className='h-[70px] lg:h-[150px] xl:h-[220px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center  xl:mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
                             <p className='mt-2'>Xiaomi Redmi 8 Original </p>
                             <p className=' text-sm text-grayForText'>1800 -2500 грн.</p>
                         </div>
                     </div>
                     <div>
                         <div className='p-2'>
-                            <div className='h-[200px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
+                            <div className='h-[70px] lg:h-[150px] xl:h-[220px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center xl:mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
                             <p className='mt-2'>Xiaomi Redmi 8 Original </p>
                             <p className=' text-sm text-grayForText'>1800 -2500 грн.</p>
                         </div>
                     </div>
                     <div>
                         <div className='p-2'>
-                            <div className='h-[200px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
+                            <div className='h-[70px] lg:h-[150px] xl:h-[220px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center xl:mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
                             <p className='mt-2'>Xiaomi Redmi 8 Original </p>
                             <p className=' text-sm text-grayForText'>1800 -2500 грн.</p>
                         </div>
@@ -518,9 +528,9 @@ const OneProduct=()=>{
             </div>
 
             {/* РОЗСИЛКА НА ЕМАЙЛ */}
-            <div className=" my-14">
+            <div className=" my-14 xl:block lg:block hidden">
               <div className="text-white p-6 w-full bg-darkBlueColor flex justify-between ">
-                <p className=" text-sm self-center">
+                <p className=" text-sm xl:text-base self-center">
                   Підпишіться на нашу розсилку - отримайте купон на 300 грн. на перше замовлення!
                 </p>
                 <div className="flex self-center text-sm w-4/12 ">

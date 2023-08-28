@@ -3,24 +3,44 @@
 pipeline  {
     agent any;
     stages {
-         stage("Change IP in configs")
+         stage("Change IP in axios.js")
          {
              steps{
-                sh "cd .. && find Amazon-Clone/ -type f -exec sed  -i 's/localhost/172.20.10.3/g' {} +"
+                sh "sed  -i 's#http://localhost:5034#https://amazonclone.monster/api#g' FrontEnd/my-app/src/api/axios.js"
              }
-         } 
+         }
+          stage("Change IP in appsettings.json")
+         {
+             steps{
+                sh "sed  -i 's#http://localhost:81#https://amazonclone.monster/#g' BackEnd/Amazon-clone/ShopApi/appsettings.json"
+             }
+         }
+        
+        stage ("Remove all containers and images"){
+             steps{
+               sh'''#!/bin/sh 
+            sudo /home/azureuser/delete.sh
+ '''
+            }
+          }
+        stage ("Run MSSQL container"){
+            steps{
+                sh 'docker run -v /home/db:/var/opt/mssql -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Qwerty-1" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest'
+            }
+        }
         stage("Create frontend docker image") {
             steps {
-                echo 'Creating docker image ...'
+                echo 'Creating frontend docker image ...'
                 sh " cd /var/lib/jenkins/workspace/Amazon-Clone/FrontEnd/my-app && docker build --no-cache -t alkaponees/amazon-clone-frontend   . "                
             }
         }
         stage("Create backend docker image") {
             steps {
-                echo 'Creating docker image ...'
+                echo 'Creating backend docker image ...'
                 sh " cd /var/lib/jenkins/workspace/Amazon-Clone/BackEnd/Amazon-clone/ && docker build --no-cache -t alkaponees/amazon-clone-backend  . "
             }
         }
+        
         stage("docker login") {
             steps {
                 echo " ============== docker login =================="
@@ -30,6 +50,22 @@ pipeline  {
                     '''
                 }
             }
+        }
+        stage("docker frontend run") {
+             steps {
+                 echo " ============== Creating frontend docker container =================="
+                 sh '''
+                 docker run -d --restart=always -p 81:80 --name=frontend alkaponees/amazon-clone-frontend
+                 '''
+             }
+         }
+        stage("docker backend run") {
+             steps {
+                 echo " ============== Creating backend docker container =================="
+                 sh '''
+                 docker run -d --restart=always -p 5034:5034 --name=backned alkaponees/amazon-clone-backend
+                 '''
+             }
         }
         
         stage("docker frontend push") {
@@ -48,6 +84,7 @@ pipeline  {
                 '''
             }
         }
+        
     }
     post{
         always{

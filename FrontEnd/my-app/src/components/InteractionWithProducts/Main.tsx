@@ -4,47 +4,52 @@ import { apiProductSlice, useGetProductsQuery } from '../../features/user/apiPro
 import { ImageLink, Product, categorySequence } from '../types';
 import { apiCategorySlice, useGetCategoriesQuery, useGetMainCategoriesQuery } from '../../features/user/apiCategorySlice';
 import "../../css/stars.css";
-import { Oval } from  'react-loader-spinner'
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { Oval } from 'react-loader-spinner'
 
-const loader=()=> {
-  return(
-    <div className='m-auto pt-32'>
-    <Oval
-      height={80}
-      width={80}
-      color="#46424f"
-      wrapperStyle={{}}
-      wrapperClass=""
-      visible={true}
-      ariaLabel='oval-loading'
-      secondaryColor="#424a4f"
-      strokeWidth={2}
-      strokeWidthSecondary={2}/>
-</div>
+interface getProductsWithPagination{
+  id: number,
+  page:number,
+  limit:number
+}
+
+const loader = () => {
+  return (
+    <div className='m-auto pt-32 pb-10 flex self-center justify-center'>
+      <Oval
+        height={80}
+        width={80}
+        color="#46424f"
+        wrapperStyle={{}}
+        wrapperClass=""
+        visible={true}
+        ariaLabel='oval-loading'
+        secondaryColor="#424a4f"
+        strokeWidth={2}
+        strokeWidthSecondary={2} />
+    </div>
 
   )
 }
 
-const Product_Component=({ data , productsImages}: { data: Product ,productsImages:string})=>{
+const Product_Component = ({ data, productsImages }: { data: Product, productsImages: string }) => {
   var stars = 0;
 
-  const handleStarsFunctionality=()=>{
+  const handleStarsFunctionality = () => {
     var sumOfStars = 0;
-    data.comments.map(com=>sumOfStars += com.stars);
-    stars = Math.round(sumOfStars/(data.comments.length));
+    data.comments.map(com => sumOfStars += com.stars);
+    stars = Math.round(sumOfStars / (data.comments.length));
   }
 
-  const getStarts=()=>{
+  const getStarts = () => {
     var jsx_stars: JSX.Element[] = [];
     handleStarsFunctionality();
-    for(var i = 0;i<5;i++)
-    {
-      if(i<stars)
-      {
-        jsx_stars.push(<div key={i} className='star-small ml-0.5'/>);
+    for (var i = 0; i < 5; i++) {
+      if (i < stars) {
+        jsx_stars.push(<div key={i} className='star-small ml-0.5' />);
       }
-      else
-      {
+      else {
         jsx_stars.push(<div key={i} className='empty_star-small h-3 ml-0.5' />);
       }
     }
@@ -53,15 +58,55 @@ const Product_Component=({ data , productsImages}: { data: Product ,productsImag
   }
 
 
-  return<>
-  <div >
-  <Link to={"/product/description/" + data.id}>
-    <div className='pb-2 px-3 mt-20 w-full'>
-      <div>
-          <div className='w-full h-[160px]' style={{ backgroundImage:"url("+ productsImages +")",backgroundPosition:"center",backgroundSize:"contain",backgroundRepeat:"no-repeat"}}>
+  return <>
+
+
+<div >
+      <Link to={"/product/description/" + data.id}>
+      <div style={{ height: "290px", width: "200px", borderWidth: "1px", }}>
+      <div className=' max-h-[60px] overflow-hidden '>
+            <p className='text-blue-950 text-sm hover:text-red-700 cursor-pointer hover:underline '>
+              {data.name}
+            </p>
+          </div>
+          <div>
+            <div className='w-full h-[150px]' style={{ marginTop:"10px  ", width:"180px",marginLeft:"auto", backgroundImage: "url(" + productsImages + ")", backgroundPosition: "center", backgroundSize: "contain", backgroundRepeat: "no-repeat" }}>
 
             </div>
-            {/* <img src={data?.image ? "data:image/png;base64," + data?.image : img} className=' w-full h-[100px] ' />         */}
+             {/* <img src={data?.image ? "data:image/png;base64," + data?.image : img} className=' w-full h-[100px] ' />        */}
+          </div>
+        <div style={{ display:"flex"}}  className='p-1 '>
+          
+
+          {/* <div className='flex'>
+            {getStarts()}
+            <span className='ml-1 text-blue-950 hover:text-red-700 cursor-pointer hover:underline text-[12px] font-medium'>{data.comments.length}</span>
+          </div> */}
+
+          <p style={{ verticalAlign:"bottom",fontSize:"17px"}} className='text-sm  font-medium'>$ {data.price}</p>
+          {/* <button style={{ borderRadius: "7px", color: "white", background: "#FF9A02", height: "50px", width: "170px", marginLeft: "10px" }} type="submit">
+            Додати до кошика
+          </button> */}
+          <AddShoppingCartIcon style={{color:"#FF9A02",marginLeft:"30px",fontSize:"30px" }}></AddShoppingCartIcon>
+          <FavoriteBorderIcon style={{color:"#FF9A02",fontSize:"30px",marginLeft:"10px"}}></FavoriteBorderIcon>
+          
+
+        </div>
+      </div>
+
+    </Link>
+    </div >
+
+
+    
+    {/* <div >
+      <Link to={"/product/description/" + data.id}>
+        <div className='pb-2 px-3 mt-20 w-full'>
+          <div>
+            <div className='w-full h-[160px]' style={{ backgroundImage: "url(" + productsImages + ")", backgroundPosition: "center", backgroundSize: "contain", backgroundRepeat: "no-repeat" }}>
+
+            </div>
+             <img src={data?.image ? "data:image/png;base64," + data?.image : img} className=' w-full h-[100px] ' />       
           </div>
           <div className='p-1 '>
             <div className=' max-h-[60px] overflow-hidden '>
@@ -70,16 +115,16 @@ const Product_Component=({ data , productsImages}: { data: Product ,productsImag
               </p>
             </div>
 
-          <div className='flex'>
-            {getStarts()}
-            <span className='ml-1 text-blue-950 hover:text-red-700 cursor-pointer hover:underline text-[12px] font-medium'>{data.comments.length}</span>
-          </div>
+            <div className='flex'>
+              {getStarts()}
+              <span className='ml-1 text-blue-950 hover:text-red-700 cursor-pointer hover:underline text-[12px] font-medium'>{data.comments.length}</span>
+            </div>
 
-          <p className='text-sm text-red-700 font-medium'>$ {data.price}</p>
+            <p className='text-sm text-red-700 font-medium'>$ {data.price}</p>
+          </div>
         </div>
-      </div>
-    </Link>
-  </div>
+      </Link>
+    </div> */}
   </>
 }
 
@@ -116,6 +161,11 @@ const Main = () => {
 
   var [categoryId, setcategoryId] = useState(getSearchParams().get('id'));
 
+  var [page, setPage] = useState(1);
+  var [limit, setLimit] = useState(3);
+  
+
+
   var url = `/products?category=${encodeURIComponent("")}`;
 
 
@@ -130,8 +180,8 @@ const Main = () => {
   // console.log(products);
 
 
-  useEffect(()=>{
-    if(categories)
+  useEffect(() => {
+    if (categories)
       setCategoriesToView(categories?.payload);
 
     // console.log("categoriesToView");
@@ -143,9 +193,9 @@ const Main = () => {
     getProducts();
     // setProducts();
 
-  }, [categories, categoryId])
+  }, [categories, categoryId,page])
 
-  
+
 
   const getProducts = async () => {
     var id = parseInt(getSearchParams().get('id')!);
@@ -154,7 +204,9 @@ const Main = () => {
       id = -1;
     }
 
-    let response: any = await getProductsByCategory({ id: id });
+    var values:getProductsWithPagination = {id:id,page:page,limit:limit}
+
+    let response: any = await getProductsByCategory(values);
 
     // console.log(categoryId);
     // console.log("RESPONSE:");
@@ -209,7 +261,7 @@ const Main = () => {
   return (
     <div className='flex p-2 '>
 
-      <div className='whitespace-nowrap pl-2 pr-2 mt-2'>
+      <div style={{borderWidth:"2px"}} className='whitespace-nowrap pl-2 pr-2 mt-2'>
 
         <div>
           <h1 className='text-[30px] font-bold'>
@@ -250,14 +302,41 @@ const Main = () => {
         {/* <div className='text-blue-950 cursor-pointer hover:underline'>sdfds</div> */}
       </div>
 
-      {!isLoading?
-      <div className='grid grid-cols-6 gap-1 pr-44 pl-24 w-full'>
-        {/* grid */}
-        {products?.map((product: Product, id: number) => {
-          const b: Product = product;
-          return <div key={id}>{<Product_Component  data={b} productsImages={product?.image!} />}</div> })}
-      </div>
-      :loader()}
+
+        <div className=' w-full '>
+      {!isLoading ?
+        <div>
+          <div className='grid grid-cols-6 gap-1 pr-44 pl-24 w-full'>
+            {/* grid */}
+            {products?.map((product: Product, id: number) => {
+              const b: Product = product;
+              return <div key={id}>{<Product_Component data={b} productsImages={product?.image!} />}</div>
+            })}
+          </div>
+          
+        </div>
+        : loader()}
+
+
+        <div className='w-full m-auto flex flex-col mt-10'>
+          <span className='m-auto flex justify-center'>
+            <span className='mx-1'>Page: {page}</span>
+            <span className='mx-1'>Limit: {limit}</span>
+          </span>
+
+          <div className='flex m-auto mt-2'>
+            <div onClick={()=>{if(page > 1)(setPage(page-1))}} className=' bg-mainYellowColor transition-all select-none mx-2 cursor-pointer active:scale-110 p-1 px-4 rounded-sm text-white'>
+              prev
+            </div>
+            <div onClick={()=>{if(products?.length != 0)(setPage(page+1))}}  className=' bg-mainYellowColor transition-all select-none mx-2 cursor-pointer active:scale-110 p-1 px-4 rounded-sm text-white'>
+              next
+            </div>
+          </div>
+
+        </div>
+
+        </div>
+
     </div>
   )
 }

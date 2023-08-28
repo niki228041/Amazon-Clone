@@ -59,7 +59,7 @@ namespace ShopApi.Controllers
             }
             else
             {
-                return BadRequest(validationResult.Errors);
+                return Ok(new ServiceResponse { Message= validationResult.Errors[0].ErrorMessage });
             }
 
         }
@@ -81,7 +81,7 @@ namespace ShopApi.Controllers
 
             if (!resp.IsSuccess)
             {
-                return BadRequest(resp);
+                return Ok(resp);
             }
 
             return Ok(resp);

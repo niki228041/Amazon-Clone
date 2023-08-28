@@ -81,7 +81,7 @@ namespace Infrastructure.Services
             {
                 return new ServiceResponse
                 {
-                    Message = "Error user not created.",
+                    Message = result.Errors.FirstOrDefault().Description,
                     IsSuccess = false,
                     Errors = result.Errors.Select(e => e.Description)
                 };

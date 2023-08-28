@@ -11,5 +11,6 @@ namespace Infrastructure.Models
         public int VariantId { get; set; }
         public string Title { get; set; }
         public string Variant { get; set; }
+        
     }
 }

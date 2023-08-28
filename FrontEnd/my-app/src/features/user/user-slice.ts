@@ -109,20 +109,22 @@ const userSlice = createSlice(
             .addCase(postRegistration.fulfilled,(state,action)=>{
                 state.loading = false;
                 state.accessToken = action.payload;
-                SetAccessToken(action.payload.payload);
-                console.log(action.payload.payload);
-
-                if(action.payload.payload != undefined)
+                if(action.payload.payload != null)
                 {
-                    state.user = parseJwt(action.payload.payload);
+                    SetAccessToken(action.payload.payload);
+                    console.log(action.payload.payload);
+                    
+                    if(action.payload.payload != undefined)
+                    {
+                        state.user = parseJwt(action.payload.payload);
+                    }
+                    else{
+                        state.user = {email:"",name:"",surname:"",roles:[],id:""};
+                    }
+                    console.log(action.payload);
+                    console.log(action.error);
+                    state.isAuth = true;
                 }
-                else{
-                    state.user = {email:"",name:"",surname:"",roles:[],id:""};
-                }
-                console.log(action.payload);
-                console.log(action.error);
-                state.isAuth = true;
-
             })
             .addCase(postLogin.pending,(state,action)=>{
                 console.log("bro");
@@ -131,18 +133,21 @@ const userSlice = createSlice(
             .addCase(postLogin.fulfilled,(state,action)=>{
                 state.loading = false;
                 state.accessToken = action.payload;
-                SetAccessToken(action.payload.payload);
-                console.log(action.payload.payload);
-
-                if(action.payload.payload != undefined)
+                if(action.payload.payload != null)
                 {
-                    state.user = parseJwt(action.payload.payload);
+                    SetAccessToken(action.payload.payload);
+                    console.log(action.payload.payload);
+                    
+                    if(action.payload.payload != undefined)
+                    {
+                        state.user = parseJwt(action.payload.payload);
+                    }
+                    else{
+                        state.user = {email:"",name:"",surname:"",roles:[],id:""};
+                    }
+                    console.log(action.payload);
+                    state.isAuth = true;
                 }
-                else{
-                    state.user = {email:"",name:"",surname:"",roles:[],id:""};
-                }
-                console.log(action.payload);
-                state.isAuth = true;
             })
             .addCase(AuthUser.fulfilled,(state,action)=>{
                 if(action.payload == "")

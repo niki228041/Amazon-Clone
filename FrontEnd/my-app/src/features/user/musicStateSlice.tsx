@@ -11,6 +11,8 @@ export interface Track{
     duration:number;
     percentage:string;
     onChangeSlider:string;
+    isMenuOpen:boolean;
+    mainMusicProfile:boolean;
 }
 // State :
 const initialState:Track= {
@@ -20,6 +22,8 @@ const initialState:Track= {
     duration:0,
     percentage:"",
     onChangeSlider:"",
+    isMenuOpen:false,
+    mainMusicProfile:false,
 };
 
 const trackSlice = createSlice(
@@ -57,9 +61,15 @@ const trackSlice = createSlice(
             if(state.currentTrack!=null)
             state.currentTrack.wasLikedByUsers = action.payload;
         },
+        setMenu(state,action: PayloadAction<void>){
+            state.isMenuOpen = !state.isMenuOpen;
+        },
+        setMainMusicProfile(state,action: PayloadAction<boolean>){
+            state.mainMusicProfile = action.payload;
+        },
     },
     extraReducers(builder){}
 });
 
-export const { changeTrack, deleteTrack,setIsPlay,setCurrentTime,setDurationTime,setPercentageTime,setOnChangeSlider,setLikes} = trackSlice.actions
+export const { changeTrack, deleteTrack,setIsPlay,setCurrentTime,setDurationTime,setPercentageTime,setOnChangeSlider,setLikes,setMenu,setMainMusicProfile} = trackSlice.actions
 export default trackSlice.reducer;

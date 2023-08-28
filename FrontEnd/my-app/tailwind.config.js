@@ -9,6 +9,9 @@ module.exports = {
       base: ['16px', '24px'],
       lg: ['20px', '28px'],
       xl: ['24px', '32px'],
+      lgMain: ['20px', '32px'],
+      xlMain: ['24px', '32px'],
+      baseMain: ['19px', '32px'],
     },
     screens:{
       sm:'480px',
@@ -32,6 +35,20 @@ module.exports = {
         almostWhiteColor:"#C9C9C9",
         whiteGrayColor:"#474747",
         grayForCheckBox:"#1A1A1A",
+        optionsGrayColor:"#EEF0F4",
+        optionsGrayBlueColor: "#7D8FA9",
+        optionsGrayDarkBlueColor: "#002A42",
+        optionsWhiterDarkBlueColor: "#586A84",
+        optionsBlueThumbColor: "#319DFF",
+        optionsGrayForBorder:"#5A5B6A",
+        bodyColor:"#FFFFFF",
+        almostWhiteBlue:"#EBF2FF",
+        almostWhiteGreen:"#ECF7ED",
+        optionsGreenColorFor:"#37833B",
+        whiteColor:"#FFFFFF",
+        whiteGray:"#8B96A5",
+        musicHeaderGray:"#697475"
+
       }
     },
     fontFamily: {

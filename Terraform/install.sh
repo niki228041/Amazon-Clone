@@ -28,4 +28,4 @@ systemctl start jenkins
 systemctl enable jenkins
 
 #Install apache
-apt update && apt install -y apache2
+apt update && apt install -y nginx
