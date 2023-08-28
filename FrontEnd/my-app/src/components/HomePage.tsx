@@ -577,6 +577,203 @@ const HomePage = () => {
                     </div>
                 </div>
             </div>
+            <div className="last-element bg-white">
+                <div className="last-element-header">
+                    <h1>Рекомендовані товари</h1>
+                    <h1>Розпродаж</h1>
+                    <h1>Популярні товари</h1>
+                </div>
+                <div className="last-element-main mt-10">
+                    <div className="last-element-first-container">
+                        <div className="last-element-card">
+                            <div>
+                                <img src={example} />
+                            </div>
+                            <div>
+                                <span className="text-[12px]">Bin Bakar Електроніка</span>
+                                <br />
+                                <span className="text-[15px]">Samsung 40N5300 S..</span>
+                                <br />
+                                <span className="text-[13px] text-[#697475] line-through mr-2">14 800 грн.</span>
+                                <span className="text-[15px] text[#002A42]">12 399 грн.</span>
+                                <br />
+                                <button className="text-[15px] text-[white]">Додати в кошик</button>
+                            </div>
+                        </div>
+                        <div className="last-element-card">
+                            <div>
+                                <img src={example} />
+                            </div>
+                            <div>
+                                <span className="text-[12px]">Bin Bakar Електроніка</span>
+                                <br />
+                                <span className="text-[15px]">Samsung 40N5300 S..</span>
+                                <br />
+                                <span className="text-[13px] text-[#697475] line-through mr-2">14 800 грн.</span>
+                                <span className="text-[15px] text[#002A42]">12 399 грн.</span>
+                                <br />
+                                <button className="text-[15px] text-[white]">Додати в кошик</button>
+                            </div>
+                        </div>
+                        <div className="last-element-card">
+                            <div>
+                                <img src={example} />
+                            </div>
+                            <div>
+                                <span className="text-[12px]">Bin Bakar Електроніка</span>
+                                <br />
+                                <span className="text-[15px]">Samsung 40N5300 S..</span>
+                                <br />
+                                <span className="text-[13px] text-[#697475] line-through mr-2">14 800 грн.</span>
+                                <span className="text-[15px] text[#002A42]">12 399 грн.</span>
+                                <br />
+                                <button className="text-[15px] text-[white]">Додати в кошик</button>
+                            </div>
+                        </div>
+                        <div className="last-element-card">
+                            <div>
+                                <img src={example} />
+                            </div>
+                            <div>
+                                <span className="text-[12px]">Bin Bakar Електроніка</span>
+                                <br />
+                                <span className="text-[15px]">Samsung 40N5300 S..</span>
+                                <br />
+                                <span className="text-[13px] text-[#697475] line-through mr-2">14 800 грн.</span>
+                                <span className="text-[15px] text[#002A42]">12 399 грн.</span>
+                                <br />
+                                <button className="text-[15px] text-[white]">Додати в кошик</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="last-element-second-container">
+                        <div className="last-element-card">
+                            <div>
+                                <img src={example} />
+                            </div>
+                            <div>
+                                <span className="text-[12px]">Bin Bakar Електроніка</span>
+                                <br />
+                                <span className="text-[15px]">Samsung 40N5300 S..</span>
+                                <br />
+                                <span className="text-[13px] text-[#697475] line-through mr-2">14 800 грн.</span>
+                                <span className="text-[15px] text[#002A42]">12 399 грн.</span>
+                                <br />
+                                <button className="text-[15px] text-[white]">Додати в кошик</button>
+                            </div>
+                        </div>
+                        <div className="last-element-card">
+                            <div>
+                                <img src={example} />
+                            </div>
+                            <div>
+                                <span className="text-[12px]">Bin Bakar Електроніка</span>
+                                <br />
+                                <span className="text-[15px]">Samsung 40N5300 S..</span>
+                                <br />
+                                <span className="text-[13px] text-[#697475] line-through mr-2">14 800 грн.</span>
+                                <span className="text-[15px] text[#002A42]">12 399 грн.</span>
+                                <br />
+                                <button className="text-[15px] text-[white]">Додати в кошик</button>
+                            </div>
+                        </div>
+                        <div className="last-element-card">
+                            <div>
+                                <img src={example} />
+                            </div>
+                            <div>
+                                <span className="text-[12px]">Bin Bakar Електроніка</span>
+                                <br />
+                                <span className="text-[15px]">Samsung 40N5300 S..</span>
+                                <br />
+                                <span className="text-[13px] text-[#697475] line-through mr-2">14 800 грн.</span>
+                                <span className="text-[15px] text[#002A42]">12 399 грн.</span>
+                                <br />
+                                <button className="text-[15px] text-[white]">Додати в кошик</button>
+                            </div>
+                        </div>
+                        <div className="last-element-card">
+                            <div>
+                                <img src={example} />
+                            </div>
+                            <div>
+                                <span className="text-[12px]">Bin Bakar Електроніка</span>
+                                <br />
+                                <span className="text-[15px]">Samsung 40N5300 S..</span>
+                                <br />
+                                <span className="text-[13px] text-[#697475] line-through mr-2">14 800 грн.</span>
+                                <span className="text-[15px] text[#002A42]">12 399 грн.</span>
+                                <br />
+                                <button className="text-[15px] text-[white]">Додати в кошик</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="last-element-third-container">
+                        <div className="last-element-card">
+                            <div>
+                                <img src={example} />
+                            </div>
+                            <div>
+                                <span className="text-[12px]">Bin Bakar Електроніка</span>
+                                <br />
+                                <span className="text-[15px]">Samsung 40N5300 S..</span>
+                                <br />
+                                <span className="text-[13px] text-[#697475] line-through mr-2">14 800 грн.</span>
+                                <span className="text-[15px] text[#002A42]">12 399 грн.</span>
+                                <br />
+                                <button className="text-[15px] text-[white]">Додати в кошик</button>
+                            </div>
+                        </div>
+                        <div className="last-element-card">
+                            <div>
+                                <img src={example} />
+                            </div>
+                            <div>
+                                <span className="text-[12px]">Bin Bakar Електроніка</span>
+                                <br />
+                                <span className="text-[15px]">Samsung 40N5300 S..</span>
+                                <br />
+                                <span className="text-[13px] text-[#697475] line-through mr-2">14 800 грн.</span>
+                                <span className="text-[15px] text[#002A42]">12 399 грн.</span>
+                                <br />
+                                <button className="text-[15px] text-[white]">Додати в кошик</button>
+                            </div>
+                        </div>
+                        <div className="last-element-card">
+                            <div>
+                                <img src={example} />
+                            </div>
+                            <div>
+                                <span className="text-[12px]">Bin Bakar Електроніка</span>
+                                <br />
+                                <span className="text-[15px]">Samsung 40N5300 S..</span>
+                                <br />
+                                <span className="text-[13px] text-[#697475] line-through mr-2">14 800 грн.</span>
+                                <span className="text-[15px] text[#002A42]">12 399 грн.</span>
+                                <br />
+                                <button className="text-[15px] text-[white]">Додати в кошик</button>
+                            </div>
+                        </div>
+                        <div className="last-element-card">
+                            <div>
+                                <img src={example} />
+                            </div>
+                            <div>
+                                <span className="text-[12px]">Bin Bakar Електроніка</span>
+                                <br />
+                                <span className="text-[15px]">Samsung 40N5300 S..</span>
+                                <br />
+                                <span className="text-[13px] text-[#697475] line-through mr-2">14 800 грн.</span>
+                                <span className="text-[15px] text[#002A42]">12 399 грн.</span>
+                                <br />
+                                <button className="text-[15px] text-[white]">Додати в кошик</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 

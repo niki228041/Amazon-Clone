@@ -82,7 +82,7 @@ body {
 
 .arrivals {
     background-color: #FFFFFF;
-    /* padding-top: 60px; */
+    padding-top: 60px;
     padding-bottom: 50px;
     padding-left: 105px;
     padding-right: 105px;
@@ -580,4 +580,56 @@ body {
 .best-offers-main-element-border,
 .best-offers-main-element-2 {
     border: 1px solid rgba(0, 0, 0, 0.11);
+}
+
+.last-element {
+    padding-left: 105px;
+    padding-right: 105px;
+}
+
+.last-element-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.last-element-header h1 {
+    font-size: 28px;
+    color: rgba(0, 42, 66, 1);
+}
+
+.last-element-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 120px;
+
+}
+
+.last-element-card:last-child {
+    margin-right: 0;
+}
+
+.last-element-card>div>button {
+    background-color: #FF9A02;
+    width: 158px;
+    height: 35px;
+}
+
+.last-element-card>div {
+    line-height: 25px;
+}
+
+.last-element-first-container,
+.last-element-second-container,
+.last-element-third-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.last-element-first-container {
+    margin-top: 0;
 }
