@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGetCategoriesQuery } from "../../features/user/apiCategorySlice";
 import { apiProductSlice } from "../../features/user/apiProductSlice";
 import { Category, createProduct, Options, Variant, VariantDTO } from "./types";
@@ -11,6 +11,7 @@ import { UserState } from "../../features/user/user-slice";
 import { Orders } from "../../features/user/ordersStateSlice";
 import { useFormik } from "formik";
 import { createProductSchema } from "./Validation/ProductCreateValidation";
+import EditorComponent from "./EditorComponent";
 
 
 interface createProductValues{
@@ -26,7 +27,8 @@ interface createProductValues{
 
 const CreateProduct=()=> {
   const [value, setValue] = useState('');
-    
+  const editorRef:any = useRef(null);  
+
     var [createProduct,{}] = apiProductSlice.useCreateProductMutation();
     var [imagesToShow,setImagesToShow] = useState([]);
     var [filesToSend,setFilesToSend] = useState([]);
@@ -61,7 +63,13 @@ const CreateProduct=()=> {
       onSubmit: values => {
         console.log("values");
 
+      
+
       var e:any = document.getElementById("Category");
+      var description:any = document.getElementById("description");
+      
+      console.log(description);
+      
       var categoryId = e.value;
       
       var canCreate:boolean=true;
@@ -147,7 +155,7 @@ const CreateProduct=()=> {
             name: values.name,
             price: values.price,
             discount: values.discount,
-            description: values.description,
+            description: editorRef.current.getContent(),
             quantity: values.quantity,
             isInTheStock: values.isInTheStock,
             numberOfDaysForDelivery: values.numberOfDaysForDelivery,
@@ -459,17 +467,17 @@ const CreateProduct=()=> {
                 Description
               </label>
               <div className="mt-2">
-                <textarea
+                {/* <textarea
                   id="description"
                   name="description"
                   autoComplete="description"
                   required
-                  onChange={formik.handleChange}
-                  value={formik.values.description}
+                  onChange={}
+                  value={}
                   className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+                /> */}
+                <EditorComponent editorRef={editorRef} />
                 {formik.errors.description ? <div className=' text-red-500 text-sm font-semibold'>{formik.errors.description}</div> : null}
-              {/* <ReactQuill theme="snow" value={value} onChange={setValue} /> */}
               </div>
 
             </div>
