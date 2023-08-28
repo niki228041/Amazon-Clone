@@ -26,7 +26,6 @@ export interface CommentFromServer{
 
 export const CommentItem=({comment}:{comment:CommentFromServer})=>{
 
-    
     const getStarts=()=>{
       var jsx_stars: JSX.Element[] = [];
       for(var i = 0;i<5;i++)
@@ -52,10 +51,10 @@ export const CommentItem=({comment}:{comment:CommentFromServer})=>{
         <div className='flex mt-2'>
             {getStarts()}
         </div>
-        <div className='flex mt-2 text-lg'>
+        <div className='flex mt-2 text-sm'>
             {comment.message}
         </div>
-        <div className='flex text-lg mt-2 text-grayForText select-none hover:text-black'>
+        <div className='flex text-sm mt-2 text-grayForText select-none hover:text-black'>
             <img src={arrowAnswer} className='h-2 self-center' />
             Відповісти 
         </div>

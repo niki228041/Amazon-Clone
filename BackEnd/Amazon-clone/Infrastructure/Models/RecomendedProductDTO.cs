@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Models
 {
-    public class VariantVM
+    public class RecomendedProductDTO
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public int CountOfProducts { get; set; }
+        public int CategoryId { get; set; }
+        public int Limit { get; set; }
     }
 }

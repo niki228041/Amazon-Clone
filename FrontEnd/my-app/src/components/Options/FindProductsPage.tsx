@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { apiProductSlice, useGetProductsQuery } from '../../features/user/apiProductSlice';
+import { apiProductSlice, useGetProductCountQuery, useGetProductsQuery } from '../../features/user/apiProductSlice';
 import { useParams} from 'react-router-dom'
 import { ImageLink, Product, categorySequence } from '../types';
 import { apiCategorySlice, useGetCategoriesQuery, useGetMainCategoriesQuery } from '../../features/user/apiCategorySlice';
@@ -211,6 +211,11 @@ const PageWithOptions = () => {
     request.push({id:data.id});
   });
 
+  useGetProductCountQuery();
+  const { data: productCount} = useGetProductCountQuery() as {
+    data:{payload:number};
+  };;  
+  
   const { data: imagesLinks, isSuccess: isSuccessImagesLinks } = apiProductSlice.useGetLinksForProductByProductsIdsQuery(request) as {
     data: ImageLink[];
     isSuccess: boolean;
@@ -410,6 +415,7 @@ const PageWithOptions = () => {
         <span className=' self-center mr-2 hover:underline cursor-pointer'>Футболки</span>
       </div>
 
+
       <div className=' pl-2 pr-2 mt-4'>
 
       
@@ -430,8 +436,8 @@ const PageWithOptions = () => {
 
               <div className=' text-sm mb-2  '>
                 <div className='my-3 cursor-pointer'>
-                  <span className=' font-semibold mr-3 text-optionsGrayDarkBlueColor' onClick={()=>setSelectedCategory("-1")}>Все</span>
-                  <span className=' text-optionsGrayBlueColor'>(10487)</span>
+                  <span className=' font-semibold mr-3 text-optionsGrayDarkBlueColor' onClick={()=>setSelectedCategory("-1")}>Всі</span>
+                  <span className=' text-optionsGrayBlueColor'>({productCount?.payload})</span>
                 </div>
 
                 {categories?.payload.map((category: Category, id: number) => {
@@ -442,7 +448,7 @@ const PageWithOptions = () => {
                     "font-semibold underline":selectedCategory == category.id.toString()
                   })}
                   onClick={()=>{setSelectedCategory(category.id.toString())}}>{category.name}</span>
-                  <span className=' text-optionsGrayBlueColor'>(10487)</span>
+                  <span className=' text-optionsGrayBlueColor'>({category.countOfProducts})</span>
                 </div> })}
 
                 
@@ -453,7 +459,7 @@ const PageWithOptions = () => {
             <div className=' p-4 rounded-lg mt-4 border border-grayColorForBorder'>
               <div className='font-semibold  text-[16px] mb-2 cursor-pointer text-optionsGrayDarkBlueColor'>Бренди</div>
               
-              <div className=' text-sm mb-2  '>
+              <div className='text-sm mb-2'>
                 
 
                 {baseOptions?.find(opt=>opt.title=="Бренди")?.variants?.map((variant: Variant, id: number) => {
@@ -470,7 +476,7 @@ const PageWithOptions = () => {
                      {selectedBrends.includes(variant.id.toString()) ? <img src={check} className=' h-2 self-center' /> :""}
                     </div>
                     <span className=' mr-3 text-optionsWhiterDarkBlueColor'>{variant.title}</span>
-                    <span className='  text-almostWhiteColor'>(6422)</span>
+                    <span className='  text-almostWhiteColor'>({variant.countOfProducts})</span>
                   </label>
                 </div>})}
                 

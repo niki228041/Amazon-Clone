@@ -1,4 +1,5 @@
 ﻿using DAL.Constants;
+using DAL.Entities;
 using DAL.Entities.DTO_s;
 using Infrastructure.Enum_s;
 using Infrastructure.Interfaces;
@@ -62,6 +63,40 @@ namespace ShopApi.Controllers
                 return Ok(res);
             }
             return BadRequest(res);
+        }
+
+        [HttpPost]
+        [Route("GetProductWithLimitByCategoryId")]
+        [DisableRequestSizeLimit]
+        public async Task<IActionResult> GetProductWithLimitByCategoryIdAsync(RecomendedProductDTO model)
+        {
+            var productsBoxing = await _productService.GetProductWithLimitByCategoryIdAsync(model);
+
+            var products = (List<ProductVM>)productsBoxing.Payload;
+            var ids = new List<FindByIdVM>();
+            products.ForEach(prod => ids.Add(new FindByIdVM() { Id = prod.Id }));
+
+            var images = await GetImageLinksByProductsIds(ids);
+
+
+            foreach (var product in products)
+            {
+                foreach (var image in images)
+                {
+                    if (image.productId == product.Id)
+                    {
+                        product.Image = image.image; break;
+                    }
+                }
+            }
+
+            productsBoxing.Payload = products;
+
+            if (productsBoxing.IsSuccess)
+            {
+                return Ok(productsBoxing);
+            }
+            return BadRequest(productsBoxing);
         }
 
         [HttpPost("DeleteProduct")]
@@ -151,6 +186,19 @@ namespace ShopApi.Controllers
 
             return BadRequest(res);
         }
+
+        [HttpGet("GetProductCount")]
+        public async Task<IActionResult> GetProductCountAsync()
+        {
+            var res = await _productService.GetProductCountAsync();
+            if (res.IsSuccess)
+            {
+                return Ok(res);
+            }
+
+            return BadRequest(res);
+        }
+
 
         [HttpPost]
         [Route("UploadImage")]

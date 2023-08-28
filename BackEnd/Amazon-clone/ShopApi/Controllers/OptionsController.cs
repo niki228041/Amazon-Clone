@@ -20,14 +20,16 @@ namespace ShopApi.Controllers
         private readonly IVariantRepository _variantRepository;
         private readonly IOptionsRepository _optionsRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
 
-        public OptionsController(IVariantRepository variantRepository, IOptionsRepository optionsRepository, IMapper mapper, ICategoryRepository categoryRepository)
+        public OptionsController(IVariantRepository variantRepository, IOptionsRepository optionsRepository, IMapper mapper, ICategoryRepository categoryRepository,IProductRepository productRepository)
         {
             _optionsRepository = optionsRepository;
             _variantRepository = variantRepository;
             _mapper = mapper;
             _categoryRepository = categoryRepository;
+            _productRepository = productRepository;
         }
 
 
@@ -47,6 +49,13 @@ namespace ShopApi.Controllers
         {
             var res = _optionsRepository.GetAll().Include(c => c.Variants).Where(opt=>opt.isBaseOptions).ToList();
             var optionsVms = _mapper.Map<List<Options>, List<OptionsVM>>(res);
+
+            foreach (var opt in optionsVms)
+            {
+                opt.Variants.ForEach(var_ => 
+                var_.CountOfProducts = _productRepository.Products.Where(prod => prod.VariantProducts.FirstOrDefault(varik=>varik.VariantId== var_.Id) != null).Count()
+                );
+            }
 
             return Ok(optionsVms);
         }

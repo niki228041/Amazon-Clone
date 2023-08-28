@@ -612,4 +612,45 @@ public class ProductService : IProductService
             };
         }
     }
+
+    public async Task<ServiceResponse> GetProductCountAsync()
+    {
+        int res = _productRepository.GetAll().Count();
+
+        return new ServiceResponse
+        {
+            Message = "Products Count",
+            IsSuccess = true,
+            Payload = res
+        };
+    }
+
+    public async Task<ServiceResponse> GetProductWithLimitByCategoryIdAsync(RecomendedProductDTO model)
+    {
+        var payload = await GetProductByCategoryId(model.CategoryId);
+        var productsVms = (List<ProductVM>)payload.Payload!;
+
+        var random = new Random();
+        var randomProducts = productsVms.OrderBy(x => random.Next())
+                                        .Take(model.Limit)
+                                        .ToList();
+
+
+        if (payload.Payload == null || payload == null || productsVms == null)
+        {
+            return new ServiceResponse
+            {
+                Message = "No recomended products",
+                IsSuccess = false,
+                Payload = ""
+            };
+        }
+
+        return new ServiceResponse
+        {
+            Message = "Recomended products",
+            IsSuccess = true,
+            Payload = randomProducts
+        };
+    }
 }

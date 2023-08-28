@@ -99,6 +99,9 @@ namespace Infrastructure.Services
                     .ToListAsync();
                 //var categoriesWithParents = _categoryRepository.Categories.Include(c => c.Parent).ToList();
 
+                var products = _productRepository.GetAll();
+                categories.ForEach(cat => cat.CountOfProducts = products.Where(prod=>prod.CategoryId == cat.Id).Count());
+
                 var categoryVMs = _mapper.Map<List<Category>, List<CategoryVM>>(categories);
 
 

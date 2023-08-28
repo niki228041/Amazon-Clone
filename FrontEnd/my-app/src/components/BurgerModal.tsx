@@ -326,7 +326,7 @@ export const BurgerModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: (pr
               </div>
             </div>
 
-          <div className=' bg-white relative py-5 pb-10 overflow-hidden overflow-y-scroll'>
+          <div className=' bg-white relative py-5 pb-10 overflow-hidden min-h-[300px] overflow-y-scroll'>
 
             <ModelOne handleGoBackMenu={handleGoBackMenu} subcategories={sucategories} handleNextMenu={handleNextMenu} styles={stylesOne} position={positionOne} setPosition={setPositionOne} name={"ElementOneId"} categorySequence={categoriesSequence} />
             <ModelOne handleGoBackMenu={handleGoBackMenu} subcategories={sucategories} handleNextMenu={handleNextMenu} styles={stylesTwo} position={positionTwo} setPosition={setPositionTwo} name={"ElementTwoId"} categorySequence={categoriesSequence}/>
