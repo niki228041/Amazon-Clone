@@ -377,7 +377,7 @@ body {
 }
 
 .new-receipts {
-    margin-top: 80px;
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     font-family: 'Inter';
@@ -632,4 +632,91 @@ body {
 
 .last-element-first-container {
     margin-top: 0;
+}
+
+.winMart {
+    font-family: 'Inter';
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.winMart-first-div {
+    display: flex;
+    align-items: center; /* Прижимаем вниз */
+    justify-content: flex-start; /* Прижимаем влево */
+    background-color: #FF9A02;
+    color: white;
+    border-radius: 10px;
+    font-size: 25px;
+    line-height: 58px;
+    text-align: center; /* Центрируем текст */
+    
+}
+
+.rotate-content {
+    writing-mode: vertical-rl; /* Вертикальное направление текста */
+    transform: scaleY(1) rotate(180deg);
+}
+
+.winMart-second-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.winMart-second-div-first-row,
+.winMart-second-div-second-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.winMart-second-div-first-row div,
+.winMart-second-div-second-row div {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-right: 15px;
+
+}
+
+.winMart-second-div-first-row a,
+.winMart-second-div-second-row a {
+    cursor: pointer;
+
+}
+
+.winMart-third-div{
+    background-image: url(./../images/winMart.svg);
+    width: 528px;
+    height: 368px;
+    background-repeat: no-repeat;
+    position: relative;
+    
+}
+
+.winMart-third-div .text-div{
+    position: relative;
+    top: 80px;
+    left: 40px;
+    line-height: 63px;
+}
+
+.winMart-third-div .text-div span{
+    font-family: 'Inter-Bold';
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.73);
+}
+
+.winMart-third-div .text-div h3{
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.73);
+}
+
+.triangle {
+    position: relative;
+    top: 50px;
+    left: 362px;
+    width: 0;
+    border-left: 53px solid transparent; /* Размер основания треугольника */
+    border-bottom: 53px solid rgba(255, 154, 2, 1); /* Высота треугольника и его цвет */
+    transform: scale(5); /* Масштабирование элемента в 4 раза */
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.73);
 }

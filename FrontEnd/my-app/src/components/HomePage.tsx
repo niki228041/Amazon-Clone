@@ -13,6 +13,8 @@ import arrowRight from './../images/main-arrow-right.svg'
 import arrowLeft from './../images/main-arrow-left.svg'
 import headphonesMain from './../images/headphones-main.svg'
 import laptopExample from './../images/laptop-example.svg'
+import winMart from './../images/winMart.svg'
+import foodExample from './../images/food-example.svg'
 
 import { url } from "inspector";
 import { right } from "@popperjs/core";
@@ -20,7 +22,7 @@ import { right } from "@popperjs/core";
 const HomePage = () => {
 
     return (
-        <div style={{ height: "4500px" }}>
+        <div >
             <div className="first-section">
                 <div className="image-div">
                     <div className="left-elements-image">
@@ -369,7 +371,7 @@ const HomePage = () => {
                         <img src={arrowRight} />
                     </div>
                 </div>
-                <div className="best-offers-main grid-rows-2 gap-5">
+                <div className="best-offers-main grid-rows-2 gap-5 mb-10">
                     <div className="bg-white best-offers-main-element-border">
                         <div className="best-offers-main-element flex justify-between ">
                             <div>
@@ -498,8 +500,76 @@ const HomePage = () => {
                 </div>
             </div>
 
-            <div className="winMart">
-
+            <div className="winMart bg-white">
+                <div className="flex justify-between pt-10 pb-10">
+                    <div className="winMart-first-div">
+                        <div className="rotate-content">ЗНИЖКА 10%</div>
+                    </div>
+                    <div className="winMart-second-div">
+                        <div className="winMart-second-div-first-row">
+                            <div>
+                                <img src={example} alt="example" />
+                                <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
+                                <h4 className="text-[15px]">12 399 грн</h4>
+                            </div>
+                            <div>
+                                <img src={example} alt="example" />
+                                <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
+                                <h4 className="text-[15px]">12 399 грн</h4>
+                            </div>
+                            <div>
+                                <img src={example} alt="example" />
+                                <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
+                                <h4 className="text-[15px]">12 399 грн</h4>
+                            </div>
+                            <div>
+                                <img src={example} alt="example" />
+                                <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
+                                <h4 className="text-[15px]">12 399 грн</h4>
+                            </div>
+                            <div>
+                                <img src={example} alt="example" />
+                                <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
+                                <h4 className="text-[15px]">12 399 грн</h4>
+                            </div>
+                        </div>
+                        <div className="winMart-second-div-second-row">
+                            <div>
+                                <img src={example} alt="example" />
+                                <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
+                                <h4 className="text-[15px]">12 399 грн</h4>
+                            </div>
+                            <div>
+                                <img src={example} alt="example" />
+                                <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
+                                <h4 className="text-[15px]">12 399 грн</h4>
+                            </div>
+                            <div>
+                                <img src={example} alt="example" />
+                                <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
+                                <h4 className="text-[15px]">12 399 грн</h4>
+                            </div>
+                            <div>
+                                <img src={example} alt="example" />
+                                <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
+                                <h4 className="text-[15px]">12 399 грн</h4>
+                            </div>
+                            <div>
+                                <img src={example} alt="example" />
+                                <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
+                                <h4 className="text-[15px]">12 399 грн</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="winMart-third-div">
+                        <div className="text-div">
+                            <span className="text-[87px] text-[white]">Win</span>
+                            <span className="text-[87px] text-[#FF9A02]">Mart</span>
+                            <h3 className="text-[40px] text-[white] ml-5">Купуйте зараз</h3>
+                        </div>
+                        <div className="triangle"></div>
+                    </div>
+                </div>
             </div>
 
             <div className="new-receipts">
@@ -577,7 +647,7 @@ const HomePage = () => {
                     </div>
                 </div>
             </div>
-            <div className="last-element bg-white">
+            <div className="last-element bg-white mt-10">
                 <div className="last-element-header">
                     <h1>Рекомендовані товари</h1>
                     <h1>Розпродаж</h1>

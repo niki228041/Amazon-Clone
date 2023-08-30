@@ -20,6 +20,11 @@
 }
 
 @font-face {
+    font-family: 'Inter-Bold';
+    src: url('./fonts/Inter-Bold.ttf') format('truetype');
+}
+
+@font-face {
     font-family: 'CenturyGothic';
     src: url('./fonts/centurygothic.ttf') format('truetype');
 }
