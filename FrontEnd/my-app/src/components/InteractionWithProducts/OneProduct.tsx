@@ -276,8 +276,6 @@ const OneProduct=()=>{
                 </Breadcrumbs>
             </Stack>
         </div>
-        <div className="mx-auto mt-10 w-9/12">
-            <div className='grid grid-cols-10 p-2 py-4 gap-4 border border-grayColorForBorder rounded-lg'>
         <div className="mx-auto mt-10 w-11/12 lg:w-10/12 xl:w-9/12">
             <div className='grid xl:grid-cols-10 grid-cols-3 sm:grid-cols-1 p-2 xl:py-4 xl:gap-4 border border-grayColorForBorder rounded-lg'>
                 <div className='col-span-3'>
