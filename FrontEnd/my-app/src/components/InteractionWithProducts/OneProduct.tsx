@@ -1,9 +1,9 @@
 
 
 
-import { Outlet, useLocation, useNavigate, useParams} from 'react-router-dom'
+import { Link, Outlet, useLocation, useNavigate, useParams} from 'react-router-dom'
 import img from '../../images/t-shirt-png.webp'
-import { useGetProductByIdQuery, useGetProductsQuery } from '../../features/user/apiProductSlice';
+import { useGetProductByIdQuery, useGetProductWithLimitByCategoryIdQuery, useGetProductsQuery } from '../../features/user/apiProductSlice';
 import { ChangeOrderCount, OneProductVM, Order, Product, SelectedOption } from '../types';
 import { useAppSelector } from '../../app/hooks';
 import { useDispatch } from 'react-redux';
@@ -26,6 +26,11 @@ import germany from "../../images/germany.png"
 import verified_user from "../../images/verified_user.svg"
 import planet from "../../images/planet.svg"
 import classNames from 'classnames';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Typography from '@mui/material/Typography';
+import BreadcrumbsLink from '@mui/material/Link';
+import Stack from '@mui/material/Stack';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 
 
@@ -39,6 +44,13 @@ interface createCommentDTO{
     productId: number,
     images: [],
 }
+
+
+interface getRecomendedProducts{
+    limit: number,
+    categoryId: number,
+}
+
 interface Comment{
     id:number,
     dateCreated:string,
@@ -62,7 +74,9 @@ const OneProduct=()=>{
     const orders = useAppSelector((state)=>state.orders);
     var [stars,setStars] = useState(5);
 
-
+    var request:getRecomendedProducts = {limit:6,categoryId:0}; 
+    const {data:recomendedProducts_1 }:{data:{payload:Product[]}} = useGetProductWithLimitByCategoryIdQuery(request);
+    const {data:recomendedProducts_2 }:{data:{payload:Product[]}} = useGetProductWithLimitByCategoryIdQuery(request);
 
     var [mainImage,setMainImage] = useState("");
     var [starsRating,setStarsRating] = useState("");
@@ -137,6 +151,31 @@ const OneProduct=()=>{
         }
     }
 
+    const breadcrumbs = [
+        <BreadcrumbsLink underline="hover" key="1" color="inherit" href="/">
+          Головна
+        </BreadcrumbsLink>,
+        <BreadcrumbsLink
+          underline="hover"
+          key="2"
+          color="inherit"
+          href=""
+         >
+          Одяг
+        </BreadcrumbsLink>,
+        <BreadcrumbsLink
+            underline="hover"
+            key="3"
+            color="inherit"
+            href=""
+        >
+            Чоловічий одяг
+        </BreadcrumbsLink>,
+        <Typography key="3" color="text.primary">
+          Футболки
+        </Typography>,
+      ];
+
     
     const getStars=(stars_:number)=>{
       var jsx_stars: JSX.Element[] = [];
@@ -189,6 +228,12 @@ const OneProduct=()=>{
             setStarsRating("0.0");
     }
 
+    const handleLinkClick = () => {
+        // Perform actions you want when the Link is clicked
+        // For example, you can scroll to the top of the page
+        window.scrollTo(0, 0);
+    };
+
     
 
     const getStarsForProduct=()=>{
@@ -217,13 +262,20 @@ const OneProduct=()=>{
             handleStarsRetingFunctionality();
         }
 
-    },[isSuccess,stars,location.pathname])
+    },[isSuccess,stars,location.pathname,data?.payload.images[0]])
 
 
 
     // Now you can access the payload directly
 
     return <>
+        <div className="breadCrumbsStyle">
+            <Stack spacing={2}>
+                <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                    {breadcrumbs}
+                </Breadcrumbs>
+            </Stack>
+        </div>
         <div className="mx-auto mt-10 w-11/12 lg:w-10/12 xl:w-9/12">
             <div className='grid xl:grid-cols-10 grid-cols-3 sm:grid-cols-1 p-2 xl:py-4 xl:gap-4 border border-grayColorForBorder rounded-lg'>
                 <div className='col-span-3'>
@@ -395,15 +447,23 @@ const OneProduct=()=>{
                 <div className='ml-2 col-span-3 hidden  xl:block'>
                     <div className='border border-grayColorForBorder rounded-lg p-4'>
                         <p className=' font-semibold'>Вам може сподобатись</p>
-
-                        <div className='flex mt-4 h-[70px] my-4 mb-8'>
-                            <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
-                            <div className='grid grid-rows-2'>
-                                <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
-                                <p className=' self-end text-grayForText'>1000-25000 грн.</p>
-                            </div>
-                        </div>
-                        <div className='flex mt-4 h-[70px] my-4 mb-8'>
+                        {recomendedProducts_1?.payload.map((prod)=>{
+                            return <>
+                                <Link  onClick={()=>handleLinkClick()} to={"/product/description/"+prod.id} className='flex mt-4 h-[70px] my-4 mb-8'>
+                                    <div>
+                                        <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${prod.image})`}}  />
+                                    </div>
+                                    <div className='grid grid-rows-2  h-full'>
+                                        <div className='h-12 overflow-hidden'>
+                                            <p className='pr-4'>{prod.name}</p>
+                                        </div>
+                                        <p className=' self-end text-grayForText'>{prod.price} грн.</p>
+                                    </div>
+                                </Link>
+                            </>
+                        })}
+                        
+                        {/* <div className='flex mt-4 h-[70px] my-4 mb-8'>
                             <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
                             <div className='grid grid-rows-2'>
                                 <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
@@ -430,7 +490,7 @@ const OneProduct=()=>{
                                 <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
                                 <p className=' self-end text-grayForText'>1000-25000 грн.</p>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
 
                     
@@ -443,48 +503,21 @@ const OneProduct=()=>{
             <div className='p-2 border rounded-lg mb-4 text-[18px]'>
                 <p className='p-2  font-semibold'>Схожі товари</p>
                 <div className='mb-4 grid grid-cols-3 xl:grid-cols-6  xl:gap-2'>
-                    <div>
-                        <div className='p-2'>
-                            <div className='h-[70px] lg:h-[150px] xl:h-[220px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center xl:mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
-                            <p className='mt-2'>Xiaomi Redmi 8 Original </p>
-                            <p className=' text-sm text-grayForText'>1800 -2500 грн.</p>
-                        </div>
-                    </div>
-                    <div>
-                        <div className='p-2'>
-                            <div className='h-[70px] lg:h-[150px] xl:h-[220px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center  xl:mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
-                            <p className='mt-2'>Xiaomi Redmi 8 Original </p>
-                            <p className=' text-sm text-grayForText'>1800 -2500 грн.</p>
-                        </div>
-                    </div>
-                    <div>
-                        <div className='p-2'>
-                            <div className='h-[70px] lg:h-[150px] xl:h-[220px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center  xl:mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
-                            <p className='mt-2'>Xiaomi Redmi 8 Original </p>
-                            <p className=' text-sm text-grayForText'>1800 -2500 грн.</p>
-                        </div>
-                    </div>
-                    <div>
-                        <div className='p-2'>
-                            <div className='h-[70px] lg:h-[150px] xl:h-[220px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center  xl:mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
-                            <p className='mt-2'>Xiaomi Redmi 8 Original </p>
-                            <p className=' text-sm text-grayForText'>1800 -2500 грн.</p>
-                        </div>
-                    </div>
-                    <div>
-                        <div className='p-2'>
-                            <div className='h-[70px] lg:h-[150px] xl:h-[220px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center xl:mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
-                            <p className='mt-2'>Xiaomi Redmi 8 Original </p>
-                            <p className=' text-sm text-grayForText'>1800 -2500 грн.</p>
-                        </div>
-                    </div>
-                    <div>
-                        <div className='p-2'>
-                            <div className='h-[70px] lg:h-[150px] xl:h-[220px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center xl:mr-2' style={{backgroundImage: `url(${mainImage})`}}   />
-                            <p className='mt-2'>Xiaomi Redmi 8 Original </p>
-                            <p className=' text-sm text-grayForText'>1800 -2500 грн.</p>
-                        </div>
-                    </div>
+
+                    {recomendedProducts_2?.payload.map((prod)=>{
+                        return <>
+                            <Link onClick={()=>handleLinkClick()} to={"/product/description/"+prod.id}>
+                                <div className='p-2'>
+                                    <div className='h-[70px] overflow-hidden lg:h-[150px] xl:h-[220px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center xl:mr-2' style={{backgroundImage: `url(${prod.image})`}}   />
+                                    <p className='mt-2 h-[60px] overflow-hidden'>{prod.name} </p>
+                                    <p className=' text-sm text-grayForText'>{prod.price} грн.</p>
+                                </div>
+                            </Link>
+                        </>
+                    })}
+
+                    
+                    
                 </div>
             </div>
 

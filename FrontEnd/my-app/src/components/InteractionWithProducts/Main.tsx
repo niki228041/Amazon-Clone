@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { apiProductSlice, useGetProductsQuery } from '../../features/user/apiProductSlice';
+import { apiProductSlice, useGetProductWithLimitByCategoryIdQuery, useGetProductsQuery } from '../../features/user/apiProductSlice';
 import { ImageLink, Product, categorySequence } from '../types';
 import { apiCategorySlice, useGetCategoriesQuery, useGetMainCategoriesQuery } from '../../features/user/apiCategorySlice';
 import "../../css/stars.css";
@@ -8,9 +8,15 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Oval } from 'react-loader-spinner'
 
+interface getProductsWithPagination{
+  id: number,
+  page:number,
+  limit:number
+}
+
 const loader = () => {
   return (
-    <div className='m-auto pt-32'>
+    <div className='m-auto pt-32 pb-10 flex self-center justify-center'>
       <Oval
         height={80}
         width={80}
@@ -130,6 +136,8 @@ const Main = () => {
 
 
   const { data: categories, isSuccess: isSuccessCategory } = useGetMainCategoriesQuery();
+
+  
   const [getSubcategories, { }] = apiCategorySlice.useGetAllSubcategoriesByCategoryIdMutation();
 
   const [getProductsByCategory, { isLoading }] = apiProductSlice.useGetProductsByCategoryIdMutation();
@@ -154,6 +162,11 @@ const Main = () => {
   };
 
   var [categoryId, setcategoryId] = useState(getSearchParams().get('id'));
+
+  var [page, setPage] = useState(1);
+  var [limit, setLimit] = useState(3);
+  
+
 
   var url = `/products?category=${encodeURIComponent("")}`;
 
@@ -182,7 +195,7 @@ const Main = () => {
     getProducts();
     // setProducts();
 
-  }, [categories, categoryId])
+  }, [categories, categoryId,page])
 
 
 
@@ -193,7 +206,9 @@ const Main = () => {
       id = -1;
     }
 
-    let response: any = await getProductsByCategory({ id: id });
+    var values:getProductsWithPagination = {id:id,page:page,limit:limit}
+
+    let response: any = await getProductsByCategory(values);
 
     // console.log(categoryId);
     // console.log("RESPONSE:");
@@ -289,15 +304,41 @@ const Main = () => {
         {/* <div className='text-blue-950 cursor-pointer hover:underline'>sdfds</div> */}
       </div>
 
+
+        <div className=' w-full '>
       {!isLoading ?
-        <div className='grid grid-cols-6 gap-1 pr-44 pl-24 w-full'>
-          {/* grid */}
-          {products?.map((product: Product, id: number) => {
-            const b: Product = product;
-            return <div key={id}>{<Product_Component data={b} productsImages={product?.image!} />}</div>
-          })}
+        <div>
+          <div className='grid grid-cols-6 gap-1 pr-44 pl-24 w-full'>
+            {/* grid */}
+            {products?.map((product: Product, id: number) => {
+              const b: Product = product;
+              return <div key={id}>{<Product_Component data={b} productsImages={product?.image!} />}</div>
+            })}
+          </div>
+          
         </div>
         : loader()}
+
+
+        <div className='w-full m-auto flex flex-col mt-10'>
+          <span className='m-auto flex justify-center'>
+            <span className='mx-1'>Page: {page}</span>
+            <span className='mx-1'>Limit: {limit}</span>
+          </span>
+
+          <div className='flex m-auto mt-2'>
+            <div onClick={()=>{if(page > 1)(setPage(page-1))}} className=' bg-mainYellowColor transition-all select-none mx-2 cursor-pointer active:scale-110 p-1 px-4 rounded-sm text-white'>
+              prev
+            </div>
+            <div onClick={()=>{if(products?.length != 0)(setPage(page+1))}}  className=' bg-mainYellowColor transition-all select-none mx-2 cursor-pointer active:scale-110 p-1 px-4 rounded-sm text-white'>
+              next
+            </div>
+          </div>
+
+        </div>
+
+        </div>
+
     </div>
   )
 }

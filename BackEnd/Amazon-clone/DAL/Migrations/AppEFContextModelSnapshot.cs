@@ -72,7 +72,7 @@ namespace DAL.Migrations
                         .IsUnique()
                         .HasFilter("[UserId] IS NOT NULL");
 
-                    b.ToTable("tblAddresses", (string)null);
+                    b.ToTable("tblAddresses");
                 });
 
             modelBuilder.Entity("DAL.Entities.Card", b =>
@@ -114,7 +114,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Card", (string)null);
+                    b.ToTable("Card");
                 });
 
             modelBuilder.Entity("DAL.Entities.Category", b =>
@@ -124,6 +124,9 @@ namespace DAL.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CountOfProducts")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -141,7 +144,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("tblCategories", (string)null);
+                    b.ToTable("tblCategories");
                 });
 
             modelBuilder.Entity("DAL.Entities.Comment", b =>
@@ -190,7 +193,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("tblComments", (string)null);
+                    b.ToTable("tblComments");
                 });
 
             modelBuilder.Entity("DAL.Entities.CommentImage", b =>
@@ -220,7 +223,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("CommentId");
 
-                    b.ToTable("tblCommentImages", (string)null);
+                    b.ToTable("tblCommentImages");
                 });
 
             modelBuilder.Entity("DAL.Entities.Company", b =>
@@ -253,7 +256,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("CreatorId");
 
-                    b.ToTable("tblCompanies", (string)null);
+                    b.ToTable("tblCompanies");
                 });
 
             modelBuilder.Entity("DAL.Entities.FilterEntities.Options", b =>
@@ -276,9 +279,12 @@ namespace DAL.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("isBaseOptions")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
-                    b.ToTable("tblOptions", (string)null);
+                    b.ToTable("tblOptions");
                 });
 
             modelBuilder.Entity("DAL.Entities.FilterEntities.OptionsCategory", b =>
@@ -310,7 +316,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("OptionsId");
 
-                    b.ToTable("tblOptionCategory", (string)null);
+                    b.ToTable("tblOptionCategory");
                 });
 
             modelBuilder.Entity("DAL.Entities.FilterEntities.Variant", b =>
@@ -340,7 +346,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("OptionsId");
 
-                    b.ToTable("tblVariant", (string)null);
+                    b.ToTable("tblVariant");
                 });
 
             modelBuilder.Entity("DAL.Entities.FilterEntities.VariantProduct", b =>
@@ -372,7 +378,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("VariantId");
 
-                    b.ToTable("tblVariantProduct", (string)null);
+                    b.ToTable("tblVariantProduct");
                 });
 
             modelBuilder.Entity("DAL.Entities.Identity.RoleEntity", b =>
@@ -449,7 +455,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("LikedTracks", (string)null);
+                    b.ToTable("LikedTracks");
                 });
 
             modelBuilder.Entity("DAL.Entities.Music.Album", b =>
@@ -477,7 +483,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tblAlbum", (string)null);
+                    b.ToTable("tblAlbum");
                 });
 
             modelBuilder.Entity("DAL.Entities.Music.Genre", b =>
@@ -505,7 +511,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tblGenre", (string)null);
+                    b.ToTable("tblGenre");
                 });
 
             modelBuilder.Entity("DAL.Entities.Music.Track", b =>
@@ -555,7 +561,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("tblTrack", (string)null);
+                    b.ToTable("tblTrack");
                 });
 
             modelBuilder.Entity("DAL.Entities.Music.TrackGenre", b =>
@@ -587,7 +593,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("TrackId");
 
-                    b.ToTable("tblTrackGenre", (string)null);
+                    b.ToTable("tblTrackGenre");
                 });
 
             modelBuilder.Entity("DAL.Entities.Order", b =>
@@ -632,7 +638,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("tblOrders", (string)null);
+                    b.ToTable("tblOrders");
                 });
 
             modelBuilder.Entity("DAL.Entities.OrderedProduct", b =>
@@ -667,7 +673,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderedProducts", (string)null);
+                    b.ToTable("OrderedProducts");
                 });
 
             modelBuilder.Entity("DAL.Entities.Product", b =>
@@ -730,7 +736,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("SubcategoryId");
 
-                    b.ToTable("tblProducts", (string)null);
+                    b.ToTable("tblProducts");
                 });
 
             modelBuilder.Entity("DAL.Entities.ProductImage", b =>
@@ -763,7 +769,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("tblProductImages", (string)null);
+                    b.ToTable("tblProductImages");
                 });
 
             modelBuilder.Entity("DAL.Entities.Subcategory", b =>
@@ -784,7 +790,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Subcategories", (string)null);
+                    b.ToTable("Subcategories");
                 });
 
             modelBuilder.Entity("DAL.Entities.TrackComment", b =>
@@ -819,7 +825,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("TrackComment", (string)null);
+                    b.ToTable("TrackComment");
                 });
 
             modelBuilder.Entity("DAL.Entities.TrackHistory", b =>
@@ -851,7 +857,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("TrackHistory", (string)null);
+                    b.ToTable("TrackHistory");
                 });
 
             modelBuilder.Entity("DAL.Entities.User", b =>

@@ -33,8 +33,11 @@ export interface OneProductVM{
 }
 
 
+
+
 export interface SelectedOption{
     title:string,
+    isBaseOptions:boolean,
     variant:string,
     variantId:number
 }

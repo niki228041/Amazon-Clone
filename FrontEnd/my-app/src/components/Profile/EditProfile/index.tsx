@@ -1,6 +1,11 @@
 import React, { useRef, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom"
 import "../EditProfile/index.css"
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Typography from '@mui/material/Typography';
+import BreadcrumbsLink from '@mui/material/Link';
+import Stack from '@mui/material/Stack';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 interface UserPageRequest{
     firstName: string,
@@ -18,6 +23,23 @@ interface UserPageRequest{
     houseNumber:string,
     postCode:string
 }
+
+const breadcrumbs = [
+    <BreadcrumbsLink underline="hover" key="1" color="inherit" href="/">
+      Головна
+    </BreadcrumbsLink>,
+    <BreadcrumbsLink
+      underline="hover"
+      key="2"
+      color="inherit"
+      href="../profile"
+     >
+      Профіль
+    </BreadcrumbsLink>,
+    <Typography key="3" color="text.primary">
+      Особисті дані
+    </Typography>,
+  ];
 
 const EditProfile: React.FC = () => {
     const submitHandler = async (data:React.FormEvent<HTMLFormElement>) => {
@@ -46,6 +68,13 @@ const EditProfile: React.FC = () => {
       }
   return (
     <div className='style'>
+        <div className="breadCrumbsStyle">
+            <Stack spacing={2}>
+                <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                    {breadcrumbs}
+                </Breadcrumbs>
+            </Stack>
+        </div>
         <div>
             <div className='label'>Особисті дані</div>
             <div>   

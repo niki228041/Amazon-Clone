@@ -15,24 +15,24 @@
   }
 
   .label-1{
-    margin-top: 175px;
-    margin-left: 141px;
+    margin-top: 100px;
+    margin-left: 75px;
   }
   .label-2{
     margin-top: 20px;
-    margin-left: 141px;
+    margin-left: 75px;
   }
   .label-3{
-    margin-top: 175px;
-    margin-left: 360px;
+    margin-top: 100px;
+    margin-left: 294px;
   }
   .label-4{
     margin-top: 25px;
-    margin-left: 360px;
+    margin-left: 294px;
   }
 
   .styled-input{
-    width: 529px;
+    width: 629px;
     height: 45px;
     border-radius: 10px;
     border: 1px solid #A1A1A1;
@@ -40,19 +40,19 @@
 
   .input-1{
     margin-top: 25px;
-    margin-left: 151px;
+    margin-left: 85px;
   }
   .input-2{
     margin-top: 25px;
-    margin-left: 151px;
+    margin-left: 85px;
   }
   .input-3{
     margin-top: 25px;
-    margin-left: 370px;
+    margin-left: 304px;
   }
   .input-4{
     margin-top: 25px;
-    margin-left: 370px;
+    margin-left: 304px;
   }
 
   .saveData{
@@ -74,4 +74,9 @@
     cursor: pointer;
     margin-top: 50px;
     margin-left :-40px
+  }
+
+  .breadCrumbsStyle{
+    margin-left: 75px;
+    margin-top: 20px;
   }

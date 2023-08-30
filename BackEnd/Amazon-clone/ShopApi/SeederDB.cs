@@ -2,6 +2,7 @@
 using DAL;
 using DAL.Constants;
 using DAL.Entities;
+using DAL.Entities.FilterEntities;
 using DAL.Entities.Identity;
 using DAL.Entities.Music;
 using DAL.Interfaces;
@@ -28,6 +29,7 @@ namespace ShopApi
                 var categoryRepository = scope.ServiceProvider.GetRequiredService<ICategoryRepository>();
                 var genreRepository = scope.ServiceProvider.GetRequiredService<IGenreRepository>();
                 var productRepository = scope.ServiceProvider.GetRequiredService<IProductRepository>();
+                var optionsRepository = scope.ServiceProvider.GetRequiredService<IOptionsRepository>();
 
                 //dbcontext.Database.Migrate();
                 if (!roleManaager.Roles.Any())
@@ -99,7 +101,6 @@ namespace ShopApi
                         await genreRepository.Create(genre);
                     }
                 }
-
 
                 if (!categoryRepository.Categories.Any())
                 {
@@ -208,6 +209,43 @@ namespace ShopApi
                     //{
                     //    await productRepository.Create(c);
                     //}
+                }
+
+                if(!optionsRepository.GetAll().Any())
+                {
+                    var optionsBrends = new Options { 
+                        Title = "Бренди",
+                        isBaseOptions = true,
+                        Variants = new List<Variant>
+                        {
+                            new Variant { Title = "Apple"},
+                            new Variant { Title = "Samsung"},
+                            new Variant { Title = "Lenovo"},
+                            new Variant { Title = "BlueBerry"},
+                        }
+                    };
+
+                    var optionsColors = new Options { 
+                        Title = "Кольори",
+                        isBaseOptions= true,
+                        Variants = new List<Variant>
+                        {
+                            new Variant { Title = "Чорний"},
+                            new Variant { Title = "Білий"},
+                            new Variant { Title = "Синій"},
+                            new Variant { Title = "Жовтий"},
+                            new Variant { Title = "Червоний"},
+                            new Variant { Title = "Зелений"},
+                            new Variant { Title = "Фіолетовий"},
+                            new Variant { Title = "Оранжевий"},
+                            new Variant { Title = "Рожевий"},
+                            new Variant { Title = "Салатовий"},
+                        }
+                    };
+
+                    await optionsRepository.Create(optionsBrends);
+                    await optionsRepository.Create(optionsColors);
+
                 }
 
             }

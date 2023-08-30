@@ -10,5 +10,6 @@ namespace Infrastructure.Models
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public int CountOfProducts { get; set; }
     }
 }
