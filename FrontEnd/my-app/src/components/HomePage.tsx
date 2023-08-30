@@ -502,7 +502,7 @@ const HomePage = () => {
 
             <div className="winMart bg-white">
                 <div className="flex justify-between pt-10 pb-10">
-                    <div className="winMart-first-div">
+                    <div className="winMart-first-div ml-5">
                         <div className="rotate-content">ЗНИЖКА 10%</div>
                     </div>
                     <div className="winMart-second-div">
