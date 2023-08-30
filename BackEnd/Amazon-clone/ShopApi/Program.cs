@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using DAL.Constants;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -88,6 +89,7 @@ builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<ILikedTracksService, LikedTracksService>();
 builder.Services.AddScoped<ITrackHistoryService, TrackHistoryService>();
 builder.Services.AddScoped<ITrackCommentService, TrackCommentService>();
+
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -172,6 +174,7 @@ foreach (var directoryName in directoriesToCreate)
 
 
 
+
 app.UseCors(options => options
     //.WithOrigins("http://localhost:3000", "http://localhost:4200")
     .AllowAnyOrigin()
@@ -179,6 +182,7 @@ app.UseCors(options => options
     //.AllowCredentials()
     .AllowAnyMethod()
 );
+
 
 app.UseCors("AllowAllOrigins");
 
