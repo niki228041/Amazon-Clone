@@ -585,6 +585,7 @@ body {
 .last-element {
     padding-left: 105px;
     padding-right: 105px;
+    padding-bottom: 100px;
 }
 
 .last-element-header {

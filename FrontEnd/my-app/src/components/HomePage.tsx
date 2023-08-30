@@ -26,7 +26,7 @@ const HomePage = () => {
             <div className="first-section">
                 <div className="image-div">
                     <div className="left-elements-image">
-                        <h1 className="text-[#002A42] text-[40px]">Комп'ютери купуй та <br /> експерементуй</h1>
+                        <h1 className="text-[#002A42] text-[40px] font-normal">Комп'ютери купуй та <br /> експерементуй</h1>
                         <span className="text-[13px]">"Від потужних ігрових систем до стильних і ультратонких ноутбуків – ми пропонуємо <br /> найсучасніші рішення для будь-яких потреб. Оберіть ідеальний комп'ютер за <br /> сьогоднішніми стандартами технологій та стилю вже сьогодні."</span>
                         <div className="forButton">
                             <button>Дізнатися більше</button>
@@ -85,8 +85,8 @@ const HomePage = () => {
                 </svg>
 
                 <div style={{ marginLeft: "50px" }}>
-                    <h1 style={{ fontSize: "40px" }}>ПРОПОЗИЦІЇ</h1>
-                    <h1 style={{ fontSize: "40px", color: "#FF9A02" }}>ДНЯ</h1>
+                    <h1 style={{ fontSize: "40px" }} className="font-normal mb-0">ПРОПОЗИЦІЇ</h1>
+                    <h1 style={{ fontSize: "40px", color: "#FF9A02" }} className="font-normal mb-0">ДНЯ</h1>
                     <span style={{ fontWeight: "400" }} className="text-[14px]">"Сьогоднішня пропозиція дня в нашому інтернет-магазині: <br /> найкраща можливість придбати якісний товар за  <br /> неймовірно вигідною ціною! Поспішайте пропозиція <br /> обмедженою часом та кількістю товару. "</span>
                     <div className="forButton">
                         <button>Дізнатися більше</button>
@@ -121,14 +121,14 @@ const HomePage = () => {
 
             <div className="arrivals">
                 <div className="arrivals-header flex justify-between">
-                    <h2>Нові надходження</h2>
+                    <h2 className="mt-0 mb-0 font-normal">Нові надходження</h2>
                     <span>Закінчується через : 08:13:48</span>
                 </div>
                 <div className="arrivals-main">
                     <div className="container-for-card">
                         <div className="arrivals-card">
                             <span>Bin Bakar Електроніка</span>
-                            <h4>Samsung 40N5300 S..</h4>
+                            <h4 className="mt-0 mb-0 font-normal">Samsung 40N5300 S..</h4>
                             <img src={example} />
                             <div className="price-container flex justify-between">
                                 <span className="old-price">14 800 грн</span>
@@ -138,7 +138,7 @@ const HomePage = () => {
                         </div>
                         <div className="arrivals-card">
                             <span>Bin Bakar Електроніка</span>
-                            <h4>Samsung Automatic..</h4>
+                            <h4 className="mt-0 mb-0 font-normal">Samsung Automatic..</h4>
                             <img src={example} />
                             <div className="price-container flex justify-between">
                                 <span className="old-price">14 800 грн</span>
@@ -148,7 +148,7 @@ const HomePage = () => {
                         </div>
                         <div className="arrivals-card">
                             <span>Bin Bakar Електроніка</span>
-                            <h4>Haier HSU-12HFMAC ..</h4>
+                            <h4 className="mt-0 mb-0 font-normal">Haier HSU-12HFMAC ..</h4>
                             <img src={example} />
                             <div className="price-container flex justify-between">
                                 <span className="old-price">14 800 грн</span>
@@ -158,7 +158,7 @@ const HomePage = () => {
                         </div>
                         <div className="arrivals-card">
                             <span>Bin Bakar Електроніка</span>
-                            <h4>Anex Roti Maker ..</h4>
+                            <h4 className="mt-0 mb-0 font-normal">Anex Roti Maker ..</h4>
                             <img src={example} />
                             <div className="price-container flex justify-between">
                                 <span className="old-price">14 800 грн</span>
@@ -168,7 +168,7 @@ const HomePage = () => {
                         </div>
                         <div className="arrivals-card">
                             <span>Bin Bakar Електроніка</span>
-                            <h4>Gree GS-12FITH..</h4>
+                            <h4 className="mt-0 mb-0 font-normal">Gree GS-12FITH..</h4>
                             <img src={example} />
                             <div className="price-container flex justify-between">
                                 <span className="old-price">14 800 грн</span>
@@ -178,7 +178,7 @@ const HomePage = () => {
                         </div>
                         <div className="arrivals-card">
                             <span>Bin Bakar Електроніка</span>
-                            <h4>Gree Air Conditioner..</h4>
+                            <h4 className="mt-0 mb-0 font-normal">Gree Air Conditioner..</h4>
                             <img src={example} />
                             <div className="price-container flex justify-between">
                                 <span className="old-price">14 800 грн</span>
@@ -188,7 +188,7 @@ const HomePage = () => {
                         </div>
                         <div className="arrivals-card">
                             <span>Bin Bakar Електроніка</span>
-                            <h4>Gree Air Conditioner..</h4>
+                            <h4 className="mt-0 mb-0 font-normal">Gree Air Conditioner..</h4>
                             <img src={example} />
                             <div className="price-container flex justify-between">
                                 <span className="old-price">14 800 грн</span>
@@ -198,7 +198,7 @@ const HomePage = () => {
                         </div>
                         <div className="arrivals-card">
                             <span>Bin Bakar Електроніка</span>
-                            <h4>Gree Air Conditioner..</h4>
+                            <h4 className="mt-0 mb-0 font-normal">Gree Air Conditioner..</h4>
                             <img src={example} />
                             <div className="price-container flex justify-between">
                                 <span className="old-price">14 800 грн</span>
@@ -212,11 +212,11 @@ const HomePage = () => {
 
             <div className="our-products bg-[#F7F7F7]">
                 <div className="our-products-header flex justify-between">
-                    <h2 className="text-[#002A42]">Наші Товари</h2>
+                    <h2 className="text-[#002A42] mt-0 mb-0 font-normal">Наші Товари</h2>
                     <div className="our-products-header-variants">
-                        <h3 className="text-[#002A42]">Прості щомісячні платежі</h3>
-                        <h3>розпродаж</h3>
-                        <h3>Топ</h3>
+                        <h3 className="text-[#002A42] mt-0 mb-0 font-normal">Прості щомісячні платежі</h3>
+                        <h3 className="mt-0 mb-0 font-normal text-[black]">розпродаж</h3>
+                        <h3 className="mt-0 mb-0 font-normal text-[black]">Топ</h3>
                     </div>
                     <div className="our-products-header-arrows">
                         <img className="mr-7" src={arrowLeft} />
@@ -227,8 +227,8 @@ const HomePage = () => {
                     <div className="our-products-main-special">
                         <div className="our-products-main-special-img">
                             <div>
-                                <h2 className="text-[#FF9A02]">Спеціальна</h2>
-                                <h2 className="second-span">пропозиція</h2>
+                                <h2 className="text-[#FF9A02] mt-0 mb-0 font-normal">Спеціальна</h2>
+                                <h2 className="second-span mt-0 mb-0 font-normal">пропозиція</h2>
                             </div>
                             <div className="our-products-right-circle">
                                 <div className="circle-block"><span>Save 10%</span></div>
@@ -248,7 +248,7 @@ const HomePage = () => {
                         <div className="first-container-main">
                             <div className="our-products-main-card">
                                 <span>Bin Bakar Електроніка</span>
-                                <h4>Gree Air Conditioner..</h4>
+                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
                                 <img src={example} />
                                 <div className="price-container flex justify-between">
                                     <span className="old-price">14 800 грн</span>
@@ -258,7 +258,7 @@ const HomePage = () => {
                             </div>
                             <div className="our-products-main-card">
                                 <span>Bin Bakar Електроніка</span>
-                                <h4>Gree Air Conditioner..</h4>
+                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
                                 <img src={example} />
                                 <div className="price-container flex justify-between">
                                     <span className="old-price">14 800 грн</span>
@@ -268,7 +268,7 @@ const HomePage = () => {
                             </div>
                             <div className="our-products-main-card">
                                 <span>Bin Bakar Електроніка</span>
-                                <h4>Gree Air Conditioner..</h4>
+                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
                                 <img src={example} />
                                 <div className="price-container flex justify-between">
                                     <span className="old-price">14 800 грн</span>
@@ -278,7 +278,7 @@ const HomePage = () => {
                             </div>
                             <div className="our-products-main-card">
                                 <span>Bin Bakar Електроніка</span>
-                                <h4>Gree Air Conditioner..</h4>
+                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
                                 <img src={example} />
                                 <div className="price-container flex justify-between">
                                     <span className="old-price">14 800 грн</span>
@@ -288,7 +288,7 @@ const HomePage = () => {
                             </div>
                             <div className="our-products-main-card">
                                 <span>Bin Bakar Електроніка</span>
-                                <h4>Gree Air Conditioner..</h4>
+                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
                                 <img src={example} />
                                 <div className="price-container flex justify-between">
                                     <span className="old-price">14 800 грн</span>
@@ -301,7 +301,7 @@ const HomePage = () => {
                         <div className="second-container-main">
                             <div className="our-products-main-card">
                                 <span>Bin Bakar Електроніка</span>
-                                <h4>Gree Air Conditioner..</h4>
+                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
                                 <img src={example} />
                                 <div className="price-container flex justify-between">
                                     <span className="old-price">14 800 грн</span>
@@ -311,7 +311,7 @@ const HomePage = () => {
                             </div>
                             <div className="our-products-main-card">
                                 <span>Bin Bakar Електроніка</span>
-                                <h4>Gree Air Conditioner..</h4>
+                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
                                 <img src={example} />
                                 <div className="price-container flex justify-between">
                                     <span className="old-price">14 800 грн</span>
@@ -321,7 +321,7 @@ const HomePage = () => {
                             </div>
                             <div className="our-products-main-card">
                                 <span>Bin Bakar Електроніка</span>
-                                <h4>Gree Air Conditioner..</h4>
+                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
                                 <img src={example} />
                                 <div className="price-container flex justify-between">
                                     <span className="old-price">14 800 грн</span>
@@ -331,7 +331,7 @@ const HomePage = () => {
                             </div>
                             <div className="our-products-main-card">
                                 <span>Bin Bakar Електроніка</span>
-                                <h4>Gree Air Conditioner..</h4>
+                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
                                 <img src={example} />
                                 <div className="price-container flex justify-between">
                                     <span className="old-price">14 800 грн</span>
@@ -341,7 +341,7 @@ const HomePage = () => {
                             </div>
                             <div className="our-products-main-card">
                                 <span>Bin Bakar Електроніка</span>
-                                <h4>Gree Air Conditioner..</h4>
+                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
                                 <img src={example} />
                                 <div className="price-container flex justify-between">
                                     <span className="old-price">14 800 грн</span>
@@ -358,13 +358,13 @@ const HomePage = () => {
             </div>
             <div className="best-offers bg-[#F7F7F7]">
                 <div className="best-offers-header flex justify-between mb-10">
-                    <h2 className="text-[#002A42]">Найкращі пропозиції</h2>
+                    <h2 className="text-[#002A42] mt-0 mb-0 font-normal">Найкращі пропозиції</h2>
                     <div className="best-offers-header-variants">
-                        <h3 className="text-[#002A42]">Кухонна техніка</h3>
-                        <h3>Аксесуари</h3>
-                        <h3>ТБ та відео</h3>
-                        <h3>Смартфони</h3>
-                        <h3>Продукти</h3>
+                        <h3 className="text-[#002A42] mt-0 mb-0 font-normal">Кухонна техніка</h3>
+                        <h3 className="mt-0 mb-0 font-normal text-[black]">Аксесуари</h3>
+                        <h3 className="mt-0 mb-0 font-normal text-[black]">ТБ та відео</h3>
+                        <h3 className="mt-0 mb-0 font-normal text-[black]">Смартфони</h3>
+                        <h3 className="mt-0 mb-0 font-normal text-[black]">Продукти</h3>
                     </div>
                     <div className="best-offers-header-arrows">
                         <img className="mr-7" src={arrowLeft} />
@@ -375,7 +375,7 @@ const HomePage = () => {
                     <div className="bg-white best-offers-main-element-border">
                         <div className="best-offers-main-element flex justify-between ">
                             <div>
-                                <h4 className="text-[20px]">Nintendo Switch <br />Console</h4>
+                                <h4 className="text-[20px] mt-0 mb-0 font-normal text-[black]">Nintendo Switch <br />Console</h4>
                                 <span className="text-[22px] text-[#002A42]">12 399 грн</span>
                                 <br />
                                 <span className="text-[19px] text-[#828282] line-through">14 800 грн</span>
@@ -422,7 +422,7 @@ const HomePage = () => {
                     <div className="bg-white best-offers-main-element-border">
                         <div className="best-offers-main-element-3 flex justify-between ">
                             <div>
-                                <h4 className="text-[20px]">Nintendo Switch <br />Console</h4>
+                                <h4 className="text-[20px] mt-0 mb-0 font-normal text-[black]">Nintendo Switch <br />Console</h4>
                                 <span className="text-[22px] text-[#002A42]">12 399 грн</span>
                                 <br />
                                 <span className="text-[19px] text-[#828282] line-through">14 800 грн</span>
@@ -510,54 +510,54 @@ const HomePage = () => {
                             <div>
                                 <img src={example} alt="example" />
                                 <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
-                                <h4 className="text-[15px]">12 399 грн</h4>
+                                <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">12 399 грн</h4>
                             </div>
                             <div>
                                 <img src={example} alt="example" />
                                 <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
-                                <h4 className="text-[15px]">12 399 грн</h4>
+                                <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">12 399 грн</h4>
                             </div>
                             <div>
                                 <img src={example} alt="example" />
                                 <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
-                                <h4 className="text-[15px]">12 399 грн</h4>
+                                <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">12 399 грн</h4>
                             </div>
                             <div>
                                 <img src={example} alt="example" />
                                 <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
-                                <h4 className="text-[15px]">12 399 грн</h4>
+                                <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">12 399 грн</h4>
                             </div>
                             <div>
                                 <img src={example} alt="example" />
                                 <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
-                                <h4 className="text-[15px]">12 399 грн</h4>
+                                <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">12 399 грн</h4>
                             </div>
                         </div>
                         <div className="winMart-second-div-second-row">
                             <div>
                                 <img src={example} alt="example" />
                                 <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
-                                <h4 className="text-[15px]">12 399 грн</h4>
+                                <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">12 399 грн</h4>
                             </div>
                             <div>
                                 <img src={example} alt="example" />
                                 <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
-                                <h4 className="text-[15px]">12 399 грн</h4>
+                                <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">12 399 грн</h4>
                             </div>
                             <div>
                                 <img src={example} alt="example" />
                                 <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
-                                <h4 className="text-[15px]">12 399 грн</h4>
+                                <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">12 399 грн</h4>
                             </div>
                             <div>
                                 <img src={example} alt="example" />
                                 <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
-                                <h4 className="text-[15px]">12 399 грн</h4>
+                                <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">12 399 грн</h4>
                             </div>
                             <div>
                                 <img src={example} alt="example" />
                                 <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
-                                <h4 className="text-[15px]">12 399 грн</h4>
+                                <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">12 399 грн</h4>
                             </div>
                         </div>
                     </div>
@@ -565,7 +565,7 @@ const HomePage = () => {
                         <div className="text-div">
                             <span className="text-[87px] text-[white]">Win</span>
                             <span className="text-[87px] text-[#FF9A02]">Mart</span>
-                            <h3 className="text-[40px] text-[white] ml-5">Купуйте зараз</h3>
+                            <h3 className="text-[40px] text-[white] ml-5 mt-0 mb-0 font-normal">Купуйте зараз</h3>
                         </div>
                         <div className="triangle"></div>
                     </div>
@@ -574,8 +574,8 @@ const HomePage = () => {
 
             <div className="new-receipts">
                 <div className="new-receipts-header">
-                    <h1 className="text-[#FF9A02]">Нові</h1>
-                    <h1 className="text-[#000000]">Надходження</h1>
+                    <h1 className="text-[#FF9A02] mt-0 mb-0 font-normal">Нові</h1>
+                    <h1 className="text-[#000000] mt-0 mb-0 font-normal">Надходження</h1>
                 </div>
                 <div className="new-receipts-main">
 
@@ -647,11 +647,11 @@ const HomePage = () => {
                     </div>
                 </div>
             </div>
-            <div className="last-element bg-white mt-10">
+            <div className="last-element bg-white ">
                 <div className="last-element-header">
-                    <h1>Рекомендовані товари</h1>
-                    <h1>Розпродаж</h1>
-                    <h1>Популярні товари</h1>
+                    <h1 className="mt-0 mb-0 font-normal">Рекомендовані товари</h1>
+                    <h1 className="mt-0 mb-0 font-normal">Розпродаж</h1>
+                    <h1 className="mt-0 mb-0 font-normal">Популярні товари</h1>
                 </div>
                 <div className="last-element-main mt-10">
                     <div className="last-element-first-container">
