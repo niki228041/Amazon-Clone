@@ -88,6 +88,14 @@ export const apiProductSlice:any = createApi({
           }),
           providesTags:result=>['Product']
         }),
+        createComment:builder.mutation<any,any>({
+          query:(todo)=>({
+            url:'/api/Comment/CreateComment',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Product']
+        }),
         
     })
 })

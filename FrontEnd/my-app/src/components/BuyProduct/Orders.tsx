@@ -167,7 +167,7 @@ export const Orders=()=>{
     const [isBuy,setBuy]= useState(false);
     const toggleCardModal = (prop:boolean)=>{setCardModalOpen(prop)};
 
-    const createOrder=()=>{
+    const createOrder=async ()=>{
       // data.preventDefault();
       // var curentData = new FormData(data.currentTarget);
       
@@ -189,8 +189,10 @@ export const Orders=()=>{
       console.log(address);
       console.log(request);
 
-      addOrder(request);
+      var res = await addOrder(request);
       
+      console.log("res");
+      console.log(res);
 
       navigate("/successful-purchase")
   }

@@ -81,7 +81,7 @@ const OneProduct=()=>{
     var [mainImage,setMainImage] = useState("");
     var [starsRating,setStarsRating] = useState("");
     const user = useAppSelector((state)=>state.user.user);
-    var [createComment,{}] = apiCommentSlice.useCreateCommentMutation();
+    // var [createComment,{}] = apiCommentSlice.useCreateCommentMutation();
 
 
     const {data:comments,isSuccess:isCommentsSuccess} = useGetCommentsByProductIdQuery({id:params.productId}) as {
@@ -193,17 +193,17 @@ const OneProduct=()=>{
       return jsx_stars;
     }
 
-    const createNewComment=(data:React.FormEvent<HTMLFormElement>)=>{
-        data.preventDefault();
+    // const createNewComment=(data:React.FormEvent<HTMLFormElement>)=>{
+    //     data.preventDefault();
 
-        var curentData = new FormData(data.currentTarget);
-        var title = curentData?.get("Title")?.toString()!;
-        var text = curentData?.get("Text")?.toString()!;
+    //     var curentData = new FormData(data.currentTarget);
+    //     var title = curentData?.get("Title")?.toString()!;
+    //     var text = curentData?.get("Text")?.toString()!;
 
-        var newComment:createCommentDTO = {title:title,message:text,stars:stars,likes:0,dislikes:0,userId:parseInt(user.id),productId: parseInt(params.productId!),images:[]};
-        createComment(newComment);
-        //НАДА ЗАЛОГІНЕННИЙ ЮЗЕР ДЛЯ ПРОДОВЖЕННЯ КОДУ ---------------------------------------------------
-    }
+    //     var newComment:createCommentDTO = {title:title,message:text,stars:stars,likes:0,dislikes:0,userId:parseInt(user.id),productId: parseInt(params.productId!),images:[]};
+    //     createComment(newComment);
+    //     //НАДА ЗАЛОГІНЕННИЙ ЮЗЕР ДЛЯ ПРОДОВЖЕННЯ КОДУ ---------------------------------------------------
+    // }
 
     // const { data, isSuccess } = useGetProductByIdQuery({ Id: params.productId });
     
@@ -262,7 +262,7 @@ const OneProduct=()=>{
             handleStarsRetingFunctionality();
         }
 
-    },[isSuccess,stars,location.pathname,data?.payload.images[0]])
+    },[isSuccess,stars,location.pathname,data?.payload.images[0],data?.payload.comments])
 
 
 

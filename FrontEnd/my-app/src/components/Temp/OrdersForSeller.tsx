@@ -1,7 +1,7 @@
 import { useAppSelector } from '../../app/hooks';
 import { UserState } from "../../features/user/user-slice";
 import { Orders } from "../../features/user/ordersStateSlice";
-import { useGetOrdersByCompanyIdQuery, useGetOrdersByUserIdQuery } from '../../features/user/apiOrderSlice';
+import { apiOrderSlice, useGetOrdersByCompanyIdQuery, useGetOrdersByUserIdQuery } from '../../features/user/apiOrderSlice';
 import { OrderForSeller, OrderedOrder } from '../types';
 import { useGetCompanyByUserIdQuery } from '../../features/user/apiCompanySlice';
 import { Company } from '../Admin/types';
@@ -10,6 +10,8 @@ const OrdersForSeller=()=> {
   var user = useAppSelector(((state: { user: UserState; orders: Orders })=>state.user.user));
 
   var {data:company}:{data:Company} = useGetCompanyByUserIdQuery({id:user.id});
+  var [closeAnOrderById,{}] = apiOrderSlice.useCloseAnOrderByIdMutation();
+
 
   var {data,isSuccess}:{data:OrderForSeller[],isSuccess:boolean} = useGetOrdersByCompanyIdQuery({id:company?.id});
 
@@ -41,7 +43,7 @@ const OrdersForSeller=()=> {
                     </div>
 
                     <div className='p-1'>
-                        <button className=' bg-green-400 hover:bg-green-300 p-2 rounded-lg'>
+                        <button className=' bg-green-400 hover:bg-green-300 p-2 rounded-lg' onClick={()=>{closeAnOrderById({id:order.id})}}>
                             Close an Order
                         </button>
                     </div>

@@ -41,7 +41,16 @@ export const apiOrderSlice:any = createApi({
             body:todo
           }),
           providesTags:result=>['Order']
+        }),
+        closeAnOrderById:builder.mutation<any,any>({
+          query:(todo)=>({
+            url:'/api/Order/CloseAnOrderById',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Order']
         })
+        
     })
 })
 
