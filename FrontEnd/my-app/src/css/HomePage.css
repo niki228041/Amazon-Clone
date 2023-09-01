@@ -643,19 +643,19 @@ body {
 
 .winMart-first-div {
     display: flex;
-    align-items: center; /* Прижимаем вниз */
-    justify-content: flex-start; /* Прижимаем влево */
+    align-items: center; 
+    justify-content: flex-start; 
     background-color: #FF9A02;
     color: white;
     border-radius: 10px;
     font-size: 25px;
     line-height: 58px;
-    text-align: center; /* Центрируем текст */
+    text-align: center; 
     
 }
 
 .rotate-content {
-    writing-mode: vertical-rl; /* Вертикальное направление текста */
+    writing-mode: vertical-rl; 
     transform: scaleY(1) rotate(180deg);
 }
 
@@ -716,9 +716,9 @@ body {
     top: 50px;
     left: 362px;
     width: 0;
-    border-left: 53px solid transparent; /* Размер основания треугольника */
-    border-bottom: 53px solid rgba(255, 154, 2, 1); /* Высота треугольника и его цвет */
-    transform: scale(5); /* Масштабирование элемента в 4 раза */
+    border-left: 53px solid transparent; 
+    border-bottom: 53px solid rgba(255, 154, 2, 1); 
+    transform: scale(5); 
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.73);
 }
 

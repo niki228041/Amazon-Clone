@@ -18,8 +18,32 @@ import foodExample from './../images/food-example.svg'
 
 import { url } from "inspector";
 import { right } from "@popperjs/core";
+import { Component, useEffect, useState } from "react";
+import { Product } from "./types";
+import { useGetProductsQuery } from "../features/user/apiProductSlice";
+import axios from "axios";
 
 const HomePage = () => {
+    const [products, setProducts] = useState<Product[]>([])
+
+    const fetchUserData = () => {
+        fetch("http://localhost:5034/api/Products/GetProducts")
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.payload && Array.isArray(data.payload)) {
+              setProducts(data.payload);
+            } else {
+              console.error("Ошибка: Данные не содержат ожидаемый массив в поле payload");
+            }
+          })
+          .catch((error) => {
+            console.error("Ошибка при получении данных:", error);
+          });
+      };
+
+  useEffect(() => {
+    fetchUserData()
+  }, [])
 
     return (
         <div >
@@ -126,17 +150,20 @@ const HomePage = () => {
                 </div>
                 <div className="arrivals-main">
                     <div className="container-for-card">
-                        <div className="arrivals-card">
+                        {products.slice(0,8).map(product=> (
+                            <div className="arrivals-card">
                             <span>Bin Bakar Електроніка</span>
-                            <h4 className="mt-0 mb-0 font-normal">Samsung 40N5300 S..</h4>
+                            <h4 className="mt-0 mb-0 font-normal">{product.name}</h4>
                             <img src={example} />
                             <div className="price-container flex justify-between">
-                                <span className="old-price">14 800 грн</span>
-                                <span className="new-price">12 399 грн</span>
+                                <span className="old-price">{product.price} грн</span>
+                                <span className="new-price">{product.discount} грн</span>
                             </div>
                             <button>Додати в кошик</button>
                         </div>
-                        <div className="arrivals-card">
+                        ))}
+                        
+                        {/* <div className="arrivals-card">
                             <span>Bin Bakar Електроніка</span>
                             <h4 className="mt-0 mb-0 font-normal">Samsung Automatic..</h4>
                             <img src={example} />
@@ -205,7 +232,7 @@ const HomePage = () => {
                                 <span className="new-price">12 399 грн</span>
                             </div>
                             <button>Додати в кошик</button>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
