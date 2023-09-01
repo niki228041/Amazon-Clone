@@ -29,6 +29,11 @@
     src: url('./fonts/centurygothic.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'hemi';
+  src: url('./fonts/hemi\ head\ bd\ it.otf') format('truetype');
+}
+
 /* Example styles for h1 */
 h1 {
     font-size: 2.5rem;
@@ -112,4 +117,14 @@ ul {
   ul ol,
   ol ol {
     list-style-type: lower-alpha;
+  }
+
+
+  @layer utilities {
+    .text-outline {
+      /* Text color */
+      color: #fff;
+      /* Apply text shadows to create an outline effect */
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
   }

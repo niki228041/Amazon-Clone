@@ -6,6 +6,7 @@ using Infrastructure.Interfaces;
 using Infrastructure.Models;
 using MailKit.Search;
 using Microsoft.EntityFrameworkCore;
+using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,7 @@ namespace Infrastructure.Services
             {
                 var orderedProduct = _mapper.Map<OrderedProductDTO, OrderedProduct>(orderedProdct_tmp);
                 orderedProduct.OrderId = order.Id;
+                orderedProduct.canLeaveComment = true;
                 await _orderedProductRepository.Create(orderedProduct);
             }
 
@@ -73,6 +75,7 @@ namespace Infrastructure.Services
         public List<OrderVM> GetOrdersByCompanyIdAsync(int id)
         {
             var orders = _orderRepository.GetAll()
+            .Where(order=>order.isBought==false)
             .Include(order => order.OrderedProducts)
                 .ThenInclude(orderedProduct => orderedProduct.Product) // Include the related products
             .ToList();
@@ -122,6 +125,30 @@ namespace Infrastructure.Services
             }
 
             return orderVMs;
+        }
+
+        public async Task<ServiceResponse> CloseAnOrderByIdAsync(int id)
+        {
+            var order = await _orderRepository.GetById(id);
+            
+            if (order != null)
+            {
+                order.isBought = true;
+                await _orderRepository.Update(order);
+                return new ServiceResponse()
+                {
+                    Message = "Order was closed"
+                };
+            }
+            else
+            {
+                return new ServiceResponse()
+                {
+                    Message = "this order does'nt exist",
+                    Errors = new List<string>() { "this order does'nt exist" }
+                };
+            }
+
         }
     }
 }

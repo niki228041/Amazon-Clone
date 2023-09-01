@@ -45,5 +45,12 @@ namespace ShopApi.Controllers
             return Ok(result);
         }
 
+        [HttpPost("CloseAnOrderById")]
+        public async Task<IActionResult> CloseAnOrderByIdAsync(FindByIdVM model)
+        {
+            var result = await _orderService.CloseAnOrderByIdAsync(model.Id);
+            return Ok(result);
+        }
+
     }
 }

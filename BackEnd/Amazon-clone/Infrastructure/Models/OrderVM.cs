@@ -12,6 +12,7 @@ namespace Infrastructure.Models
     {
         public string FullName { get; set; }
         public int? UserId { get; set; }
+        public int Id { get; set; }
         public int? CardId { get; set; }
         public int? AddressId { get; set; }
         public ICollection<OrderedProductUpdatedVM> Products { get; set; }

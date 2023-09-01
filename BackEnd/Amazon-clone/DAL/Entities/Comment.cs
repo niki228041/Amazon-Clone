@@ -9,7 +9,6 @@ namespace DAL.Entities
     public class Comment : BaseEntity<int>
 	{
 
-        [Required(ErrorMessage = "The Title field is required.")]
         public string Title { get; set; }
 
 

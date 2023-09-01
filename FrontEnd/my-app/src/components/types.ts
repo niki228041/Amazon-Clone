@@ -24,6 +24,7 @@ export interface OneProductVM{
     description: string,
     quantity: string,
     isInTheStock: string,
+    selledCount:number,
     numberOfDaysForDelivery: string,
     address: string,
     images: string[],
