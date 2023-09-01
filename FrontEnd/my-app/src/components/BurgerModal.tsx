@@ -15,6 +15,7 @@ import classNames from 'classnames';
 import { apiCategorySlice, useGetMainCategoriesQuery } from '../features/user/apiCategorySlice';
 import { Category } from './Admin/types';
 import { categorySequence } from './types';
+import { Link } from 'react-router-dom';
 
 
 export const ModelOne = ({ handleNextMenu , styles,position,setPosition,name,categorySequence,subcategories,handleGoBackMenu}: { handleNextMenu: (prop: Category) => void ,styles:string,position:string,setPosition:(val:any)=>void,name:string,categorySequence:categorySequence[],subcategories:Category[],handleGoBackMenu:()=>void})=>{
@@ -29,13 +30,12 @@ export const ModelOne = ({ handleNextMenu , styles,position,setPosition,name,cat
     if (categories)
       setCategoriesToView(categories?.payload);
 
-
-  },[])
+  },[categories])
 
   return <div
   // name={name}
   id={name}
-  className={classNames("transition-all w-[350px] duration-500 px-7 "+styles,{
+  className={classNames("transition-all w-[350px] duration-300 px-7 "+styles,{
   //  "-translate-x-[350px]":nextMenu.includes("Електроніка"),
   //  "  ":!nextMenu.includes("Електроніка")
  })}
@@ -49,9 +49,9 @@ export const ModelOne = ({ handleNextMenu , styles,position,setPosition,name,cat
 
    <div className='my-3'>
      <div className=' flex justify-between hover:underline'>
-       <span className='text-[17px] font-semibold py-1 cursor-pointer'>
+       <Link to={"/music/home"} className='text-[17px] font-semibold py-1 cursor-pointer'>
          ALLmart musik
-       </span>
+       </Link>
        <img src={arrowRight} />
      </div>
 
@@ -162,7 +162,7 @@ export const BurgerModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: (pr
 
   const [nextMenu, setNextMenu] = useState("");
   const [cardYear, setCardYear] = useState("");
-  const [sucategories, setSubcategories] = useState<Category[]>([]);
+  const [subCategories, setSubcategories] = useState<Category[]>([]);
   var [categoriesToView, setCategoriesToView] = useState<Category[]>([]);
   const { data: categories }:{data?: { payload: Category[] }} = useGetMainCategoriesQuery();
   const [getSubcategories, { }] = apiCategorySlice.useGetAllSubcategoriesByCategoryIdMutation();
@@ -313,12 +313,10 @@ export const BurgerModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: (pr
 
   return (
     <form >
-      {isOpen ?
-          
-        <div>
-        <div className="flex fixed inset-0 bg-black/30 transition-all z-10 pt-11"/>
+        <div className=''>
+        <div className={classNames("flex fixed inset-0 bg-black/30 transition-all duration-500 z-10 pt-11 ",{"scale-x-0":!isOpen,} )}/>
 
-        <div className=" absolute  mt-[124px]  grid z-20 w-[350px]" >
+        <div className={classNames(" absolute  mt-[124px]  grid z-20 w-[350px] transition-all -translate-x-full",{"translate-x-0":isOpen,} )}>
             <div className='flex px-5 py-2 justify-between bg-mainYellowColor'>
               <div className=' text-white text-[17px] self-center font-semibold mr-5'>Привіт {user.name}</div>
               <div className='self-center'>
@@ -328,10 +326,9 @@ export const BurgerModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: (pr
 
           <div className=' bg-white relative py-5 pb-10 overflow-hidden min-h-[300px] overflow-y-scroll'>
 
-            <ModelOne handleGoBackMenu={handleGoBackMenu} subcategories={sucategories} handleNextMenu={handleNextMenu} styles={stylesOne} position={positionOne} setPosition={setPositionOne} name={"ElementOneId"} categorySequence={categoriesSequence} />
-            <ModelOne handleGoBackMenu={handleGoBackMenu} subcategories={sucategories} handleNextMenu={handleNextMenu} styles={stylesTwo} position={positionTwo} setPosition={setPositionTwo} name={"ElementTwoId"} categorySequence={categoriesSequence}/>
-            <ModelOne handleGoBackMenu={handleGoBackMenu} subcategories={sucategories} handleNextMenu={handleNextMenu} styles={stylesThree} position={positionThree} setPosition={setPositionThree} name={"ElementThreeId"} categorySequence={categoriesSequence}/>
-
+            <ModelOne handleGoBackMenu={handleGoBackMenu} subcategories={subCategories} handleNextMenu={handleNextMenu} styles={stylesOne} position={positionOne} setPosition={setPositionOne} name={"ElementOneId"} categorySequence={categoriesSequence} />
+            <ModelOne handleGoBackMenu={handleGoBackMenu} subcategories={subCategories} handleNextMenu={handleNextMenu} styles={stylesTwo} position={positionTwo} setPosition={setPositionTwo} name={"ElementTwoId"} categorySequence={categoriesSequence}/>
+            <ModelOne handleGoBackMenu={handleGoBackMenu} subcategories={subCategories} handleNextMenu={handleNextMenu} styles={stylesThree} position={positionThree} setPosition={setPositionThree} name={"ElementThreeId"} categorySequence={categoriesSequence}/>
             
 
           </div>
@@ -342,7 +339,6 @@ export const BurgerModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: (pr
             
           </div>
         </div>
-        : ""}
     </form>
   );
 }

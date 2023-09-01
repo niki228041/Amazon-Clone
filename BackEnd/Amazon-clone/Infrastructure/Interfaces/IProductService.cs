@@ -16,6 +16,6 @@ public interface IProductService
     Task<ServiceResponse> GetProductByCategoryIdWithPagination(GetProductsWithPaginationAndByCategoryIdDTO model);
     Task DeleteProductAsync(int id);
     Task<ServiceResponse> GetProductWithLimitByCategoryIdAsync(RecomendedProductDTO model);
-    public Task<ServiceResponse> GetProductByFiltersAsync(FilterVM model);
+    Task<ServiceResponse> GetProductByFiltersAsync(FilterVM model);
 
 }

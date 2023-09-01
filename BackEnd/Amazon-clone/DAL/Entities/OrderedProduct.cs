@@ -10,6 +10,7 @@ namespace DAL.Entities
     public class OrderedProduct : BaseEntity<int>
     {
         public int Count { get; set; }
+        public bool canLeaveComment { get; set; } = true;
 
 
         //Every OrderedProduct have an order

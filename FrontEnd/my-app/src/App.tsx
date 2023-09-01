@@ -82,6 +82,9 @@ import MainProfile from './components/Player/Account/MainProfile';
 import SettingProfile from './components/Player/Account/SettingProfile';
 
 import "./index.css"
+import ProfileCards from './components/Profile/Cards';
+import ProfileHistory from './components/Profile/History';
+import ProfileWrap from './components/Profile/ProfileWrap';
 
 
 
@@ -181,17 +184,16 @@ const App: React.FC = () => {
 
             <Route path="product/:productId" element={<OneProduct />} />
 
-            <Route path="/profile" element={<ProfilePage />} />
 
-            <Route path="/payment" element={<Payment />} />
+            <Route path='/profile' element={<ProfileWrap/>}>
+              <Route path="" element={<ProfilePage />} />
+              <Route path="payment" element={<ProfileCards />} />
+              <Route path="security" element={<Security />} />
+              <Route path="address" element={<Address />} />
+              <Route path="profilehistory" element={<ProfileHistory />} />
+              <Route path='editprofile' element={<EditProfile />} />
+            </Route>
 
-            <Route path="/security" element={<Security />} />
-
-            <Route path="/address" element={<Address />} />
-
-            <Route path="/proforder" element={<Order />} />
-
-            <Route path='/editprofile' element={<EditProfile />} />
 
             <Route path='/tempProfile' element={<TempProfile />} >
               <Route path='becomeASeller' element={<BecomeASeller />} />

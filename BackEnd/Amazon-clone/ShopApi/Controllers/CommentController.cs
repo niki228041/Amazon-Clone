@@ -53,5 +53,13 @@ namespace ShopApi.Controllers
             return Ok(res);
         }
 
+        [HttpPost]
+        [Route("CanLeaveComment")]
+        public async Task<IActionResult> CanLeaveCommentAsync(CanLeaveCommentVM model)
+        {
+            var res = await _commentService.CanLeaveCommentAsync(model);
+            return Ok(res);
+        }
+
     }
 }

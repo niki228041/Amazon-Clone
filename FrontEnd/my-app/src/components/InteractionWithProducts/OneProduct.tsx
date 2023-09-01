@@ -3,7 +3,7 @@
 
 import { Link, Outlet, useLocation, useNavigate, useParams} from 'react-router-dom'
 import img from '../../images/t-shirt-png.webp'
-import { useGetProductByIdQuery, useGetProductWithLimitByCategoryIdQuery, useGetProductsQuery } from '../../features/user/apiProductSlice';
+import { useGetCommentsByProductIdQuery, useGetProductByIdQuery, useGetProductWithLimitByCategoryIdQuery, useGetProductsQuery } from '../../features/user/apiProductSlice';
 import { ChangeOrderCount, OneProductVM, Order, Product, SelectedOption } from '../types';
 import { useAppSelector } from '../../app/hooks';
 import { useDispatch } from 'react-redux';
@@ -13,7 +13,6 @@ import { useEffect, useState } from 'react';
 import star from "../../images/star (2).png"
 import empty_star from "../../images/star (3).png"
 import circle from "../../images/black-circle.png"
-import { apiCommentSlice, useGetCommentsByProductIdQuery } from '../../features/user/apiCommentSlice';
 import { addWishitem, updateWishitem } from '../../features/user/apiWishListItemSlice';
 import check from "../../images/check.png"
 import filled_star from "../../images/filled_star.svg"
@@ -319,7 +318,7 @@ const OneProduct=()=>{
                         <span className='px-1 self-center flex  hover:underline cursor-pointer select-none text-sm '>{data?.payload.comments.length} відгуки</span>
                         <img className='px-1 self-center h-1.5' src={Dot} />
                         <img className='px-1 self-center h-4' src={miniBasket} />
-                        <span className='px-1 self-center text-sm flex'>154 продано</span>
+                        <span className='px-1 self-center text-sm flex'>{data?.payload.selledCount} продано</span>
 
                     </div>
 
@@ -357,10 +356,10 @@ const OneProduct=()=>{
 
                         <hr className='my-1' />
 
-                        <div className='my-2 grid grid-cols-4'>
+                        {/* <div className='my-2 grid grid-cols-4'>
                             <span className=' text-grayForText col-span-1  text-sm self-center'>Кастомізація:</span>
                             <span className='col-span-3'>Індивідуальний логотип та дизайн індивідуальних пакетів</span>
-                        </div>
+                        </div> */}
                         
                     </div>
                     

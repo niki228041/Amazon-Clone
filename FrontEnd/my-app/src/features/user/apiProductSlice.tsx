@@ -96,10 +96,34 @@ export const apiProductSlice:any = createApi({
           }),
           invalidatesTags:['Product']
         }),
+        getCommentsByProductId:builder.query<any,any>({
+          query:(todo)=>({
+            url:'/api/Comment/GetCommentsByProductId',
+            method:"POST",
+            body:todo
+          }),
+          providesTags:result=>['Product']
+        }),
+        canLeaveComment:builder.query<any,any>({
+          query:(todo)=>({
+            url:'/api/Comment/CanLeaveComment',
+            method:"POST",
+            body:todo
+          }),
+          providesTags:result=>['Product']
+        }),
         
     })
 })
 
 
-export const {useGetProductsQuery,useGetProductByIdQuery,useDeleteProductQuery,useGetLinksForProductByProductsIdsQuery,useGetProductCountQuery,useGetProductWithLimitByCategoryIdQuery} = apiProductSlice
+export const {
+  useGetProductsQuery,
+  useGetProductByIdQuery,
+  useDeleteProductQuery,
+  useGetLinksForProductByProductsIdsQuery,
+  useGetProductCountQuery,
+  useGetProductWithLimitByCategoryIdQuery,
+  useGetCommentsByProductIdQuery,
+  useCanLeaveCommentQuery} = apiProductSlice
 
