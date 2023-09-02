@@ -24,26 +24,30 @@ import { useGetProductsQuery } from "../features/user/apiProductSlice";
 import axios from "axios";
 
 const HomePage = () => {
-    const [products, setProducts] = useState<Product[]>([])
+//     const [products, setProducts] = useState<Product[]>([])
 
-    const fetchUserData = () => {
-        fetch("http://localhost:5034/api/Products/GetProducts")
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.payload && Array.isArray(data.payload)) {
-              setProducts(data.payload);
-            } else {
-              console.error("Ошибка: Данные не содержат ожидаемый массив в поле payload");
-            }
-          })
-          .catch((error) => {
-            console.error("Ошибка при получении данных:", error);
-          });
-      };
+//     const fetchUserData = () => {
+//         fetch("http://localhost:5034/api/Products/GetProducts")
+//           .then((response) => response.json())
+//           .then((data) => {
+//             if (data.payload && Array.isArray(data.payload)) {
+//               setProducts(data.payload);
+//             } else {
+//               console.error("Ошибка: Данные не содержат ожидаемый массив в поле payload");
+//             }
+//           })
+//           .catch((error) => {
+//             console.error("Ошибка при получении данных:", error);
+//           });
+//       };
 
-  useEffect(() => {
-    fetchUserData()
-  }, [])
+//   useEffect(() => {
+//     fetchUserData()
+//   }, [])
+
+    const {data: products}:{data?: {payload: Product[]}} = useGetProductsQuery()
+
+    console.log(products);
 
     return (
         <div >
@@ -148,9 +152,12 @@ const HomePage = () => {
                     <h2 className="mt-0 mb-0 font-normal">Нові надходження</h2>
                     <span>Закінчується через : 08:13:48</span>
                 </div>
+
+                
+
                 <div className="arrivals-main">
                     <div className="container-for-card">
-                        {products.slice(0,8).map(product=> (
+                        {/* {products.slice(0,8).map(product=> (
                             <div className="arrivals-card">
                             <span>Bin Bakar Електроніка</span>
                             <h4 className="mt-0 mb-0 font-normal">{product.name}</h4>
@@ -161,78 +168,24 @@ const HomePage = () => {
                             </div>
                             <button>Додати в кошик</button>
                         </div>
+                        ))} */}
+
+                        {/* ------------------------------- FIX IMAGE (TOO BIG) -------------------------------*/}
+                        {products?.payload.map((product: any) => (
+                            <div className="arrivals-card" key={product.id}>
+                            <span>{product.category}</span>
+                            <h4 className="mt-0 mb-0 font-normal">{product.name}</h4>
+                            <img src={`data:image/png;base64,${product.image}`} />
+                            <div className="price-container flex justify-between">
+                                <span className="old-price">{product.discount} грн</span>
+                                <span className="new-price">{product.price} грн</span>
+                            </div>
+                            <button>Додати в кошик</button>
+                            </div>
                         ))}
                         
-                        {/* <div className="arrivals-card">
-                            <span>Bin Bakar Електроніка</span>
-                            <h4 className="mt-0 mb-0 font-normal">Samsung Automatic..</h4>
-                            <img src={example} />
-                            <div className="price-container flex justify-between">
-                                <span className="old-price">14 800 грн</span>
-                                <span className="new-price">12 399 грн</span>
-                            </div>
-                            <button>Додати в кошик</button>
-                        </div>
-                        <div className="arrivals-card">
-                            <span>Bin Bakar Електроніка</span>
-                            <h4 className="mt-0 mb-0 font-normal">Haier HSU-12HFMAC ..</h4>
-                            <img src={example} />
-                            <div className="price-container flex justify-between">
-                                <span className="old-price">14 800 грн</span>
-                                <span className="new-price">12 399 грн</span>
-                            </div>
-                            <button>Додати в кошик</button>
-                        </div>
-                        <div className="arrivals-card">
-                            <span>Bin Bakar Електроніка</span>
-                            <h4 className="mt-0 mb-0 font-normal">Anex Roti Maker ..</h4>
-                            <img src={example} />
-                            <div className="price-container flex justify-between">
-                                <span className="old-price">14 800 грн</span>
-                                <span className="new-price">12 399 грн</span>
-                            </div>
-                            <button>Додати в кошик</button>
-                        </div>
-                        <div className="arrivals-card">
-                            <span>Bin Bakar Електроніка</span>
-                            <h4 className="mt-0 mb-0 font-normal">Gree GS-12FITH..</h4>
-                            <img src={example} />
-                            <div className="price-container flex justify-between">
-                                <span className="old-price">14 800 грн</span>
-                                <span className="new-price">12 399 грн</span>
-                            </div>
-                            <button>Додати в кошик</button>
-                        </div>
-                        <div className="arrivals-card">
-                            <span>Bin Bakar Електроніка</span>
-                            <h4 className="mt-0 mb-0 font-normal">Gree Air Conditioner..</h4>
-                            <img src={example} />
-                            <div className="price-container flex justify-between">
-                                <span className="old-price">14 800 грн</span>
-                                <span className="new-price">12 399 грн</span>
-                            </div>
-                            <button>Додати в кошик</button>
-                        </div>
-                        <div className="arrivals-card">
-                            <span>Bin Bakar Електроніка</span>
-                            <h4 className="mt-0 mb-0 font-normal">Gree Air Conditioner..</h4>
-                            <img src={example} />
-                            <div className="price-container flex justify-between">
-                                <span className="old-price">14 800 грн</span>
-                                <span className="new-price">12 399 грн</span>
-                            </div>
-                            <button>Додати в кошик</button>
-                        </div>
-                        <div className="arrivals-card">
-                            <span>Bin Bakar Електроніка</span>
-                            <h4 className="mt-0 mb-0 font-normal">Gree Air Conditioner..</h4>
-                            <img src={example} />
-                            <div className="price-container flex justify-between">
-                                <span className="old-price">14 800 грн</span>
-                                <span className="new-price">12 399 грн</span>
-                            </div>
-                            <button>Додати в кошик</button>
-                        </div> */}
+                        
+                        
                     </div>
                 </div>
             </div>
@@ -273,109 +226,33 @@ const HomePage = () => {
                     </div>
                     <div className="container-main-cards">
                         <div className="first-container-main">
+                        {products?.payload.slice(0,5).map((product: any) => (
                             <div className="our-products-main-card">
-                                <span>Bin Bakar Електроніка</span>
-                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
-                                <img src={example} />
-                                <div className="price-container flex justify-between">
-                                    <span className="old-price">14 800 грн</span>
-                                    <span className="new-price">12 399 грн</span>
-                                </div>
-                                <button>Додати в кошик</button>
+                            <span>{product.category}</span>
+                            <h4 className="mt-0 mb-0 font-normal text-[black]">{product.name}</h4>
+                            <img src={`data:image/png;base64,${product.image}`} />
+                            <div className="price-container flex justify-between">
+                                <span className="old-price">{product.discount} грн</span>
+                                <span className="new-price">{product.price} грн</span>
                             </div>
-                            <div className="our-products-main-card">
-                                <span>Bin Bakar Електроніка</span>
-                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
-                                <img src={example} />
-                                <div className="price-container flex justify-between">
-                                    <span className="old-price">14 800 грн</span>
-                                    <span className="new-price">12 399 грн</span>
-                                </div>
-                                <button>Додати в кошик</button>
-                            </div>
-                            <div className="our-products-main-card">
-                                <span>Bin Bakar Електроніка</span>
-                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
-                                <img src={example} />
-                                <div className="price-container flex justify-between">
-                                    <span className="old-price">14 800 грн</span>
-                                    <span className="new-price">12 399 грн</span>
-                                </div>
-                                <button>Додати в кошик</button>
-                            </div>
-                            <div className="our-products-main-card">
-                                <span>Bin Bakar Електроніка</span>
-                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
-                                <img src={example} />
-                                <div className="price-container flex justify-between">
-                                    <span className="old-price">14 800 грн</span>
-                                    <span className="new-price">12 399 грн</span>
-                                </div>
-                                <button>Додати в кошик</button>
-                            </div>
-                            <div className="our-products-main-card">
-                                <span>Bin Bakar Електроніка</span>
-                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
-                                <img src={example} />
-                                <div className="price-container flex justify-between">
-                                    <span className="old-price">14 800 грн</span>
-                                    <span className="new-price">12 399 грн</span>
-                                </div>
-                                <button>Додати в кошик</button>
-                            </div>
+                            <button>Додати в кошик</button>
+                        </div>
+                        ))}                
                         </div>
 
                         <div className="second-container-main">
+                        {products?.payload.slice(6,11).map((product: any) => (
                             <div className="our-products-main-card">
-                                <span>Bin Bakar Електроніка</span>
-                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
-                                <img src={example} />
-                                <div className="price-container flex justify-between">
-                                    <span className="old-price">14 800 грн</span>
-                                    <span className="new-price">12 399 грн</span>
-                                </div>
-                                <button>Додати в кошик</button>
+                            <span>{product.category}</span>
+                            <h4 className="mt-0 mb-0 font-normal text-[black]">{product.name}</h4>
+                            <img src={`data:image/png;base64,${product.image}`} />
+                            <div className="price-container flex justify-between">
+                                <span className="old-price">{product.discount} грн</span>
+                                <span className="new-price">{product.price} грн</span>
                             </div>
-                            <div className="our-products-main-card">
-                                <span>Bin Bakar Електроніка</span>
-                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
-                                <img src={example} />
-                                <div className="price-container flex justify-between">
-                                    <span className="old-price">14 800 грн</span>
-                                    <span className="new-price">12 399 грн</span>
-                                </div>
-                                <button>Додати в кошик</button>
-                            </div>
-                            <div className="our-products-main-card">
-                                <span>Bin Bakar Електроніка</span>
-                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
-                                <img src={example} />
-                                <div className="price-container flex justify-between">
-                                    <span className="old-price">14 800 грн</span>
-                                    <span className="new-price">12 399 грн</span>
-                                </div>
-                                <button>Додати в кошик</button>
-                            </div>
-                            <div className="our-products-main-card">
-                                <span>Bin Bakar Електроніка</span>
-                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
-                                <img src={example} />
-                                <div className="price-container flex justify-between">
-                                    <span className="old-price">14 800 грн</span>
-                                    <span className="new-price">12 399 грн</span>
-                                </div>
-                                <button>Додати в кошик</button>
-                            </div>
-                            <div className="our-products-main-card">
-                                <span>Bin Bakar Електроніка</span>
-                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
-                                <img src={example} />
-                                <div className="price-container flex justify-between">
-                                    <span className="old-price">14 800 грн</span>
-                                    <span className="new-price">12 399 грн</span>
-                                </div>
-                                <button>Додати в кошик</button>
-                            </div>
+                            <button>Додати в кошик</button>
+                        </div>
+                        ))}   
                         </div>
 
                     </div>

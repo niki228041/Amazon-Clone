@@ -111,7 +111,7 @@ body {
 }
 
 .container-for-card .arrivals-card {
-    height: 287px;
+    height: 300px;
     width: 190px;
     margin-right: 25px;
     border: 1px solid rgba(0, 0, 0, 0.13);
@@ -133,8 +133,9 @@ body {
 }
 
 .container-for-card .arrivals-card img {
-    margin-top: 10px;
-    margin-bottom: 15px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    min-height: 158px;
 }
 
 .price-container {
@@ -343,6 +344,8 @@ body {
 .our-products-main-card img {
     margin-top: 10px;
     margin-bottom: 15px;
+    height: 129px;
+    min-height: 129px;
 }
 
 .price-container {
