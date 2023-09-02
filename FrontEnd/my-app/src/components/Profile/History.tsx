@@ -23,7 +23,7 @@ const ProfileHistory=()=> {
     <div >
 
 
-       <div className='my-8 flex text-[26px] text-grayColorForHeader font-semibold mb-2'>03.08.23, середа</div>
+       <div className='mb-8 flex text-[26px] text-grayColorForHeader font-semibold mb-2'>03.08.23, середа</div>
        
        <div className=' border'>
             <div className="rounded-lg p-3 grid grid-cols-10 mt-2">

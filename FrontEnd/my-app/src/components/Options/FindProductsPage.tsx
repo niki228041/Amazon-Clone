@@ -405,7 +405,7 @@ const PageWithOptions = () => {
       <div className='  w-10/12 m-auto'>
 
       
-      <div className=' text-whiteGray mt-8 ml-2 flex'>
+      {/* <div className=' text-whiteGray mt-8 ml-2 flex'>
         <span className=' self-center mr-2 hover:underline cursor-pointer'>Головна </span>
         <img className=' self-center mr-2' src={arrowRight} />
         <span className=' self-center mr-2 hover:underline cursor-pointer'>Одяг </span>
@@ -413,10 +413,10 @@ const PageWithOptions = () => {
         <span className=' self-center mr-2 hover:underline cursor-pointer'>Чоловічий одяг </span>
         <img className=' self-center mr-2' src={arrowRight} />
         <span className=' self-center mr-2 hover:underline cursor-pointer'>Футболки</span>
-      </div>
+      </div> */}
 
 
-      <div className=' pl-2 pr-2 mt-4'>
+      <div className='  mt-4'>
 
       
         <div className=' grid grid-cols-11 gap-4'>
