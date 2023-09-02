@@ -6,7 +6,7 @@ pipeline  {
         stage("Remove old backup")
          {
              steps{
-                sh "rm -rf /home/azureuser/backup/*"
+                sh "sudo rm -rf /home/azureuser/backup/*"
              }
          }
          stage("Backup files")
