@@ -3,6 +3,24 @@
 pipeline  {
     agent any;
     stages {
+        stage("Remove old backup")
+         {
+             steps{
+                sh "sudo rm -rf /home/azureuser/backup/*"
+             }
+         }
+         stage("Backup files")
+         {
+             steps{
+                sh """
+                sudo docker cp  backend:/app/comment_images /home/azureuser/backup/   
+                sudo docker cp  backend:/app/company_images /home/azureuser/backup/ 
+                sudo docker cp  backend:/app/images /home/azureuser/backup/ 
+                sudo docker cp  backend:/app/music_files /home/azureuser/backup/ 
+                sudo docker cp  backend:/app/music_images /home/azureuser/backup/
+                """
+             }
+         }
          stage("Change IP in axios.js")
          {
              steps{
@@ -72,7 +90,18 @@ pipeline  {
                  '''
              }
         }
-        
+         stage("Upload file in backend container")
+         {
+             steps{
+                sh """
+                sudo docker cp /home/azureuser/backup/comment_images/ backend:/app/  
+                sudo docker cp /home/azureuser/backup/company_images backend:/app/  
+                sudo docker cp /home/azureuser/backup/images backend:/app/ 
+                sudo docker cp /home/azureuser/backup/music_files backend:/app/  
+                sudo docker cp /home/azureuser/backup/music_images backend:/app/ 
+                """
+             }
+         }
         stage("docker frontend push") {
             steps {
                 echo " ============== pushing amazon-clone-frontend image =================="
