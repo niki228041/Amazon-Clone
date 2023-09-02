@@ -13,10 +13,10 @@ pipeline  {
          {
              steps{
                 sh """
-                docker cp  backend:/app/comment_images /home/azureuser/backup/ && \ 
-                docker cp  backend:/app/company_images /home/azureuser/backup/ && \
-                docker cp  backend:/app/images /home/azureuser/backup/ && \
-                docker cp  backend:/app/music_files /home/azureuser/backup/ && \
+                docker cp  backend:/app/comment_images /home/azureuser/backup/   
+                docker cp  backend:/app/company_images /home/azureuser/backup/ 
+                docker cp  backend:/app/images /home/azureuser/backup/ 
+                docker cp  backend:/app/music_files /home/azureuser/backup/ 
                 docker cp  backend:/app/music_images /home/azureuser/backup/
                 """
              }
@@ -94,10 +94,10 @@ pipeline  {
          {
              steps{
                 sh """
-                docker cp /home/azureuser/backup/comment_images/ backend:/app/ && \ 
-                docker cp /home/azureuser/backup/company_images backend:/app/  && \
-                docker cp /home/azureuser/backup/images backend:/app/ && \
-                docker cp /home/azureuser/backup/music_files backend:/app/  && \
+                docker cp /home/azureuser/backup/comment_images/ backend:/app/  
+                docker cp /home/azureuser/backup/company_images backend:/app/  
+                docker cp /home/azureuser/backup/images backend:/app/ 
+                docker cp /home/azureuser/backup/music_files backend:/app/  
                 docker cp /home/azureuser/backup/music_images backend:/app/ 
                 """
              }
