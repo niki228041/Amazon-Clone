@@ -5,22 +5,37 @@ import SharpArrowRight from '../../images/SharpArrowRight.svg';
 import WhitePlus from '../../images/WhitePlus.svg';
 import BlankProfilePicture from '../../images/blankProfilePicture.webp';
 import arrowRight from '../../images/ArrowRightS.svg';
+import DatePicker from "react-datepicker";
+import 'react-datepicker/dist/react-datepicker.module.css'
 
 import classNames from 'classnames';
+import { parseISO ,format} from 'date-fns';
 
 const EditProfile=()=> {
    const [dropDownSex,setDropDownSex] =  useState(false);
    const [dropDownCountry,setDropDownCountry] =  useState(false);
+   const [selectedDate,setSelectedDate] =  useState<Date|null>(null);
 
    const [selectedSex,setSelectedSex] =  useState("Стать");
    const [selectedCountry,setSelectedCountry] =  useState("Країна");
 
+   function formatDateDifference(date: Date) {
+    if(date)
+    {
+      const difference = format(date, 'dd.MM.yyyy');
+      return difference;
+    }
+    else
+    {
+      return "";
+    }
+  }
 
   return (
     <div >
 
         <div className=' mb-20 '>
-            <div className='my-8 flex text-[30px] text-grayColorForHeader font-semibold mb-2'>Особисті дані</div>
+            <div className='mb-8 flex text-[30px] text-grayColorForHeader font-semibold mb-2'>Особисті дані</div>
 
             <div className='flex '>
                 <img className='h-32 w-32 mr-6 rounded-lg' src={BlankProfilePicture} />
@@ -68,10 +83,27 @@ const EditProfile=()=> {
                 </div>
 
                 
-                <div className=' relative h-10 flex justify-end'>
-                    <img className=' absolute self-center mr-3' src={Calendar} />
-                    <input className='flex h-10 w-full self-center rounded-lg border border-gray-400 outline-0 px-4 ' placeholder='Дата народження' />
+                
+                <div className=' h-10 '>
+                  <div className=' flex justify-end z-20'>
+                    <div className='flex absolute justify-end h-10   ' >
+                      <img className=' self-center mr-3 flex justify-end' src={Calendar} />
+                    </div>
+                    <label htmlFor='datePicker' className='z-20 w-full cursor-pointer flex h-10 self-center bg-transparent outline-0 px-4 border rounded-lg border-gray-400 ' >
+                      <span className=' self-center'>
+                      {formatDateDifference(selectedDate!)}
+                      </span>
+                    </label>
+                  </div>
+                  <div className=' relative mt-[-23px] ml-3  z-10'>
+                    <DatePicker id='datePicker' name='datePicker' selected={selectedDate} onChange={(date)=>setSelectedDate(date!)} className=' hidden z-10' />
+                  </div>
+                  
+
+                  {/* <input className='flex h-10 w-full self-center rounded-lg border border-gray-400 outline-0 px-4 ' placeholder='Дата народження' /> */}
+
                 </div>
+
             </div>
 
             <div className='my-8 flex text-[20px] text-grayColorForHeader font-semibold mb-2'>Контактні дані</div>

@@ -11,7 +11,7 @@ import { CardModal } from '../BuyProduct/CardModal';
 import classNames from 'classnames';
 
 
-interface SetDefaultCard {
+export interface SetDefaultCard {
   userId:number,
   cardId:number,
 }

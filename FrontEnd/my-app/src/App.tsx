@@ -13,7 +13,6 @@ import Orders from './components/BuyProduct/Orders';
 
 
 import Payment from './components/Profile/Payment';
-import Address from './components/Profile/Address';
 import Order from './components/Profile/Order';
 import EditProfile from "./components/Profile/EditProfile"
 import Player from './components/Player/Player';
@@ -189,7 +188,6 @@ const App: React.FC = () => {
               <Route path="" element={<ProfilePage />} />
               <Route path="payment" element={<ProfileCards />} />
               <Route path="security" element={<Security />} />
-              <Route path="address" element={<Address />} />
               <Route path="profilehistory" element={<ProfileHistory />} />
               <Route path='editprofile' element={<EditProfile />} />
             </Route>

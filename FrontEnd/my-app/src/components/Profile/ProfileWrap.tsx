@@ -17,7 +17,6 @@ import classNames from 'classnames';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 
 const ProfileWrap=()=> {
-   const [dropDownSex,setDropDownSex] =  useState(false);
 
    var loc = useLocation();
 
@@ -31,7 +30,7 @@ const ProfileWrap=()=> {
 
   return (
     <div className='mx-auto w-10/12  '>
-        <div className=' text-whiteGray mt-8 ml-2 flex'>
+        {/* <div className=' text-whiteGray mt-8 ml-2 flex'>
           {allLocation.map((path:string,index)=>
             <Link key={index}
             to={`/${allLocation.slice(0, index + 1).join('/')}`} className='flex' >
@@ -39,12 +38,7 @@ const ProfileWrap=()=> {
               <img className=' self-center mr-2' src={arrowRight} />
             </Link>
           )}
-          {/*<span className=' self-center mr-2 hover:underline cursor-pointer'>Одяг </span>
-          <img className=' self-center mr-2' src={arrowRight} />
-          <span className=' self-center mr-2 hover:underline cursor-pointer'>Чоловічий одяг </span>
-          <img className=' self-center mr-2' src={arrowRight} />
-          <span className=' self-center mr-2 hover:underline cursor-pointer'>Футболки</span> */}
-        </div>
+        </div> */}
 
         <Outlet/>
     </div>
