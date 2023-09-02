@@ -11,8 +11,8 @@
 .label {
     width: 420px;
     height: 90px;
-    top: 105px;
-    left: 150px;
+    top: 75px;
+    left: 70px;
     font-family: Inter;
     font-size: 36px;
     font-weight: 700;
@@ -27,10 +27,8 @@
 }
 
 .avatar {
-    width: 356px;
-    height: 356px;
-    top: 296px;
-    left: 670px;
+    top: 370px;
+    left: 75px;
 
     background-size: cover;
     background-position: center;
@@ -41,8 +39,8 @@
 .userNameInput {
     width: 420px;
     height: 45px;
-    top: 672px;
-    left: 640px;
+    top: 410px;
+    left: 252px;
     border-radius: 10px;
     border: 1px solid #000;
     padding: 10px;
@@ -51,7 +49,7 @@
 }
 
 .personalInfolabel {
-    width: 420px;
+    width: 500px;
     height: 90px;
     font-family: Inter;
     font-size: 20px;
@@ -64,24 +62,20 @@
 }
 
 .label-1{
-    top: 774px;
-    left: 150px
+    top: 425px;
 }
 
 .label-2{
-    top: 991px;
-    left: 150px
-
+    top: 732px;
 }
 
 .label-3{
-    top: 1151px;
-    left: 150px
-
+    top: 832px;
+    left: -220px;
 }
 
 .personalInfoInput{
-    width: 420px;
+    width: 520px;
     height: 45px;
     border-radius: 10px;
     border: 1px solid #A1A1A1;
@@ -90,55 +84,57 @@
 }
 
 .input-1 {
-    top: 831px;
-    left: 150px;
+    top: 562px;
+    left: -10px;
 }
 .input-2 {
-    top: 831px;
-    left: 644px;
+    top: 562px;
+    left: 530px;
 }
 .input-3 {
-    top: 831px;
-    left: 1173px;
+    top: 562px;
+    left: 850px;
 }
 .input-4 {
-    top: 906px;
-    left: 150px;
+    top: 637px;
+    left: -230px;
 }
 .input-5 {
-    top: 906px;
-    left: 644px;
+    top: 662px;
+    left: 614px;
 }
 .input-6{
-    top: 1057px;
-    left: 150px;
+    top: 822px;
+    left: 70px;
 }
 .input-7{
-    top: 1059px;
-    left: 644px;
+    top: 822px;
+    left: 614px;
 }
 .input-8{
-    top: 1221px;
-    left: 150px;
+    top: 1010px;
+    left: 70px;
 }
 .input-9{
-    top: 1221px;
-    left: 644px;
+    top: 1010px;
+    left: 614px;
 }
 .input-10{
-    top: 1221px;
-    left: 1173px;
+    top: 1010px;
+    left: 1150px;
 }
 .input-11{
-    top: 1291px;
-    left: 150px;
+    top: 1090px;
+    left: 70px;
 }
 .input-12{
-    top: 1291px;
-    left: 644px;
+    top: 1090px;
+    left: 614px;
 }
 
 .plusSvg{
-    margin-top: 1275px;
-    margin-left: 410px;
+    margin-top: 882px;
+    margin-left: 830px;
+    margin-bottom: 50px;
+    cursor: pointer;
 }
