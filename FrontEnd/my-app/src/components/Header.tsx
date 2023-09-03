@@ -154,9 +154,9 @@ const Header = () => {
           <img src={settings} />
           <span>Налаштування</span>
         </div>
-        <div className="faq-container">
+        <Link to="/help" className="faq-container">
           <span>FAQ</span>
-        </div>
+        </Link>
       </div>
     </div>
 
@@ -260,7 +260,7 @@ const Header = () => {
 
 
         <div className="underheader text-[6px] lg:text-sm xl:text-sm flex justify-between px-10 xl:h-10 h-6">
-          <div onClick={() => navigate("/products")}                  className="  w-full text-white hover:outline hover:outline-[1px]  outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center ">Сьогоднішні пропозиції</div>
+          <div onClick={() => navigate("/todaysDeals")}                  className="  w-full text-white hover:outline hover:outline-[1px]  outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center ">Сьогоднішні пропозиції</div>
           <div className="hidden xl:block w-full"><div onClick={() => navigate("/products")}                  className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer   h-full flex items-center font-medium justify-center ">Подарункові карти </div></div>
           <div onClick={() => navigate("/products")}                  className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Обслуговування клієнтів </div>
           <div className="hidden xl:block w-full"><div onClick={() => navigate("/admin/products")}            className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Сторінка для адміна</div></div>
@@ -271,7 +271,7 @@ const Header = () => {
       </div>
     </div>
     
-    { allLocation.length <=0 ? "" :
+    { allLocation.length <=0 || allLocation.includes("help") ? "" :
     <div className="mx-auto w-10/12 ">
       <div className=' text-whiteGray mt-8 mb-4 flex'>
         {allLocation.map((path:string,index)=>

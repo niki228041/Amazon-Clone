@@ -35,7 +35,7 @@ const EditProfile=()=> {
     <div >
 
         <div className=' mb-20 '>
-            <div className='mb-8 flex text-[30px] text-grayColorForHeader font-semibold mb-2'>Особисті дані</div>
+            <div className='mb-8 flex text-[30px] text-grayColorForHeader font-semibold'>Особисті дані</div>
 
             <div className='flex '>
                 <img className='h-32 w-32 mr-6 rounded-lg' src={BlankProfilePicture} />

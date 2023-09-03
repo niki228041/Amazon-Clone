@@ -13,6 +13,7 @@ namespace Infrastructure.Models
     {
         public string FullName { get; set; }
         public int? UserId { get; set; }
+        public float Price { get; set; }
         public int? CardId { get; set; }
         public int? AddressId { get; set; }
         public ICollection<OrderedProductDTO> OrderedProducts_ { get; set; }

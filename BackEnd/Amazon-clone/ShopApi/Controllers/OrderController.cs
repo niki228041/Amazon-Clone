@@ -34,7 +34,7 @@ namespace ShopApi.Controllers
         [HttpPost("GetOrdersByUserId")]
         public async Task<IActionResult> GetOrdersByUserIdAsync(FindByIdVM model)
         {
-            var result = _orderService.GetOrdersByUserIdAsync(model.Id);
+            var result = await _orderService.GetOrdersByUserIdAsync(model.Id);
             return Ok(result);
         }
 

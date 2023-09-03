@@ -121,6 +121,8 @@ export const Orders=()=>{
     const orders = useAppSelector((state)=>state.orders.orders);
     const user = useAppSelector((state)=>state.user.user);
 
+    var [endPrice,setEndPrice]= useState(0);
+
     var request:FindById[] = [];
     orders.forEach(order => {
       request.push({id:order.product_id});
@@ -178,12 +180,18 @@ export const Orders=()=>{
         orderedProducts_.push({productId:order.product_id,count:order.count});
       });
       
+      var endPrice = "";
+
+      endPrice =orders.map((order) => (order.price*order.count)-((order.price*order.count)/100)*order.discount ).reduce((sum, price) => sum + price, 0).toFixed(2);
+      console.log(endPrice);
+      
       var request:OrderDTO = {
           fullName:defaultCard.ownerName!,
           userId:Number(user.id),
           cardId:Number(defaultCard.id),
           addressId:Number(address.id),
-          orderedProducts_:orderedProducts_
+          orderedProducts_:orderedProducts_,
+          price:parseInt(endPrice)
       }
   
       console.log(defaultCard);

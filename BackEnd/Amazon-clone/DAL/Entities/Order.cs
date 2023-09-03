@@ -9,6 +9,7 @@ namespace DAL.Entities
 	{
         public string FullName { get; set; }
         public bool isBought { get; set; } = false;
+        public float Price { get; set; }
 
         //Foreigen Keys:
         //Every order have a user

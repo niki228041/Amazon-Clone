@@ -2,6 +2,7 @@
 using DAL.Entities;
 using DAL.Interfaces;
 using DAL.Repositories;
+using Infrastructure.Enum_s;
 using Infrastructure.Interfaces;
 using Infrastructure.Models;
 using MailKit.Search;
@@ -20,17 +21,22 @@ namespace Infrastructure.Services
         private readonly IOrderRepository _orderRepository;
         private readonly IOrderedProductRepository _orderedProductRepository;
         private readonly IUserRepository _userRepository;
+        private readonly ICardRepository _cardRepository;
+        private readonly IProductImageService _productImageService;
+        
         private readonly EmailService _emailService;
 
 
         private readonly IMapper _mapper;
-        public OrderService(IMapper mapper, IOrderRepository orderRepository,IOrderedProductRepository orderedProductRepository, EmailService emailService, IUserRepository userRepository)
+        public OrderService(IMapper mapper, IOrderRepository orderRepository,IOrderedProductRepository orderedProductRepository, EmailService emailService, IUserRepository userRepository, ICardRepository cardRepository, IProductImageService productImageService)
         {
             _mapper = mapper;
             _orderRepository = orderRepository;
             _orderedProductRepository = orderedProductRepository;
             _emailService = emailService;
             _userRepository = userRepository;
+            _cardRepository = cardRepository;
+            _productImageService = productImageService;
         }
 
         public async Task<OrderVM> AddOrderAsync(OrderDTO model)
@@ -38,12 +44,12 @@ namespace Infrastructure.Services
             var order = _mapper.Map<OrderDTO, Order>(model);
             await _orderRepository.Create(order);
 
-
             foreach (var orderedProdct_tmp in model.OrderedProducts_)
             {
                 var orderedProduct = _mapper.Map<OrderedProductDTO, OrderedProduct>(orderedProdct_tmp);
                 orderedProduct.OrderId = order.Id;
                 orderedProduct.canLeaveComment = true;
+
                 await _orderedProductRepository.Create(orderedProduct);
             }
 
@@ -68,10 +74,53 @@ namespace Infrastructure.Services
             return _orderRepository.GetAll().ToList();
         }
 
-        public List<Order> GetOrdersByUserIdAsync(int id)
+        public async Task<List<OrderVM>> GetOrdersByUserIdAsync(int id)
         {
-           return _orderRepository.GetAll().Where(order=>order.UserId == id).ToList();
+           var orders = _orderRepository.GetAll()
+            .Where(order=>order.UserId == id)
+            .Include(order => order.OrderedProducts)
+                .ThenInclude(orderedProduct => orderedProduct.Product) // Include the related products
+            .ToList();
+
+
+            var orderVMs = new List<OrderVM>();
+
+            foreach (var order in orders)
+            {
+                //var card = await _cardRepository.GetById((int)order.CardId);
+                //tmpOrder.UserName = card.OwnerName;
+
+                var tmpOrder = _mapper.Map<Order, OrderVM>(order);
+
+                foreach (var item in order.OrderedProducts)
+                {
+                    
+
+                    if (tmpOrder.Products == null) { tmpOrder.Products = new List<OrderedProductUpdatedVM>(); }
+
+                    var ordered = new OrderedProductUpdatedVM
+                    {
+                        Count = item.Count,
+                        Product = _mapper.Map<Product, ProductVM>(item.Product),
+                    };
+
+                    if (item.ProductId != null)
+                    {
+                        var image = await _productImageService.GetMainImageByIdAsync((int)item.ProductId);
+                        var url = $@"https://amazonclone.monster/api/images/{image.Name + "_" + (int)Qualities.QualitiesSelector.LOW + ".jpg"}";
+                        ordered.Product.Image = url;
+                    }
+
+
+                    tmpOrder.Products.Add(ordered);
+                }
+                orderVMs.Add(tmpOrder);
+
+            }
+
+            return orderVMs;
         }
+
         public List<OrderVM> GetOrdersByCompanyIdAsync(int id)
         {
             var orders = _orderRepository.GetAll()
@@ -126,6 +175,7 @@ namespace Infrastructure.Services
 
             return orderVMs;
         }
+
 
         public async Task<ServiceResponse> CloseAnOrderByIdAsync(int id)
         {
