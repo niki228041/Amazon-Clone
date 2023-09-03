@@ -268,13 +268,7 @@ const OneProduct=()=>{
     // Now you can access the payload directly
 
     return <>
-        <div className="breadCrumbsStyle">
-            <Stack spacing={2}>
-                <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-                    {breadcrumbs}
-                </Breadcrumbs>
-            </Stack>
-        </div>
+
         <div className="mx-auto mt-10 w-11/12 lg:w-10/12 xl:w-9/12">
             <div className='grid xl:grid-cols-10 grid-cols-3 sm:grid-cols-1 p-2 xl:py-4 xl:gap-4 border border-grayColorForBorder rounded-lg'>
                 <div className='col-span-3'>

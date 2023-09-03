@@ -44,10 +44,10 @@ export const ProfilePage = () => {
               <div className=' flex justify-center text-[26px] text-grayColorForHeader font-semibold mb-2'>Логін та безпека</div>
               <img className='h-14' src={LoginAndSecurity} />
             </Link>
-            <div className=' border w-1/3 justify-center flex-col flex py-16 rounded-lg mx-2 transition-all duration-200 hover:bg-whiteGrayComment select-none cursor-pointer active:scale-105 active:duration-100'>
+            <Link to="/help" className=' border w-1/3 justify-center flex-col flex py-16 rounded-lg mx-2 transition-all duration-200 hover:bg-whiteGrayComment select-none cursor-pointer active:scale-105 active:duration-100'>
               <div className=' flex justify-center text-[26px] text-grayColorForHeader font-semibold mb-2'>Допомога</div>
               <img className='h-16' src={Help} />
-            </div>
+            </Link>
 
           </div>
         </div>

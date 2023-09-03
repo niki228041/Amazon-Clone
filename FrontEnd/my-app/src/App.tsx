@@ -84,6 +84,8 @@ import "./index.css"
 import ProfileCards from './components/Profile/Cards';
 import ProfileHistory from './components/Profile/History';
 import ProfileWrap from './components/Profile/ProfileWrap';
+import TodaysDeals from './components/InteractionWithProducts/TodaysDeals';
+import Help from './components/Profile/Help';
 
 
 
@@ -191,6 +193,8 @@ const App: React.FC = () => {
               <Route path="profilehistory" element={<ProfileHistory />} />
               <Route path='editprofile' element={<EditProfile />} />
             </Route>
+            
+            <Route path='help' element={<Help/>} />
 
 
             <Route path='/tempProfile' element={<TempProfile />} >
@@ -216,6 +220,8 @@ const App: React.FC = () => {
             <Route path="/products" element={<><Main /></>} >
               <Route path="products" element={<ProfilePage />} />
             </Route>
+
+            <Route path='/todaysDeals' element={<><TodaysDeals/><PageWithOptions/></>}></Route>
 
             <Route path='createOptions' element={<CreateOptions />} />
 
