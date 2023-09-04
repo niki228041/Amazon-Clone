@@ -110,6 +110,10 @@ body {
     justify-content: column;
 }
 
+.container-for-card h4 {
+    width: 150px;
+}
+
 .container-for-card .arrivals-card {
     height: 300px;
     width: 190px;
@@ -135,7 +139,10 @@ body {
 .container-for-card .arrivals-card img {
     margin-top: 5px;
     margin-bottom: 10px;
-    min-height: 158px;
+    height: 158px;
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
 }
 
 .price-container {
@@ -317,6 +324,14 @@ body {
 .container-main-cards {
     display: flex;
     flex-direction: column;
+    
+}
+
+.container-main-cards img {
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+    
 }
 
 .our-products-main-card {
@@ -377,6 +392,10 @@ body {
 .second-container-main {
     display: flex;
     flex-direction: row;
+}
+
+.first-container-main h4 {
+    width: 150px;
 }
 
 .new-receipts {
@@ -610,6 +629,10 @@ body {
 
 }
 
+.last-element-card span {
+    width: 150px;
+}
+
 .last-element-card:last-child {
     margin-right: 0;
 }
@@ -668,10 +691,20 @@ body {
     justify-content: center;
 }
 
+.winMart-second-div img {
+    height: 129px;
+    width: 158px;
+    max-width: 100%; 
+    display: block; 
+    margin: 0 auto;
+    margin-bottom: 3px;
+}
+
 .winMart-second-div-first-row,
 .winMart-second-div-second-row {
     display: flex;
     flex-direction: row;
+    margin-bottom: 10px;
 }
 
 .winMart-second-div-first-row div,
