@@ -2,6 +2,7 @@
 using DAL.Entities.FilterEntities;
 using DAL.Entities.Identity;
 using DAL.Entities.Music;
+using DAL.FAQ;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -41,7 +42,9 @@ namespace DAL
         public DbSet<OrderedProduct> OrderedProducts { get; set; }
         public DbSet<LikedTracks> LikedTracks { get; set; }
         public DbSet<TrackHistory> TrackHistory { get; set; }
-        
+        public DbSet<FrequentlyAskedQuestion> FrequentlyAskedQuestion { get; set; }
+        public DbSet<AnswerToFAQ> AnswerToFAQ { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -175,6 +178,14 @@ namespace DAL
                 .HasMany(track => track.TrackComments)
                 .WithOne(com => com.Track)
                 .HasForeignKey(com => com.TrackId)
+                .OnDelete(DeleteBehavior.Cascade);
+            //END
+
+            //START Many to one
+            modelBuilder.Entity<FrequentlyAskedQuestion>()
+                .HasMany(track => track.AnswerToFAQ)
+                .WithOne(com => com.FrequentlyAskedQuestion)
+                .HasForeignKey(com => com.FrequentlyAskedQuestionId)
                 .OnDelete(DeleteBehavior.Cascade);
             //END
 

@@ -80,13 +80,13 @@ export const apiProductSlice:any = createApi({
           }),
           providesTags:result=>['Product']
         }),
-        getProductWithLimitByCategoryId:builder.query<any, any>({
+        getProductWithLimitByCategoryId:builder.mutation<any, any>({
           query:(todo)=>({
             url:'/api/Products/GetProductWithLimitByCategoryId',
             method:"POST",
             body:todo
           }),
-          providesTags:result=>['Product']
+          invalidatesTags:['Product']
         }),
         createComment:builder.mutation<any,any>({
           query:(todo)=>({
@@ -123,7 +123,6 @@ export const {
   useDeleteProductQuery,
   useGetLinksForProductByProductsIdsQuery,
   useGetProductCountQuery,
-  useGetProductWithLimitByCategoryIdQuery,
   useGetCommentsByProductIdQuery,
   useCanLeaveCommentQuery} = apiProductSlice
 

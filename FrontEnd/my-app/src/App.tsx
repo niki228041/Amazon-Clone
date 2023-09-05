@@ -86,6 +86,9 @@ import ProfileHistory from './components/Profile/History';
 import ProfileWrap from './components/Profile/ProfileWrap';
 import TodaysDeals from './components/InteractionWithProducts/TodaysDeals';
 import Help from './components/Profile/Help';
+import FAQList from './components/Admin/FAQList';
+import CreateFAQ from './components/Admin/CreateFAQ';
+import CreateAnswerToFAQ from './components/Admin/CreateAnswerToFAQ';
 
 
 
@@ -172,13 +175,17 @@ const App: React.FC = () => {
                 <Route path='products' element={<ProductList />} />
                 <Route path='categories' element={<CategoryList />} />
                 <Route path='companies' element={<CompanyList />} />
+                <Route path='FAQs' element={<FAQList/>} />
               </Route>
               <Route path='create'>
                 <Route path='products' element={<CreateProduct />} />
                 <Route path='categories' element={<CreateCategory />} />
+                <Route path='FAQs' element={<CreateFAQ/>} />
+                <Route path='createAnswerToFAQ/:faqId' element={<CreateAnswerToFAQ/>} />
               </Route>
             </Route>
 
+            
             <Route path='orders' element={<Orders />} />
 
             <Route path='successful-purchase' element={<SuccessfulPurchase />} />

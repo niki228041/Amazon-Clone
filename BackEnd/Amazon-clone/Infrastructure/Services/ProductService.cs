@@ -380,10 +380,23 @@ public class ProductService : IProductService
         var startIndex = (page - 1) * limit;
         var endIndex = page * limit;
 
+
+
         List<ProductVM> productVMsFinal = productVMs
             .Skip(startIndex)
             .Take(limit)
             .ToList();
+
+        foreach(var productVM in productVMsFinal)
+        {
+            productVM.SelledCount = _orderRepository.GetAll().Include(order => order.OrderedProducts).Where(order => order.OrderedProducts.FirstOrDefault(prod => prod.ProductId == productVM.Id) != null && order.isBought).ToList().Count;
+        }
+        
+
+        ProductsVMWithPagination productsVMWithPagination = new ProductsVMWithPagination();
+
+        productsVMWithPagination.CountOfProducts = productVMs.Count;
+        productsVMWithPagination.Products = productVMsFinal;
 
 
 
@@ -392,7 +405,7 @@ public class ProductService : IProductService
         {
             Message = "GetProduct",
             IsSuccess = true,
-            Payload = productVMsFinal
+            Payload = productsVMWithPagination
         };
     }
 

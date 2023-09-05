@@ -9,11 +9,17 @@ export interface Product{
     description: string,
     quantity: string,
     isInTheStock: string,
+    selledCount:number,
     numberOfDaysForDelivery: string,
     address: string,
     image: string,
     comments: Comment[],
     options: SelectedOption[],
+}
+
+export interface ProductsWithPagination{
+    countOfProducts:number,
+    products:Product[]
 }
 
 export interface OneProductVM{

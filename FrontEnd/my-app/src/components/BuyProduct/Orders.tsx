@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../app/hooks";
-import { deleteAllOrder, deleteOrder, updateOrder } from "../../features/user/ordersStateSlice";
+import { deleteAllOrder, deleteOrder, updateOrder, updateOrderInBasket } from "../../features/user/ordersStateSlice";
 import { apiProductSlice, useGetLinksForProductByProductsIdsQuery } from "../../features/user/apiProductSlice";
 import { Card, ChangeOrderCount, FindById, ImageLink, Order, OrderDTO, OrderedProducts } from "../types";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
@@ -33,6 +33,7 @@ import Typography from '@mui/material/Typography';
 import BreadcrumbsLink from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { Oval } from "react-loader-spinner";
 
 export const BuyLater=()=>{
   return<>
@@ -54,6 +55,30 @@ export const BuyLater=()=>{
   </>
 }
 
+const loader=()=> {
+  return(
+    <div className='m-auto pt-32 pb-60 flex self-center flex-col justify-center'>
+    <div className=" self-center">
+    <Oval
+      height={80}
+      width={80}
+      color="#46424f"
+      wrapperStyle={{}}
+      wrapperClass=""
+      visible={true}
+      ariaLabel='oval-loading'
+      secondaryColor="#424a4f"
+      strokeWidth={2}
+      strokeWidthSecondary={2}/>
+    </div>
+    <p className=" self-center">
+      Виконання замовлення, не перемикайте сторінку.
+    </p>
+  </div>
+
+  )
+}
+
 interface OrderComponentProps {
   order: Order;
   productsImages:ImageLink[];
@@ -69,7 +94,7 @@ export const OrderComponent:React.FC<OrderComponentProps>=({ order,productsImage
     var index = orders.findIndex((ord:Order)=>ord.id == id);
     var changeOrderCount:ChangeOrderCount = {index:index,count:Number(count.value)}; 
     console.log(changeOrderCount);
-    dispatch(updateOrder(changeOrderCount));
+    dispatch(updateOrderInBasket(changeOrderCount));
   }
 
   return<>
@@ -131,7 +156,7 @@ export const Orders=()=>{
     const { data: productsImages, isSuccess: isProductsImages } = useGetLinksForProductByProductsIdsQuery(request);
     const { data: defaultCard, isSuccess: isDefaultCard }:{data:Card,isSuccess:boolean} = useGetDefaultCardByUserIdQuery({id:user.id});
     const { data: address, isSuccess: isAddress }:{data:Card,isSuccess:boolean} = useGetAddressByUserIdQuery({id:user.id});
-    const [addOrder,{}]= apiOrderSlice.useAddOrderMutation();
+    const [addOrder,{isLoading}]= apiOrderSlice.useAddOrderMutation();
     
     const breadcrumbs = [
       <BreadcrumbsLink underline="hover" key="1" color="inherit" href="/">
@@ -171,8 +196,6 @@ export const Orders=()=>{
     const toggleCardModal = (prop:boolean)=>{setCardModalOpen(prop)};
 
     const createOrder=async ()=>{
-      // data.preventDefault();
-      // var curentData = new FormData(data.currentTarget);
       
       var orderedProducts_:OrderedProducts[] = [];
 
@@ -222,16 +245,9 @@ export const Orders=()=>{
     
 
     <div className="mx-auto w-10/12 ">
-      {/* <div className=' text-whiteGray mt-8 mb-8 ml-2 flex'>
-        {allLocation.map((path:string,index)=>
-          <Link key={index}
-          to={`/${allLocation.slice(0, index + 1).join('/')}`} className='flex' >
-            <span className=' self-center mr-2 hover:underline cursor-pointer'>{capitalizeFirstLetter(path)}</span>
-            <img className=' self-center mr-2' src={arrowRight} />
-          </Link>
-        )}
-      </div> */}
+      
       {/* КОШИК */}
+      {!isLoading?
       <div className="">
         <p className=" text-xl font-medium">Мій кошик ({totalCount})</p>
         
@@ -267,7 +283,7 @@ export const Orders=()=>{
                 <img className="xl:h-16 h-10 mr-3" src={lock}/>
                 <div>
                   <p> Безпечний платіж</p>
-                  <p className=" text-grayForText text-sm">рвариврвт</p>
+                  <p className=" text-grayForText text-sm">Ваша безпека - наш пріоритет</p>
                 </div>
 
               </div>
@@ -275,7 +291,7 @@ export const Orders=()=>{
                 <img className="xl:h-16 h-10 mr-3" src={message}/>
                 <div>
                   <p>Підтримка клієнтів</p>
-                  <p className=" text-grayForText text-sm">пвімвм</p>
+                  <p className=" text-grayForText text-sm">Наша команда готова допомогти 24/7.</p>
                 </div>
 
               </div>
@@ -283,7 +299,7 @@ export const Orders=()=>{
                 <img className="xl:h-16 h-10 mr-3" src={car}/>
                 <div>
                   <p>Безкоштовна доставка</p>
-                  <p className=" text-grayForText text-sm">впівпп</p>
+                  <p className=" text-grayForText text-sm">В будь-яку точку світу</p>
                 </div>
 
               </div>
@@ -340,6 +356,8 @@ export const Orders=()=>{
           </div>
         </div>
       </div>
+
+      : loader()}
 
       {/* РЕКОМЕНДАЦІЇ ЩО ДО ПОКУПОК */}
       <div className=" font-semibold text-lg my-14 border border-grayColorForBorder rounded-lg p-4">

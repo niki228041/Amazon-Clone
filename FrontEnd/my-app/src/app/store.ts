@@ -15,6 +15,7 @@ import { apiAddressSlice } from "../features/user/apiAddressSlice";
 import { apiOrderSlice } from "../features/user/apiOrderSlice";
 import { apiCompanySlice } from "../features/user/apiCompanySlice";
 import musicStateSlice from "../features/user/musicStateSlice";
+import { apiFAQSlice } from "../features/user/apiFAQSlice";
 
 
 export const store = configureStore({
@@ -27,13 +28,9 @@ export const store = configureStore({
     [apiCardSlice.reducerPath]:apiCardSlice.reducer,
     [apiAddressSlice.reducerPath]:apiAddressSlice.reducer,
     [apiOrderSlice.reducerPath]:apiOrderSlice.reducer,
-
-    [apiOrderSlice.reducerPath]:apiOrderSlice.reducer,
-    
-
     [apiCompanySlice.reducerPath]:apiCompanySlice.reducer,
+    [apiFAQSlice.reducerPath]:apiFAQSlice.reducer,
 
-    [apiCompanySlice.reducerPath]:apiCompanySlice.reducer,
 
     user: userSlice,
     orders: ordersStateSlice,
@@ -49,7 +46,8 @@ export const store = configureStore({
       apiCardSlice.middleware,
       apiOrderSlice.middleware,
       apiAddressSlice.middleware,
-      apiCompanySlice.middleware),
+      apiCompanySlice.middleware,
+      apiFAQSlice.middleware),
 });
 
 

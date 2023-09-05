@@ -7,17 +7,35 @@ import arrowRight from '../../images/arrowRight.png'
 import arrowRightGray from '../../images/arrowRightGray.svg'
 import discount from '../../images/discount.png'
 import classNames from 'classnames'
+import { getRecomendedProducts } from './OneProduct'
+import { Product } from '../types'
+import { apiProductSlice } from '../../features/user/apiProductSlice'
+import { Link } from 'react-router-dom'
 
 function TodaysDeals() {
    var [countOfDeals,setCountOfDeals] = useState(3);
    var [currentDeals,setCurrentDeals] = useState(0);
 
    var [offset,setOffset] = useState(currentDeals * 220*5);
-   
+
    var [countOfSmallIconDeals,setCountOfSmallIcon] = useState(5);
    var [currentSmallIcon,setCurrentSmallIcon] = useState(0);
+   var [recomendedProducts,setRecomendedProducts] = useState<Product[]>([]);
 
    var [smallIconOffset,setSmallIconOffset] = useState(currentSmallIcon * 220*5);
+
+   var request:getRecomendedProducts = {limit:12,categoryId:0}; 
+   const [getRecomendedProducts,{}] = apiProductSlice.useGetProductWithLimitByCategoryIdMutation();
+
+   useEffect(()=>{
+      if (recomendedProducts.length <= 0) {
+        getRecomendedProducts(request).then((res: any) => {
+          console.log(res.data.payload);
+          setRecomendedProducts(res.data.payload);
+        });
+      }
+
+   },[])    
 
   return (
     <div>
@@ -31,201 +49,30 @@ function TodaysDeals() {
 
         <div className="flex absolute h-[320px] justify-center self-center transition-all duration-500" style={{ transform: `translateX(-${offset}px)` }}>
 
-                <div className='rounded-lg w-[500px]  mr-3 bg-center bg-cover hover:scale-95 transition-all duration-200 active:duration-100 cursor-pointer active:scale-100 ' style={{backgroundImage:`url(${CoworkingSetup})`}}>
-                </div>
-                <div className='border relative flex hover:border-mainYellowColor p-3 rounded-lg mx-3  w-[220px] hover:scale-105 transition-all duration-200 active:duration-100 cursor-pointer active:scale-100 '>
-                    <div className=' self-center'>
-                        <div className='w-full h-[100px] bg-contain bg-center bg-no-repeat mt-2' style={{backgroundImage:`url(${tmp})`}} ></div>
-                        <div className=' text-sm font-semibold mt-2'>Гаряча пропозиція</div>
-                        <div className=' text-sm mt-2 '>Телевізор LG  B3 Series     65-inch Class OLED Smart TV ...</div>
-                        <div className='flex mt-1'>
-                            <div className=' self-center'>
-                                <div className=' bg-rose-600 text-white rounded-lg py-1 px-3 font-semibold text-sm '>-35%</div>
-                            </div>
-                            <div className=' text-rose-600 rounded-lg py-1 ml-2 font-semibold text-sm '>Пропозиція лімітована по часу </div>
-                        </div>
-                        <div className=' font-bold text-lg '>
-                            20 399 грн.
-                        </div>
-                    </div>
-                </div>
 
-                <div className='border relative flex hover:border-mainYellowColor p-3 rounded-lg mx-3  w-[220px] hover:scale-105 transition-all duration-200 active:duration-100 cursor-pointer active:scale-100 '>
-                    <div className=' self-center'>
-                        <div className='w-full h-[100px] bg-contain bg-center bg-no-repeat mt-2' style={{backgroundImage:`url(${tmp})`}} ></div>
-                        <div className=' text-sm font-semibold mt-2'>Гаряча пропозиція</div>
-                        <div className=' text-sm mt-2 '>Телевізор LG  B3 Series     65-inch Class OLED Smart TV ...</div>
-                        <div className='flex mt-1'>
-                            <div className=' self-center'>
-                                <div className=' bg-rose-600 text-white rounded-lg py-1 px-3 font-semibold text-sm '>-35%</div>
+                <Link to={"/product/description/" + recomendedProducts[0]?.id} className='rounded-lg w-[500px]  mr-3 bg-center bg-contain bg-no-repeat hover:scale-95 transition-all duration-200 active:duration-100 cursor-pointer active:scale-100 ' style={{backgroundImage:`url(${recomendedProducts[0]?.image})`}}>
+                </Link>
+
+                {recomendedProducts?.map((prod:Product)=>{
+                    return<>
+                    <Link to={"/product/description/" + prod.id} className='border relative flex hover:border-mainYellowColor p-3 rounded-lg mx-3  w-[220px] hover:scale-105 transition-all duration-200 active:duration-100 cursor-pointer active:scale-100 '>
+                        <div className=' self-center'>
+                            <div className='w-full h-[100px] bg-contain bg-center bg-no-repeat mt-2' style={{backgroundImage:`url(${prod.image})`}} ></div>
+                            <div className=' text-sm font-semibold mt-2'>Гаряча пропозиція</div>
+                            <div className=' text-sm mt-2 h-10 overflow-hidden '>{prod.name}</div>
+                            <div className='flex mt-1'>
+                                <div className=' self-center'>
+                                    <div className=' bg-rose-600 text-white rounded-lg py-1 px-3 font-semibold text-sm overflow-x-clip w-14 '>-{prod.discount}%</div>
+                                </div>
+                                <div className=' text-rose-600 rounded-lg py-1 ml-2 font-semibold text-sm '>Пропозиція лімітована по часу </div>
                             </div>
-                            <div className=' text-rose-600 rounded-lg py-1 ml-2 font-semibold text-sm '>Пропозиція лімітована по часу </div>
-                        </div>
-                        <div className=' font-bold text-lg '>
-                            20 399 грн.
-                        </div>
-                    </div>
-                </div>
-                <div className='border relative flex hover:border-mainYellowColor p-3 rounded-lg mx-3  w-[220px] hover:scale-105 transition-all duration-200 active:duration-100 cursor-pointer active:scale-100 '>
-                    <div className=' self-center'>
-                        <div className='w-full h-[100px] bg-contain bg-center bg-no-repeat mt-2' style={{backgroundImage:`url(${tmp})`}} ></div>
-                        <div className=' text-sm font-semibold mt-2'>Гаряча пропозиція</div>
-                        <div className=' text-sm mt-2 '>Телевізор LG  B3 Series     65-inch Class OLED Smart TV ...</div>
-                        <div className='flex mt-1'>
-                            <div className=' self-center'>
-                                <div className=' bg-rose-600 text-white rounded-lg py-1 px-3 font-semibold text-sm '>-35%</div>
+                            <div className=' font-bold text-lg '>
+                                {prod.price} грн.
                             </div>
-                            <div className=' text-rose-600 rounded-lg py-1 ml-2 font-semibold text-sm '>Пропозиція лімітована по часу </div>
                         </div>
-                        <div className=' font-bold text-lg '>
-                            20 399 грн.
-                        </div>
-                    </div>
-                </div>
-                <div className='border relative flex hover:border-mainYellowColor p-3 rounded-lg mx-3  w-[220px] hover:scale-105 transition-all duration-200 active:duration-100 cursor-pointer active:scale-100 '>
-                    <div className=' self-center'>
-                        <div className='w-full h-[100px] bg-contain bg-center bg-no-repeat mt-2' style={{backgroundImage:`url(${tmp})`}} ></div>
-                        <div className=' text-sm font-semibold mt-2'>Гаряча пропозиція</div>
-                        <div className=' text-sm mt-2 '>Телевізор LG  B3 Series     65-inch Class OLED Smart TV ...</div>
-                        <div className='flex mt-1'>
-                            <div className=' self-center'>
-                                <div className=' bg-rose-600 text-white rounded-lg py-1 px-3 font-semibold text-sm '>-35%</div>
-                            </div>
-                            <div className=' text-rose-600 rounded-lg py-1 ml-2 font-semibold text-sm '>Пропозиція лімітована по часу </div>
-                        </div>
-                        <div className=' font-bold text-lg '>
-                            20 399 грн.
-                        </div>
-                    </div>
-                </div>
-                <div className='border relative flex hover:border-mainYellowColor p-3 rounded-lg mx-3  w-[220px] hover:scale-105 transition-all duration-200 active:duration-100 cursor-pointer active:scale-100 '>
-                    <div className=' self-center'>
-                        <div className='w-full h-[100px] bg-contain bg-center bg-no-repeat mt-2' style={{backgroundImage:`url(${tmp})`}} ></div>
-                        <div className=' text-sm font-semibold mt-2'>Гаряча пропозиція</div>
-                        <div className=' text-sm mt-2 '>Телевізор LG  B3 Series     65-inch Class OLED Smart TV ...</div>
-                        <div className='flex mt-1'>
-                            <div className=' self-center'>
-                                <div className=' bg-rose-600 text-white rounded-lg py-1 px-3 font-semibold text-sm '>-35%</div>
-                            </div>
-                            <div className=' text-rose-600 rounded-lg py-1 ml-2 font-semibold text-sm '>Пропозиція лімітована по часу </div>
-                        </div>
-                        <div className=' font-bold text-lg '>
-                            20 399 грн.
-                        </div>
-                    </div>
-                </div>
-                <div className='border relative flex hover:border-mainYellowColor p-3 rounded-lg mx-3  w-[220px] hover:scale-105 transition-all duration-200 active:duration-100 cursor-pointer active:scale-100 '>
-                    <div className=' self-center'>
-                        <div className='w-full h-[100px] bg-contain bg-center bg-no-repeat mt-2' style={{backgroundImage:`url(${tmp})`}} ></div>
-                        <div className=' text-sm font-semibold mt-2'>Гаряча пропозиція</div>
-                        <div className=' text-sm mt-2 '>Телевізор LG  B3 Series     65-inch Class OLED Smart TV ...</div>
-                        <div className='flex mt-1'>
-                            <div className=' self-center'>
-                                <div className=' bg-rose-600 text-white rounded-lg py-1 px-3 font-semibold text-sm '>-35%</div>
-                            </div>
-                            <div className=' text-rose-600 rounded-lg py-1 ml-2 font-semibold text-sm '>Пропозиція лімітована по часу </div>
-                        </div>
-                        <div className=' font-bold text-lg '>
-                            20 399 грн.
-                        </div>
-                    </div>
-                </div>
-                <div className='border relative flex hover:border-mainYellowColor p-3 rounded-lg mx-3  w-[220px] hover:scale-105 transition-all duration-200 active:duration-100 cursor-pointer active:scale-100 '>
-                    <div className=' self-center'>
-                        <div className='w-full h-[100px] bg-contain bg-center bg-no-repeat mt-2' style={{backgroundImage:`url(${tmp})`}} ></div>
-                        <div className=' text-sm font-semibold mt-2'>Гаряча пропозиція</div>
-                        <div className=' text-sm mt-2 '>Телевізор LG  B3 Series     65-inch Class OLED Smart TV ...</div>
-                        <div className='flex mt-1'>
-                            <div className=' self-center'>
-                                <div className=' bg-rose-600 text-white rounded-lg py-1 px-3 font-semibold text-sm '>-35%</div>
-                            </div>
-                            <div className=' text-rose-600 rounded-lg py-1 ml-2 font-semibold text-sm '>Пропозиція лімітована по часу </div>
-                        </div>
-                        <div className=' font-bold text-lg '>
-                            20 399 грн.
-                        </div>
-                    </div>
-                </div>
-                <div className='border relative flex hover:border-mainYellowColor p-3 rounded-lg mx-3  w-[220px] hover:scale-105 transition-all duration-200 active:duration-100 cursor-pointer active:scale-100 '>
-                    <div className=' self-center'>
-                        <div className='w-full h-[100px] bg-contain bg-center bg-no-repeat mt-2' style={{backgroundImage:`url(${tmp})`}} ></div>
-                        <div className=' text-sm font-semibold mt-2'>Гаряча пропозиція</div>
-                        <div className=' text-sm mt-2 '>Телевізор LG  B3 Series     65-inch Class OLED Smart TV ...</div>
-                        <div className='flex mt-1'>
-                            <div className=' self-center'>
-                                <div className=' bg-rose-600 text-white rounded-lg py-1 px-3 font-semibold text-sm '>-35%</div>
-                            </div>
-                            <div className=' text-rose-600 rounded-lg py-1 ml-2 font-semibold text-sm '>Пропозиція лімітована по часу </div>
-                        </div>
-                        <div className=' font-bold text-lg '>
-                            20 399 грн.
-                        </div>
-                    </div>
-                </div>
-                <div className='border relative flex hover:border-mainYellowColor p-3 rounded-lg mx-3  w-[220px] hover:scale-105 transition-all duration-200 active:duration-100 cursor-pointer active:scale-100 '>
-                    <div className=' self-center'>
-                        <div className='w-full h-[100px] bg-contain bg-center bg-no-repeat mt-2' style={{backgroundImage:`url(${tmp})`}} ></div>
-                        <div className=' text-sm font-semibold mt-2'>Гаряча пропозиція</div>
-                        <div className=' text-sm mt-2 '>Телевізор LG  B3 Series     65-inch Class OLED Smart TV ...</div>
-                        <div className='flex mt-1'>
-                            <div className=' self-center'>
-                                <div className=' bg-rose-600 text-white rounded-lg py-1 px-3 font-semibold text-sm '>-35%</div>
-                            </div>
-                            <div className=' text-rose-600 rounded-lg py-1 ml-2 font-semibold text-sm '>Пропозиція лімітована по часу </div>
-                        </div>
-                        <div className=' font-bold text-lg '>
-                            20 399 грн.
-                        </div>
-                    </div>
-                </div>
-                <div className='border relative flex hover:border-mainYellowColor p-3 rounded-lg mx-3  w-[220px] hover:scale-105 transition-all duration-200 active:duration-100 cursor-pointer active:scale-100 '>
-                    <div className=' self-center'>
-                        <div className='w-full h-[100px] bg-contain bg-center bg-no-repeat mt-2' style={{backgroundImage:`url(${tmp})`}} ></div>
-                        <div className=' text-sm font-semibold mt-2'>Гаряча пропозиція</div>
-                        <div className=' text-sm mt-2 '>Телевізор LG  B3 Series     65-inch Class OLED Smart TV ...</div>
-                        <div className='flex mt-1'>
-                            <div className=' self-center'>
-                                <div className=' bg-rose-600 text-white rounded-lg py-1 px-3 font-semibold text-sm '>-35%</div>
-                            </div>
-                            <div className=' text-rose-600 rounded-lg py-1 ml-2 font-semibold text-sm '>Пропозиція лімітована по часу </div>
-                        </div>
-                        <div className=' font-bold text-lg '>
-                            20 399 грн.
-                        </div>
-                    </div>
-                </div>
-                <div className='border relative flex hover:border-mainYellowColor p-3 rounded-lg mx-3  w-[220px] hover:scale-105 transition-all duration-200 active:duration-100 cursor-pointer active:scale-100 '>
-                    <div className=' self-center'>
-                        <div className='w-full h-[100px] bg-contain bg-center bg-no-repeat mt-2' style={{backgroundImage:`url(${tmp})`}} ></div>
-                        <div className=' text-sm font-semibold mt-2'>Гаряча пропозиція</div>
-                        <div className=' text-sm mt-2 '>Телевізор LG  B3 Series     65-inch Class OLED Smart TV ...</div>
-                        <div className='flex mt-1'>
-                            <div className=' self-center'>
-                                <div className=' bg-rose-600 text-white rounded-lg py-1 px-3 font-semibold text-sm '>-35%</div>
-                            </div>
-                            <div className=' text-rose-600 rounded-lg py-1 ml-2 font-semibold text-sm '>Пропозиція лімітована по часу </div>
-                        </div>
-                        <div className=' font-bold text-lg '>
-                            20 399 грн.
-                        </div>
-                    </div>
-                </div>
-                <div className='border relative flex hover:border-mainYellowColor p-3 rounded-lg mx-3  w-[220px] hover:scale-105 transition-all duration-200 active:duration-100 cursor-pointer active:scale-100 '>
-                    <div className=' self-center'>
-                        <div className='w-full h-[100px] bg-contain bg-center bg-no-repeat mt-2' style={{backgroundImage:`url(${tmp})`}} ></div>
-                        <div className=' text-sm font-semibold mt-2'>Гаряча пропозиція</div>
-                        <div className=' text-sm mt-2 '>Телевізор LG  B3 Series     65-inch Class OLED Smart TV ...</div>
-                        <div className='flex mt-1'>
-                            <div className=' self-center'>
-                                <div className=' bg-rose-600 text-white rounded-lg py-1 px-3 font-semibold text-sm '>-35%</div>
-                            </div>
-                            <div className=' text-rose-600 rounded-lg py-1 ml-2 font-semibold text-sm '>Пропозиція лімітована по часу </div>
-                        </div>
-                        <div className=' font-bold text-lg '>
-                            20 399 грн.
-                        </div>
-                    </div>
-                </div>
+                    </Link>
+                    </>
+                })}
                 
         </div>
 
