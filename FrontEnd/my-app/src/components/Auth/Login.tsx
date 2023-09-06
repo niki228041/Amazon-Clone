@@ -14,6 +14,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
 import { loginSchema } from './Validation/LoginValidation';
+import logo_auth from '../../images/logo_auth.svg';
 
 
 const LoginScreen = () => {
@@ -77,7 +78,7 @@ const LoginScreen = () => {
 
   return (
     <form className='overlogin' onSubmit={formik.handleSubmit}>
-      <div className="leftside">
+      {/* <div className="leftside">
 
         <svg className="logosing" width="345" height="92" viewBox="0 0 345 92" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M84.4419 27.92H92.9379L104.65 62H96.5859L93.9459 54.368H83.3379L80.7459 62H72.6819L84.4419 27.92ZM92.6499 48.944L88.6659 35.84L84.5859 48.944H92.6499ZM108.006 62V27.92H115.878V55.088H132.39V62H108.006ZM136.084 62V27.92H143.956V55.088H160.468V62H136.084Z" fill="#FF9A02" />
@@ -113,8 +114,8 @@ const LoginScreen = () => {
             required
             onChange={formik.handleChange}
             value={formik.values.password}
-            // id="outlined-adornment-password"
-            // 
+
+
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -149,7 +150,7 @@ const LoginScreen = () => {
 
 
           <div>
-          {/* style={{ width:"800px",display: "flex", marginLeft: "280" }} */}
+
           
             <button className="submitbut" style={{ borderRadius:"7px",color: "white", background: "#FF9A02", height: "50px",marginTop:"30px" }} type="submit">
               Увійти
@@ -167,7 +168,75 @@ const LoginScreen = () => {
         </div>
 
       </div>
-      <TestPage></TestPage>
+      <TestPage></TestPage> */}
+
+      <div className="w-full grid grid-cols-2 h-full fixed ">
+        <div className=" p-2 bg-litleYellow ">
+          <div className=" w-1/2 p-2 mx-auto">
+            <div className=" flex justify-center mt-10">
+              <img src={logo_auth} />
+            </div>
+
+            <div className=" flex flex-col justify-center text-grayColorForHeader mt-28">
+              <p className="flex self-center text-[40px] font-bold">Вхід</p>
+              <p className="flex self-center text-sm mt-2">Увійдіть за допомогою</p>
+              <p className="flex self-center text-sm">адреси електронної пошти та пароля</p>
+            </div>
+
+            <div className="flex flex-col justify-center w-5/6 mt-4 mx-auto">
+              <input id="email" name="email" type="email" onChange={formik.handleChange} value={formik.values.email} className=" w-full border outline-0 rounded-lg py-3 border-gray-400/90 px-4 mx-auto text-sm placeholder-veryYellowColor" placeholder="Адреса електронної пошти" />
+              {formik.errors.email ? <div className=' text-red-500 text-sm font-semibold mt-1'>{formik.errors.email}</div> : null}
+              
+              <input id="password" name="password" type="password" onChange={formik.handleChange} value={formik.values.password} className=" w-full border outline-0 rounded-lg mt-2 py-3 border-gray-400/90 px-4 mx-auto text-sm placeholder-veryYellowColor" placeholder="Пароль" />
+              {formik.errors.password ? <div className=' text-red-500 text-sm font-semibold mt-1'>{formik.errors.password}</div> : null}
+            </div>
+
+            <div className="flex justify-end w-5/6 mx-auto mt-1">
+              <div className="">
+                <span className=" mx-auto flex whitespace-nowrap  text-sm text-mainYellowColor cursor-pointer  hover:scale-105 transition-all">Забули пароль?</span>
+              </div>
+            </div>
+
+            <div className="w-5/6 mx-auto mt-4">
+              <button className="text-white text-[22px] py-2 bg-mainYellowColor w-full rounded-lg font-semibold">Увійти</button>
+              
+            </div>
+
+            
+            <div className="flex justify-center w-5/6 mx-auto mt-1">
+              {showServerErrorLogin ? <div className=' text-red-500 font-semibold text-sm'>{showServerErrorLogin}</div> : null}
+            </div>
+
+            <div className="flex justify-center w-5/6 mx-auto mt-4">
+              <Link to="/registration" className="">
+                <span className="flex whitespace-nowrap text-sm text-mainYellowColor cursor-pointer hover:scale-105 transition-all ">або створити обліковий запис</span>
+              </Link>
+            </div>
+
+          </div>
+        </div>
+        
+        <div className=" bg-mainYellowColor">
+          <div className=" w-4/6 mx-auto ">
+            <div className="w-4/6 text-darkBlueColor text-[20px] mt-20">
+              <span>
+                Зручний та широкий вибір товарів, що доставляє радість прямо до вашого дому — наша мета!
+              </span>
+            </div>
+
+          </div>
+
+          <div className="flex justify-end mt-10 h-full">
+            <div className=" bg-black border-slate-200 border-l-4 border-t-4  pt-10 pl-10 w-11/12 rounded-tl-[40px]">
+              <div className=" bg-white h-full rounded-tl-xl">
+
+              </div>
+            </div>
+          </div>
+          
+
+        </div>
+      </div>
 
     </form>
   )

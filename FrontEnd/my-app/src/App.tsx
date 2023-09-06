@@ -86,6 +86,9 @@ import ProfileHistory from './components/Profile/History';
 import ProfileWrap from './components/Profile/ProfileWrap';
 import TodaysDeals from './components/InteractionWithProducts/TodaysDeals';
 import Help from './components/Profile/Help';
+import FAQList from './components/Admin/FAQList';
+import CreateFAQ from './components/Admin/CreateFAQ';
+import CreateAnswerToFAQ from './components/Admin/CreateAnswerToFAQ';
 
 
 
@@ -102,7 +105,7 @@ const App: React.FC = () => {
     if (token) {
       dispatch(AuthUser(token));
     }
-  }, [])
+  }, [isAuth])
 
   return (
     <BrowserRouter>
@@ -111,9 +114,7 @@ const App: React.FC = () => {
         <>
           <Route path='/'
             element={<>
-                <div className="flex flex-col" style={{ minHeight: "180vh" }}>
-                  <Outlet />
-                </div>
+                <Outlet />
               </>}>
             <Route path='/' element={<LoginScreen/>}></Route>
             <Route path="login" element={<LoginScreen />} />
@@ -172,18 +173,26 @@ const App: React.FC = () => {
                 <Route path='products' element={<ProductList />} />
                 <Route path='categories' element={<CategoryList />} />
                 <Route path='companies' element={<CompanyList />} />
+                <Route path='FAQs' element={<FAQList/>} />
               </Route>
               <Route path='create'>
                 <Route path='products' element={<CreateProduct />} />
                 <Route path='categories' element={<CreateCategory />} />
+                <Route path='FAQs' element={<CreateFAQ/>} />
+                <Route path='createAnswerToFAQ/:faqId' element={<CreateAnswerToFAQ/>} />
               </Route>
             </Route>
 
+            
             <Route path='orders' element={<Orders />} />
 
             <Route path='successful-purchase' element={<SuccessfulPurchase />} />
 
             <Route path="product/:productId" element={<OneProduct />} />
+
+            <Route path='/todaysDeals' element={<><TodaysDeals/><PageWithOptions/></>}></Route>
+
+            
 
 
             <Route path='/profile' element={<ProfileWrap/>}>
@@ -215,11 +224,6 @@ const App: React.FC = () => {
             </Route>
 
 
-
-
-            <Route path="/products" element={<><Main /></>} >
-              <Route path="products" element={<ProfilePage />} />
-            </Route>
 
             <Route path='/todaysDeals' element={<><TodaysDeals/><PageWithOptions/></>}></Route>
 

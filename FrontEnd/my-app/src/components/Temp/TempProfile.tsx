@@ -7,6 +7,8 @@ import { Orders } from "../../features/user/ordersStateSlice";
 import { CardModal } from '../BuyProduct/CardModal';
 import { AdressModal } from '../BuyProduct/AdressModal';
 import { CompanyModal } from '../BuyProduct/CompanyModal';
+import { setAddressModalWindow, setCardModalWindow } from '../../features/user/modalWindowsStateSlice';
+import { useDispatch } from 'react-redux';
 
 const TempProfile=()=> {
     var user = useAppSelector(((state: { user: UserState; orders: Orders })=>state.user.user));
@@ -21,10 +23,9 @@ const TempProfile=()=> {
     const [isCompanyModalOpen,setCompanyModalOpen]= useState(false);
     const toggleCompanyModal = (prop:boolean)=>{setCompanyModalOpen(prop)};
 
+    var dispatch= useDispatch();
 
     return (<>
-    <AdressModal isOpen={isAdressModalOpen} onClose={toggleModal}/>
-    <CardModal isOpen={isCardModalOpen} onClose={toggleCardModal}/>
     <CompanyModal isOpen={isCompanyModalOpen} onClose={toggleCompanyModal} />
     <div className='grid gap-4 grid-cols-4 border rounded-lg p-4 mx-auto w-2/3 mt-24'>
         <div className=' border p-2 col-span-1 rounded-lg my-2 font-semibold'>
@@ -39,7 +40,7 @@ const TempProfile=()=> {
                     <Link to="cardsSite" className=' mr-2 flex justify-center self-center active:bg-orange-400 active:scale-95 bg-mainYellowColor py-2 w-full rounded-lg text-white transition-all'>
                         My Cards
                     </Link>
-                    <button onClick={()=>setCardModalOpen(true)} className='active:scale-95 bg-green-400 flex  p-2 px-4 rounded-lg self-center'>
+                    <button onClick={()=> dispatch(setCardModalWindow(true))} className='active:scale-95 bg-green-400 flex  p-2 px-4 rounded-lg self-center'>
                         +
                     </button>
                 </div>
@@ -48,7 +49,7 @@ const TempProfile=()=> {
                     <Link to="addressSite" className=' mr-2 flex justify-center self-center active:bg-orange-400 active:scale-95 bg-mainYellowColor py-2 w-full rounded-lg text-white transition-all'>
                         My Address
                     </Link>
-                    <button onClick={()=>setAdressModalOpen(true)} className='active:scale-95 bg-green-400 flex  p-2 px-4 rounded-lg self-center'>
+                    <button onClick={()=>dispatch(setAddressModalWindow(true))} className='active:scale-95 bg-green-400 flex  p-2 px-4 rounded-lg self-center'>
                         +
                     </button>
                 </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { apiProductSlice, useGetProductWithLimitByCategoryIdQuery, useGetProductsQuery } from '../../features/user/apiProductSlice';
+import { apiProductSlice, useGetProductsQuery } from '../../features/user/apiProductSlice';
 import { ImageLink, Product, categorySequence } from '../types';
 import { apiCategorySlice, useGetCategoriesQuery, useGetMainCategoriesQuery } from '../../features/user/apiCategorySlice';
 import "../../css/stars.css";

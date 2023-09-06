@@ -13,11 +13,13 @@ import { UserState } from '../../features/user/user-slice';
 import { Orders } from '../../features/user/ordersStateSlice';
 import { addCard } from '../types';
 import { useGetAddressByUserIdQuery } from '../../features/user/apiAddressSlice';
+import { setCardModalWindow } from '../../features/user/modalWindowsStateSlice';
+import { useDispatch } from 'react-redux';
 
 
 
 
-export const CardModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: (prop: boolean) => void }) => {
+export const CardModal = () => {
 
   const [cardNumber, setCardNumber] = useState("");
   const [cardMonth, setCardMonth] = useState("");
@@ -26,6 +28,11 @@ export const CardModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: (prop
   const [cardType, setCardType] = useState("");
 
   const [addCard, { }] = apiCardSlice.useAddCardMutation();
+
+  var isOpen = useAppSelector((state)=> state.modalWindows.isCardOpen);
+  
+  var dispatch = useDispatch();
+
 
 
   var user = useAppSelector(((state: { user: UserState; orders: Orders }) => state.user.user));
@@ -83,23 +90,23 @@ export const CardModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: (prop
       console.log(defaultValue);
 
       console.log(request);
-      onClose(false);
+      dispatch(setCardModalWindow(false))
       addCard(request);
     }
   }
 
   return (
-    <form onSubmit={handleAddCard}>
+    <form onSubmit={handleAddCard} className=''>
       {isOpen ?
-        <div className="flex justify-center absolute w-full h-full bg-black/30 transition-all">
-          <div className=" absolute w-2/4 mt-20 rounded-xl bg-gray-100 grid" >
+        <div className="flex justify-center h-full w-full fixed bg-black/30 transition-all z-30">
+          <div className=" absolute w-2/4 rounded-xl bg-gray-100 grid mt-48" >
 
 
-            <div className=" relative box-border p-2  flex place-content-between select-none px-8 pt-8">
+            <div className=" relative box-border p-2 flex place-content-between select-none px-8 pt-8">
               <div className=" font-medium text-xl">
                 Додати карту
               </div>
-              <span onClick={() => onClose(false)} className="p-2 cursor-pointer" >
+              <span onClick={() => dispatch(setCardModalWindow(false))} className="p-2 cursor-pointer" >
                 <img className=' h-5' src={close}></img>
               </span>
             </div>

@@ -7,6 +7,9 @@ import Stack from '@mui/material/Stack';
 import eye from '../../images/eye.svg';
 import openedEye from '../../images/openedEye.svg';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { GetAccessToken, SetAccessToken } from "../../api/jwtDecodeToken";
+import { useDispatch } from "react-redux";
+import { AuthUser } from "../../features/user/user-slice";
 
 const Security: React.FC = () => {
   const [passwordVisible1, setPasswordVisible1] = useState(false);
@@ -19,6 +22,14 @@ const Security: React.FC = () => {
   const handleTogglePassword1 = () => {
     setPasswordVisible2(!passwordVisible2);
   };
+  
+  const dispatch = useDispatch();
+
+
+  const handleLogout=()=>{
+    SetAccessToken("");
+    dispatch(AuthUser(""));
+  }
 
   return (
     <div>
@@ -57,8 +68,12 @@ const Security: React.FC = () => {
           </div>
         </div>
 
-        <button className=" mt-20 py-3 rounded-lg px-5 text-white col-start-3  hover:bg-blue-700 bg-darkBlueColor">
+        <button className=" mt-10 py-3 rounded-lg px-5 text-white col-start-3  hover:bg-blue-700 bg-darkBlueColor">
           ЗБЕРЕГТИ ЗМІНИ
+        </button>
+
+        <button onClick={()=>{handleLogout()}} className=" mt-5 py-2 rounded-lg px-5 text-white col-start-3  hover:bg-red-700  bg-red-950">
+          ВИЙТИ З АККАУНТУ
         </button>
 
       </div>

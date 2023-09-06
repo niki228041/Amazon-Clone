@@ -962,6 +962,64 @@ namespace DAL.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("DAL.FAQ.AnswerToFAQ", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("FrequentlyAskedQuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FrequentlyAskedQuestionId");
+
+                    b.ToTable("AnswerToFAQ");
+                });
+
+            modelBuilder.Entity("DAL.FAQ.FrequentlyAskedQuestion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FrequentlyAskedQuestion");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
@@ -1341,6 +1399,16 @@ namespace DAL.Migrations
                     b.Navigation("Company");
                 });
 
+            modelBuilder.Entity("DAL.FAQ.AnswerToFAQ", b =>
+                {
+                    b.HasOne("DAL.FAQ.FrequentlyAskedQuestion", "FrequentlyAskedQuestion")
+                        .WithMany("AnswerToFAQ")
+                        .HasForeignKey("FrequentlyAskedQuestionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("FrequentlyAskedQuestion");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("DAL.Entities.Identity.RoleEntity", null)
@@ -1481,6 +1549,11 @@ namespace DAL.Migrations
                     b.Navigation("Tracks");
 
                     b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("DAL.FAQ.FrequentlyAskedQuestion", b =>
+                {
+                    b.Navigation("AnswerToFAQ");
                 });
 #pragma warning restore 612, 618
         }
