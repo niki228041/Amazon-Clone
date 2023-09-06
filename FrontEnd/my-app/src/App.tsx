@@ -87,8 +87,6 @@ import Help from './components/Profile/Help';
 import ProfileHistory from './components/Profile/History';
 import ProfileCards from './components/Profile/Cards';
 import ProfileWrap from './components/Profile/ProfileWrap';
-import TodaysDeals from './components/InteractionWithProducts/TodaysDeals';
-import Help from './components/Profile/Help';
 import FAQList from './components/Admin/FAQList';
 import CreateFAQ from './components/Admin/CreateFAQ';
 import CreateAnswerToFAQ from './components/Admin/CreateAnswerToFAQ';
