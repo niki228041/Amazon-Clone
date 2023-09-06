@@ -15,5 +15,6 @@ namespace Infrastructure.Interfaces
         Task<List<Comment>> GetAllAsync();
         Task<ServiceResponse> CreateCommentAsync(CreateCommentDTO comment);
         Task<List<CommentVM>> GetCommentsByProductIdAsync(int id);
+        Task<ServiceResponse> CanLeaveCommentAsync(CanLeaveCommentVM model);
     }
 }

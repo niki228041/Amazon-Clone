@@ -5,19 +5,20 @@ COPY . .
 RUN dotnet restore "ShopApi/ShopApi.csproj"
 
 
+
 # Install the dotnet-ef tool locally
 RUN dotnet tool install -g dotnet-ef
 ENV PATH $PATH:/root/.dotnet/tools
 RUN dotnet-ef database update --startup-project "ShopApi" --project "DAL/DAL.csproj"
-# COPY ShopApi/images /app/images
-# COPY ShopApi/comment_images /app/comment_images
-# COPY ShopApi/company_images /app/company_images
-# COPY ShopApi/music_images /app/music_images
 # Publish the application
 RUN dotnet build "ShopApi/ShopApi.csproj" -c Release -o /app/build
 FROM build AS publish
 
 RUN dotnet publish "ShopApi/ShopApi.csproj" -c Release -o /app/publish
+COPY ShopApi/images /app/publish/images
+COPY ShopApi/comment_images /app/publish/comment_images
+COPY ShopApi/company_images /app/publish/company_images
+COPY ShopApi/music_images /app/publish/music_images
 # Build the final image
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
 WORKDIR /app

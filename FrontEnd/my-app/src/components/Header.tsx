@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 import languagelogo from "../images/Languagae-topheader.svg"
@@ -18,6 +18,7 @@ import shop from "../images/Shop.svg"
 import settings from "../images/Settings.svg"
 import arrowDown from "../images/arrow_down.svg"
 import arrowDownForSearch from "../images/arrowDownForSearch.svg"
+import arrowRight from '../images/ArrowRightS.svg';
 import arrowDownWhite from "../images/arrowDownWhite.svg"
 import "../css/MainPage.css"
 
@@ -104,10 +105,21 @@ const Header = () => {
 
   const [isBurgerOpen,setIsBurgerOpen] = useState(false);
 
+  var loc = useLocation();
+
+  var allLocation = loc.pathname.split('/').filter(Boolean);
+ 
+  console.log(allLocation);
+
+  function capitalizeFirstLetter(text:string) {
+   return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+ }
+
   console.log(isBurgerOpen);
 
   return (<div className=" ">
     <BurgerModal isOpen={isBurgerOpen} onClose={setIsBurgerOpen}  />
+    
     <div className="sticky z-30 bg-white">
     <div className="top-header text-sm">
       <div className="left-elements">
@@ -142,9 +154,9 @@ const Header = () => {
           <img src={settings} />
           <span>Налаштування</span>
         </div>
-        <div className="faq-container">
+        <Link to="/help" className="faq-container">
           <span>FAQ</span>
-        </div>
+        </Link>
       </div>
     </div>
 
@@ -248,8 +260,8 @@ const Header = () => {
 
 
         <div className="underheader text-[6px] lg:text-sm xl:text-sm flex justify-between px-10 xl:h-10 h-6">
-          <div onClick={() => navigate("/products")}                  className="  w-full text-white hover:outline hover:outline-[1px]  outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center ">Сьогоднішні пропозиції</div>
-          <div className="hidden xl:block w-full"><div onClick={() => navigate("/giftCards")}                  className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer   h-full flex items-center font-medium justify-center ">Подарункові карти </div></div>
+          <div onClick={() => navigate("/todaysDeals")}                  className="  w-full text-white hover:outline hover:outline-[1px]  outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center ">Сьогоднішні пропозиції</div>
+          <div className="hidden xl:block w-full"><div onClick={() => navigate("/products")}                  className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer   h-full flex items-center font-medium justify-center ">Подарункові карти </div></div>
           <div onClick={() => navigate("/products")}                  className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Обслуговування клієнтів </div>
           <div className="hidden xl:block w-full"><div onClick={() => navigate("/admin/products")}            className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Сторінка для адміна</div></div>
           <div onClick={() => navigate("/music/home")}                className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer h-full flex items-center font-medium justify-center">Музика</div>
@@ -258,6 +270,20 @@ const Header = () => {
         </div>
       </div>
     </div>
+    
+    { allLocation.length <=0 || allLocation.includes("help") ? "" :
+    <div className="mx-auto w-10/12 ">
+      <div className=' text-whiteGray mt-8 mb-4 flex'>
+        {allLocation.map((path:string,index)=>
+          <Link key={index}
+          to={`/${allLocation.slice(0, index + 1).join('/')}`} className='flex' >
+            <span className=' self-center mr-2 hover:underline cursor-pointer'>{capitalizeFirstLetter(path)}</span>
+            <img className=' self-center mr-2' src={arrowRight} />
+          </Link>
+        )}
+      </div>
+    </div>
+    }
 
   </div>
   );

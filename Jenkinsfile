@@ -3,16 +3,34 @@
 pipeline  {
     agent any;
     stages {
+        stage("Remove old backup")
+         {
+             steps{
+                sh "sudo rm -rf /home/azureuser/backup/*"
+             }
+         }
+         stage("Backup files")
+         {
+             steps{
+                sh """
+                sudo docker cp  backend:/app/comment_images /home/azureuser/backup/   
+                sudo docker cp  backend:/app/company_images /home/azureuser/backup/ 
+                sudo docker cp  backend:/app/images /home/azureuser/backup/ 
+                sudo docker cp  backend:/app/music_files /home/azureuser/backup/ 
+                sudo docker cp  backend:/app/music_images /home/azureuser/backup/
+                """
+             }
+         }
          stage("Change IP in axios.js")
          {
              steps{
-                sh "sed  -i 's#http://localhost:5034#https://amazonclone.monster/api#g' FrontEnd/my-app/src/api/axios.js"
+                sh "find FrontEnd/my-app/ -type f -exec sed  -i 's#http://localhost:5034#https://amazonclone.monster/api#g' {} +"
              }
          }
           stage("Change IP in appsettings.json")
          {
              steps{
-                sh "sed  -i 's#http://localhost:81#https://amazonclone.monster/#g' BackEnd/Amazon-clone/ShopApi/appsettings.json"
+                sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#http://localhost:81#https://amazonclone.monster/#g' {} +"
              }
          }
         
@@ -23,9 +41,14 @@ pipeline  {
  '''
             }
           }
+        stage ("Remove docker cache"){
+         steps{
+            sh "sudo docker system prune -af"
+         }   
+        }
         stage ("Run MSSQL container"){
             steps{
-                sh 'docker run -v /home/db:/var/opt/mssql -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Qwerty-1" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest'
+                sh 'docker run  --restart=always -v /home/db:/var/opt/mssql -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Qwerty-1" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest'
             }
         }
         stage("Create frontend docker image") {
@@ -63,11 +86,22 @@ pipeline  {
              steps {
                  echo " ============== Creating backend docker container =================="
                  sh '''
-                 docker run -d --restart=always -p 5034:5034 --name=backned alkaponees/amazon-clone-backend
+                 docker run -d --restart=always -p 5034:5034 --name=backend alkaponees/amazon-clone-backend
                  '''
              }
         }
-        
+         stage("Upload file in backend container")
+         {
+             steps{
+                sh """
+                sudo docker cp /home/azureuser/backup/comment_images/ backend:/app/  
+                sudo docker cp /home/azureuser/backup/company_images backend:/app/  
+                sudo docker cp /home/azureuser/backup/images backend:/app/ 
+                sudo docker cp /home/azureuser/backup/music_files backend:/app/  
+                sudo docker cp /home/azureuser/backup/music_images backend:/app/ 
+                """
+             }
+         }
         stage("docker frontend push") {
             steps {
                 echo " ============== pushing amazon-clone-frontend image =================="

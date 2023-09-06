@@ -181,7 +181,6 @@ namespace DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("UserId")
@@ -625,8 +624,14 @@ namespace DAL.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
+
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("isBought")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -666,6 +671,9 @@ namespace DAL.Migrations
 
                     b.Property<int?>("ProductId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("canLeaveComment")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

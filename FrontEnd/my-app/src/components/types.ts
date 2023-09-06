@@ -24,6 +24,7 @@ export interface OneProductVM{
     description: string,
     quantity: string,
     isInTheStock: string,
+    selledCount:number,
     numberOfDaysForDelivery: string,
     address: string,
     images: string[],
@@ -59,8 +60,11 @@ export interface OrderedOrder{
     id:any;
     fullName:string;
     cardId:number;
+    isBought:boolean;
+    price:number;
     addressId:number;
-    dateCreated:number;
+    dateCreated:string;
+    products:OrderedProductUpdated[];
 }
 
 export interface OrderForSeller{
@@ -68,7 +72,7 @@ export interface OrderForSeller{
     fullName:string;
     cardId:number;
     addressId:number;
-    dateCreated:number;
+    dateCreated:string;
     products:OrderedProductUpdated[];
 }
 
@@ -172,5 +176,6 @@ export interface OrderDTO{
     userId:number,
     cardId:number,
     addressId:number,
-    orderedProducts_:OrderedProducts[]
+    orderedProducts_:OrderedProducts[],
+    price:number
 }

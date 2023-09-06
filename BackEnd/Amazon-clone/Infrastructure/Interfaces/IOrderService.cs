@@ -1,5 +1,6 @@
 ﻿using DAL.Entities;
 using Infrastructure.Models;
+using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,10 @@ namespace Infrastructure.Interfaces
 {
     public interface IOrderService
     {
-
+        public Task<ServiceResponse> CloseAnOrderByIdAsync(int id);
         public List<Order> GetAllOrdersAsync();
         public Task<OrderVM> AddOrderAsync(OrderDTO model);
-        public List<Order> GetOrdersByUserIdAsync(int id);
+        public Task<List<OrderVM>> GetOrdersByUserIdAsync(int id);
         public List<OrderVM> GetOrdersByCompanyIdAsync(int id);
     }
 }

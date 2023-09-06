@@ -17,9 +17,13 @@ namespace ShopApi.Controllers
         private readonly IProductService _productService;
         private readonly IImageService _imageService;
         private readonly IProductImageService _productImageService;
+        private readonly IWebHostEnvironment _env;
+        private readonly bool _isProduction;
 
-        public ProductsController(IProductService productService, IImageService imageService,IProductImageService productImageService)
+        public ProductsController(IProductService productService, IImageService imageService,IProductImageService productImageService, IWebHostEnvironment env)
         {
+            _env = env;
+            _isProduction = _env.IsProduction();
             _productService = productService;
             _imageService = imageService;
             _productImageService = productImageService;
@@ -143,9 +147,11 @@ namespace ShopApi.Controllers
             if (Request.Host.Port != null)
                 port = ":" + Request.Host.Port.ToString();
 
-            var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/{dir}/{image + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
+            var url = $@"https://amazonclone.monster/api/{dir}/{image + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
             return url;
         }
+
+
 
         [HttpPost("GetProductByCategoryId")]
         public async Task<IActionResult> GetProductByCategoryIdAsync([FromBody] GetProductsWithPaginationAndByCategoryIdDTO model)
@@ -214,7 +220,7 @@ namespace ShopApi.Controllers
                 string port = string.Empty;
                 if (Request.Host.Port != null)
                     port = ":" + Request.Host.Port.ToString();
-                var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/images/{fileName + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
+                var url = $@"https://amazonclone.monster/api/images/{fileName + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
                 images.Add(url);
             }
             return Ok(images);
@@ -235,7 +241,7 @@ namespace ShopApi.Controllers
                     string port = string.Empty;
                     if (Request.Host.Port != null)
                         port = ":" + Request.Host.Port.ToString();
-                    var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/images/{image.Name + "_" + (int)Qualities.QualitiesSelector.LOW + ".jpg"}";
+                    var url = $@"https://amazonclone.monster/api/images/{image.Name + "_" + (int)Qualities.QualitiesSelector.LOW + ".jpg"}";
                     images.Add(new ProductImageLinkVM { image = url, productId = byId.Id });
                 }
             }
@@ -254,12 +260,13 @@ namespace ShopApi.Controllers
             {
                 if (Request.Host.Port != null)
                     port = ":" + Request.Host.Port.ToString();
-                var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/images/{image.Name + "_" + (int)Qualities.QualitiesSelector.LOW + ".jpg"}";
+                var url = $@"https://amazonclone.monster/api/images/{image.Name + "_" + (int)Qualities.QualitiesSelector.LOW + ".jpg"}";
                 imagesLinks.Add(url);
             }
 
            
             return imagesLinks;
         }
+        
     }
 }

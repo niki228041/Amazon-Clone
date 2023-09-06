@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 // import { BrowserRouter as Router, Route, Routes, Outlet } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Profile from './components/Profile/profile';
+import { ProfilePage } from './components/Profile/profile';
 import Main from './components/InteractionWithProducts/Main';
 import OneProduct from './components/InteractionWithProducts/OneProduct';
 
@@ -13,7 +13,6 @@ import Orders from './components/BuyProduct/Orders';
 
 
 import Payment from './components/Profile/Payment';
-import Address from './components/Profile/Address';
 import Order from './components/Profile/Order';
 import EditProfile from "./components/Profile/EditProfile"
 import Player from './components/Player/Player';
@@ -182,18 +181,17 @@ const App: React.FC = () => {
 
             <Route path="product/:productId" element={<OneProduct />} />
 
-            <Route path="/profile" element={<Profile />} />
 
-            <Route path="/payment" element={<Payment />} />
+            <Route path='/profile' element={<ProfileWrap/>}>
+              <Route path="" element={<ProfilePage />} />
+              <Route path="payment" element={<ProfileCards />} />
+              <Route path="security" element={<Security />} />
+              <Route path="profilehistory" element={<ProfileHistory />} />
+              <Route path='editprofile' element={<EditProfile />} />
+            </Route>
+            
+            <Route path='help' element={<Help/>} />
 
-            <Route path="/security" element={<Security />} />
-
-            <Route path="/address" element={<Address />} />
-            <Route path='/giftCards' element={<GiftCards />} />
-
-            <Route path="/proforder" element={<Order />} />
-
-            <Route path='/editprofile' element={<EditProfile />} />
 
             <Route path='/tempProfile' element={<TempProfile />} >
               <Route path='becomeASeller' element={<BecomeASeller />} />
@@ -217,8 +215,10 @@ const App: React.FC = () => {
 
 
             <Route path="/products" element={<><Main /></>} >
-              <Route path="products" element={<Profile />} />
+              <Route path="products" element={<ProfilePage />} />
             </Route>
+
+            <Route path='/todaysDeals' element={<><TodaysDeals/><PageWithOptions/></>}></Route>
 
             <Route path='createOptions' element={<CreateOptions />} />
 
@@ -231,7 +231,7 @@ const App: React.FC = () => {
               <Route path='delivery' />
             </Route>
 
-            <Route path="profile" element={<Profile />} />
+            <Route path="profile" element={<ProfilePage />} />
             <Route path="aboutus" element={<AboutUs />} />
             <Route path="wishlist" element={<WishList />} />
             <Route path="aboutUs" element={<AboutUs />} />

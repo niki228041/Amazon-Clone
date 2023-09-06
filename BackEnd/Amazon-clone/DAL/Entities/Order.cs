@@ -8,9 +8,11 @@ namespace DAL.Entities
     public class Order : BaseEntity<int>
 	{
         public string FullName { get; set; }
+        public bool isBought { get; set; } = false;
+        public float Price { get; set; }
 
         //Foreigen Keys:
-            //Every order have a user
+        //Every order have a user
         public User User { get; set; }
 
         [ForeignKey(nameof(User))]

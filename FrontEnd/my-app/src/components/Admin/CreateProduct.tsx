@@ -116,6 +116,7 @@ const CreateProduct=()=> {
         setServerErrorLogin("");
 
         console.log("YES U CAN");
+        console.log("res");
 
         console.log(values);
 
@@ -168,12 +169,22 @@ const CreateProduct=()=> {
           console.log(newProduct);
         
           var err = createProduct(newProduct);
+          console.log("res");
 
           err.then((res:any)=>{
             console.log(res);
-            console.log(res.data.message);
-            console.log(res.data.message);
-            setServerErrorLogin(res.data.message);
+            if(res.data == null)
+            {
+              console.log(res.error.data.message);
+              setServerErrorLogin(res.error.data.message);
+            }
+            else
+            {
+              console.log(res.data.message);
+              console.log(res.data.message);
+              setServerErrorLogin(res.data.message);
+            }
+            
             if(res.data.isSuccess)
             {
               // navigate("/products");

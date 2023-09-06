@@ -3,7 +3,7 @@
 
 import { Link, Outlet, useLocation, useNavigate, useParams} from 'react-router-dom'
 import img from '../../images/t-shirt-png.webp'
-import { useGetProductByIdQuery, useGetProductWithLimitByCategoryIdQuery, useGetProductsQuery } from '../../features/user/apiProductSlice';
+import { useGetCommentsByProductIdQuery, useGetProductByIdQuery, useGetProductWithLimitByCategoryIdQuery, useGetProductsQuery } from '../../features/user/apiProductSlice';
 import { ChangeOrderCount, OneProductVM, Order, Product, SelectedOption } from '../types';
 import { useAppSelector } from '../../app/hooks';
 import { useDispatch } from 'react-redux';
@@ -13,7 +13,6 @@ import { useEffect, useState } from 'react';
 import star from "../../images/star (2).png"
 import empty_star from "../../images/star (3).png"
 import circle from "../../images/black-circle.png"
-import { apiCommentSlice, useGetCommentsByProductIdQuery } from '../../features/user/apiCommentSlice';
 import { addWishitem, updateWishitem } from '../../features/user/apiWishListItemSlice';
 import check from "../../images/check.png"
 import filled_star from "../../images/filled_star.svg"
@@ -81,7 +80,7 @@ const OneProduct=()=>{
     var [mainImage,setMainImage] = useState("");
     var [starsRating,setStarsRating] = useState("");
     const user = useAppSelector((state)=>state.user.user);
-    var [createComment,{}] = apiCommentSlice.useCreateCommentMutation();
+    // var [createComment,{}] = apiCommentSlice.useCreateCommentMutation();
 
 
     const {data:comments,isSuccess:isCommentsSuccess} = useGetCommentsByProductIdQuery({id:params.productId}) as {
@@ -193,17 +192,17 @@ const OneProduct=()=>{
       return jsx_stars;
     }
 
-    const createNewComment=(data:React.FormEvent<HTMLFormElement>)=>{
-        data.preventDefault();
+    // const createNewComment=(data:React.FormEvent<HTMLFormElement>)=>{
+    //     data.preventDefault();
 
-        var curentData = new FormData(data.currentTarget);
-        var title = curentData?.get("Title")?.toString()!;
-        var text = curentData?.get("Text")?.toString()!;
+    //     var curentData = new FormData(data.currentTarget);
+    //     var title = curentData?.get("Title")?.toString()!;
+    //     var text = curentData?.get("Text")?.toString()!;
 
-        var newComment:createCommentDTO = {title:title,message:text,stars:stars,likes:0,dislikes:0,userId:parseInt(user.id),productId: parseInt(params.productId!),images:[]};
-        createComment(newComment);
-        //НАДА ЗАЛОГІНЕННИЙ ЮЗЕР ДЛЯ ПРОДОВЖЕННЯ КОДУ ---------------------------------------------------
-    }
+    //     var newComment:createCommentDTO = {title:title,message:text,stars:stars,likes:0,dislikes:0,userId:parseInt(user.id),productId: parseInt(params.productId!),images:[]};
+    //     createComment(newComment);
+    //     //НАДА ЗАЛОГІНЕННИЙ ЮЗЕР ДЛЯ ПРОДОВЖЕННЯ КОДУ ---------------------------------------------------
+    // }
 
     // const { data, isSuccess } = useGetProductByIdQuery({ Id: params.productId });
     
@@ -262,34 +261,25 @@ const OneProduct=()=>{
             handleStarsRetingFunctionality();
         }
 
-    },[isSuccess,stars,location.pathname,data?.payload.images[0]])
+    },[isSuccess,stars,location.pathname,data?.payload.images[0],data?.payload.comments])
 
 
 
     // Now you can access the payload directly
 
-    return (
-        <>
-            <div className="breadCrumbsStyle">
-                <Stack spacing={2}>
-                    <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-                        {breadcrumbs}
-                    </Breadcrumbs>
-                </Stack>
-            </div>
-            <div className="mx-auto mt-10 w-9/12">
-                <div className='grid grid-cols-10 p-2 py-4 gap-4 border border-grayColorForBorder rounded-lg'>
-            <div className="mx-auto mt-10 w-11/12 lg:w-10/12 xl:w-9/12">
-                <div className='grid xl:grid-cols-10 grid-cols-3 sm:grid-cols-1 p-2 xl:py-4 xl:gap-4 border border-grayColorForBorder rounded-lg'>
-                    <div className='col-span-3'>
-                        <div className='rounded-lg border border-grayColorForBorder '>
-                            <div className='h-[410px] bg-contain bg-no-repeat bg-center' style={{backgroundImage: `url(${mainImage})`}} />
-                        </div>
-                        <div className='grid grid-cols-5 mt-3 gap-3 px-3'>
-                            {data?.payload.images.map((image:string)=>{return<div>
-                                <div onMouseEnter={()=>setMainImage(image)} className='rounded-md bg-cover bg-no-repeat bg-center h-[66px] w-full border border-grayColorForBorder'  style={{backgroundImage: `url(${image})`}}/>
-                            </div>})}
-                        </div>
+    return <>
+
+        <div className="mx-auto mt-10 w-11/12 lg:w-10/12 xl:w-9/12">
+            <div className='grid xl:grid-cols-10 grid-cols-3 sm:grid-cols-1 p-2 xl:py-4 xl:gap-4 border border-grayColorForBorder rounded-lg'>
+                <div className='col-span-3'>
+                    <div className='rounded-lg border border-grayColorForBorder '>
+                        <div className='h-[410px] bg-contain bg-no-repeat bg-center' style={{backgroundImage: `url(${mainImage})`}} />
+                    </div>
+                    <div className='grid grid-cols-5 mt-3 gap-3 px-3'>
+                        {data?.payload.images.map((image:string)=>{return<div>
+                            <div onMouseEnter={()=>setMainImage(image)} className='rounded-md bg-cover bg-no-repeat bg-center h-[66px] w-full border border-grayColorForBorder'  style={{backgroundImage: `url(${image})`}}/>
+                        </div>})}
+                    </div>
 
                     </div>
                     <div className='col-span-4 xl:px-8'>
@@ -316,13 +306,13 @@ const OneProduct=()=>{
                                 <img onClick={()=>changeStars("5")} id='5' className='h-[13px]  hover:contrast-75 image-container' src={filled_star} /> */}
                             </div>
 
-                            <span className='px-1 self-center text-mainYellowColor ml-2 flex text-sm '>{starsRating}</span>
-                            <img className='px-1 self-center h-1.5' src={Dot} />
-                            <img className='px-1 self-center h-4' src={message_img} />
-                            <span className='px-1 self-center flex  hover:underline cursor-pointer select-none text-sm '>{data?.payload.comments.length} відгуки</span>
-                            <img className='px-1 self-center h-1.5' src={Dot} />
-                            <img className='px-1 self-center h-4' src={miniBasket} />
-                            <span className='px-1 self-center text-sm flex'>154 продано</span>
+                        <span className='px-1 self-center text-mainYellowColor ml-2 flex text-sm '>{starsRating}</span>
+                        <img className='px-1 self-center h-1.5' src={Dot} />
+                        <img className='px-1 self-center h-4' src={message_img} />
+                        <span className='px-1 self-center flex  hover:underline cursor-pointer select-none text-sm '>{data?.payload.comments.length} відгуки</span>
+                        <img className='px-1 self-center h-1.5' src={Dot} />
+                        <img className='px-1 self-center h-4' src={miniBasket} />
+                        <span className='px-1 self-center text-sm flex'>{data?.payload.selledCount} продано</span>
 
                         </div>
 
@@ -360,13 +350,13 @@ const OneProduct=()=>{
 
                             <hr className='my-1' />
 
-                            <div className='my-2 grid grid-cols-4'>
-                                <span className=' text-grayForText col-span-1  text-sm self-center'>Кастомізація:</span>
-                                <span className='col-span-3'>Індивідуальний логотип та дизайн індивідуальних пакетів</span>
-                            </div>
-                            
-                        </div>
+                        {/* <div className='my-2 grid grid-cols-4'>
+                            <span className=' text-grayForText col-span-1  text-sm self-center'>Кастомізація:</span>
+                            <span className='col-span-3'>Індивідуальний логотип та дизайн індивідуальних пакетів</span>
+                        </div> */}
                         
+                    </div>
+                    
 
                     </div>
                     <div className='col-span-3 px-2 xl:pl-10'>

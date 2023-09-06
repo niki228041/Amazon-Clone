@@ -8,25 +8,11 @@ export const apiCommentSlice:any = createApi({
     baseQuery:fetchBaseQuery({baseUrl:baseURL}),
     tagTypes:['comment'],
     endpoints:(builder)=>({
-        createComment:builder.mutation<any,any>({
-          query:(todo)=>({
-            url:'/api/Comment/CreateComment',
-            method:"POST",
-            body:todo
-          }),
-          invalidatesTags:['comment']
-        }),
-        getCommentsByProductId:builder.query<any,any>({
-          query:(todo)=>({
-            url:'/api/Comment/GetCommentsByProductId',
-            method:"POST",
-            body:todo
-          }),
-          providesTags:result=>['comment']
-        })
+        
+        
         
     })
 })
 
 
-export const {useGetCommentsByProductIdQuery} = apiCommentSlice
+export const {} = apiCommentSlice

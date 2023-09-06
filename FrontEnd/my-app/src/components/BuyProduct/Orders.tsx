@@ -3,7 +3,7 @@ import { useAppSelector } from "../../app/hooks";
 import { deleteAllOrder, deleteOrder, updateOrder } from "../../features/user/ordersStateSlice";
 import { apiProductSlice, useGetLinksForProductByProductsIdsQuery } from "../../features/user/apiProductSlice";
 import { Card, ChangeOrderCount, FindById, ImageLink, Order, OrderDTO, OrderedProducts } from "../types";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import OrdersList from "./OrdersList";
 import { AdressModal } from "./AdressModal";
 import { useState } from "react";
@@ -16,6 +16,7 @@ import visa from "../../images/visa-logo.jpg"
 import applepay from "../../images/applepay.png"
 import americanExpress from "../../images/americanExpress.png"
 import arrow_right from "../../images/white_arrow_right.png"
+import arrowRight from '../../images/ArrowRightS.svg';
 
 import lock from "../../images/lock.png"
 import car from "../../images/car.png"
@@ -120,6 +121,8 @@ export const Orders=()=>{
     const orders = useAppSelector((state)=>state.orders.orders);
     const user = useAppSelector((state)=>state.user.user);
 
+    var [endPrice,setEndPrice]= useState(0);
+
     var request:FindById[] = [];
     orders.forEach(order => {
       request.push({id:order.product_id});
@@ -167,7 +170,7 @@ export const Orders=()=>{
     const [isBuy,setBuy]= useState(false);
     const toggleCardModal = (prop:boolean)=>{setCardModalOpen(prop)};
 
-    const createOrder=()=>{
+    const createOrder=async ()=>{
       // data.preventDefault();
       // var curentData = new FormData(data.currentTarget);
       
@@ -177,37 +180,57 @@ export const Orders=()=>{
         orderedProducts_.push({productId:order.product_id,count:order.count});
       });
       
+      var endPrice = "";
+
+      endPrice =orders.map((order) => (order.price*order.count)-((order.price*order.count)/100)*order.discount ).reduce((sum, price) => sum + price, 0).toFixed(2);
+      console.log(endPrice);
+      
       var request:OrderDTO = {
           fullName:defaultCard.ownerName!,
           userId:Number(user.id),
           cardId:Number(defaultCard.id),
           addressId:Number(address.id),
-          orderedProducts_:orderedProducts_
+          orderedProducts_:orderedProducts_,
+          price:parseInt(endPrice)
       }
   
       console.log(defaultCard);
       console.log(address);
       console.log(request);
 
-      addOrder(request);
+      var res = await addOrder(request);
       
+      console.log("res");
+      console.log(res);
 
       navigate("/successful-purchase")
-  }
+    }
 
+    var loc = useLocation();
+
+     var allLocation = loc.pathname.split('/').filter(Boolean);
+    
+     console.log(allLocation);
+
+     function capitalizeFirstLetter(text:string) {
+      return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+    }
     
     return <>
     <AdressModal isOpen={isAdressModalOpen} onClose={toggleModal}/>
     <CardModal isOpen={isCardModalOpen} onClose={toggleCardModal}/>
-    <div className="breadCrumbsStyle">
-        <Stack spacing={2}>
-            <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-                {breadcrumbs}
-            </Breadcrumbs>
-        </Stack>
-      </div>
+    
 
-    <div className="mx-auto mt-10 w-9/12 ">
+    <div className="mx-auto w-10/12 ">
+      {/* <div className=' text-whiteGray mt-8 mb-8 ml-2 flex'>
+        {allLocation.map((path:string,index)=>
+          <Link key={index}
+          to={`/${allLocation.slice(0, index + 1).join('/')}`} className='flex' >
+            <span className=' self-center mr-2 hover:underline cursor-pointer'>{capitalizeFirstLetter(path)}</span>
+            <img className=' self-center mr-2' src={arrowRight} />
+          </Link>
+        )}
+      </div> */}
       {/* КОШИК */}
       <div className="">
         <p className=" text-xl font-medium">Мій кошик ({totalCount})</p>
