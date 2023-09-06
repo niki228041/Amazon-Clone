@@ -49,10 +49,10 @@ function TodaysDeals() {
    const [getRecomendedProducts,{}] = apiProductSlice.useGetProductWithLimitByCategoryIdMutation();
 
    useEffect(()=>{
-      if (recomendedProducts.length <= 0) {
+      if (recomendedProducts?.length <= 0) {
         getRecomendedProducts(request).then((res: any) => {
-          console.log(res.data.payload);
-          setRecomendedProducts(res.data.payload);
+          console.log(res.data?.payload);
+          setRecomendedProducts(res.data?.payload);
         });
 
 
@@ -61,8 +61,8 @@ function TodaysDeals() {
    },[])    
 
    useEffect(()=>{
-    console.log(recomendedProducts.length/4);
-    setCountOfDeals(recomendedProducts.length/4);
+    console.log(recomendedProducts?.length/4);
+    setCountOfDeals(recomendedProducts?.length/4);
    },[recomendedProducts])
 
   return (

@@ -81,11 +81,12 @@ import MainProfile from './components/Player/Account/MainProfile';
 import SettingProfile from './components/Player/Account/SettingProfile';
 
 import "./index.css"
-import ProfileCards from './components/Profile/Cards';
-import ProfileHistory from './components/Profile/History';
-import ProfileWrap from './components/Profile/ProfileWrap';
+import GiftCards from './components/Temp/GiftCards/index';
 import TodaysDeals from './components/InteractionWithProducts/TodaysDeals';
 import Help from './components/Profile/Help';
+import ProfileHistory from './components/Profile/History';
+import ProfileCards from './components/Profile/Cards';
+import ProfileWrap from './components/Profile/ProfileWrap';
 import FAQList from './components/Admin/FAQList';
 import CreateFAQ from './components/Admin/CreateFAQ';
 import CreateAnswerToFAQ from './components/Admin/CreateAnswerToFAQ';
@@ -203,6 +204,8 @@ const App: React.FC = () => {
               <Route path='editprofile' element={<EditProfile />} />
             </Route>
             
+
+            <Route path='/giftCards' element={<GiftCards />} />
             <Route path='help' element={<Help/>} />
 
 
@@ -210,6 +213,7 @@ const App: React.FC = () => {
               <Route path='becomeASeller' element={<BecomeASeller />} />
               <Route path='viewMyOrders' element={<ViewMyOrders />} />
               <Route path='cardsSite' element={<CardsSite />} />
+              
               <Route path='addressSite' element={<AddressSite />} />
               <Route path='myCompany' element={<MyCompany />} />
               <Route path='ordersForSeller' element={<OrdersForSeller />} />

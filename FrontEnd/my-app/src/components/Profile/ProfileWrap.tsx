@@ -9,12 +9,11 @@ import background_2 from '../../images/blackWaves.jpg'
 import background_3 from '../../images/purpleWavesBackground.jpg'
 import blackDot from '../../images/blackDot.svg'
 import arrowRight from '../../images/ArrowRightS.svg';
-
 import waves from '../../images/waves.png'
 import chip from '../../images/chip.png'
-
 import classNames from 'classnames';
 import { Link, Outlet, useLocation } from 'react-router-dom';
+
 
 const ProfileWrap=()=> {
 
