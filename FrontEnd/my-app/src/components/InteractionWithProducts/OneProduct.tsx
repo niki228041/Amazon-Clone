@@ -689,11 +689,9 @@ const OneProduct=()=>{
 
             </div> */
             }
-            </div>
-            </div>
+
             
         </>
-    );
         
 };
     

@@ -82,6 +82,11 @@ import SettingProfile from './components/Player/Account/SettingProfile';
 
 import "./index.css"
 import GiftCards from './components/Temp/GiftCards/index';
+import TodaysDeals from './components/InteractionWithProducts/TodaysDeals';
+import Help from './components/Profile/Help';
+import ProfileHistory from './components/Profile/History';
+import ProfileCards from './components/Profile/Cards';
+import ProfileWrap from './components/Profile/ProfileWrap';
 
 
 
@@ -190,6 +195,8 @@ const App: React.FC = () => {
               <Route path='editprofile' element={<EditProfile />} />
             </Route>
             
+
+            <Route path='/giftCards' element={<GiftCards />} />
             <Route path='help' element={<Help/>} />
 
 
