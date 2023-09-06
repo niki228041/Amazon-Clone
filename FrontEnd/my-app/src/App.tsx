@@ -82,6 +82,7 @@ import MainProfile from './components/Player/Account/MainProfile';
 import SettingProfile from './components/Player/Account/SettingProfile';
 
 import "./index.css"
+import GiftCards from './components/Temp/GiftCards/index';
 
 
 
@@ -188,6 +189,7 @@ const App: React.FC = () => {
             <Route path="/security" element={<Security />} />
 
             <Route path="/address" element={<Address />} />
+            <Route path='/giftCards' element={<GiftCards />} />
 
             <Route path="/proforder" element={<Order />} />
 
@@ -197,6 +199,7 @@ const App: React.FC = () => {
               <Route path='becomeASeller' element={<BecomeASeller />} />
               <Route path='viewMyOrders' element={<ViewMyOrders />} />
               <Route path='cardsSite' element={<CardsSite />} />
+              
               <Route path='addressSite' element={<AddressSite />} />
               <Route path='myCompany' element={<MyCompany />} />
               <Route path='ordersForSeller' element={<OrdersForSeller />} />
