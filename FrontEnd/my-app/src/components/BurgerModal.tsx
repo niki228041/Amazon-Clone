@@ -314,7 +314,7 @@ export const BurgerModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: (pr
   return (
     <form >
         <div className=''>
-        <div className={classNames("flex fixed inset-0 bg-black/30 transition-all duration-500 z-10 pt-11 ",{"scale-x-0":!isOpen,} )}/>
+        <div className={classNames("flex fixed inset-0 bg-black/30 transition-all duration-500 z-20 pt-11 ",{"scale-x-0":!isOpen,} )}/>
 
         <div className={classNames(" absolute  mt-[124px]  grid z-20 w-[350px] transition-all -translate-x-full",{"translate-x-0":isOpen,} )}>
             <div className='flex px-5 py-2 justify-between bg-mainYellowColor'>
@@ -324,7 +324,7 @@ export const BurgerModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: (pr
               </div>
             </div>
 
-          <div className=' bg-white relative py-5 pb-10 overflow-hidden min-h-[300px] overflow-y-scroll'>
+            <div className=' bg-white relative py-5 pb-10 overflow-hidden min-h-[300px] overflow-y-scroll'>
 
             <ModelOne handleGoBackMenu={handleGoBackMenu} subcategories={subCategories} handleNextMenu={handleNextMenu} styles={stylesOne} position={positionOne} setPosition={setPositionOne} name={"ElementOneId"} categorySequence={categoriesSequence} />
             <ModelOne handleGoBackMenu={handleGoBackMenu} subcategories={subCategories} handleNextMenu={handleNextMenu} styles={stylesTwo} position={positionTwo} setPosition={setPositionTwo} name={"ElementTwoId"} categorySequence={categoriesSequence}/>

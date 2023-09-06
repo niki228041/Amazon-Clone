@@ -31,5 +31,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Validation\" />
+    <Folder Include="Новая папка\" />
   </ItemGroup>
 </Project>

@@ -220,9 +220,20 @@ public class ProductService : IProductService
 
     public async Task<ServiceResponse> GetProductByIdAsync(int id)
     {
+        if (id == 0)
+        {
+            return new ServiceResponse
+            {
+                Message = "ERROR",
+                IsSuccess = false,
+                Payload = ""
+            };
+        }
+
         var res = _productRepository.GetAll().Include(prod=>prod.VariantProducts).Include(prod=>prod.Comments).FirstOrDefault(prod=>prod.Id==id);
         var optionsToSend = new List<SelectedOptionVM>();
 
+        
 
         foreach (var variantProduct in res.VariantProducts)
         {
@@ -380,10 +391,23 @@ public class ProductService : IProductService
         var startIndex = (page - 1) * limit;
         var endIndex = page * limit;
 
+
+
         List<ProductVM> productVMsFinal = productVMs
             .Skip(startIndex)
             .Take(limit)
             .ToList();
+
+        foreach(var productVM in productVMsFinal)
+        {
+            productVM.SelledCount = _orderRepository.GetAll().Include(order => order.OrderedProducts).Where(order => order.OrderedProducts.FirstOrDefault(prod => prod.ProductId == productVM.Id) != null && order.isBought).ToList().Count;
+        }
+        
+
+        ProductsVMWithPagination productsVMWithPagination = new ProductsVMWithPagination();
+
+        productsVMWithPagination.CountOfProducts = productVMs.Count;
+        productsVMWithPagination.Products = productVMsFinal;
 
 
 
@@ -392,7 +416,7 @@ public class ProductService : IProductService
         {
             Message = "GetProduct",
             IsSuccess = true,
-            Payload = productVMsFinal
+            Payload = productsVMWithPagination
         };
     }
 

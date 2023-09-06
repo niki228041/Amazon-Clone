@@ -48,7 +48,10 @@ module.exports = {
         whiteColor:"#FFFFFF",
         whiteGray:"#8B96A5",
         musicHeaderGray:"#697475",
-        whiteGrayComment:"#F0F0F0"
+        whiteGrayComment:"#F0F0F0",
+        grayForProductToast:"#D9D9D9",
+        litleYellow:"#fffbe8",
+        veryYellowColor:"#BEBEBE"
 
       }
     },

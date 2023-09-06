@@ -60,6 +60,14 @@ const AdminSite=()=> {
              Companies
            </button>
 
+           <button
+             type="button"
+             onClick={()=>{changeRoute("FAQs")}}
+             className="mt-2 inline-flex items-center rounded-md  w-full cursor-pointer bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+             FAQs
+           </button>
+           
+
           </div>
         
 
@@ -80,13 +88,14 @@ const AdminSite=()=> {
                 className="items-center rounded-md flex justify-center cursor-pointer bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                 Create
                 </button>}
-
-                 <button
-                  type="button"
-                  onClick={()=>{handleToCreateOptions()}}
-                  className="items-center rounded-md  cursor-pointer  bg-green-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                  AddOptions
+                {list=="categories" ?
+                <button
+                 type="button"
+                 onClick={()=>{handleToCreateOptions()}}
+                 className="items-center rounded-md  cursor-pointer  bg-green-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                 AddOptions
                 </button>
+                :""}
               </div>
               
           </div>

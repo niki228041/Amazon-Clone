@@ -3,11 +3,11 @@
 
 import { Link, Outlet, useLocation, useNavigate, useParams} from 'react-router-dom'
 import img from '../../images/t-shirt-png.webp'
-import { useGetCommentsByProductIdQuery, useGetProductByIdQuery, useGetProductWithLimitByCategoryIdQuery, useGetProductsQuery } from '../../features/user/apiProductSlice';
+import { useGetCommentsByProductIdQuery, useGetProductByIdQuery, useGetProductsQuery } from '../../features/user/apiProductSlice';
 import { ChangeOrderCount, OneProductVM, Order, Product, SelectedOption } from '../types';
 import { useAppSelector } from '../../app/hooks';
 import { useDispatch } from 'react-redux';
-import { addOrder, updateOrder } from '../../features/user/ordersStateSlice';
+import { addOrder, turnWasAddedToFalse, updateOrder } from '../../features/user/ordersStateSlice';
 import { v4 as uuidv4 } from 'uuid';
 import { useEffect, useState } from 'react';
 import star from "../../images/star (2).png"
@@ -45,7 +45,7 @@ interface createCommentDTO{
 }
 
 
-interface getRecomendedProducts{
+export interface getRecomendedProducts{
     limit: number,
     categoryId: number,
 }
@@ -74,8 +74,8 @@ const OneProduct=()=>{
     var [stars,setStars] = useState(5);
 
     var request:getRecomendedProducts = {limit:6,categoryId:0}; 
-    const {data:recomendedProducts_1 }:{data:{payload:Product[]}} = useGetProductWithLimitByCategoryIdQuery(request);
-    const {data:recomendedProducts_2 }:{data:{payload:Product[]}} = useGetProductWithLimitByCategoryIdQuery(request);
+    // const {data:recomendedProducts_1 }:{data:{payload:Product[]}} = useGetProductWithLimitByCategoryIdQuery(request);
+    // const {data:recomendedProducts_2 }:{data:{payload:Product[]}} = useGetProductWithLimitByCategoryIdQuery(request);
 
     var [mainImage,setMainImage] = useState("");
     var [starsRating,setStarsRating] = useState("");
@@ -107,6 +107,9 @@ const OneProduct=()=>{
                 dispatch(updateOrder(changeOrderCount));
             }
         }
+        setTimeout(() => {
+          dispatch(turnWasAddedToFalse());
+        }, 2000);
     }
 
 
@@ -206,7 +209,7 @@ const OneProduct=()=>{
 
     // const { data, isSuccess } = useGetProductByIdQuery({ Id: params.productId });
     
-    const { data, isSuccess }: { data?: { payload: OneProductVM }, isSuccess: boolean } = useGetProductByIdQuery({ Id: params.productId });
+    const { data, isSuccess } : { data?: { payload: OneProductVM }, isSuccess: boolean } = useGetProductByIdQuery({ Id: params.productId });
 
 
 
@@ -388,15 +391,15 @@ const OneProduct=()=>{
                                 <p className='ml-4 col-span-9 '>Доставка по всьому світу</p>
                             </div>
 
-                            <button onClick={()=>{handleAddNewOrder(data?.payload!)}} className='hover:bg-orange-300 flex mx-auto bg-mainYellowColor py-2 w-full justify-center rounded-lg text-white'>
-                                Надіслати запит
-                            </button>
-                            <button className='border border-grayColorForBorder mt-3 flex mx-auto py-2 w-full justify-center rounded-lg'>
-                                Профіль продавця
-                            </button>
-                        </div>
+                        <button onClick={()=>{ handleAddNewOrder(data?.payload!)}} className='hover:bg-orange-300 flex mx-auto bg-mainYellowColor py-2 w-full justify-center rounded-lg text-white'>
+                            Надіслати запит
+                        </button>
+                        <button className='border border-grayColorForBorder mt-3 flex mx-auto py-2 w-full justify-center rounded-lg'>
+                            Профіль продавця
+                        </button>
                     </div>
                 </div>
+            </div>
 
 
                 <div className='grid grid-cols-12 mt-12'>
@@ -437,54 +440,54 @@ const OneProduct=()=>{
                         </div>
                     </div>
 
-                    <div className='ml-2 col-span-3 hidden  xl:block'>
-                        <div className='border border-grayColorForBorder rounded-lg p-4'>
-                            <p className=' font-semibold'>Вам може сподобатись</p>
-                            {recomendedProducts_1?.payload.map((prod)=>{
-                                return <>
-                                    <Link  onClick={()=>handleLinkClick()} to={"/product/description/"+prod.id} className='flex mt-4 h-[70px] my-4 mb-8'>
-                                        <div>
-                                            <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${prod.image})`}}  />
+                <div className='ml-2 col-span-3 hidden  xl:block'>
+                    <div className='border border-grayColorForBorder rounded-lg p-4'>
+                        <p className=' font-semibold'>Вам може сподобатись</p>
+                        {/* {recomendedProducts_1?.payload.map((prod)=>{
+                            return <>
+                                <Link  onClick={()=>handleLinkClick()} to={"/product/description/"+prod.id} className='flex mt-4 h-[70px] my-4 mb-8'>
+                                    <div>
+                                        <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${prod.image})`}}  />
+                                    </div>
+                                    <div className='grid grid-rows-2  h-full'>
+                                        <div className='h-12 overflow-hidden'>
+                                            <p className='pr-4'>{prod.name}</p>
                                         </div>
-                                        <div className='grid grid-rows-2  h-full'>
-                                            <div className='h-12 overflow-hidden'>
-                                                <p className='pr-4'>{prod.name}</p>
-                                            </div>
-                                            <p className=' self-end text-grayForText'>{prod.price} грн.</p>
-                                        </div>
-                                    </Link>
-                                </>
-                            })}
-                            
-                            {/* <div className='flex mt-4 h-[70px] my-4 mb-8'>
-                                <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
-                                <div className='grid grid-rows-2'>
-                                    <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
-                                    <p className=' self-end text-grayForText'>1000-25000 грн.</p>
-                                </div>
+                                        <p className=' self-end text-grayForText'>{prod.price} грн.</p>
+                                    </div>
+                                </Link>
+                            </>
+                        })} */}
+                        
+                        {/* <div className='flex mt-4 h-[70px] my-4 mb-8'>
+                            <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
+                            <div className='grid grid-rows-2'>
+                                <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
+                                <p className=' self-end text-grayForText'>1000-25000 грн.</p>
                             </div>
-                            <div className='flex mt-4 h-[70px] my-4 mb-8'>
-                                <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
-                                <div className='grid grid-rows-2'>
-                                    <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
-                                    <p className=' self-end text-grayForText'>1000-25000 грн.</p>
-                                </div>
-                            </div>
-                            <div className='flex mt-4 h-[70px] my-4 mb-8'>
-                                <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
-                                <div className='grid grid-rows-2'>
-                                    <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
-                                    <p className=' self-end text-grayForText'>1000-25000 грн.</p>
-                                </div>
-                            </div>
-                            <div className='flex mt-4 h-[70px] my-4 '>
-                                <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
-                                <div className='grid grid-rows-2'>
-                                    <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
-                                    <p className=' self-end text-grayForText'>1000-25000 грн.</p>
-                                </div>
-                            </div> */}
                         </div>
+                        <div className='flex mt-4 h-[70px] my-4 mb-8'>
+                            <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
+                            <div className='grid grid-rows-2'>
+                                <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
+                                <p className=' self-end text-grayForText'>1000-25000 грн.</p>
+                            </div>
+                        </div>
+                        <div className='flex mt-4 h-[70px] my-4 mb-8'>
+                            <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
+                            <div className='grid grid-rows-2'>
+                                <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
+                                <p className=' self-end text-grayForText'>1000-25000 грн.</p>
+                            </div>
+                        </div>
+                        <div className='flex mt-4 h-[70px] my-4 '>
+                            <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
+                            <div className='grid grid-rows-2'>
+                                <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
+                                <p className=' self-end text-grayForText'>1000-25000 грн.</p>
+                            </div>
+                        </div> */}
+                    </div>
 
                         
                     </div>
@@ -497,17 +500,17 @@ const OneProduct=()=>{
                     <p className='p-2  font-semibold'>Схожі товари</p>
                     <div className='mb-4 grid grid-cols-3 xl:grid-cols-6  xl:gap-2'>
 
-                        {recomendedProducts_2?.payload.map((prod)=>{
-                            return <>
-                                <Link onClick={()=>handleLinkClick()} to={"/product/description/"+prod.id}>
-                                    <div className='p-2'>
-                                        <div className='h-[70px] overflow-hidden lg:h-[150px] xl:h-[220px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center xl:mr-2' style={{backgroundImage: `url(${prod.image})`}}   />
-                                        <p className='mt-2 h-[60px] overflow-hidden'>{prod.name} </p>
-                                        <p className=' text-sm text-grayForText'>{prod.price} грн.</p>
-                                    </div>
-                                </Link>
-                            </>
-                        })}
+                    {/* {recomendedProducts_2?.payload.map((prod)=>{
+                        return <>
+                            <Link onClick={()=>handleLinkClick()} to={"/product/description/"+prod.id}>
+                                <div className='p-2'>
+                                    <div className='h-[70px] overflow-hidden lg:h-[150px] xl:h-[220px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center xl:mr-2' style={{backgroundImage: `url(${prod.image})`}}   />
+                                    <p className='mt-2 h-[60px] overflow-hidden'>{prod.name} </p>
+                                    <p className=' text-sm text-grayForText'>{prod.price} грн.</p>
+                                </div>
+                            </Link>
+                        </>
+                    })} */}
 
                         
                         

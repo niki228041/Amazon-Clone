@@ -19,18 +19,23 @@ import { apiCardSlice, useGetCardsByUserIdQuery } from '../../features/user/apiC
 import { Card } from '../types';
 import { SetDefaultCard } from '../Temp/CardsSite';
 import { CardModal } from '../BuyProduct/CardModal';
+import { setCardModalWindow } from '../../features/user/modalWindowsStateSlice';
+import { useDispatch } from 'react-redux';
 
 const ProfileCards=()=> {
    const [dropDownSex,setDropDownSex] =  useState(false);
 
    var user = useAppSelector((state)=> state.user.user);
- 
+
+
    var {data,isSuccess}:{data:Card[],isSuccess:boolean}  = useGetCardsByUserIdQuery({id:user.id});
    var [setDefaultCard,{}] = apiCardSlice.useSetDefaultCardMutation();
    
  
    useEffect(()=>{},[data]);
  
+   var dispatch =  useDispatch();
+
    console.log(data);
  
    const handleSetDefaultCard=(id:number)=>{
@@ -42,13 +47,11 @@ const ProfileCards=()=> {
    const toggleCardModal = (prop:boolean)=>{setCardModalOpen(prop)};
 
   return (<>
-    <CardModal isOpen={isCardModalOpen} onClose={toggleCardModal}/>
-    
     <div>
 
         <div className='flex justify-between'>
             <div className=' flex text-[30px] text-grayColorForHeader font-semibold self-center '>Основні платіжні карти</div>
-            <div onClick={()=>setCardModalOpen(true)} className=' flex text-[20px] text-white cursor-pointer hover:scale-110 select-none transition-all active:scale-95 duration-100 font-semibold bg-mainYellowColor rounded-lg self-center px-4 py-2 '>Добавити карту</div>
+            <div onClick={()=>dispatch(setCardModalWindow(true))} className=' flex text-[20px] text-white cursor-pointer hover:scale-110 select-none transition-all active:scale-95 duration-100 font-semibold bg-mainYellowColor rounded-lg self-center px-4 py-2 '>Добавити карту</div>
         </div>
 
         

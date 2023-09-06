@@ -20,6 +20,7 @@ import arrowDown from "../images/arrow_down.svg"
 import arrowDownForSearch from "../images/arrowDownForSearch.svg"
 import arrowRight from '../images/ArrowRightS.svg';
 import arrowDownWhite from "../images/arrowDownWhite.svg"
+import tringle from "../images/Tringle.svg"
 import "../css/MainPage.css"
 
 import { LiaSistrix } from "react-icons/lia";
@@ -32,16 +33,20 @@ import { GrCart } from "react-icons/gr";
 import { useAppSelector } from "../app/hooks";
 import { apiProductSlice } from "../features/user/apiProductSlice";
 import { Product } from "./types";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { UserState } from "../features/user/user-slice";
-import { Orders } from "../features/user/ordersStateSlice";
+import { Orders, turnWasAddedToFalse } from "../features/user/ordersStateSlice";
 import search from "../images/search.png"
 import { BurgerModal } from "./BurgerModal";
+import classNames from "classnames";
+import { CardModal } from "./BuyProduct/CardModal";
+import { AdressModal } from "./BuyProduct/AdressModal";
 
 
 const Header = () => {
   const orders = useAppSelector((state) => state.orders);
   var user = useAppSelector(((state: { user: UserState; orders: Orders }) => state.user.user));
+  var orderWasAdded = useAppSelector((state) => state.orders.orderWasAdded);
 
   const [onSearch, setSearch] = useState(false);
   const [inputText, setInputText] = useState("");
@@ -49,6 +54,7 @@ const Header = () => {
   var [products, setProducts] = useState<Product[]>([]);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   var totalCount: number = 0;
 
@@ -62,6 +68,15 @@ const Header = () => {
     setDropdown(inputText.length != 0);
     getProducts();
   }, [inputText])
+
+
+  useEffect(()=>{
+    // setTimeout(() => {
+    //   dispatch(turnWasAddedToFalse());
+    // }, 2000);
+    console.log("yo");
+    
+  },[orderWasAdded])
 
 
 
@@ -115,10 +130,13 @@ const Header = () => {
    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
  }
 
+
   console.log(isBurgerOpen);
 
   return (<div className=" ">
     <BurgerModal isOpen={isBurgerOpen} onClose={setIsBurgerOpen}  />
+    <CardModal/>
+    <AdressModal/>
     
     <div className="sticky z-30 bg-white">
     <div className="top-header text-sm">
@@ -160,7 +178,7 @@ const Header = () => {
       </div>
     </div>
 
-    <div className="header grid text-whiteForHeader ">
+    <div className="header grid text-whiteForHeader relative z-20 bg-white ">
       <div className="languagediv">
         <div className="hamburger xl:p-5 p-2" onClick={()=>{setIsBurgerOpen(!isBurgerOpen)}}>
           <img src={union} />
@@ -183,9 +201,9 @@ const Header = () => {
               type="text"
               placeholder="Пошук"
             />
-            <div className="xl:w-12 lg:w-10 mr-[2px] rounded-l-full w-7 xl:h-9  lg:h-7 h-5 absolute cursor-pointer active:transition-none select-none bg-mainYellowColor right-0 flex justify-center transition-all self-center"
+            <div onClick={() => handleToSearchPage()} className="  xl:w-12 lg:w-10 mr-[2px] rounded-l-full w-7 xl:h-9  lg:h-7 h-5 absolute cursor-pointer active:transition-none select-none bg-mainYellowColor right-0 flex justify-center transition-all self-center"
               style={{ transform: "scaleX(-1)" }}>
-              <img src={arrowDownForSearch} onClick={() => handleToSearchPage()} className="self-center" />
+              <img src={arrowDownForSearch} className="self-center" />
             </div>
           </div>
           {/* Ваш іконка для пошуку тут */}
@@ -247,7 +265,17 @@ const Header = () => {
 
       </div>
 
-    </div>
+      
+
+     </div>
+        <div style={{transformOrigin:"top center"}} className={classNames(" duration-200 z-10 absolute h-20 w-1/12 right-0 mr-1 transition-all",{"-translate-y-full":!orderWasAdded})}>
+          <div className="flex justify-end">
+            <img className="h-3 mr-16 my-1 shadow-xl " src={tringle} />
+          </div>
+          <div className="text-sm p-2 absolute bg-white w-full rounded-lg  shadow-xl">
+            +1 Product was added to Basket!
+          </div>
+        </div>
     </div>
 
     <div className="flex flex-col w-full xl:text-[16px] sm:text-[10px] ">

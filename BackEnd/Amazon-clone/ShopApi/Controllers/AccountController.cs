@@ -78,7 +78,6 @@ namespace ShopApi.Controllers
             }
 
 
-
             if (!resp.IsSuccess)
             {
                 return Ok(resp);

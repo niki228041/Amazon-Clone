@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../app/hooks";
-import { deleteAllOrder, deleteOrder, updateOrder } from "../../features/user/ordersStateSlice";
+import { deleteAllOrder, deleteOrder, updateOrder, updateOrderInBasket } from "../../features/user/ordersStateSlice";
 import { apiProductSlice, useGetLinksForProductByProductsIdsQuery } from "../../features/user/apiProductSlice";
 import { Card, ChangeOrderCount, FindById, ImageLink, Order, OrderDTO, OrderedProducts } from "../types";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
@@ -33,6 +33,8 @@ import Typography from '@mui/material/Typography';
 import BreadcrumbsLink from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { Oval } from "react-loader-spinner";
+import classNames from "classnames";
 
 export const BuyLater=()=>{
   return<>
@@ -54,6 +56,30 @@ export const BuyLater=()=>{
   </>
 }
 
+const loader=()=> {
+  return(
+    <div className='m-auto pt-32 pb-60 flex self-center flex-col justify-center'>
+    <div className=" self-center">
+    <Oval
+      height={80}
+      width={80}
+      color="#46424f"
+      wrapperStyle={{}}
+      wrapperClass=""
+      visible={true}
+      ariaLabel='oval-loading'
+      secondaryColor="#424a4f"
+      strokeWidth={2}
+      strokeWidthSecondary={2}/>
+    </div>
+    <p className=" self-center">
+      Виконання замовлення, не перемикайте сторінку.
+    </p>
+  </div>
+
+  )
+}
+
 interface OrderComponentProps {
   order: Order;
   productsImages:ImageLink[];
@@ -69,7 +95,7 @@ export const OrderComponent:React.FC<OrderComponentProps>=({ order,productsImage
     var index = orders.findIndex((ord:Order)=>ord.id == id);
     var changeOrderCount:ChangeOrderCount = {index:index,count:Number(count.value)}; 
     console.log(changeOrderCount);
-    dispatch(updateOrder(changeOrderCount));
+    dispatch(updateOrderInBasket(changeOrderCount));
   }
 
   return<>
@@ -131,7 +157,7 @@ export const Orders=()=>{
     const { data: productsImages, isSuccess: isProductsImages } = useGetLinksForProductByProductsIdsQuery(request);
     const { data: defaultCard, isSuccess: isDefaultCard }:{data:Card,isSuccess:boolean} = useGetDefaultCardByUserIdQuery({id:user.id});
     const { data: address, isSuccess: isAddress }:{data:Card,isSuccess:boolean} = useGetAddressByUserIdQuery({id:user.id});
-    const [addOrder,{}]= apiOrderSlice.useAddOrderMutation();
+    const [addOrder,{isLoading}]= apiOrderSlice.useAddOrderMutation();
     
     const breadcrumbs = [
       <BreadcrumbsLink underline="hover" key="1" color="inherit" href="/">
@@ -167,13 +193,11 @@ export const Orders=()=>{
     const [isAdressModalOpen,setAdressModalOpen]= useState(false);
     const toggleModal = (prop:boolean)=>{setAdressModalOpen(prop)};
     const [isCardModalOpen,setCardModalOpen]= useState(false);
+    const [orderError,setOrderError]= useState("");
     const [isBuy,setBuy]= useState(false);
     const toggleCardModal = (prop:boolean)=>{setCardModalOpen(prop)};
 
-    const createOrder=async ()=>{
-      // data.preventDefault();
-      // var curentData = new FormData(data.currentTarget);
-      
+    const createOrder= async()=>{
       var orderedProducts_:OrderedProducts[] = [];
 
       orders.forEach(order => {
@@ -186,24 +210,51 @@ export const Orders=()=>{
       console.log(endPrice);
       
       var request:OrderDTO = {
-          fullName:defaultCard.ownerName!,
+          fullName:defaultCard?.ownerName!,
           userId:Number(user.id),
-          cardId:Number(defaultCard.id),
-          addressId:Number(address.id),
+          cardId:Number(defaultCard?.id),
+          addressId:Number(address?.id),
           orderedProducts_:orderedProducts_,
           price:parseInt(endPrice)
       }
+
+      var canBeOrdered = true;
+
+      if(orderedProducts_.length <= 0)
+      {
+        setOrderError("Щоб замовити товар, потрібно спочатку добавити його до корзини!");
+        canBeOrdered=false;
+      }
+      else if(user == null)
+      {
+        setOrderError("Зарегеструйтесь для того щоб придбати товар!");
+        canBeOrdered=false;
+      }
+      else if(defaultCard == null)
+      {
+        setOrderError("Добавте банківську картку в профілі!");
+        canBeOrdered=false;
+      }
+      else if(address == null)
+      {
+        setOrderError("Добавте адресс в профілі!");
+        canBeOrdered=false;
+      }
+
+      setTimeout(() => {
+        setOrderError("");
+      }, 4000);
   
-      console.log(defaultCard);
-      console.log(address);
-      console.log(request);
-
-      var res = await addOrder(request);
+      if(canBeOrdered)
+      {
+        var res = await addOrder(request);
       
-      console.log("res");
-      console.log(res);
+        console.log("res");
+        console.log(res);
+  
+        navigate("/successful-purchase")
+      }
 
-      navigate("/successful-purchase")
     }
 
     var loc = useLocation();
@@ -217,21 +268,11 @@ export const Orders=()=>{
     }
     
     return <>
-    <AdressModal isOpen={isAdressModalOpen} onClose={toggleModal}/>
-    <CardModal isOpen={isCardModalOpen} onClose={toggleCardModal}/>
-    
 
     <div className="mx-auto w-10/12 ">
-      {/* <div className=' text-whiteGray mt-8 mb-8 ml-2 flex'>
-        {allLocation.map((path:string,index)=>
-          <Link key={index}
-          to={`/${allLocation.slice(0, index + 1).join('/')}`} className='flex' >
-            <span className=' self-center mr-2 hover:underline cursor-pointer'>{capitalizeFirstLetter(path)}</span>
-            <img className=' self-center mr-2' src={arrowRight} />
-          </Link>
-        )}
-      </div> */}
+      
       {/* КОШИК */}
+      {!isLoading?
       <div className="">
         <p className=" text-xl font-medium">Мій кошик ({totalCount})</p>
         
@@ -245,7 +286,7 @@ export const Orders=()=>{
                 {orders.map((order:Order) => (<OrderComponent order={order} productsImages={productsImages} />))}
               
                 <div className=" flex justify-between p-2 mx-4">
-                  <button onClick={()=>navigate("/products")} className=" hover:bg-orange-300 transition-all active:shadow-lg active:transition-none bg-mainYellowColor text-white px-5 py-1 rounded-lg mt-3">
+                  <button onClick={()=>navigate("/todaysDeals")} className=" hover:bg-orange-300 transition-all active:shadow-lg active:transition-none bg-mainYellowColor text-white px-5 py-1 rounded-lg mt-3">
                     Повернутися
                   </button>
                   <button onClick={()=>dispatch(deleteAllOrder())} className=" transition-all active:shadow-lg active:transition-none border border-grayColorForBorder text-mainYellowColor px-4 py-2 rounded-lg mt-3">
@@ -256,7 +297,7 @@ export const Orders=()=>{
             :
             <div className="m-auto">
               <img className="m-auto mt-24 mb-10" src={bigBasket} />
-              <button onClick={()=>navigate("/products")} className=" hover:bg-blue-700 bg-darkBlueColor text-white py-3 px-6 rounded-xl m-auto flex mb-16">ПОВЕРНУТИСЬ ДО ПОКУПОК</button>
+              <button onClick={()=>navigate("/todaysDeals")} className=" hover:bg-blue-700 bg-darkBlueColor text-white py-3 px-6 rounded-xl m-auto flex mb-16">ПОВЕРНУТИСЬ ДО ПОКУПОК</button>
             </div> 
 
             }
@@ -267,7 +308,7 @@ export const Orders=()=>{
                 <img className="xl:h-16 h-10 mr-3" src={lock}/>
                 <div>
                   <p> Безпечний платіж</p>
-                  <p className=" text-grayForText text-sm">рвариврвт</p>
+                  <p className=" text-grayForText text-sm">Ваша безпека - наш пріоритет</p>
                 </div>
 
               </div>
@@ -275,7 +316,7 @@ export const Orders=()=>{
                 <img className="xl:h-16 h-10 mr-3" src={message}/>
                 <div>
                   <p>Підтримка клієнтів</p>
-                  <p className=" text-grayForText text-sm">пвімвм</p>
+                  <p className=" text-grayForText text-sm">Наша команда готова допомогти 24/7.</p>
                 </div>
 
               </div>
@@ -283,7 +324,7 @@ export const Orders=()=>{
                 <img className="xl:h-16 h-10 mr-3" src={car}/>
                 <div>
                   <p>Безкоштовна доставка</p>
-                  <p className=" text-grayForText text-sm">впівпп</p>
+                  <p className=" text-grayForText text-sm">В будь-яку точку світу</p>
                 </div>
 
               </div>
@@ -323,6 +364,11 @@ export const Orders=()=>{
                 Оплатити
               </button>
 
+              <div className="mt-2 text-red-500">
+                <span>{orderError}</span>
+              </div>
+
+
               <div className="mt-4 flex w-full">
                 <div className="m-auto flex">
                 <div className="h-5 w-9 mx-1 border rounded-md bg-contain bg-center bg-no-repeat" style={{backgroundImage:'url('+visa+')'}}/>
@@ -340,6 +386,8 @@ export const Orders=()=>{
           </div>
         </div>
       </div>
+
+      : loader()}
 
       {/* РЕКОМЕНДАЦІЇ ЩО ДО ПОКУПОК */}
       <div className=" font-semibold text-lg my-14 border border-grayColorForBorder rounded-lg p-4">
