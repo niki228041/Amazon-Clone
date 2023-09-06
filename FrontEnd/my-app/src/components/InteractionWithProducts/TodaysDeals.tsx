@@ -11,9 +11,30 @@ import { getRecomendedProducts } from './OneProduct'
 import { Product } from '../types'
 import { apiProductSlice } from '../../features/user/apiProductSlice'
 import { Link } from 'react-router-dom'
+import { Oval } from 'react-loader-spinner'
+
+
+const loader = () => {
+    return (
+      <div className='m-auto flex self-center justify-center '>
+        <Oval
+          height={80}
+          width={80}
+          color="#46424f"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+          ariaLabel='oval-loading'
+          secondaryColor="#424a4f"
+          strokeWidth={2}
+          strokeWidthSecondary={2} />
+      </div>
+  
+    )
+  }
 
 function TodaysDeals() {
-   var [countOfDeals,setCountOfDeals] = useState(3);
+   var [countOfDeals,setCountOfDeals] = useState(0);
    var [currentDeals,setCurrentDeals] = useState(0);
 
    var [offset,setOffset] = useState(currentDeals * 220*5);
@@ -33,9 +54,16 @@ function TodaysDeals() {
           console.log(res.data.payload);
           setRecomendedProducts(res.data.payload);
         });
+
+
       }
 
    },[])    
+
+   useEffect(()=>{
+    console.log(recomendedProducts.length/4);
+    setCountOfDeals(recomendedProducts.length/4);
+   },[recomendedProducts])
 
   return (
     <div>
@@ -46,7 +74,7 @@ function TodaysDeals() {
         
         <div className=' overflow-x-hidden flex relative h-[370px] w-full'>
             
-
+        {recomendedProducts?.length>0 ? 
         <div className="flex absolute h-[320px] justify-center self-center transition-all duration-500" style={{ transform: `translateX(-${offset}px)` }}>
 
 
@@ -75,6 +103,7 @@ function TodaysDeals() {
                 })}
                 
         </div>
+        :<>{loader()}</>  }
 
             <div onClick={()=>{
                 

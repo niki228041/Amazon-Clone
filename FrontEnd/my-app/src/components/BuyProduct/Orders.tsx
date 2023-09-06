@@ -34,6 +34,7 @@ import BreadcrumbsLink from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { Oval } from "react-loader-spinner";
+import classNames from "classnames";
 
 export const BuyLater=()=>{
   return<>
@@ -192,11 +193,11 @@ export const Orders=()=>{
     const [isAdressModalOpen,setAdressModalOpen]= useState(false);
     const toggleModal = (prop:boolean)=>{setAdressModalOpen(prop)};
     const [isCardModalOpen,setCardModalOpen]= useState(false);
+    const [orderError,setOrderError]= useState("");
     const [isBuy,setBuy]= useState(false);
     const toggleCardModal = (prop:boolean)=>{setCardModalOpen(prop)};
 
-    const createOrder=async ()=>{
-      
+    const createOrder= async()=>{
       var orderedProducts_:OrderedProducts[] = [];
 
       orders.forEach(order => {
@@ -209,24 +210,51 @@ export const Orders=()=>{
       console.log(endPrice);
       
       var request:OrderDTO = {
-          fullName:defaultCard.ownerName!,
+          fullName:defaultCard?.ownerName!,
           userId:Number(user.id),
-          cardId:Number(defaultCard.id),
-          addressId:Number(address.id),
+          cardId:Number(defaultCard?.id),
+          addressId:Number(address?.id),
           orderedProducts_:orderedProducts_,
           price:parseInt(endPrice)
       }
+
+      var canBeOrdered = true;
+
+      if(orderedProducts_.length <= 0)
+      {
+        setOrderError("Щоб замовити товар, потрібно спочатку добавити його до корзини!");
+        canBeOrdered=false;
+      }
+      else if(user == null)
+      {
+        setOrderError("Зарегеструйтесь для того щоб придбати товар!");
+        canBeOrdered=false;
+      }
+      else if(defaultCard == null)
+      {
+        setOrderError("Добавте банківську картку в профілі!");
+        canBeOrdered=false;
+      }
+      else if(address == null)
+      {
+        setOrderError("Добавте адресс в профілі!");
+        canBeOrdered=false;
+      }
+
+      setTimeout(() => {
+        setOrderError("");
+      }, 4000);
   
-      console.log(defaultCard);
-      console.log(address);
-      console.log(request);
-
-      var res = await addOrder(request);
+      if(canBeOrdered)
+      {
+        var res = await addOrder(request);
       
-      console.log("res");
-      console.log(res);
+        console.log("res");
+        console.log(res);
+  
+        navigate("/successful-purchase")
+      }
 
-      navigate("/successful-purchase")
     }
 
     var loc = useLocation();
@@ -240,9 +268,6 @@ export const Orders=()=>{
     }
     
     return <>
-    <AdressModal isOpen={isAdressModalOpen} onClose={toggleModal}/>
-    <CardModal isOpen={isCardModalOpen} onClose={toggleCardModal}/>
-    
 
     <div className="mx-auto w-10/12 ">
       
@@ -261,7 +286,7 @@ export const Orders=()=>{
                 {orders.map((order:Order) => (<OrderComponent order={order} productsImages={productsImages} />))}
               
                 <div className=" flex justify-between p-2 mx-4">
-                  <button onClick={()=>navigate("/products")} className=" hover:bg-orange-300 transition-all active:shadow-lg active:transition-none bg-mainYellowColor text-white px-5 py-1 rounded-lg mt-3">
+                  <button onClick={()=>navigate("/todaysDeals")} className=" hover:bg-orange-300 transition-all active:shadow-lg active:transition-none bg-mainYellowColor text-white px-5 py-1 rounded-lg mt-3">
                     Повернутися
                   </button>
                   <button onClick={()=>dispatch(deleteAllOrder())} className=" transition-all active:shadow-lg active:transition-none border border-grayColorForBorder text-mainYellowColor px-4 py-2 rounded-lg mt-3">
@@ -272,7 +297,7 @@ export const Orders=()=>{
             :
             <div className="m-auto">
               <img className="m-auto mt-24 mb-10" src={bigBasket} />
-              <button onClick={()=>navigate("/products")} className=" hover:bg-blue-700 bg-darkBlueColor text-white py-3 px-6 rounded-xl m-auto flex mb-16">ПОВЕРНУТИСЬ ДО ПОКУПОК</button>
+              <button onClick={()=>navigate("/todaysDeals")} className=" hover:bg-blue-700 bg-darkBlueColor text-white py-3 px-6 rounded-xl m-auto flex mb-16">ПОВЕРНУТИСЬ ДО ПОКУПОК</button>
             </div> 
 
             }
@@ -338,6 +363,11 @@ export const Orders=()=>{
               <button onClick={()=>{createOrder()}} type="submit" className="  font-medium hover:bg-orange-300 transition-all active:shadow-lg active:transition-none bg-mainYellowColor text-white px-2 w-full py-3 rounded-lg mt-3">
                 Оплатити
               </button>
+
+              <div className="mt-2 text-red-500">
+                <span>{orderError}</span>
+              </div>
+
 
               <div className="mt-4 flex w-full">
                 <div className="m-auto flex">

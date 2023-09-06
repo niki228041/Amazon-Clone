@@ -39,6 +39,8 @@ import { Orders, turnWasAddedToFalse } from "../features/user/ordersStateSlice";
 import search from "../images/search.png"
 import { BurgerModal } from "./BurgerModal";
 import classNames from "classnames";
+import { CardModal } from "./BuyProduct/CardModal";
+import { AdressModal } from "./BuyProduct/AdressModal";
 
 
 const Header = () => {
@@ -128,10 +130,13 @@ const Header = () => {
    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
  }
 
+
   console.log(isBurgerOpen);
 
   return (<div className=" ">
     <BurgerModal isOpen={isBurgerOpen} onClose={setIsBurgerOpen}  />
+    <CardModal/>
+    <AdressModal/>
     
     <div className="sticky z-30 bg-white">
     <div className="top-header text-sm">

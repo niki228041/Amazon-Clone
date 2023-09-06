@@ -11,12 +11,8 @@ namespace DAL.Entities
     public class User : IdentityUser<int>
     {
 
-
-        [StringLength(25)]
         public string FirstName { get; set; }
 
-
-        [StringLength(25)]
         public string LastName { get; set; }
 
         public string MiddleName { get; set; }

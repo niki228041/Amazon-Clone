@@ -14,6 +14,9 @@ using SixLabors.ImageSharp.Formats.Webp;
 using Infrastructure.Interfaces;
 using Microsoft.AspNetCore.WebUtilities;
 using DAL.Constants;
+using System.Globalization;
+using System.Resources;
+
 
 namespace Infrastructure.Services
 {
@@ -39,14 +42,14 @@ namespace Infrastructure.Services
         {
             if (model == null)
             {
-                throw new NullReferenceException("Register model is null.");
+                throw new NullReferenceException("Щось пішло не так");
             }
 
             if (model.Password != model.CheckPassword)
             {
                 return new ServiceResponse
                 {
-                    Message = "Confirm pssword do not match",
+                    Message = "Паролі не відповідають один одному",
                     IsSuccess = false
                 };
             }
@@ -54,9 +57,11 @@ namespace Infrastructure.Services
             var newUser = _mapper.Map<RegisterViewModel, User>(model);
 
             var result = await _userRepository.RegisterUserAsync(newUser, model.Password);
-            await _userRepository.AddRoleAsync(newUser,Roles.User);
+            
             if (result.Succeeded)
             {
+                await _userRepository.AddRoleAsync(newUser, Roles.User);
+
                 var token = await _userRepository.GenerateEmailConfirmationTokenAsync(newUser);
 
                 var encodedEmailToken = Encoding.UTF8.GetBytes(token);
@@ -72,16 +77,26 @@ namespace Infrastructure.Services
 
                 return new ServiceResponse
                 {
-                    Message = "User successfully created.",
+                    Message = "Користувача успішно створено!",
                     Payload= tokens,
                     IsSuccess = true
                 };
             }
             else
             {
+                var error = result.Errors.FirstOrDefault();
+                var errorUA = "";
+
+                switch(error.Code)
+                {
+                    case "PasswordTooShort":errorUA = "Пароль повиннен бути не менше чим 6 символів.";break;
+                    case "DuplicateUserName": errorUA = "Користувач з таким ім'ям користувача вже існує, виберіть інший!";break;
+                    default: errorUA = "Щось пішло не так...";break;
+                }
+
                 return new ServiceResponse
                 {
-                    Message = result.Errors.FirstOrDefault().Description,
+                    Message = errorUA,
                     IsSuccess = false,
                     Errors = result.Errors.Select(e => e.Description)
                 };
@@ -97,7 +112,7 @@ namespace Infrastructure.Services
             {
                 return new ServiceResponse
                 {
-                    Message = "Login incorrect.",
+                    Message = "Немає користувача з такою електронною адресою.",
                     IsSuccess = false
                 };
             }
@@ -107,7 +122,7 @@ namespace Infrastructure.Services
             {
                 return new ServiceResponse
                 {
-                    Message = "Password incorrect.",
+                    Message = "Неправильний пароль.",
                     IsSuccess = false
                 };
             }
@@ -116,7 +131,7 @@ namespace Infrastructure.Services
 
             return new ServiceResponse
             {
-                Message = "Logged in successfully",
+                Message = "Аутентифікація пройшла успішно.",
                 Payload= tokens,
                 IsSuccess = true,
             };
@@ -129,7 +144,7 @@ namespace Infrastructure.Services
                 return new ServiceResponse
                 {
                     IsSuccess = false,
-                    Message = "User not found"
+                    Message = "Користувач не знайдений."
                 };
 
             var decodedToken = WebEncoders.Base64UrlDecode(token);
@@ -140,14 +155,14 @@ namespace Infrastructure.Services
             if (result.Succeeded)
                 return new ServiceResponse
                 {
-                    Message = "Email confirmed successfully!",
+                    Message = "Емайл був успішно підтвердженний!",
                     IsSuccess = true,
                 };
 
             return new ServiceResponse
             {
                 IsSuccess = false,
-                Message = "Email did not confirm",
+                Message = "Емайл не був підтвердженний.",
                 Errors = result.Errors.Select(e => e.Description)
             };
         }

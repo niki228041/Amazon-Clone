@@ -220,9 +220,20 @@ public class ProductService : IProductService
 
     public async Task<ServiceResponse> GetProductByIdAsync(int id)
     {
+        if (id == 0)
+        {
+            return new ServiceResponse
+            {
+                Message = "ERROR",
+                IsSuccess = false,
+                Payload = ""
+            };
+        }
+
         var res = _productRepository.GetAll().Include(prod=>prod.VariantProducts).Include(prod=>prod.Comments).FirstOrDefault(prod=>prod.Id==id);
         var optionsToSend = new List<SelectedOptionVM>();
 
+        
 
         foreach (var variantProduct in res.VariantProducts)
         {

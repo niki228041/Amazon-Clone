@@ -105,7 +105,7 @@ const App: React.FC = () => {
     if (token) {
       dispatch(AuthUser(token));
     }
-  }, [])
+  }, [isAuth])
 
   return (
     <BrowserRouter>
@@ -114,9 +114,7 @@ const App: React.FC = () => {
         <>
           <Route path='/'
             element={<>
-                <div className="flex flex-col" style={{ minHeight: "180vh" }}>
-                  <Outlet />
-                </div>
+                <Outlet />
               </>}>
             <Route path='/' element={<LoginScreen/>}></Route>
             <Route path="login" element={<LoginScreen />} />
@@ -192,6 +190,10 @@ const App: React.FC = () => {
 
             <Route path="product/:productId" element={<OneProduct />} />
 
+            <Route path='/todaysDeals' element={<><TodaysDeals/><PageWithOptions/></>}></Route>
+
+            
+
 
             <Route path='/profile' element={<ProfileWrap/>}>
               <Route path="" element={<ProfilePage />} />
@@ -222,11 +224,6 @@ const App: React.FC = () => {
             </Route>
 
 
-
-
-            <Route path="/products" element={<><Main /></>} >
-              <Route path="products" element={<ProfilePage />} />
-            </Route>
 
             <Route path='/todaysDeals' element={<><TodaysDeals/><PageWithOptions/></>}></Route>
 

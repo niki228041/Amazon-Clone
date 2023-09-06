@@ -17,20 +17,12 @@ const AddressSite=()=> {
   var dispatch = useDispatch();
 
   var {data:address,isSuccess}:{data:Address,isSuccess:boolean}  = useGetAddressByUserIdQuery({id:user.id});
-  var [addCard,{}] = apiCardSlice.useAddCardMutation();
-
-  const handleBecomeASeller=()=>{
-    if(!user?.roles?.includes("seller"))
-    {
-      dispatch(becomeASeller({id:user.id}));
-    }
-  }
 
   const [deleteAddress,{}]= apiAddressSlice.useDeleteAddressMutation();
 
   const handleDeleteAddress=()=>{
     deleteAddress({id:user.id});
-}
+  }
 
 
   return (<>

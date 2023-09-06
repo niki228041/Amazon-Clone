@@ -33,7 +33,9 @@ function FAQList() {
           
           <div className=' bg-slate-100 my-2 border p-2 rounded-lg flex justify-between'>
             <div className='flex'>
-              <span className=' text-lg mr-10 whitespace-nowrap'>{faq.title}</span>
+              <div className=' w-48'>
+                <span className=' text-lg mr-10'>{faq.title}</span>
+              </div>
 
 
               <div className='  w-2/3 '>

@@ -18,19 +18,9 @@ const initialState:Orders= {
     orderWasAdded:false
 };
 
-// export const addOrder:any = createAsyncThunk('/api/Account/registration',async(dateFromFrontend:any)=>{
-//     try{
-//         const response = await axios.post(baseURL + '/api/Account/registration',dateFromFrontend);
-//         return response.data;
-//     }catch(err:any){
-//         return err.message;
-//     }
-// })
-
-
 const ordersSlice = createSlice(
 {
-    name:'user',
+    name:'order',
     initialState,
     reducers:
     {
@@ -48,16 +38,12 @@ const ordersSlice = createSlice(
         },
         updateOrder(state,action: PayloadAction<ChangeOrderCount>){
             state.orders[action.payload.index].count = action.payload.count;
-            // state.orders = state.orders.filter(function(item) {
-            //     return item.id !== action.payload
-            // })
+
             state.orderWasAdded = true;
         },
         updateOrderInBasket(state,action: PayloadAction<ChangeOrderCount>){
             state.orders[action.payload.index].count = action.payload.count;
-            // state.orders = state.orders.filter(function(item) {
-            //     return item.id !== action.payload
-            // })
+
         },
         turnWasAddedToFalse(state,action:PayloadAction<void>)
         {

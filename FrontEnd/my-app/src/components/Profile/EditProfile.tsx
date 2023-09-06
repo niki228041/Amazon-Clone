@@ -10,11 +10,27 @@ import 'react-datepicker/dist/react-datepicker.module.css'
 
 import classNames from 'classnames';
 import { parseISO ,format} from 'date-fns';
+import { useAppSelector } from '../../app/hooks';
+import { useDispatch } from 'react-redux';
+import { apiAddressSlice, useGetAddressByUserIdQuery } from '../../features/user/apiAddressSlice';
+import { Address } from '../types';
+import { setAddressModalWindow } from '../../features/user/modalWindowsStateSlice';
 
 const EditProfile=()=> {
    const [dropDownSex,setDropDownSex] =  useState(false);
    const [dropDownCountry,setDropDownCountry] =  useState(false);
    const [selectedDate,setSelectedDate] =  useState<Date|null>(null);
+
+   var user = useAppSelector(((state)=>state.user.user));
+   var dispatch = useDispatch();
+ 
+   var {data:address,isSuccess}:{data:Address,isSuccess:boolean}  = useGetAddressByUserIdQuery({id:user.id});
+ 
+   const [deleteAddress,{}]= apiAddressSlice.useDeleteAddressMutation();
+ 
+   const handleDeleteAddress=()=>{
+     deleteAddress({id:user.id});
+   }
 
    const [selectedSex,setSelectedSex] =  useState("Стать");
    const [selectedCountry,setSelectedCountry] =  useState("Країна");
@@ -113,7 +129,26 @@ const EditProfile=()=> {
             </div>
 
             <div className='my-8 flex text-[20px] text-grayColorForHeader font-semibold mb-2'>Адреса доставки</div>
-            <div className='grid grid-cols-3 gap-5 my-8'>
+            
+            <div className=''>
+                <div className='border flex select-none p-1 mt-1 w-1/6'>
+                  {address?
+                  <>{address?.fullName} {address?.country} {address?"/":""} {address?.city} </> 
+                  :"Ви ще не додали адресу"}
+                </div>
+                <div>
+                    {address != undefined ? <span className=" text-sm">Is this not your address anymore? <span onClick={()=>handleDeleteAddress()} className=" text-black font-medium hover:text-red-500 select-none cursor-pointer">delete</span></span>:""}
+                </div>
+            </div>
+
+            <div>
+              <button onClick={()=>{dispatch(setAddressModalWindow(true))}} className=' bg-mainYellowColor p-2 mt-3 px-2 flex rounded-lg hover:bg-orange-400 text-white font-semibold'>
+                Добавити адресу
+              </button>
+            </div>
+            
+
+            {/* <div className='grid grid-cols-3 gap-5 my-8'>
 
 
                 <div className=' relative h-10 flex justify-end select-none'>
@@ -170,6 +205,8 @@ const EditProfile=()=> {
                 <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 ' placeholder='Номер відділення ' />
             </div>
             
+             */}
+
             <div className=' bg-mainYellowColor rounded-full h-20 w-20 mt-10 m-auto flex justify-center hover:scale-110 active:scale-90 transition-all duration-100'>
                 <img className=' self-center h-10' src={WhitePlus} />
             </div>

@@ -2,12 +2,12 @@ import * as yup from 'yup';
 
 
 export const registrationSchema = yup.object().shape({
-    userName:yup.string().required(),
-    firstName:yup.string().required(),
-    lastName:yup.string().required(),
-    email:yup.string().required().email(),
-    password: yup.string().required('Required'),
+    userName:yup.string().required("Юзер нейм користувача є обов'язковим."),
+    firstName:yup.string().required("Ім'я є обов'язковим."),
+    lastName:yup.string().required("Прізвище є обов'язковим."),
+    email:yup.string().required("Емайл не може бути пустим.").email("Некоректний емайл."),
+    password: yup.string().required('Пароль не може бути пустим.'),
     repeatPassword: yup.string()
-      .required('Required')
-      .oneOf([yup.ref('password')], 'Passwords must match'),
+      .required('Повторний пароль не може бути пустим.')
+      .oneOf([yup.ref('password')], 'Паролі повинні співпадати.'),
 })
