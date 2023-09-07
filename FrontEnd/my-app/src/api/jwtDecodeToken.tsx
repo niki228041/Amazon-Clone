@@ -37,3 +37,14 @@ export function RemoveTokens()
   window.localStorage.removeItem("accessToken");
   window.localStorage.removeItem("refreshToken");
 }
+
+export function SetCurrency(currency:string)
+{
+  window.localStorage.setItem("currency",currency);
+}
+
+export function GetCurrency()
+{
+  const currency = window.localStorage.getItem("currency");
+  return currency;
+}

@@ -31,6 +31,8 @@ import check from "../../images/check (1).png"
 import { useGetAllBaseOptionsAsyncQuery } from '../../features/user/apiOptionsSlice';
 import { turnWasAddedToFalse } from '../../features/user/ordersStateSlice';
 import { useDispatch } from 'react-redux';
+import { GetCurrency } from '../../api/jwtDecodeToken';
+import { useAppSelector } from '../../app/hooks';
 
 interface AllFilters{
   categoryId:number,
@@ -73,6 +75,8 @@ const Product_Component=({ data , productsImages,viewListOrGrid}: { data: Produc
     data.comments.map(com=>sumOfStars += com.stars);
     stars = Math.round(sumOfStars/(data.comments.length));
   }
+
+  var currency = useAppSelector((state)=>state.currency.currency);
 
   const getStarts=()=>{
     var jsx_stars: JSX.Element[] = [];
@@ -126,7 +130,7 @@ const Product_Component=({ data , productsImages,viewListOrGrid}: { data: Produc
             </div>
 
             <div className='flex mt-2 justify-between'>
-              <p className='text-optionsGrayDarkBlueColor text-[20px] font-bold text-xl'>{data.price} грн.</p>
+              <p className='text-optionsGrayDarkBlueColor text-[20px] font-bold text-xl'>{data.price} {currency}</p>
               {data.discount ?
               <div className='text-[20px] text-sm rounded-lg self-center bg-almostWhiteGreen px-2 py-1 text-optionsGreenColorFor' style={{ fontFamily:"Roboto"}}>{data.discount}% OFF</div>
               :""}
@@ -423,6 +427,10 @@ const PageWithOptions = () => {
     return jsx_stars;
   }
 
+  var currency = useAppSelector((state)=>state.currency.currency);
+
+
+
   const setStarts= async (stars:number)=>{
     search_.set("stars",stars.toString());
     setSearch(search_);
@@ -647,7 +655,7 @@ const PageWithOptions = () => {
                   />
                     </div>
                     <label className="flex self-center" >
-                    <span className=' mr-3 text-optionsWhiterDarkBlueColor'>Ціна: {minPriceInterval} грн - {maxPriceInterval} грн</span>
+                    <span className=' mr-3 text-optionsWhiterDarkBlueColor'>Ціна: {minPriceInterval} {currency} - {maxPriceInterval} {currency}</span>
                   </label>
                   
                 </div>  

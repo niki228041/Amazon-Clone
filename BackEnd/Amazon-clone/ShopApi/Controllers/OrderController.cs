@@ -41,14 +41,14 @@ namespace ShopApi.Controllers
         [HttpPost("GetOrdersByCompanyId")]
         public async Task<IActionResult> GetOrdersByCompanyIdAsync(FindByIdVM model)
         {
-            var result = _orderService.GetOrdersByCompanyIdAsync(model.Id);
+            var result = await _orderService.GetOrdersByCompanyIdAsync(model.Id);
             return Ok(result);
         }
 
         [HttpPost("CloseAnOrderById")]
         public async Task<IActionResult> CloseAnOrderByIdAsync(FindByIdVM model)
         {
-            var result = await _orderService.CloseAnOrderByIdAsync(model.Id);
+            var result = await _orderService.CloseAnOrderedProductByIdAsync(model.Id);
             return Ok(result);
         }
 

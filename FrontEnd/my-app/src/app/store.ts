@@ -17,6 +17,7 @@ import { apiCompanySlice } from "../features/user/apiCompanySlice";
 import musicStateSlice from "../features/user/musicStateSlice";
 import { apiFAQSlice } from "../features/user/apiFAQSlice";
 import modalWindowsStateSlice from "../features/user/modalWindowsStateSlice";
+import CurrencyStateSlice from "../features/user/CurrencyStateSlice";
 
 
 export const store = configureStore({
@@ -37,6 +38,7 @@ export const store = configureStore({
     orders: ordersStateSlice,
     track: musicStateSlice,
     modalWindows:modalWindowsStateSlice,
+    currency:CurrencyStateSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(

@@ -35,8 +35,11 @@ import Stack from '@mui/material/Stack';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { Oval } from "react-loader-spinner";
 import classNames from "classnames";
+import { GetCurrency } from "../../api/jwtDecodeToken";
 
 export const BuyLater=()=>{
+  var currency = GetCurrency();
+
   return<>
   
   <div className="px-6 xl:text-lg text-sm">
@@ -44,7 +47,7 @@ export const BuyLater=()=>{
       <div className=" xl:h-[200px] h-[100px] mx-1 rounded-md bg-contain bg-center bg-no-repeat m-2" style={{backgroundImage:'url('+tablet+')'}}/>
     </div>
     
-    <p className="mt-2 xl:text-lg text-[12px]">2600грн.</p>
+    <p className="mt-2 xl:text-lg text-[12px]">2600{currency}</p>
     <p className="mt-1 text-grayForText font-normal xl:text-[15px] text-[10px]">GoPro HERO6 4K Action </p>
     <p className="mt-[-5px] text-grayForText font-normal xl:text-[15px] text-[10px]">Camera - Black</p>
 
@@ -91,6 +94,8 @@ export const OrderComponent:React.FC<OrderComponentProps>=({ order,productsImage
   const availableCounts = [1, 2, 3, 4, 5];
   const orders = useAppSelector((state)=>state.orders.orders);
 
+  var currency = GetCurrency();
+
   const handleCountChange=(id:string,count:any)=>{
     var index = orders.findIndex((ord:Order)=>ord.id == id);
     var changeOrderCount:ChangeOrderCount = {index:index,count:Number(count.value)}; 
@@ -120,7 +125,7 @@ export const OrderComponent:React.FC<OrderComponentProps>=({ order,productsImage
 
     <div className="col-span-2 flex flex-row-reverse">
       <div className=" relative">
-        <p className="font-medium right-0 absolute">{order.count > 1 ? (order.count)+"x" : ""} ${(order.price*order.count).toFixed(2)}</p>
+        <p className="font-medium right-0 absolute">{order.count > 1 ? (order.count)+"x" : ""} {(order.price*order.count).toFixed(2)}{currency}</p>
         <select
         name='OptionsTitle'
         id="OptionsTitle"
@@ -257,6 +262,9 @@ export const Orders=()=>{
 
     }
 
+    var currency = useAppSelector((state)=>state.currency.currency);
+
+
     var loc = useLocation();
 
      var allLocation = loc.pathname.split('/').filter(Boolean);
@@ -347,17 +355,17 @@ export const Orders=()=>{
             <div className="p-4 mt-4 shadow-lg border border-grayColorForBorder rounded-lg">
               <div className=" flex justify-between">
                 <span>Підсумок:</span>
-                <span>${orders.map((order) => order.price*order.count).reduce((sum, price) => sum + price, 0).toFixed(2)}</span>
+                <span>{orders.map((order) => order.price*order.count).reduce((sum, price) => sum + price, 0).toFixed(2)}{currency}</span>
               </div>
 
               <div className=" flex justify-between">
                 <span>Знижка:</span>
-                <span className=" text-red-500">-${orders.map((order) => ((order.price*order.count)/100)*order.discount ).reduce((sum, price) => sum + price, 0).toFixed(2)}</span>
+                <span className=" text-red-500">-{orders.map((order) => ((order.price*order.count)/100)*order.discount ).reduce((sum, price) => sum + price, 0).toFixed(2)}{currency}</span>
               </div>
               <hr className="my-4 mx-3"></hr>
               <div className=" flex justify-between font-semibold">
                 <span>Total:</span>
-                <span className=" ">${orders.map((order) => (order.price*order.count)-((order.price*order.count)/100)*order.discount ).reduce((sum, price) => sum + price, 0).toFixed(2)}</span>
+                <span className=" ">{orders.map((order) => (order.price*order.count)-((order.price*order.count)/100)*order.discount ).reduce((sum, price) => sum + price, 0).toFixed(2)}{currency}</span>
               </div>
 
               <button onClick={()=>{createOrder()}} type="submit" className="  font-medium hover:bg-orange-300 transition-all active:shadow-lg active:transition-none bg-mainYellowColor text-white px-2 w-full py-3 rounded-lg mt-3">
@@ -406,7 +414,7 @@ export const Orders=()=>{
       <div className=" my-14">
         <div className="text-white p-6 w-full bg-darkBlueColor flex justify-between ">
           <p className=" text-sm self-center">
-            Підпишіться на нашу розсилку - отримайте купон на 300 грн. на перше замовлення!
+            Підпишіться на нашу розсилку - отримайте купон на 300 {currency} на перше замовлення!
           </p>
           <div className="flex self-center text-sm w-4/12 ">
             <input type="text" placeholder="Введіть адресу електронної пошти" className="border text-black rounded-l-full px-2 h-9 outline-0  w-full border-grayColorForBorder "></input>
@@ -437,7 +445,7 @@ export const Orders=()=>{
             <div className=" p-3">
 
               <div className="w-full flex mb-2">
-                All item ({totalCount}) preis <span className="font-medium ml-1"> ${orders.map((order) => order.price*order.count).reduce((sum, price) => sum + price, 0).toFixed(2)}</span>
+                All item ({totalCount}) preis <span className="font-medium ml-1"> {currency}{orders.map((order) => order.price*order.count).reduce((sum, price) => sum + price, 0).toFixed(2)}</span>
               </div>
 
               <div className="w-full flex justify-center">

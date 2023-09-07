@@ -12,6 +12,7 @@ namespace DAL.Entities
         public int Count { get; set; }
         public bool canLeaveComment { get; set; } = true;
 
+        public bool isBought { get; set; } = false;
 
         //Every OrderedProduct have an order
         public Order Order { get; set; }

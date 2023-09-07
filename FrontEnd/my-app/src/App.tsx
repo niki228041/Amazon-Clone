@@ -18,7 +18,7 @@ import EditProfile from "./components/Profile/EditProfile"
 import Player from './components/Player/Player';
 import LoginScreen from './components/Auth/Login';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetAccessToken } from './api/jwtDecodeToken';
+import { GetAccessToken, GetCurrency, SetCurrency } from './api/jwtDecodeToken';
 import { AuthUser } from './features/user/user-slice';
 
 import CreateOptions from './components/Options/CreateOptions';
@@ -89,6 +89,9 @@ import Help from './components/Profile/Help';
 import FAQList from './components/Admin/FAQList';
 import CreateFAQ from './components/Admin/CreateFAQ';
 import CreateAnswerToFAQ from './components/Admin/CreateAnswerToFAQ';
+import { ua } from './const/constants';
+import { setCurrency } from './features/user/CurrencyStateSlice';
+import HearAlbum from './components/Player/Album/HearAlbum';
 
 
 
@@ -101,7 +104,10 @@ const App: React.FC = () => {
   var isAuth = useSelector((state: any) => state.user.isAuth);
 
 
+
+
   useEffect(() => {
+    dispatch(setCurrency(GetCurrency()!));
     if (token) {
       dispatch(AuthUser(token));
     }
@@ -142,6 +148,9 @@ const App: React.FC = () => {
           <Route path='createTrack' element={<CreateTrack />} />
           <Route path='viewTrack/:trackId' element={<ViewTrack />} />
           <Route path='searchTracks' element={<SearchTracks />} />
+          <Route path='album' >
+              <Route path=':id' element={<HearAlbum/>}/>
+          </Route>
           <Route path='profile' element={<MusicProfile />} >
             <Route path='main' element={<MainProfile />} />
             <Route path='settings' element={<SettingProfile />} />

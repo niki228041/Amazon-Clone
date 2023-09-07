@@ -236,6 +236,7 @@ const OneProduct=()=>{
         window.scrollTo(0, 0);
     };
 
+    var currency = useAppSelector((state)=>state.currency.currency);
     
 
     const getStarsForProduct=()=>{
@@ -321,17 +322,17 @@ const OneProduct=()=>{
 
                     <div className='w-full mt-2 bg-lightOrangeColor p-3 flex'>
                         <div className='self-center font-medium w-1/3 flex flex-col px-1'>
-                            <span className='text-[18px] text-red-500'>${data?.payload.price}</span>
+                            <span className='text-[18px] text-red-500'>{data?.payload.price} {currency}</span>
                             <span className=' text-grayForText text-sm font-normal'>50-100 pcs</span>
                         </div>
                         <img src={line}/>
                         <div className='self-center font-medium w-1/3 flex flex-col px-1'>
-                            <span className='text-[18px] '>${(data?.payload.price!/1.1).toFixed(2)}</span>
+                            <span className='text-[18px] '>{(data?.payload.price!/1.1).toFixed(2)} {currency}</span>
                             <span className=' text-grayForText text-sm font-normal'>100-700 pcs</span>
                         </div>
                         <img src={line}/>
                         <div className='self-center font-medium w-1/3 flex flex-col px-1'>
-                            <span className='text-[18px] '>${(data?.payload.price!/1.2).toFixed(2)}</span>
+                            <span className='text-[18px] '>{(data?.payload.price!/1.2).toFixed(2)} {currency}</span>
                             <span className=' text-grayForText text-sm font-normal'>700+ pcs</span>
                         </div>
                     </div>
@@ -339,7 +340,7 @@ const OneProduct=()=>{
                     <div className='w-full mt-2 py-3 text-[15px]'>
                         <div className='my-2 grid grid-cols-4'>
                             <span className=' text-grayForText col-span-1  self-center'>Ціна:</span>
-                            <span className='col-span-3'>${data?.payload.price}</span>
+                            <span className='col-span-3'>{data?.payload.price} {currency}</span>
                         </div>
 
                         <hr className='my-1' />
@@ -453,7 +454,7 @@ const OneProduct=()=>{
                                         <div className='h-12 overflow-hidden'>
                                             <p className='pr-4'>{prod.name}</p>
                                         </div>
-                                        <p className=' self-end text-grayForText'>{prod.price} грн.</p>
+                                        <p className=' self-end text-grayForText'>{prod.price} {currency}</p>
                                     </div>
                                 </Link>
                             </>
@@ -463,28 +464,28 @@ const OneProduct=()=>{
                             <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
                             <div className='grid grid-rows-2'>
                                 <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
-                                <p className=' self-end text-grayForText'>1000-25000 грн.</p>
+                                <p className=' self-end text-grayForText'>1000-25000 {currency}</p>
                             </div>
                         </div>
                         <div className='flex mt-4 h-[70px] my-4 mb-8'>
                             <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
                             <div className='grid grid-rows-2'>
                                 <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
-                                <p className=' self-end text-grayForText'>1000-25000 грн.</p>
+                                <p className=' self-end text-grayForText'>1000-25000 {currency}</p>
                             </div>
                         </div>
                         <div className='flex mt-4 h-[70px] my-4 mb-8'>
                             <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
                             <div className='grid grid-rows-2'>
                                 <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
-                                <p className=' self-end text-grayForText'>1000-25000 грн.</p>
+                                <p className=' self-end text-grayForText'>1000-25000 {currency}</p>
                             </div>
                         </div>
                         <div className='flex mt-4 h-[70px] my-4 '>
                             <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
                             <div className='grid grid-rows-2'>
                                 <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
-                                <p className=' self-end text-grayForText'>1000-25000 грн.</p>
+                                <p className=' self-end text-grayForText'>1000-25000 {currency}</p>
                             </div>
                         </div> */}
                     </div>
@@ -506,7 +507,7 @@ const OneProduct=()=>{
                                 <div className='p-2'>
                                     <div className='h-[70px] overflow-hidden lg:h-[150px] xl:h-[220px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center xl:mr-2' style={{backgroundImage: `url(${prod.image})`}}   />
                                     <p className='mt-2 h-[60px] overflow-hidden'>{prod.name} </p>
-                                    <p className=' text-sm text-grayForText'>{prod.price} грн.</p>
+                                    <p className=' text-sm text-grayForText'>{prod.price} {currency}</p>
                                 </div>
                             </Link>
                         </>
@@ -521,7 +522,7 @@ const OneProduct=()=>{
             <div className=" my-14 xl:block lg:block hidden">
               <div className="text-white p-6 w-full bg-darkBlueColor flex justify-between ">
                 <p className=" text-sm xl:text-base self-center">
-                  Підпишіться на нашу розсилку - отримайте купон на 300 грн. на перше замовлення!
+                  Підпишіться на нашу розсилку - отримайте купон на 300 {currency} на перше замовлення!
                 </p>
                 <div className="flex self-center text-sm w-4/12 ">
                   <input type="text" placeholder="Введіть адресу електронної пошти" className="border text-black rounded-l-full px-2 h-9 outline-0  w-full border-grayColorForBorder "></input>

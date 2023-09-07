@@ -11,10 +11,10 @@ namespace Infrastructure.Interfaces
 {
     public interface IOrderService
     {
-        public Task<ServiceResponse> CloseAnOrderByIdAsync(int id);
+        public Task<ServiceResponse> CloseAnOrderedProductByIdAsync(int id);
         public List<Order> GetAllOrdersAsync();
         public Task<OrderVM> AddOrderAsync(OrderDTO model);
         public Task<List<OrderVM>> GetOrdersByUserIdAsync(int id);
-        public List<OrderVM> GetOrdersByCompanyIdAsync(int id);
+        public Task<List<OrderVM>> GetOrdersByCompanyIdAsync(int id);
     }
 }
