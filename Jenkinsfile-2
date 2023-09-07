@@ -8,7 +8,7 @@ pipeline  {
              steps{
                 script{
                 withSonarQubeEnv('sonar_server_1'){
-                    bat''' cd BackEnd/Amazon-clone 
+                sh''' cd BackEnd/Amazon-clone 
                 dotnet sonarscanner begin /k:"Amazon-Clone" /d:sonar.host.url="http://localhost:9000"  /d:sonar.login="sqp_ddfaace184ddeb9ae5e2ec3e2983cd02654b23fe"
                 dotnet build
                 dotnet sonarscanner end /d:sonar.login="sqp_ddfaace184ddeb9ae5e2ec3e2983cd02654b23fe"
