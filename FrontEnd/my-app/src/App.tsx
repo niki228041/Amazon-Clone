@@ -117,7 +117,7 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {!isAuth ? 
+        
         <>
           <Route path='/'
             element={<>
@@ -204,7 +204,9 @@ const App: React.FC = () => {
 
             
 
-
+            {/* {!isAuth ? 
+            } */}
+        
             <Route path='/profile' element={<ProfileWrap/>}>
               <Route path="" element={<ProfilePage />} />
               <Route path="payment" element={<ProfileCards />} />
@@ -212,7 +214,6 @@ const App: React.FC = () => {
               <Route path="profilehistory" element={<ProfileHistory />} />
               <Route path='editprofile' element={<EditProfile />} />
             </Route>
-            
 
             <Route path='/giftCards' element={<GiftCards />} />
             <Route path='help' element={<Help/>} />
@@ -289,7 +290,7 @@ const App: React.FC = () => {
         </Route>
 
         </>
-        }
+        
 
       </Routes>
     </BrowserRouter>

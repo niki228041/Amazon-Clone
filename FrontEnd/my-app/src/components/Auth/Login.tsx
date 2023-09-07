@@ -77,7 +77,7 @@ const LoginScreen = () => {
 
 
   return (
-    <form className='overlogin' onSubmit={formik.handleSubmit}>
+    <form className=' m-auto' onSubmit={formik.handleSubmit}>
       {/* <div className="leftside">
 
         <svg className="logosing" width="345" height="92" viewBox="0 0 345 92" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -170,14 +170,17 @@ const LoginScreen = () => {
       </div>
       <TestPage></TestPage> */}
 
-      <div className="w-full grid grid-cols-2 h-full fixed ">
+      <div className="w-full grid grid-cols-2 h-full fixed  ">
         <div className=" p-2 bg-litleYellow ">
-          <div className=" w-1/2 p-2 mx-auto">
-            <div className=" flex justify-center mt-10">
-              <img src={logo_auth} />
-            </div>
 
-            <div className=" flex flex-col justify-center text-grayColorForHeader mt-28">
+          <div className='m-auto relative flex h-full justify-center'>
+          <div className="absolute flex justify-center mt-10">
+            <img src={logo_auth} />
+          </div>
+          <div className=" w-1/2 p-2 m-auto ">
+            
+
+            <div className=" flex flex-col justify-center text-grayColorForHeader">
               <p className="flex self-center text-[40px] font-bold">Вхід</p>
               <p className="flex self-center text-sm mt-2">Увійдіть за допомогою</p>
               <p className="flex self-center text-sm">адреси електронної пошти та пароля</p>
@@ -214,6 +217,8 @@ const LoginScreen = () => {
             </div>
 
           </div>
+          </div>
+
         </div>
         
         <div className=" bg-mainYellowColor">
