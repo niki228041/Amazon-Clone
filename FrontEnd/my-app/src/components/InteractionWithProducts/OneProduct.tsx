@@ -699,7 +699,7 @@ const OneProduct=()=>{
             </div> */
             }
 
-            
+            </div>
         </>
         
 };
