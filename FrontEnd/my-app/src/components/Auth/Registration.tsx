@@ -262,12 +262,15 @@ const Registration = () => {
 
       <div className="w-full grid grid-cols-2 h-full fixed ">
         <div className=" p-2 bg-litleYellow ">
-          <div className=" p-2 mx-auto w-3/6">
-            <div className=" flex justify-center mt-10">
-              <img src={logo_auth} />
-            </div>
 
-            <div className=" flex flex-col justify-center text-grayColorForHeader mt-28">
+        <div className='m-auto relative flex h-full justify-center'>
+          <div className="absolute flex justify-center mt-10">
+            <img src={logo_auth} />
+          </div>
+          <div className="flex m-auto w-full">
+          <div className=" p-2  m-auto w-3/6 ">
+
+            <div className=" flex flex-col justify-center text-grayColorForHeader">
               <p className="flex self-center text-[40px] font-bold">Реєстрація</p>
               <p className="flex self-center text-sm mt-2">Створіть новий профайл</p>
             </div>
@@ -327,7 +330,10 @@ const Registration = () => {
             </div>
 
           </div>
+          </div>
         </div>
+        </div>
+
         
         <div className=" bg-mainYellowColor">
           <div className=" w-4/6 mx-auto ">
