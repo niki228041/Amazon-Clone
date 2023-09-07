@@ -171,8 +171,8 @@ const LoginScreen = () => {
       <TestPage></TestPage> */}
 
       <div className="w-full grid grid-cols-2 h-full fixed ">
-        <div className=" p-2 bg-litleYellow ">
-          <div className=" w-1/2 p-2 mx-auto">
+        <div className="left p-2 bg-litleYellow ">
+          <div className=" leftsd w-1/2 p-2 mx-auto">
             <div className=" flex justify-center mt-10">
               <img src={logo_auth} />
             </div>
@@ -183,21 +183,21 @@ const LoginScreen = () => {
               <p className="flex self-center text-sm">адреси електронної пошти та пароля</p>
             </div>
 
-            <div className="flex flex-col justify-center w-5/6 mt-4 mx-auto">
-              <input id="email" name="email" type="email" onChange={formik.handleChange} value={formik.values.email} className=" w-full border outline-0 rounded-lg py-3 border-gray-400/90 px-4 mx-auto text-sm placeholder-veryYellowColor" placeholder="Адреса електронної пошти" />
+            <div className="flex flex-col justify-center w-6/6 mt-4 mx-auto">
+              <input  id="email" name="email" type="email" onChange={formik.handleChange} value={formik.values.email} className=" w-full border outline-0 rounded-lg py-3 border-gray-400/90 px-4 mx-auto text-sm placeholder-veryYellowColor" placeholder="Адреса електронної пошти" />
               {formik.errors.email ? <div className=' text-red-500 text-sm font-semibold mt-1'>{formik.errors.email}</div> : null}
               
               <input id="password" name="password" type="password" onChange={formik.handleChange} value={formik.values.password} className=" w-full border outline-0 rounded-lg mt-2 py-3 border-gray-400/90 px-4 mx-auto text-sm placeholder-veryYellowColor" placeholder="Пароль" />
               {formik.errors.password ? <div className=' text-red-500 text-sm font-semibold mt-1'>{formik.errors.password}</div> : null}
             </div>
 
-            <div className="flex justify-end w-5/6 mx-auto mt-1">
+            <div className="flex justify-end w-6/6 mx-auto mt-1">
               <div className="">
                 <span className=" mx-auto flex whitespace-nowrap  text-sm text-mainYellowColor cursor-pointer  hover:scale-105 transition-all">Забули пароль?</span>
               </div>
             </div>
 
-            <div className="w-5/6 mx-auto mt-4">
+            <div className="w-6/6 mx-auto mt-4">
               <button className="text-white text-[22px] py-2 bg-mainYellowColor w-full rounded-lg font-semibold">Увійти</button>
               
             </div>
@@ -216,7 +216,7 @@ const LoginScreen = () => {
           </div>
         </div>
         
-        <div className=" bg-mainYellowColor">
+        <div className="rig bg-mainYellowColor">
           <div className=" w-4/6 mx-auto ">
             <div className="w-4/6 text-darkBlueColor text-[20px] mt-20">
               <span>
