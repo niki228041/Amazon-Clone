@@ -489,7 +489,7 @@ const PageWithOptions = () => {
                   <span className=' text-optionsGrayBlueColor'>({productCount?.payload})</span>
                 </div>
 
-                {categories?.payload.map((category: Category, id: number) => {
+                {categories?.payload?.map((category: Category, id: number) => {
                 return <div className='my-3 cursor-pointer'>
                   <span 
                   
