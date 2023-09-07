@@ -83,6 +83,8 @@ export interface OrderForSeller{
 }
 
 export interface OrderedProductUpdated{
+    id:number,
+    isBought:boolean,
     count:number,
     product:Product
 }

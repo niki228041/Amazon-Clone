@@ -41,6 +41,7 @@ function MiniPlayer() {
       return `${formattedMinutes}:${formattedSeconds}`;
   };
 
+  
   const onChangeLocal= (e:any)=>{
     dispath(setOnChangeSlider(e.target.value));
   }

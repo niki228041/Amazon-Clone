@@ -48,8 +48,8 @@ namespace Infrastructure.Services
             var orders = _orderRepository.GetAll().Include(order => order.OrderedProducts).Where(order => order.User.Id == model.UserId).ToList();
             orders = orders.FindAll(order => order.OrderedProducts.FirstOrDefault(prod => prod.ProductId == model.ProductId) != null);
 
-            var order = orders.Find(order=>order.OrderedProducts.FirstOrDefault(prod=>prod.canLeaveComment==true)!= null);
-            var prod = order.OrderedProducts.FirstOrDefault(prod=>prod.canLeaveComment == true);
+            var order = orders.Find(order=>order.OrderedProducts.FirstOrDefault(prod=>prod.canLeaveComment== true && prod.ProductId == model.ProductId) != null);
+            var prod = order.OrderedProducts.FirstOrDefault(prod=>prod.canLeaveComment == true && prod.ProductId == model.ProductId);
             prod.canLeaveComment = false;
 
             await _orderedProductRepository.Update(prod);

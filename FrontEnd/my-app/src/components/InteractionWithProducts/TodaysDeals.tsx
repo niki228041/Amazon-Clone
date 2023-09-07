@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import tmp from '../../images/telik.jpg'
@@ -12,6 +12,8 @@ import { Product } from '../types'
 import { apiProductSlice } from '../../features/user/apiProductSlice'
 import { Link } from 'react-router-dom'
 import { Oval } from 'react-loader-spinner'
+import { GetCurrency } from '../../api/jwtDecodeToken'
+import { useAppSelector } from '../../app/hooks'
 
 
 const loader = () => {
@@ -39,12 +41,15 @@ function TodaysDeals() {
 
    var [offset,setOffset] = useState(currentDeals * 220*5);
 
+   var currency = useAppSelector((state)=>state.currency.currency);
+
    var [countOfSmallIconDeals,setCountOfSmallIcon] = useState(5);
    var [currentSmallIcon,setCurrentSmallIcon] = useState(0);
    var [recomendedProducts,setRecomendedProducts] = useState<Product[]>([]);
 
    var [smallIconOffset,setSmallIconOffset] = useState(currentSmallIcon * 220*5);
-
+   const currencyRef = useRef(GetCurrency());
+   
    var request:getRecomendedProducts = {limit:12,categoryId:0}; 
    const [getRecomendedProducts,{}] = apiProductSlice.useGetProductWithLimitByCategoryIdMutation();
 
@@ -54,16 +59,15 @@ function TodaysDeals() {
           console.log(res.data?.payload);
           setRecomendedProducts(res.data?.payload);
         });
-
-
       }
-
    },[])    
 
    useEffect(()=>{
     console.log(recomendedProducts?.length/4);
     setCountOfDeals(recomendedProducts?.length/4);
    },[recomendedProducts])
+
+
 
   return (
     <div>
@@ -95,7 +99,7 @@ function TodaysDeals() {
                                 <div className=' text-rose-600 rounded-lg py-1 ml-2 font-semibold text-sm '>Пропозиція лімітована по часу </div>
                             </div>
                             <div className=' font-bold text-lg '>
-                                {prod.price} грн.
+                                {prod.price} {currency}
                             </div>
                         </div>
                     </Link>

@@ -23,10 +23,14 @@ import { useGetOrdersByUserIdQuery } from '../../features/user/apiOrderSlice';
 import { useAppSelector } from '../../app/hooks';
 import { parseISO ,format} from 'date-fns';
 import { uk } from 'date-fns/locale';
+import { GetCurrency } from '../../api/jwtDecodeToken';
 
 const HistoryItem=({order}:{order:OrderedOrder})=>{
   const [dropDown,setDropDown] =  useState(false);
   const [elementHeight, setElementHeight] = useState("0px"); // Initial height
+  console.log(order);
+  var currency = useAppSelector((state)=>state.currency.currency);
+
 
   function formatDateDifference(dateString:string) {
     const date = parseISO(dateString);
@@ -56,7 +60,7 @@ const HistoryItem=({order}:{order:OrderedOrder})=>{
       <div className='mx-4'></div>
       <div className=''>
         <p className='font-medium text-[16px] text-grayColorForHeader '>Сума</p>
-        <span className=' text-sm font-medium text-grayColorForHeader'>{order.price} грн</span>
+        <span className=' text-sm font-medium text-grayColorForHeader'>{order.price} {currency}</span>
       </div>
       <div className='mx-4'></div>
       <div className=''>
@@ -132,6 +136,7 @@ const ProfileHistory=()=> {
   var user = useAppSelector((state)=>state.user.user);
 
   var {data,isSuccess}:{data:OrderedOrder[],isSuccess:boolean} = useGetOrdersByUserIdQuery({id:user.id});
+
   console.log(searchText);
 
   return (

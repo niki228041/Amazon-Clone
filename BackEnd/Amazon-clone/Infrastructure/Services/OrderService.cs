@@ -7,6 +7,7 @@ using Infrastructure.Interfaces;
 using Infrastructure.Models;
 using MailKit.Search;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Asn1.X509;
 using Services;
 using System;
 using System.Collections.Generic;
@@ -82,6 +83,28 @@ namespace Infrastructure.Services
                 .ThenInclude(orderedProduct => orderedProduct.Product) // Include the related products
             .ToList();
 
+            foreach (var order in orders)
+            {
+                var canCloseOrder = true;
+
+                foreach (var orderedProduct_ in order.OrderedProducts)
+                {
+                    if (!orderedProduct_.isBought)
+                    {
+                        canCloseOrder = false;
+                    }
+                }
+
+                if (canCloseOrder)
+                {
+                    order.isBought = true;
+                }
+                else
+                {
+                    order.isBought = false;
+                }
+            }
+
 
             var orderVMs = new List<OrderVM>();
 
@@ -100,9 +123,13 @@ namespace Infrastructure.Services
 
                     var ordered = new OrderedProductUpdatedVM
                     {
+                        isBought = item.isBought,
                         Count = item.Count,
+                        Id = item.Id,
                         Product = _mapper.Map<Product, ProductVM>(item.Product),
                     };
+
+                    ordered.Product.Id = item.Id;
 
                     if (item.ProductId != null)
                     {
@@ -110,7 +137,6 @@ namespace Infrastructure.Services
                         var url = $@"https://amazonclone.monster/api/images/{image.Name + "_" + (int)Qualities.QualitiesSelector.LOW + ".jpg"}";
                         ordered.Product.Image = url;
                     }
-
 
                     tmpOrder.Products.Add(ordered);
                 }
@@ -121,18 +147,38 @@ namespace Infrastructure.Services
             return orderVMs;
         }
 
-        public List<OrderVM> GetOrdersByCompanyIdAsync(int id)
+        public async Task<List<OrderVM>> GetOrdersByCompanyIdAsync(int id)
         {
             var orders = _orderRepository.GetAll()
-            .Where(order=>order.isBought==false)
             .Include(order => order.OrderedProducts)
                 .ThenInclude(orderedProduct => orderedProduct.Product) // Include the related products
             .ToList();
 
             var selectedOrders = new List<Order>();
 
+            foreach (var order in orders)
+            {
+                var canCloseOrder = true;
 
-            foreach(var order in orders)
+                foreach (var orderedProduct_ in order.OrderedProducts)
+                {
+                    if (!orderedProduct_.isBought)
+                    {
+                        canCloseOrder = false;
+                    }
+                }
+
+                if (canCloseOrder)
+                {
+                    order.isBought = true;
+                }
+                else
+                {
+                    order.isBought = false;
+                }
+            }
+
+            foreach (var order in orders)
             {
                 var selectedProducts = new List<OrderedProduct>();
                 var orderedProductsList = order.OrderedProducts.ToList();
@@ -148,6 +194,8 @@ namespace Infrastructure.Services
 
                 if(selectedProducts.Count>0) {
                     order.OrderedProducts = selectedProducts;
+                    
+                    if(!order.isBought)
                     selectedOrders.Add(order);
                 }
             }
@@ -165,7 +213,9 @@ namespace Infrastructure.Services
                     if (tmpOrder.Products == null) { tmpOrder.Products = new List<OrderedProductUpdatedVM>(); }
                     tmpOrder.Products.Add(new OrderedProductUpdatedVM
                     {
+                        isBought=item.isBought,
                         Count = item.Count,
+                        Id= item.Id,
                         Product= _mapper.Map<Product, ProductVM>(item.Product),
                     });
                 }
@@ -177,25 +227,29 @@ namespace Infrastructure.Services
         }
 
 
-        public async Task<ServiceResponse> CloseAnOrderByIdAsync(int id)
+        public async Task<ServiceResponse> CloseAnOrderedProductByIdAsync(int id)
         {
-            var order = await _orderRepository.GetById(id);
+            var orderedProduct = await _orderedProductRepository.GetById(id);
             
-            if (order != null)
+            if (orderedProduct != null)
             {
-                order.isBought = true;
-                await _orderRepository.Update(order);
+                orderedProduct.isBought = true;
+                await _orderedProductRepository.Update(orderedProduct);
+
+                var order = _orderRepository.GetAll().Include(order=>order.OrderedProducts).FirstOrDefault(order=>order.OrderedProducts.FirstOrDefault(prod=>prod.Id == orderedProduct.Id) != null);
+               
+
                 return new ServiceResponse()
                 {
-                    Message = "Order was closed"
+                    Message = "OrderedProduct was closed"
                 };
             }
             else
             {
                 return new ServiceResponse()
                 {
-                    Message = "this order does'nt exist",
-                    Errors = new List<string>() { "this order does'nt exist" }
+                    Message = "this OrderedProduct does'nt exist",
+                    Errors = new List<string>() { "this OrderedProduct does'nt exist" }
                 };
             }
 
