@@ -1,5 +1,5 @@
 #!/bin/bash
-container_name="backup"
+container_name="backend"
 if docker ps -a --format "{{.Names}}" | grep -q "^$container_name$"; then
 # Container exists, execute your command here
 sudo rm -rf /home/azureuser/backup/*
