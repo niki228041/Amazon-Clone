@@ -36,7 +36,7 @@ namespace ShopApi.Controllers
         }
 
 
-        [DisableRequestSizeLimit]
+        //[DisableRequestSizeLimit]
         [HttpPost]
         [Route("CreateTrack")]
         public async Task<IActionResult> CreateTrackAsync(TrackDTO model)
