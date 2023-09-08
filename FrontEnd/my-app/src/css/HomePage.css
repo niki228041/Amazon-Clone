@@ -1,5 +1,5 @@
 body {
-    background-color: white;
+    background-color: #F7F7F7;
 }
 
 .first-section .image-div {
@@ -172,9 +172,8 @@ body {
 
 .our-products,
 .best-offers {
-    margin-top: 25px;
+    padding-top: 25px;
     font-family: 'Inter';
-
     padding-left: 105px;
     padding-right: 105px;
 }

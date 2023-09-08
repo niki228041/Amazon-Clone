@@ -25,7 +25,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddDbContext<AppEFContext>(opt =>
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("LocalDb")));
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.
 
