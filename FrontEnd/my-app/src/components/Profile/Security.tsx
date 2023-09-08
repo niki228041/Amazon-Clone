@@ -10,6 +10,7 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { GetAccessToken, SetAccessToken } from "../../api/jwtDecodeToken";
 import { useDispatch } from "react-redux";
 import { AuthUser } from "../../features/user/user-slice";
+import { useNavigate } from "react-router-dom";
 
 const Security: React.FC = () => {
   const [passwordVisible1, setPasswordVisible1] = useState(false);
@@ -24,6 +25,7 @@ const Security: React.FC = () => {
   };
   
   const dispatch = useDispatch();
+  const navigate =useNavigate();
 
 
   const handleLogout=()=>{
@@ -72,7 +74,7 @@ const Security: React.FC = () => {
           ЗБЕРЕГТИ ЗМІНИ
         </button>
 
-        <button onClick={()=>{handleLogout()}} className=" mt-5 py-2 rounded-lg px-5 text-white col-start-3  hover:bg-red-700  bg-red-950">
+        <button onClick={()=>{handleLogout();navigate("/login")}} className=" mt-5 py-2 rounded-lg px-5 text-white col-start-3  hover:bg-red-700  bg-red-950">
           ВИЙТИ З АККАУНТУ
         </button>
 

@@ -25,7 +25,7 @@ const ProfileWrap=()=> {
 
    function capitalizeFirstLetter(text:string) {
     return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
-  }
+   }
 
   return (
     <div className='mx-auto w-10/12  '>
