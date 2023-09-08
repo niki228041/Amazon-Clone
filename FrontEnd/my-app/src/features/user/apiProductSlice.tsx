@@ -19,7 +19,7 @@ export const apiProductSlice:any = createApi({
         getProductById:builder.query<any,any>({
           query:(todo)=>({
             url:'/api/Products/GetProductById',
-            method:"POST",
+            method:"GET",
             body:todo
           }),
           providesTags:result=>['Product']

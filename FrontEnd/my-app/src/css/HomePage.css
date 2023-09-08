@@ -1,5 +1,5 @@
 body {
-    background-color: white;
+    background-color: #F7F7F7;
 }
 
 .first-section .image-div {
@@ -110,8 +110,12 @@ body {
     justify-content: column;
 }
 
+.container-for-card h4 {
+    width: 150px;
+}
+
 .container-for-card .arrivals-card {
-    height: 287px;
+    height: 300px;
     width: 190px;
     margin-right: 25px;
     border: 1px solid rgba(0, 0, 0, 0.13);
@@ -133,8 +137,12 @@ body {
 }
 
 .container-for-card .arrivals-card img {
-    margin-top: 10px;
-    margin-bottom: 15px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    height: 158px;
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
 }
 
 .price-container {
@@ -164,9 +172,8 @@ body {
 
 .our-products,
 .best-offers {
-    margin-top: 25px;
+    padding-top: 25px;
     font-family: 'Inter';
-
     padding-left: 105px;
     padding-right: 105px;
 }
@@ -213,15 +220,22 @@ body {
     position: relative;
 }
 
-.our-products .our-products-main .our-products-main-special>img {
+.our-products-main-special img {
     height: 430px;
+    
 }
 
+
+
+
 .our-products .our-products-main .our-products-main-special .our-products-main-special-img {
-    background-image: url(./../images/headphones-main.svg);
+    /* background-image: url(./../images/headphones-main.svg); */
+    background-size: 350px;
+    background-repeat: no-repeat;
     height: 430px;
     display: flex;
     justify-content: space-between;
+    background-position: center;
 }
 
 .our-products .our-products-main .our-products-main-special .our-products-main-special-img h2 {
@@ -316,6 +330,14 @@ body {
 .container-main-cards {
     display: flex;
     flex-direction: column;
+    
+}
+
+.container-main-cards img {
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+    
 }
 
 .our-products-main-card {
@@ -343,6 +365,8 @@ body {
 .our-products-main-card img {
     margin-top: 10px;
     margin-bottom: 15px;
+    height: 129px;
+    min-height: 129px;
 }
 
 .price-container {
@@ -374,6 +398,10 @@ body {
 .second-container-main {
     display: flex;
     flex-direction: row;
+}
+
+.first-container-main h4 {
+    width: 150px;
 }
 
 .new-receipts {
@@ -438,20 +466,25 @@ body {
 }
 
 .new-receipts-product-img {
-    background-image: url(./../images/product-img.svg);
     height: 285px;
+    background-size: 230px;
+    background-position: left center;
     display: flex;
     background-repeat: no-repeat;
     margin-left: 20px;
     margin-top: 20px;
 }
 
+.best-offers-main-element h4 {
+    width: 270px;
+}
+
 .best-offers-main-element-img {
-    background-image: url(./../images/product-img.svg);
+    /* background-image: url(./../images/product-img.svg); */
     height: 459px;
     display: flex;
     padding-left: 20px;
-    padding-top: 20px;
+    /* padding-top: 20px; */
     background-repeat: no-repeat;
     background-size: contain;
     justify-content: center;
@@ -459,11 +492,11 @@ body {
 }
 
 .best-offers-main-element-img-5 {
-    background-image: url(./../images/laptop-example-2.svg);
+    /* background-image: url(./../images/laptop-example-2.svg); */
     height: 200px;
     display: flex;
     padding-left: 20px;
-    padding-top: 20px;
+    /* padding-top: 20px; */
     padding-right: 20px;
     background-repeat: no-repeat;
     background-size: contain;
@@ -492,9 +525,20 @@ body {
     flex-direction: row;
 }
 
-.receipts-product-img-labels {
+.receipts-product-img-labels,
+.receipts-product-img-labels-2,
+.receipts-product-img-labels-3 {
     padding-left: 20px;
     padding-bottom: 10px;
+}
+
+.receipts-product-img-labels span,
+.receipts-product-img-labels-2 span {
+    width: 440px;
+}
+
+.receipts-product-img-labels-3 {
+    width: 400px;
 }
 
 .new-receipts-product-card {
@@ -506,6 +550,7 @@ body {
 
 .best-offers-main-element-2 {
     background-color: white;
+    padding-top: 20px;
 }
 
 .best-offers-main {
@@ -529,6 +574,10 @@ body {
     height: 90px;
     background-color: #FF9A02;
     font-size: 24px;
+}
+
+.best-offers-main-element-3 h4 {
+    width: 250px;
 }
 
 .best-offers-main-element-3 button {
@@ -556,7 +605,11 @@ body {
 
 .special-offer>span {
     display: block; 
-    line-height: 29px; 
+    line-height: 29px;
+}
+
+.best-offers-for-span span {
+    width: 300px;
 }
 
 .img-container {
@@ -573,8 +626,13 @@ body {
     align-items: center;
 }
 
+.img-container-4 img {
+    height: 150px;
+}
+
 .img-container img {
     max-width: 100%;
+    height: 200px;
 }
 
 .best-offers-main-element-border,
@@ -605,6 +663,16 @@ body {
     align-items: center;
     margin-right: 120px;
 
+}
+
+.last-element-card img {
+    height: 158px;
+    margin-right: 10px;
+
+}
+
+.last-element-card span {
+    width: 150px;
 }
 
 .last-element-card:last-child {
@@ -643,19 +711,19 @@ body {
 
 .winMart-first-div {
     display: flex;
-    align-items: center; /* Прижимаем вниз */
-    justify-content: flex-start; /* Прижимаем влево */
+    align-items: center; 
+    justify-content: flex-start; 
     background-color: #FF9A02;
     color: white;
     border-radius: 10px;
     font-size: 25px;
     line-height: 58px;
-    text-align: center; /* Центрируем текст */
+    text-align: center; 
     
 }
 
 .rotate-content {
-    writing-mode: vertical-rl; /* Вертикальное направление текста */
+    writing-mode: vertical-rl; 
     transform: scaleY(1) rotate(180deg);
 }
 
@@ -665,10 +733,19 @@ body {
     justify-content: center;
 }
 
+.winMart-second-div img {
+    height: 129px;
+    max-width: 100%; 
+    display: block; 
+    margin: 0 auto;
+    margin-bottom: 3px;
+}
+
 .winMart-second-div-first-row,
 .winMart-second-div-second-row {
     display: flex;
     flex-direction: row;
+    margin-bottom: 10px;
 }
 
 .winMart-second-div-first-row div,
@@ -698,7 +775,8 @@ body {
 .winMart-third-div .text-div{
     position: relative;
     top: 80px;
-    left: 40px;
+    /* left: 40px; */
+    margin-left: 40px;
     line-height: 63px;
 }
 
@@ -716,9 +794,9 @@ body {
     top: 50px;
     left: 362px;
     width: 0;
-    border-left: 53px solid transparent; /* Размер основания треугольника */
-    border-bottom: 53px solid rgba(255, 154, 2, 1); /* Высота треугольника и его цвет */
-    transform: scale(5); /* Масштабирование элемента в 4 раза */
+    border-left: 53px solid transparent; 
+    border-bottom: 53px solid rgba(255, 154, 2, 1); 
+    transform: scale(5); 
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.73);
 }
 
