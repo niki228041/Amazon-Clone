@@ -93,6 +93,7 @@ import CreateAnswerToFAQ from './components/Admin/CreateAnswerToFAQ';
 import { ua } from './const/constants';
 import { setCurrency } from './features/user/CurrencyStateSlice';
 import HearAlbum from './components/Player/Album/HearAlbum';
+import Playlists from './components/Player/Tabs/Playlists';
 
 
 
@@ -149,6 +150,9 @@ const App: React.FC = () => {
           <Route path='createTrack' element={<CreateTrack />} />
           <Route path='viewTrack/:trackId' element={<ViewTrack />} />
           <Route path='searchTracks' element={<SearchTracks />} />
+          <Route path='playlists' element={<Playlists />} />
+          
+
           <Route path='album' >
               <Route path=':id' element={<HearAlbum/>}/>
           </Route>

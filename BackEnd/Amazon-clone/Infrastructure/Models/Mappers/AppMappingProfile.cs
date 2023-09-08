@@ -128,6 +128,13 @@ public class AppMappingProfile : Profile
         CreateMap<FrequentlyAskedQuestion, FAQVM>()
             .ForMember(dest => dest.AnswerFAQ, opt => opt.MapFrom(src => src.AnswerToFAQ)); // Map AnswerToFAQ to AnswerToFAQVM within FAQVM
 
+
+        CreateMap<Album, AlbumVM>();
+        CreateMap<AlbumVM, Album>();
+
+        CreateMap<Album, AlbumDTO>();
+        CreateMap<AlbumDTO, Album>();
+
     }
 
 

@@ -13,7 +13,13 @@ namespace DAL.Entities.Music
         public string Title { get; set; }
         public string Background { get; set; }
 
-        //Every ProductImage have a product
-        public ICollection<Track> Tracks { get; set; }
+
+        //Creator
+        public User User { get; set; }
+
+        [ForeignKey(nameof(User))]
+        public int? UserId { get; set; }
+
+        public virtual ICollection<TrackAlbum> TrackAlbums { get; set; }
     }
 }
