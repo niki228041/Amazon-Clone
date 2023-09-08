@@ -14,7 +14,7 @@ pipeline  {
              steps{
                 sh """
                 #!/bin/bash
-                sufo /home/azureuser/backup.sh
+                sudo /home/azureuser/backup.sh
                 """
              }
          }
