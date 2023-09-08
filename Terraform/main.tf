@@ -1,55 +1,78 @@
-provider "aws"{
-    region = "eu-north-1"
-    access_key=var.aws_access_key
-    secret_key=var.aws_secret_key
-}
-resource "aws_instance" "Jenkins"{
-    ami = "ami-0989fb15ce71ba39e"
-    instance_type = "t3.micro"
-    key_name = "EC2 Tutorial"
-    tags = {
-      "Name" = "Jenkins Server"
+terraform {
+  required_version = ">=0.12"
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~>2.0"
     }
-    user_data = "${file("install.sh")}"
-    vpc_security_group_ids = [aws_security_group.TFDefault.id]
-    ebs_block_device {
-      device_name = "/dev/sda1"
-      volume_type ="gp3"
-      volume_size = 20
-      encrypted = true
-      delete_on_termination = true
-
-    }
+  }
 }
-resource "aws_security_group" "TFDefault" {
-  name = "TFDefault"
-  description = "Allow 22, 8080, 80, 3389, 10500 "
+provider "azurerm" {
+  features {}
+  
+}
+resource "azurerm_resource_group" "Amazon_Clone" {
+  name="AmazonClone"
+  location = "Sweden Central"
+  
+}
+resource "azurerm_virtual_network" "Amazon_Clone" {
+  name = "AmazonClonevpn"
+  address_space = ["10.0.0.0/16"]
+  location = azurerm_resource_group.Amazon_Clone.location
+  resource_group_name = azurerm_resource_group.Amazon_Clone.name
+}
 
-  ingress {
-      description = "Allow 22"
-      from_port = 22
-      to_port = 22
-      protocol = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
+resource "azurerm_subnet" "Amazon_Clone" {
+  name = "AmazonClonesub"
+  resource_group_name = azurerm_resource_group.Amazon_Clone.name
+  virtual_network_name = azurerm_virtual_network.Amazon_Clone.name
+  address_prefixes = ["10.0.2.0/24"]
+  
+}
+resource "azurerm_network_interface" "Amazon_Clone" {
+  name = "AmazonCloneNic"
+  location = azurerm_resource_group.Amazon_Clone.location
+  resource_group_name = azurerm_resource_group.Amazon_Clone.name
+  ip_configuration {
+    name                          = "AmazonCloneConfig1"
+    subnet_id                     = azurerm_subnet.Amazon_Clone.id
+    private_ip_address_allocation = "Dynamic"
   }
-  ingress {
-      description = "Allow 8080"
-      from_port = 8080
-      to_port = 8080
-      protocol = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
+  
+  # Create (and display) an SSH key
+resource "tls_private_key" "secureadmin_ssh" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+}
+resource "azurerm_linux_virtual_machine" "Amazon_Clone" {
+  name  = "AmazonCloneVM1"
+  location = azurerm_resource_group.Amazon_Clone.location
+  resource_group_name = azurerm_resource_group.Amazon_Clone.name
+  network_interface_ids = [ azurerm_network_interface.Amazon_Clone.id ]
+  vm_size = "Standard_B2ms"
+   storage_image_reference {
+    publisher = "Canonical"
+    offer     = "0001-com-ubuntu-server-jammy"
+    sku       = "22_04-lts"
+    version   = "latest"
   }
-  ingress {
-      description = "Allow 80"
-      from_port = 80
-      to_port = 80
-      protocol = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
+  storage_os_disk {
+    name              = "AmazonCloneOSDisk1"
+    caching           = "ReadWrite"
+    create_option     = "FromImage"
+    managed_disk_type = "Standard_LRS"
+    disk_size_gb = 30
   }
-  egress {
-      from_port = 0
-      to_port = 0
-      protocol = "-1"
-      cidr_blocks = ["0.0.0.0/0"]
-  }
+  
+    computer_name  = "AmazonCloneUser"
+    admin_username = "azureuser"
+    disable_password_authentication = true
+    admin_ssh_key {
+      username = "azureuser"
+      public_key = tls_private_key.secureadmin_ssh.public_key_openssh
+    }
+ 
+  
 }

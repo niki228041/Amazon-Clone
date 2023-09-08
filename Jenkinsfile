@@ -13,11 +13,11 @@ pipeline  {
          {
              steps{
                 sh """
-                sudo docker cp  backend:/app/comment_images /home/azureuser/backup/   
-                sudo docker cp  backend:/app/company_images /home/azureuser/backup/ 
-                sudo docker cp  backend:/app/images /home/azureuser/backup/ 
-                sudo docker cp  backend:/app/music_files /home/azureuser/backup/ 
-                sudo docker cp  backend:/app/music_images /home/azureuser/backup/
+                sudo docker cp  backend:/app/comment_images /home/azureuser/backup/  2> /dev/null
+                sudo docker cp  backend:/app/company_images /home/azureuser/backup/ 2> /dev/null
+                sudo docker cp  backend:/app/images /home/azureuser/backup/  2> /dev/null
+                sudo docker cp  backend:/app/music_files /home/azureuser/backup/  2> /dev/null
+                sudo docker cp  backend:/app/music_images /home/azureuser/backup/ 2> /dev/null
                 """
              }
          }
