@@ -31,6 +31,7 @@ module.exports = {
         grayForPlayerColor:"#252525",
         almostBlackColor:"#101010",
         middleGrayColor:"#353535",
+        playerSelectedTabColor:"#1E1E1E",
         orangeColor:"#E9671E",
         almostWhiteColor:"#C9C9C9",
         whiteGrayColor:"#474747",
@@ -48,7 +49,10 @@ module.exports = {
         whiteColor:"#FFFFFF",
         whiteGray:"#8B96A5",
         musicHeaderGray:"#697475",
-        whiteGrayComment:"#F0F0F0"
+        whiteGrayComment:"#F0F0F0",
+        grayForProductToast:"#D9D9D9",
+        litleYellow:"#fffbe8",
+        veryYellowColor:"#BEBEBE"
 
       }
     },

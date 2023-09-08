@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { apiProductSlice, useGetProductCountQuery, useGetProductsQuery } from '../../features/user/apiProductSlice';
 import { useParams} from 'react-router-dom'
-import { ImageLink, Product, categorySequence } from '../types';
+import { ImageLink, OneProductVM, Product, ProductsWithPagination, categorySequence } from '../types';
 import { apiCategorySlice, useGetCategoriesQuery, useGetMainCategoriesQuery } from '../../features/user/apiCategorySlice';
 import "../../css/stars.css";
 import search from "../../images/search.png";
@@ -29,6 +29,10 @@ import arrowRight from '../../images/ArrowRightS.svg';
 
 import check from "../../images/check (1).png"
 import { useGetAllBaseOptionsAsyncQuery } from '../../features/user/apiOptionsSlice';
+import { turnWasAddedToFalse } from '../../features/user/ordersStateSlice';
+import { useDispatch } from 'react-redux';
+import { GetCurrency } from '../../api/jwtDecodeToken';
+import { useAppSelector } from '../../app/hooks';
 
 interface AllFilters{
   categoryId:number,
@@ -64,12 +68,15 @@ const loader=()=> {
 
 const Product_Component=({ data , productsImages,viewListOrGrid}: { data: Product ,productsImages:ImageLink,viewListOrGrid:string})=>{
   var stars = 0;
+  var dispatch = useDispatch();
 
   const handleStarsFunctionality=()=>{
     var sumOfStars = 0;
     data.comments.map(com=>sumOfStars += com.stars);
     stars = Math.round(sumOfStars/(data.comments.length));
   }
+
+  var currency = useAppSelector((state)=>state.currency.currency);
 
   const getStarts=()=>{
     var jsx_stars: JSX.Element[] = [];
@@ -101,36 +108,37 @@ const Product_Component=({ data , productsImages,viewListOrGrid}: { data: Produc
   // viewListOrGrid
 
   return<div
-  className={classNames("col-span-4",{
+  className={classNames(" z-10",{
     " col-span-4 ":viewListOrGrid=="list",
     " col-span-1 ":viewListOrGrid=="grid"
   })}
   >
-  <Link to={"/product/" + data.id}>
-    <div className='pb-2 w-full hover:shadow-lg rounded-lg p-2 py-10 bg-whiteColor' >
-          <div>
-          <div className='w-full h-[170px] m-0 py-10' style={{ backgroundImage:"url("+ productsImages?.image +")",backgroundPosition:"center",backgroundSize:"contain",backgroundRepeat:"no-repeat"}}>
-
-          </div>
+  <Link to={"/product/" + data.id} >
+    <div className={classNames('pb-2 w-full hover:shadow-lg grid rounded-lg p-2 py-10 bg-whiteColor ',{
+    " grid-cols-10 ":viewListOrGrid=="list",
+    " grid-cols-1 ":viewListOrGrid=="grid"})}>
+          <div className={classNames(" col-span-2",{"px-5":viewListOrGrid=="list"})} >
+            <div className='w-full h-[170px] m-0 py-10' style={{ backgroundImage:"url("+ productsImages?.image +")",backgroundPosition:"center",backgroundSize:"contain",backgroundRepeat:"no-repeat"}}>
+            </div>
             {/* <img src={data?.image ? "data:image/png;base64," + data?.image : img} className=' w-full h-[100px] ' />         */}
           </div>
-          <div className='p-1 '>
-            <div className='flex flex-wrap h-12 overflow-hidden mt-6'>
+          <div className='p-1 col-span-8 '>
+            <div className='flex flex-wrap overflow-hidden mt-6 h-12'>
               <p className=' text-optionsGrayDarkBlueColor  text-md hover:text-red-700 cursor-pointer hover:underline '>
                 {data.name}
               </p>
             </div>
 
             <div className='flex mt-2 justify-between'>
-              <p className='text-optionsGrayDarkBlueColor text-[20px] font-bold text-xl'>{data.price} грн.</p>
+              <p className='text-optionsGrayDarkBlueColor text-[20px] font-bold text-xl'>{data.price} {currency}</p>
               {data.discount ?
               <div className='text-[20px] text-sm rounded-lg self-center bg-almostWhiteGreen px-2 py-1 text-optionsGreenColorFor' style={{ fontFamily:"Roboto"}}>{data.discount}% OFF</div>
               :""}
             </div>
 
             <div className='flex justify-between mt-4'>
-              <span>Продано: 6</span>
-              <span>В наявності: 30</span>
+              <span>Продано: {data.selledCount}</span>
+              <span>В наявності: {data.quantity}</span>
             </div>
 
             <div className='flex justify-between mt-4'>
@@ -174,6 +182,7 @@ const PageWithOptions = () => {
 
   const [sortBy, setSortBy] = useState("Рейтингом");
   const [dropdownSortBy, setDropdownSortBy] = useState(false);
+  const [countOfViewedPage, setCountOfViewedPage] = useState<string[]>(["1","2","3"]);
   
 
   const [selectedColor, setSelectedColor] = useState<string[]>([]);
@@ -227,21 +236,29 @@ const PageWithOptions = () => {
     return new URLSearchParams(window.location.search);
   };
 
+
   var [categoryId, setcategoryId] = useState(getSearchParams().get('id'));
   var [getProductsByFilter, { isLoading }] = apiProductSlice.useGetProductWithFiltersMutation();
 
   var [minPriceInterval, setMinPrice] = useState("0");
   var [maxPriceInterval, setMaxPrice] = useState("70000");
   var [page, setPage] = useState(1);
-  var [limit, setLimit] = useState(7);
+  var [limit, setLimit] = useState(8);
 
   var [viewListOrGrid, setViewListOrGrid] = useState("grid");
   var [seeAllCategories, setSeeAllCategories] = useState(true);
 
 
+
   var [categoriesToView, setCategoriesToView] = useState<Category[]>([]);
   var [allFilters,setAllFilters] = useState<AllFilters>({categoryId:-1,min_Preis:-1,max_Preis:-1,stars:-1,variants:[],productName:"",page:page,limit:limit,sortBy:""});
   var [products, setProducts] = useState([]);
+  var [productsCount, setProductsCount] = useState<number>();
+
+
+  // const { data:productsCount}: { data?: { payload: OneProductVM } } = useGetProductByIdQuery({ Id: params.productId });
+  // data?.payload.selledCount
+
 
   var [categoriesSequence, setCategoriesSequence] = useState<categorySequence[]>([]);
   var url = `/products?category=${encodeURIComponent("")}`;
@@ -275,9 +292,34 @@ const PageWithOptions = () => {
     setSearch(search_);
     funcs();
 
+    handleSetCountOfPagesToView();
+
+    console.log(countOfViewedPage);
+    
+
   }, [categories, categoryId, getSearchParams().get('productName'),search_,page,selectedBrends,selectedColor,selectedPrice,selectedRating,selectedCategory,sortBy])
   
-  
+  useEffect(()=>{handleSetCountOfPagesToView();},[,isLoading])
+
+  const handleSetCountOfPagesToView=()=>{
+    setCountOfViewedPage([]);
+
+    for (let index = 0; index <= 4; index++) {
+      if(page>=2)
+      {
+        if(((index+page) * limit)<productsCount!+limit)
+        {
+          setCountOfViewedPage(prev=>[...prev,((index+page)).toString()]);
+        }
+      }
+      else{
+        if(((index+1) * limit)<productsCount!+limit)
+        {
+          setCountOfViewedPage(prev=>[...prev,(index+1).toString()]);
+        }
+      }
+    }
+  }
 
   const funcs = async ()=>{
     var categoryId = Number(search_.get("categoryId"));
@@ -312,7 +354,10 @@ const PageWithOptions = () => {
     console.log("HERE PLS:");
     console.log();
     // if(response?.data?.payload.length > 0) //Розібратись з пустою сторінкою останєю page
-    setProducts(response?.data?.payload);
+    setProducts(response?.data?.payload?.products);
+    setProductsCount(response?.data?.payload?.countOfProducts);
+
+
   }
 
   const getProducts = async () => {
@@ -382,6 +427,10 @@ const PageWithOptions = () => {
     return jsx_stars;
   }
 
+  var currency = useAppSelector((state)=>state.currency.currency);
+
+
+
   const setStarts= async (stars:number)=>{
     search_.set("stars",stars.toString());
     setSearch(search_);
@@ -405,7 +454,7 @@ const PageWithOptions = () => {
       <div className='  w-10/12 m-auto'>
 
       
-      <div className=' text-whiteGray mt-8 ml-2 flex'>
+      {/* <div className=' text-whiteGray mt-8 ml-2 flex'>
         <span className=' self-center mr-2 hover:underline cursor-pointer'>Головна </span>
         <img className=' self-center mr-2' src={arrowRight} />
         <span className=' self-center mr-2 hover:underline cursor-pointer'>Одяг </span>
@@ -413,10 +462,10 @@ const PageWithOptions = () => {
         <span className=' self-center mr-2 hover:underline cursor-pointer'>Чоловічий одяг </span>
         <img className=' self-center mr-2' src={arrowRight} />
         <span className=' self-center mr-2 hover:underline cursor-pointer'>Футболки</span>
-      </div>
+      </div> */}
 
 
-      <div className=' pl-2 pr-2 mt-4'>
+      <div className='  mt-4'>
 
       
         <div className=' grid grid-cols-11 gap-4'>
@@ -440,7 +489,7 @@ const PageWithOptions = () => {
                   <span className=' text-optionsGrayBlueColor'>({productCount?.payload})</span>
                 </div>
 
-                {categories?.payload.map((category: Category, id: number) => {
+                {categories?.payload?.map((category: Category, id: number) => {
                 return <div className='my-3 cursor-pointer'>
                   <span 
                   
@@ -606,7 +655,7 @@ const PageWithOptions = () => {
                   />
                     </div>
                     <label className="flex self-center" >
-                    <span className=' mr-3 text-optionsWhiterDarkBlueColor'>Ціна: {minPriceInterval} грн - {maxPriceInterval} грн</span>
+                    <span className=' mr-3 text-optionsWhiterDarkBlueColor'>Ціна: {minPriceInterval} {currency} - {maxPriceInterval} {currency}</span>
                   </label>
                   
                 </div>  
@@ -770,50 +819,24 @@ const PageWithOptions = () => {
             
             <img className='mt-4' src={werbung}/>
 
-            {/* <form className='ml-1 text-sm ' onSubmit={handlePriceFilter}>
-                <div className='font-medium cursor-pointer '>Price</div>
-                <div className=''>
-                  <input id='min-price' name='min-price' 
-                  className='border w-8 mr-1 outline-none rounded-md p-1 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent' type='number'></input>
-                  <span>-</span>
-                  <input id='max-price'  name='max-price' className='border w-8 ml-1 outline-none rounded-md p-1 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent' type='number'></input>
-                  <button type='submit' className=' self-center absolute ml-2 border p-1.5'>
-                      <img className='h-4 self-center' src={search}></img>
-                  </button>
-                </div>
-            </form>
-    
-            <div className='mt-4 ml-1'>
-              <div className='font-medium text-sm cursor-pointer'>Customer Review</div>
-              <div className='ml-1'>
-                <div className='flex select-none cursor-pointer hover:underline mt-1 m-auto text-sm' onClick={()=>setStarts(4)}>{getStarts(4)} & Up</div>
-                <div className='flex select-none cursor-pointer hover:underline mt-1 m-auto text-sm' onClick={()=>setStarts(3)}>{getStarts(3)} & Up</div>
-                <div className='flex select-none cursor-pointer hover:underline mt-1 m-auto text-sm' onClick={()=>setStarts(2)}>{getStarts(2)} & Up</div>
-                <div className='flex select-none cursor-pointer hover:underline mt-1 m-auto text-sm' onClick={()=>setStarts(1)}>{getStarts(1)} & Up</div>
-                <div className='flex select-none cursor-pointer hover:underline mt-1 ml-1 m-auto text-sm' onClick={()=>setStarts(-1)}>None & Up</div>
-              </div>
-            </div> */}
-            
-           
           </div>
     
     
-          {/* grid */}
-    
         
-          
-          <div className='col-span-9 shadow-md p-2 pt-4'>
+          <div className='col-span-9'>
+          <div className='shadow-md p-2 pt-4  relative flex  flex-col'>
+            <div>
 
-            <div className='flex h-10 justify-between'>
+            <div className='flex h-10 justify-between '>
 
-              <div className='relative' >
+              <div className='  z-10' >
                 <div onClick={()=>setDropdownSortBy(!dropdownSortBy)} className='text-[11px] ml-12 mt-[-6px] text-grayForText bg-bodyColor border border-bodyColor border-x-2 rounded-lg absolute mb-2 select-none cursor-pointer' style={{ fontFamily:"Roboto"}} >СОРТУВАТИ ЗА</div>
                 <button onClick={()=>setDropdownSortBy(!dropdownSortBy)} className=' bg-white border justify-between border-optionsGrayForBorder rounded-md text-sm ml-8 flex py-2 font-medium px-4'>
                   <span className='mr-12'>{sortBy}</span>
                   <img className='h-5 self-center' src={dropdown} />
                 </button>
 
-                <div style={{transformOrigin:"top"}} className={classNames('ml-8 mt-1 ',{
+                <div style={{transformOrigin:"top"}} className={classNames('ml-8 mt-1  ',{
                     " opacity-100 ": dropdownSortBy,
                     " opacity-0 scale-0 " : !dropdownSortBy
                   })}>
@@ -858,17 +881,19 @@ const PageWithOptions = () => {
                   src={viewListOrGrid == "list"? viewList : viewGrid} />
                 </div>
                 
-                <div className='self-center' onClick={()=>setViewListOrGrid("list")}>
-                  <img className='h-7 self-center pl-5' src={viewList} />
+                <div className='self-center  h-full flex w-14 justify-center' onClick={()=>setViewListOrGrid("list")}>
+                  <img className='h-7 self-center  flex' src={viewList} />
                 </div>
-                <div className='self-center' onClick={()=>setViewListOrGrid("grid")}>
-                  <img className='h-4 self-center pr-5' src={viewGrid} />
+                <div className='self-center h-full flex w-14 justify-center' onClick={()=>setViewListOrGrid("grid")}>
+                  <img className='h-4 self-center flex' src={viewGrid} />
                 </div>
               </div>
 
             </div>
+
+            <div className=' relative flex justify-center pb-36'>
             {!isLoading?
-            <div className='grid grid-cols-4 gap-12 px-10 w-full mt-5 '>
+            <div className='grid grid-cols-4 gap-12 px-10 w-full pt-5 '>
             
 
               { products?.map((product: Product, id: number) => {
@@ -881,27 +906,37 @@ const PageWithOptions = () => {
                 key={id}>{<Product_Component viewListOrGrid={viewListOrGrid} data={b} productsImages={imagesLinks?.find((img:ImageLink)=>img.productId==product.id)!} />}</div> })}
             </div>
             :loader()}
-            <div className='w-full m-auto flex flex-col mt-10'>
-              <span className='m-auto flex justify-center'>
-                <span className='mx-1'>Page: {page}</span>
-                <span className='mx-1'>Limit: {limit}</span>
-              </span>
+            
+           </div>
 
-              <div className='flex m-auto mt-2'>
-                <div onClick={()=>{if(page > 1)(setPage(page-1))}} className=' bg-mainYellowColor transition-all select-none mx-2 cursor-pointer active:scale-110 p-1 px-4 rounded-sm text-white'>
-                  prev
+           </div>
+
+
+           <div className='bottom-0 absolute mb-10 mx-auto self-center'>
+              <div className='w-full flex flex-col mx-auto'>
+                {/* <span className=' flex justify-center'>
+                  <span className='mx-1'>Page: {page}</span>
+                  <span className='mx-1'>Limit: {limit}</span>
+                </span> */}
+
+                <div className='flex mt-2'>
+                  <div onClick={()=>{if(page > 1)(setPage(page-1))}} className={classNames(' border transition-all select-none mx-2 cursor-pointer active:scale-110 p-1 px-4 rounded-md',{"text-gray-400":page == 1})}>
+                    Назад
+                  </div>
+                  {countOfViewedPage.map((pageNum)=><div className='border rounded-md py-1 px-3 mx-1 cursor-pointer' onClick={()=>setPage(parseInt(pageNum))}>{pageNum}</div>)}
+                  <div onClick={()=>{if((page * limit)<=productsCount!)(setPage(page+1))}}  className={classNames(' border transition-all select-none mx-2 cursor-pointer active:scale-110 p-1 px-4 rounded-md',{"text-gray-400":(page * limit)>=productsCount! })}>
+                    Вперед
+                  </div>
                 </div>
-                <div onClick={()=>{if(products?.length != 0)(setPage(page+1))}}  className=' bg-mainYellowColor transition-all select-none mx-2 cursor-pointer active:scale-110 p-1 px-4 rounded-sm text-white'>
-                  next
-                </div>
+
               </div>
-
             </div>
 
           </div>
+        </div>
+        </div>
 
           
-        </div>
 
         
 

@@ -80,13 +80,13 @@ export const apiProductSlice:any = createApi({
           }),
           providesTags:result=>['Product']
         }),
-        getProductWithLimitByCategoryId:builder.query<any, any>({
+        getProductWithLimitByCategoryId:builder.mutation<any, any>({
           query:(todo)=>({
             url:'/api/Products/GetProductWithLimitByCategoryId',
             method:"POST",
             body:todo
           }),
-          providesTags:result=>['Product']
+          invalidatesTags:['Product']
         }),
         createComment:builder.mutation<any,any>({
           query:(todo)=>({
@@ -96,10 +96,33 @@ export const apiProductSlice:any = createApi({
           }),
           invalidatesTags:['Product']
         }),
+        getCommentsByProductId:builder.query<any,any>({
+          query:(todo)=>({
+            url:'/api/Comment/GetCommentsByProductId',
+            method:"POST",
+            body:todo
+          }),
+          providesTags:result=>['Product']
+        }),
+        canLeaveComment:builder.query<any,any>({
+          query:(todo)=>({
+            url:'/api/Comment/CanLeaveComment',
+            method:"POST",
+            body:todo
+          }),
+          providesTags:result=>['Product']
+        }),
         
     })
 })
 
 
-export const {useGetProductsQuery,useGetProductByIdQuery,useDeleteProductQuery,useGetLinksForProductByProductsIdsQuery,useGetProductCountQuery,useGetProductWithLimitByCategoryIdQuery} = apiProductSlice
+export const {
+  useGetProductsQuery,
+  useGetProductByIdQuery,
+  useDeleteProductQuery,
+  useGetLinksForProductByProductsIdsQuery,
+  useGetProductCountQuery,
+  useGetCommentsByProductIdQuery,
+  useCanLeaveCommentQuery} = apiProductSlice
 

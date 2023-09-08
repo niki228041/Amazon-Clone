@@ -1,0 +1,23 @@
+.margin{
+    margin-top: 30px;
+}
+.style{
+    height : 100%;
+}
+.margin-2{
+    margin-top: 50px;
+}
+
+.width{
+    width: 95%;
+}
+
+.button{
+    width: 280px;
+    height: 78px;
+    color: #002A42;
+}
+
+.margin-left{
+    margin-left: 20px;
+}

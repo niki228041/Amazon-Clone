@@ -289,11 +289,11 @@ const Player=()=>{
 
     return<>
     <audio onEnded={handleSongEnd} src={currentSong.song} ref={audioRef} onTimeUpdate={onPlaying} onTimeUpdateCapture={getCurrDuration}/>
-    <div className=" w-5/6 mx-auto p-2 px-4 grid grid-cols-10 gap-2">
+    <div className=" w-5/6 mx-auto p-2 px-4 grid grid-cols-10 gap-4 ">
       <div className={classNames(
-          'col-span-8'
+          'col-span-8 '
         )}>
-        <div className="bg-middleGrayColor rounded-lg h-12 self-center gap-3 grid grid-cols-12 text-white text-[15px] px-5 select-none">
+        <div className="bg-middleGrayColor my-4 rounded-lg h-12 self-center gap-3 grid grid-cols-12 text-white text-[15px] px-5 select-none">
           <div onClick={() => changeTab("home")}
             className={
               "cursor-pointer flex p-1 justify-center self-center px-2" +
@@ -339,7 +339,7 @@ const Player=()=>{
 
 
 
-      <div className=" col-span-2">
+      <div className=" col-span-2  my-4">
         
         <div className={classNames(" transition-all duration-300 ",{" -translate-y-[365px]":isMenuOpen})}>
           <div className={classNames(" bg-middleGrayColor hover:bg-whiteGrayColor p-2 rounded-lg h-20 flex transition-all select-none z-10")}>

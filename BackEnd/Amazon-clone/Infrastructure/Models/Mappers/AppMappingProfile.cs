@@ -3,6 +3,7 @@ using DAL.Entities;
 using DAL.Entities.DTO_s;
 using DAL.Entities.FilterEntities;
 using DAL.Entities.Music;
+using DAL.FAQ;
 using DAL.Interfaces;
 using DAL.Repositories;
 using Infrastructure.Models.Caterories;
@@ -112,7 +113,21 @@ public class AppMappingProfile : Profile
 
         CreateMap<GenreDTO, Genre>();
         CreateMap<Genre, GenreDTO>();
-        
+
+        CreateMap<FAQDTO, FrequentlyAskedQuestion>();
+        CreateMap<FrequentlyAskedQuestion, FAQDTO>();
+
+        CreateMap<AnswerFAQDTO, AnswerToFAQ>();
+        CreateMap<AnswerToFAQ, AnswerFAQDTO>();
+
+        CreateMap<FAQVM, FrequentlyAskedQuestion>();
+
+        CreateMap<AnswerFAQVM, AnswerToFAQ>();
+        CreateMap<AnswerToFAQ, AnswerFAQVM>(); // Map AnswerToFAQ to AnswerFAQVM
+
+        CreateMap<FrequentlyAskedQuestion, FAQVM>()
+            .ForMember(dest => dest.AnswerFAQ, opt => opt.MapFrom(src => src.AnswerToFAQ)); // Map AnswerToFAQ to AnswerToFAQVM within FAQVM
+
     }
 
 

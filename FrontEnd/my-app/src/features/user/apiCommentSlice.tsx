@@ -9,17 +9,10 @@ export const apiCommentSlice:any = createApi({
     tagTypes:['comment'],
     endpoints:(builder)=>({
         
-        getCommentsByProductId:builder.query<any,any>({
-          query:(todo)=>({
-            url:'/api/Comment/GetCommentsByProductId',
-            method:"POST",
-            body:todo
-          }),
-          providesTags:result=>['comment']
-        })
+        
         
     })
 })
 
 
-export const {useGetCommentsByProductIdQuery} = apiCommentSlice
+export const {} = apiCommentSlice

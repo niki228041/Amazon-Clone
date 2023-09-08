@@ -31,12 +31,14 @@ public class ProductService : IProductService
     private readonly IVariantProductRepository _variantProductRepository;
     private readonly IUserRepository _userRepository;
     private readonly ICompanyRepository _companyRepository;
+    private readonly IOrderRepository _orderRepository;
 
     private readonly IMapper _mapper;
     public ProductService(IProductRepository productRepository, IMapper mapper, ICategoryService categoryRepository, IImageService ImageService,IProductImageService productImageService
         , IProductImageRepository productImageRepository, ICommentService commentService,
-        IVariantProductRepository variantProductRepository, IVariantRepository variantRepository, IOptionsRepository optionsRepository, IUserRepository userRepository, ICompanyRepository companyRepository)
+        IVariantProductRepository variantProductRepository, IVariantRepository variantRepository, IOptionsRepository optionsRepository, IUserRepository userRepository, ICompanyRepository companyRepository,IOrderRepository orderRepository)
     {
+        _orderRepository = orderRepository; 
         _productRepository = productRepository;
         _mapper = mapper;
         _categoryService = categoryRepository;
@@ -218,8 +220,20 @@ public class ProductService : IProductService
 
     public async Task<ServiceResponse> GetProductByIdAsync(int id)
     {
+        if (id == 0)
+        {
+            return new ServiceResponse
+            {
+                Message = "ERROR",
+                IsSuccess = false,
+                Payload = ""
+            };
+        }
+
         var res = _productRepository.GetAll().Include(prod=>prod.VariantProducts).Include(prod=>prod.Comments).FirstOrDefault(prod=>prod.Id==id);
         var optionsToSend = new List<SelectedOptionVM>();
+
+        
 
         foreach (var variantProduct in res.VariantProducts)
         {
@@ -231,7 +245,8 @@ public class ProductService : IProductService
 
         var item = _mapper.Map<Product, ProductOneVM>(res);
 
-        if(res.CompanyId!=null)
+
+        if(res.CompanyId != null)
         {
             var company = await _companyRepository.GetById((int)res.CompanyId);
             var companyVm = _mapper.Map<Company, CompanyVM>(company);
@@ -240,25 +255,9 @@ public class ProductService : IProductService
         
         item.Options = optionsToSend;
 
-        //var images = await _productImageService.GetAllImageByProductIdAsync(item.Id);
-        //var images_with_base64_list = new List<ProductImageVM>();
+        var selledProductCount = _orderRepository.GetAll().Include(order=>order.OrderedProducts).Where(order=>order.OrderedProducts.FirstOrDefault(prod=>prod.ProductId == item.Id) != null && order.isBought).ToList().Count;
 
-        //foreach (var img in images)
-        //{
-        //    var img_base64 = _productImageService.GetBase64ByName(img.Name,Qualities.QualitiesSelector.HIGH);
-        //    ProductImageVM img_vm = _mapper.Map<ProductImage, ProductImageVM>(img);
-        //    img_vm.Image = img_base64;
-        //    images_with_base64_list.Add(img_vm);
-        //}
-
-
-        //if (images != null)
-        //    item.Image = images_with_base64_list;
-
-
-
-
-        //item.Category = res.Category.Name;
+        item.SelledCount = selledProductCount;
 
         return new ServiceResponse
         {
@@ -392,10 +391,23 @@ public class ProductService : IProductService
         var startIndex = (page - 1) * limit;
         var endIndex = page * limit;
 
+
+
         List<ProductVM> productVMsFinal = productVMs
             .Skip(startIndex)
             .Take(limit)
             .ToList();
+
+        foreach(var productVM in productVMsFinal)
+        {
+            productVM.SelledCount = _orderRepository.GetAll().Include(order => order.OrderedProducts).Where(order => order.OrderedProducts.FirstOrDefault(prod => prod.ProductId == productVM.Id) != null && order.isBought).ToList().Count;
+        }
+        
+
+        ProductsVMWithPagination productsVMWithPagination = new ProductsVMWithPagination();
+
+        productsVMWithPagination.CountOfProducts = productVMs.Count;
+        productsVMWithPagination.Products = productVMsFinal;
 
 
 
@@ -404,7 +416,7 @@ public class ProductService : IProductService
         {
             Message = "GetProduct",
             IsSuccess = true,
-            Payload = productVMsFinal
+            Payload = productsVMWithPagination
         };
     }
 

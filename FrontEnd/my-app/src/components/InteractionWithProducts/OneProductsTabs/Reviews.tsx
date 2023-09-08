@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import checkGray from "../../../images/check_gray.svg"
-import { apiCommentSlice, useGetCommentsByProductIdQuery } from '../../../features/user/apiCommentSlice';
 import { useParams } from 'react-router-dom';
 import circle from '../../../images/black-circle.png';
 import { Comment, OneProductVM } from '../../types';
@@ -10,13 +9,15 @@ import filled_star from '../../../images/filled_star.svg';
 import unfilled_star from '../../../images/unfiled_star.svg';
 import checkForReview from "../../../images/CheckForReview.svg"
 import plusForComment from "../../../images/PlusForComment.svg"
+import { format, formatDistanceToNow, parseISO } from 'date-fns';
+
 
 import star from "../../../images/star (2).png"
 import empty_star from "../../../images/star (3).png"
 
 import "../../Player/ScrollBar.css";
 import { useAppSelector } from '../../../app/hooks';
-import { apiProductSlice, useGetProductByIdQuery } from '../../../features/user/apiProductSlice';
+import { apiProductSlice, useCanLeaveCommentQuery, useGetProductByIdQuery } from '../../../features/user/apiProductSlice';
 
 export interface CommentFromServer{
     id:number,
@@ -38,8 +39,25 @@ export interface createComment{
   productId:number,
 }
 
+export interface canLeaveComment{
+  userId:number,
+  productId:number,
+}
+
+
+
 
 export const CommentItem=({comment}:{comment:CommentFromServer})=>{
+
+  function formatDateDifference(dateString:string) {
+    const date = parseISO(dateString);
+    const now = new Date();
+  
+  
+    const difference = format(date, 'dd.MM.yyyy');
+  
+    return difference;
+  }
 
     const getStarts=()=>{
       var jsx_stars: JSX.Element[] = [];
@@ -58,10 +76,15 @@ export const CommentItem=({comment}:{comment:CommentFromServer})=>{
     }
 
     return <>
-    <div className='mb-7'>
-        <div className='flex'>
+    <div className='mb-7  '>
+        <div className='flex justify-between'>
+          <div className='flex'>
             <img className='h-12' src={circle} />
             <span className=' self-center ml-2'>Поліщук Тетяна</span>
+          </div>
+          <div>
+            <div className='text-sm'>{formatDateDifference(comment.dateCreated)}</div>
+          </div>
         </div>
         <div className='flex mt-2'>
             {getStarts()}
@@ -88,9 +111,16 @@ const Reviews=()=> {
     var [createComment,{}] = apiProductSlice.useCreateCommentMutation();
     const { data, isSuccess }: { data?: { payload: OneProductVM }, isSuccess: boolean } = useGetProductByIdQuery({ Id: params.productId });
 
-    const {data:comments,isSuccess:isCommentsSuccess} = useGetCommentsByProductIdQuery({id:params.productId}) as {
-        data: CommentFromServer[];
-        isSuccess: boolean;
+    const {data:comments,isSuccess:isCommentsSuccess} = apiProductSlice.useGetCommentsByProductIdQuery({id:params.productId}) as {
+      data: CommentFromServer[];
+      isSuccess: boolean;
+    };
+
+    var request:canLeaveComment = {productId:parseInt(params.productId!), userId:parseInt(user.id)};
+
+    const {data:canLeaveComment} = useCanLeaveCommentQuery(request) as {
+      data:{payload:boolean};
+      isSuccess: boolean;
     };
 
 
@@ -114,11 +144,14 @@ const Reviews=()=> {
       }
     }
 
+    useEffect(()=>{},[comments?.length,canLeaveComment?.payload])
+
     console.log(comments);
 
   return (
-    <div className='p-5 px-10 overflow-y-scroll h-[400px] '>
+    <div className='p-5 px-10 '>
 
+      {canLeaveComment?.payload ?
       <div className='mb-5'>
         <div className="flex ">
           <img className='h-10 self-center mr-3' src={checkForReview} />
@@ -151,14 +184,15 @@ const Reviews=()=> {
             </span>
           </div>
         </div>
-  
+
+        
   
         <div className=" text-grayColorForHeader text-sm">
           Ви можете написати тільки он коментар за один куплений товар. В подальшому його можна буде редагувати.
         </div>
 
       </div>
-
+      :""}
 
         {comments?.map((comment: CommentFromServer, id: number) => {
           return <div key={id}>{<CommentItem  comment={comment} />}</div> })}

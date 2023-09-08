@@ -14,6 +14,7 @@ const OrdersForSeller=()=> {
 
 
   var {data,isSuccess}:{data:OrderForSeller[],isSuccess:boolean} = useGetOrdersByCompanyIdQuery({id:company?.id});
+  console.log(data);
 
   return (
     <div className=''>
@@ -33,20 +34,25 @@ const OrdersForSeller=()=> {
                         
                         return <>
                             <div className='my-2 bg-slate-100 hover:bg-slate-200 p-2 px-4'>
-                            <p>Count: {orderedProduct.count}</p>
-                            <p>Name: {orderedProduct.product.name}</p>
-                            <p>Price: ${orderedProduct.product.price}</p>
-                            <p>Discount: %{orderedProduct.product.discount}</p>
+                                <p>Count: {orderedProduct.count}</p>
+                                <p>Name: {orderedProduct.product.name}</p>
+                                <p>Price: ${orderedProduct.product.price}</p>
+                                <p>Discount: %{orderedProduct.product.discount}</p>
+                                <div className='mt-2'>
+                                    {!orderedProduct.isBought  ?
+                                    <button className=' bg-green-400 hover:bg-green-300 p-2 rounded-lg' onClick={()=>{closeAnOrderById({id:orderedProduct.id})}}>
+                                        Close an Ordered Product
+                                    </button>
+                                    :
+                                    <div className='text-green-500'>Product order is Already closed</div>
+                                    }
+                                </div>
                             </div>
                         </>
                         })}
                     </div>
 
-                    <div className='p-1'>
-                        <button className=' bg-green-400 hover:bg-green-300 p-2 rounded-lg' onClick={()=>{closeAnOrderById({id:order.id})}}>
-                            Close an Order
-                        </button>
-                    </div>
+                    
 
 
                     </div> })}

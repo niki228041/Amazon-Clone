@@ -87,7 +87,7 @@ export const Payment = () => {
             </Stack>
       </div>
       <div>
-        <CardModal isOpen={isCardModalOpen} onClose={toggleCardModal} />
+
         <div style={{display:"flex"}} >
 
           <a style={{ fontSize: "40px", fontWeight: "600", marginTop: "80px", marginLeft: "75px", color: "#6B6A6E" }}>Основні платіжні карти</a>

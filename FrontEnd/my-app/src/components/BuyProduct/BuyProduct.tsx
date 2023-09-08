@@ -50,31 +50,31 @@ const BuyProduct=({setAdressOpen,setCardOpen}:{setAdressOpen:(prop:boolean)=>voi
       return hiddenPart + visiblePart;
     }
 
-    const createOrder=(data:React.FormEvent<HTMLFormElement>)=>{
-        // data.preventDefault();
-        // var curentData = new FormData(data.currentTarget);
+    // const createOrder=(data:React.FormEvent<HTMLFormElement>)=>{
+    //     // data.preventDefault();
+    //     // var curentData = new FormData(data.currentTarget);
         
-        var orderedProducts:OrderedProducts[] = [];
+    //     var orderedProducts:OrderedProducts[] = [];
 
-        orders.forEach(order => {
-            orderedProducts.push({productId:order.product_id,count:order.count});
-        });
+    //     orders.forEach(order => {
+    //         orderedProducts.push({productId:order.product_id,count:order.count});
+    //     });
         
-        var request:OrderDTO = {
-            fullName:selectedCard?.ownerName!,
-            userId:Number(user.id),
-            cardId:Number(selectedCard?.id),
-            addressId:Number(address.id),
-            orderedProducts_:orderedProducts
-        }
+    //     var request:OrderDTO = {
+    //         fullName:selectedCard?.ownerName!,
+    //         userId:Number(user.id),
+    //         cardId:Number(selectedCard?.id),
+    //         addressId:Number(address.id),
+    //         orderedProducts_:orderedProducts
+    //     }
     
-        console.log(selectedCard);
-        console.log(address);
-        console.log(request);
+    //     console.log(selectedCard);
+    //     console.log(address);
+    //     console.log(request);
 
-        addOrder(request);
-        navigate("/successful-purchase")
-    }
+    //     addOrder(request);
+    //     navigate("/successful-purchase")
+    // }
 
     // {
     //     "fullName": "string",
@@ -90,9 +90,9 @@ const BuyProduct=({setAdressOpen,setCardOpen}:{setAdressOpen:(prop:boolean)=>voi
     // }
 
     return <>
-    
-        <form className="w-full mx-auto mt-5 col-span-10" onSubmit={createOrder}>
-            <div className="mx-auto  p-3">
+    {/* onSubmit={createOrder} */}
+        <form className="w-full mx-auto mt-5 col-span-10" >
+            {/* <div className="mx-auto  p-3">
                 <label className="text-[22px] font-medium ">Your addresses</label>
                 <br></br>
                 <div className="pl-4">
@@ -129,7 +129,7 @@ const BuyProduct=({setAdressOpen,setCardOpen}:{setAdressOpen:(prop:boolean)=>voi
                         Buy Products
                     </button>
                 </div>
-            </div>
+            </div> */}
         </form>
         
     </>
