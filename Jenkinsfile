@@ -3,21 +3,13 @@
 pipeline  {
     agent any;
     stages {
-        stage("Remove old backup")
-         {
-             steps{
-                sh "sudo rm -rf /home/azureuser/backup/*"
-             }
-         }
+        
          stage("Backup files")
          {
              steps{
                 sh """
-                sudo docker cp  backend:/app/comment_images /home/azureuser/backup/   
-                sudo docker cp  backend:/app/company_images /home/azureuser/backup/ 
-                sudo docker cp  backend:/app/images /home/azureuser/backup/ 
-                sudo docker cp  backend:/app/music_files /home/azureuser/backup/ 
-                sudo docker cp  backend:/app/music_images /home/azureuser/backup/
+                #!/bin/bash
+                sudo /home/azureuser/backup.sh
                 """
              }
          }
