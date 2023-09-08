@@ -275,17 +275,17 @@ const OneProduct=()=>{
 
         <div className="mx-auto mt-10 w-11/12 lg:w-10/12 xl:w-9/12">
             <div className='grid xl:grid-cols-10 grid-cols-3 sm:grid-cols-1 p-2 xl:py-4 xl:gap-4 border border-grayColorForBorder rounded-lg'>
-                <div className='col-span-3'>
-                    <div className='rounded-lg border border-grayColorForBorder '>
-                        <div className='h-[410px] bg-contain bg-no-repeat bg-center' style={{backgroundImage: `url(${mainImage})`}} />
-                    </div>
-                    <div className='grid grid-cols-5 mt-3 gap-3 px-3'>
-                        {data?.payload.images.map((image:string)=>{return<div>
-                            <div onMouseEnter={()=>setMainImage(image)} className='rounded-md bg-cover bg-no-repeat bg-center h-[66px] w-full border border-grayColorForBorder'  style={{backgroundImage: `url(${image})`}}/>
-                        </div>})}
+                    <div className='col-span-3'>
+                        <div className='rounded-lg border border-grayColorForBorder '>
+                            <div className='h-[410px] bg-contain bg-no-repeat bg-center' style={{backgroundImage: `url(${mainImage})`}} />
+                        </div>
+                        <div className='grid grid-cols-5 mt-3 gap-3 px-3'>
+                            {data?.payload.images.map((image:string)=>{return<div>
+                                <div onMouseEnter={()=>setMainImage(image)} className='rounded-md bg-cover bg-no-repeat bg-center h-[66px] w-full border border-grayColorForBorder'  style={{backgroundImage: `url(${image})`}}/>
+                            </div>})}
+                        </div>
                     </div>
 
-                    </div>
                     <div className='col-span-4 xl:px-8'>
                         <div className='flex '>
                             <img className='h-6 self-center' src={data?.payload.isInTheStock ? check : ""} /> 
@@ -310,64 +310,66 @@ const OneProduct=()=>{
                                 <img onClick={()=>changeStars("5")} id='5' className='h-[13px]  hover:contrast-75 image-container' src={filled_star} /> */}
                             </div>
 
-                        <span className='px-1 self-center text-mainYellowColor ml-2 flex text-sm '>{starsRating}</span>
-                        <img className='px-1 self-center h-1.5' src={Dot} />
-                        <img className='px-1 self-center h-4' src={message_img} />
-                        <span className='px-1 self-center flex  hover:underline cursor-pointer select-none text-sm '>{data?.payload.comments.length} відгуки</span>
-                        <img className='px-1 self-center h-1.5' src={Dot} />
-                        <img className='px-1 self-center h-4' src={miniBasket} />
-                        <span className='px-1 self-center text-sm flex'>{data?.payload.selledCount} продано</span>
+                            <span className='px-1 self-center text-mainYellowColor ml-2 flex text-sm '>{starsRating}</span>
+                            <img className='px-1 self-center h-1.5' src={Dot} />
+                            <img className='px-1 self-center h-4' src={message_img} />
+                            <span className='px-1 self-center flex  hover:underline cursor-pointer select-none text-sm '>{data?.payload.comments.length} відгуки</span>
+                            <img className='px-1 self-center h-1.5' src={Dot} />
+                            <img className='px-1 self-center h-4' src={miniBasket} />
+                            <span className='px-1 self-center text-sm flex'>{data?.payload.selledCount} продано</span>
 
                         </div>
 
-                    <div className='w-full mt-2 bg-lightOrangeColor p-3 flex'>
-                        <div className='self-center font-medium w-1/3 flex flex-col px-1'>
-                            <span className='text-[18px] text-red-500'>{data?.payload.price} {currency}</span>
-                            <span className=' text-grayForText text-sm font-normal'>50-100 pcs</span>
+                        <div className='w-full mt-2 bg-lightOrangeColor p-3 flex'>
+                            <div className='self-center font-medium w-1/3 flex flex-col px-1'>
+                                <span className='text-[18px] text-red-500'>{data?.payload.price} {currency}</span>
+                                <span className=' text-grayForText text-sm font-normal'>50-100 pcs</span>
+                            </div>
+                            <img src={line}/>
+                            <div className='self-center font-medium w-1/3 flex flex-col px-1'>
+                                <span className='text-[18px] '>{(data?.payload.price!/1.1).toFixed(2)} {currency}</span>
+                                <span className=' text-grayForText text-sm font-normal'>100-700 pcs</span>
+                            </div>
+                            <img src={line}/>
+                            <div className='self-center font-medium w-1/3 flex flex-col px-1'>
+                                <span className='text-[18px] '>{(data?.payload.price!/1.2).toFixed(2)} {currency}</span>
+                                <span className=' text-grayForText text-sm font-normal'>700+ pcs</span>
+                            </div>
                         </div>
-                        <img src={line}/>
-                        <div className='self-center font-medium w-1/3 flex flex-col px-1'>
-                            <span className='text-[18px] '>{(data?.payload.price!/1.1).toFixed(2)} {currency}</span>
-                            <span className=' text-grayForText text-sm font-normal'>100-700 pcs</span>
-                        </div>
-                        <img src={line}/>
-                        <div className='self-center font-medium w-1/3 flex flex-col px-1'>
-                            <span className='text-[18px] '>{(data?.payload.price!/1.2).toFixed(2)} {currency}</span>
-                            <span className=' text-grayForText text-sm font-normal'>700+ pcs</span>
-                        </div>
-                    </div>
 
                         <div className='w-full mt-2 py-3 text-[15px]'>
                             <div className='my-2 grid grid-cols-4'>
                                 <span className=' text-grayForText col-span-1  self-center'>Ціна:</span>
                                 <span className='col-span-3'>${data?.payload.price}</span>
                             </div>
-                    <div className='w-full mt-2 py-3 text-[15px]'>
-                        <div className='my-2 grid grid-cols-4'>
-                            <span className=' text-grayForText col-span-1  self-center'>Ціна:</span>
-                            <span className='col-span-3'>{data?.payload.price} {currency}</span>
-                        </div>
-
-                            <hr className='my-1' />
-
-                            {data?.payload.options.map((opt:SelectedOption,index:number)=>
-                                <div key={index} className='my-2 grid grid-cols-4'>
-                                    <span className=' text-grayForText col-span-1  text-sm self-center'>{opt.title}:</span>
-                                    <span className='col-span-3'>{opt.variant}</span>
+                            <div className='w-full mt-2 py-3 text-[15px]'>
+                                <div className='my-2 grid grid-cols-4'>
+                                    <span className=' text-grayForText col-span-1  self-center'>Ціна:</span>
+                                    <span className='col-span-3'>{data?.payload.price} {currency}</span>
                                 </div>
-                            )}
 
-                            <hr className='my-1' />
+                                    <hr className='my-1' />
 
-                        {/* <div className='my-2 grid grid-cols-4'>
-                            <span className=' text-grayForText col-span-1  text-sm self-center'>Кастомізація:</span>
-                            <span className='col-span-3'>Індивідуальний логотип та дизайн індивідуальних пакетів</span>
-                        </div> */}
-                        
-                    </div>
+                                    {data?.payload.options.map((opt:SelectedOption,index:number)=>
+                                        <div key={index} className='my-2 grid grid-cols-4'>
+                                            <span className=' text-grayForText col-span-1  text-sm self-center'>{opt.title}:</span>
+                                            <span className='col-span-3'>{opt.variant}</span>
+                                        </div>
+                                    )}
+
+                                    <hr className='my-1' />
+                                    
+                                {/* <div className='my-2 grid grid-cols-4'>
+                                    <span className=' text-grayForText col-span-1  text-sm self-center'>Кастомізація:</span>
+                                    <span className='col-span-3'>Індивідуальний логотип та дизайн індивідуальних пакетів</span>
+                                </div> */}
+
+                            </div>
                     
 
+                        </div>
                     </div>
+
                     <div className='col-span-3 px-2 xl:pl-10'>
                         <div className='border border-grayColorForBorder rounded-lg p-3'>
                             <div className=' flex'>
@@ -397,309 +399,147 @@ const OneProduct=()=>{
                                 <p className='ml-4 col-span-9 '>Доставка по всьому світу</p>
                             </div>
 
-                        <button onClick={()=>{ handleAddNewOrder(data?.payload!)}} className='hover:bg-orange-300 flex mx-auto bg-mainYellowColor py-2 w-full justify-center rounded-lg text-white'>
-                            Надіслати запит
-                        </button>
-                        <button className='border border-grayColorForBorder mt-3 flex mx-auto py-2 w-full justify-center rounded-lg'>
-                            Профіль продавця
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-
-                <div className='grid grid-cols-12 mt-12'>
-                    <div className='xl:mr-2 mb-4 xl:col-span-9 col-span-12'>
-                        <div className='border border-grayColorForBorder rounded-lg pb-4'>
-                            <div className='flex flex-col'>
-                            <div className=' flex '>
-                                <div onClick={()=>navigate("/product/description/" + params.productId)} className=' '>
-                                    <p className={classNames(
-                                    'select-none cursor-pointer xl:px-10 px-2 p-4 text-sm ',
-                                    {
-                                        'text-grayForText': !location.pathname.includes('description'),
-                                    }
-                                    )}>Опис</p>
-                                    <div className=' bg-slate-500 h-0.5 w-11/12 mx-auto' />
-                                </div>
-                                <div onClick={()=>navigate("/product/reviews/" + params.productId)} className=''>
-                                    <p className={classNames(
-                                    'select-none cursor-pointer xl:px-10 px-2 p-4 text-sm ',
-                                    {
-                                        'text-grayForText': !location.pathname.includes('reviews'),
-                                    }
-                                    )}>Відгуки</p>
-                                    <div className=' bg-slate-500 h-0.5 w-11/12 mx-auto' />
-                                </div>
-                                <div className=''>
-                                    <p className='select-none cursor-pointer xl:px-10 px-2 p-4 text-sm  text-grayForText'>Доставка</p>
-                                    <div className=' bg-slate-500 h-0.5 w-11/12 mx-auto' />
-                                </div>
-                                <div className=''>
-                                    <p className='select-none cursor-pointer xl:px-10 px-2 text-sm p-4 text-grayForText'>Про продавця</p>
-                                    <div className=' bg-slate-500 h-0.5 w-11/12 mx-auto' />
-                                </div>
-                            </div>
-                            <hr className='mb-2'/>
-                            </div>
-                            <Outlet/>
+                            <button onClick={()=>{ handleAddNewOrder(data?.payload!)}} className='hover:bg-orange-300 flex mx-auto bg-mainYellowColor py-2 w-full justify-center rounded-lg text-white'>
+                                Надіслати запит
+                            </button>
+                            <button className='border border-grayColorForBorder mt-3 flex mx-auto py-2 w-full justify-center rounded-lg'>
+                                Профіль продавця
+                            </button>
                         </div>
                     </div>
 
-                <div className='ml-2 col-span-3 hidden  xl:block'>
-                    <div className='border border-grayColorForBorder rounded-lg p-4'>
-                        <p className=' font-semibold'>Вам може сподобатись</p>
-                        {/* {recomendedProducts_1?.payload.map((prod)=>{
-                            return <>
-                                <Link  onClick={()=>handleLinkClick()} to={"/product/description/"+prod.id} className='flex mt-4 h-[70px] my-4 mb-8'>
-                                    <div>
-                                        <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${prod.image})`}}  />
+
+                    <div className='grid grid-cols-12 col-span-12 mt-12'>
+                        <div className='xl:mr-2 mb-4 xl:col-span-9 col-span-12'>
+                            <div className='border border-grayColorForBorder rounded-lg pb-4'>
+                                <div className='flex flex-col'>
+                                <div className=' flex '>
+                                    <div onClick={()=>navigate("/product/description/" + params.productId)} className=' '>
+                                        <p className={classNames(
+                                        'select-none cursor-pointer xl:px-10 px-2 p-4 text-sm ',
+                                        {
+                                            'text-grayForText': !location.pathname.includes('description'),
+                                        }
+                                        )}>Опис</p>
+                                        <div className=' bg-slate-500 h-0.5 w-11/12 mx-auto' />
                                     </div>
-                                    <div className='grid grid-rows-2  h-full'>
-                                        <div className='h-12 overflow-hidden'>
-                                            <p className='pr-4'>{prod.name}</p>
+                                    <div onClick={()=>navigate("/product/reviews/" + params.productId)} className=''>
+                                        <p className={classNames(
+                                        'select-none cursor-pointer xl:px-10 px-2 p-4 text-sm ',
+                                        {
+                                            'text-grayForText': !location.pathname.includes('reviews'),
+                                        }
+                                        )}>Відгуки</p>
+                                        <div className=' bg-slate-500 h-0.5 w-11/12 mx-auto' />
+                                    </div>
+                                    <div className=''>
+                                        <p className='select-none cursor-pointer xl:px-10 px-2 p-4 text-sm  text-grayForText'>Доставка</p>
+                                        <div className=' bg-slate-500 h-0.5 w-11/12 mx-auto' />
+                                    </div>
+                                    <div className=''>
+                                        <p className='select-none cursor-pointer xl:px-10 px-2 text-sm p-4 text-grayForText'>Про продавця</p>
+                                        <div className=' bg-slate-500 h-0.5 w-11/12 mx-auto' />
+                                    </div>
+                                </div>
+                                <hr className='mb-2'/>
+                                </div>
+                                <Outlet/>
+                            </div>
+                        </div>
+
+                        <div className='ml-2 col-span-3 hidden  xl:block'>
+                            <div className='border border-grayColorForBorder rounded-lg p-4'>
+                            <p className=' font-semibold'>Вам може сподобатись</p>
+                            {/* {recomendedProducts_1?.payload.map((prod)=>{
+                                return <>
+                                    <Link  onClick={()=>handleLinkClick()} to={"/product/description/"+prod.id} className='flex mt-4 h-[70px] my-4 mb-8'>
+                                        <div>
+                                            <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${prod.image})`}}  />
                                         </div>
-                                        <p className=' self-end text-grayForText'>{prod.price} {currency}</p>
+                                        <div className='grid grid-rows-2  h-full'>
+                                            <div className='h-12 overflow-hidden'>
+                                                <p className='pr-4'>{prod.name}</p>
+                                            </div>
+                                            <p className=' self-end text-grayForText'>{prod.price} {currency}</p>
+                                        </div>
+                                    </Link>
+                                </>
+                            })} */}
+
+                            {/* <div className='flex mt-4 h-[70px] my-4 mb-8'>
+                                <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
+                                <div className='grid grid-rows-2'>
+                                    <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
+                                    <p className=' self-end text-grayForText'>1000-25000 {currency}</p>
+                                </div>
+                            </div>
+                            <div className='flex mt-4 h-[70px] my-4 mb-8'>
+                                <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
+                                <div className='grid grid-rows-2'>
+                                    <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
+                                    <p className=' self-end text-grayForText'>1000-25000 {currency}</p>
+                                </div>
+                            </div>
+                            <div className='flex mt-4 h-[70px] my-4 mb-8'>
+                                <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
+                                <div className='grid grid-rows-2'>
+                                    <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
+                                    <p className=' self-end text-grayForText'>1000-25000 {currency}</p>
+                                </div>
+                            </div>
+                            <div className='flex mt-4 h-[70px] my-4 '>
+                                <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
+                                <div className='grid grid-rows-2'>
+                                    <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
+                                    <p className=' self-end text-grayForText'>1000-25000 {currency}</p>
+                                </div>
+                            </div> */}
+                            </div>
+
+
+                        </div>
+
+                        
+                    </div>
+
+
+                    <div className='p-2 border rounded-lg mb-4 text-[18px]  col-span-12'>
+                        <p className='p-2  font-semibold'>Схожі товари</p>
+                        <div className='mb-4 grid grid-cols-3 xl:grid-cols-6  xl:gap-2'>
+
+                        {/* {recomendedProducts_2?.payload.map((prod)=>{
+                            return <>
+                                <Link onClick={()=>handleLinkClick()} to={"/product/description/"+prod.id}>
+                                    <div className='p-2'>
+                                        <div className='h-[70px] overflow-hidden lg:h-[150px] xl:h-[220px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center xl:mr-2' style={{backgroundImage: `url(${prod.image})`}}   />
+                                        <p className='mt-2 h-[60px] overflow-hidden'>{prod.name} </p>
+                                        <p className=' text-sm text-grayForText'>{prod.price} {currency}</p>
                                     </div>
                                 </Link>
                             </>
                         })} */}
-                        
-                        {/* <div className='flex mt-4 h-[70px] my-4 mb-8'>
-                            <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
-                            <div className='grid grid-rows-2'>
-                                <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
-                                <p className=' self-end text-grayForText'>1000-25000 {currency}</p>
-                            </div>
+
+
+
                         </div>
-                        <div className='flex mt-4 h-[70px] my-4 mb-8'>
-                            <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
-                            <div className='grid grid-rows-2'>
-                                <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
-                                <p className=' self-end text-grayForText'>1000-25000 {currency}</p>
-                            </div>
-                        </div>
-                        <div className='flex mt-4 h-[70px] my-4 mb-8'>
-                            <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
-                            <div className='grid grid-rows-2'>
-                                <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
-                                <p className=' self-end text-grayForText'>1000-25000 {currency}</p>
-                            </div>
-                        </div>
-                        <div className='flex mt-4 h-[70px] my-4 '>
-                            <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
-                            <div className='grid grid-rows-2'>
-                                <p className='pr-4'>Men Blazers Sets Elegant Formal</p>
-                                <p className=' self-end text-grayForText'>1000-25000 {currency}</p>
-                            </div>
-                        </div> */}
                     </div>
 
-                        
+                    {/* РОЗСИЛКА НА ЕМАЙЛ */}
+                    <div className=" my-14 xl:block lg:block hidden  col-span-12">
+                      <div className="text-white p-6 w-full bg-darkBlueColor flex justify-between ">
+                        <p className=" text-sm xl:text-base self-center">
+                          Підпишіться на нашу розсилку - отримайте купон на 300 {currency} на перше замовлення!
+                        </p>
+                        <div className="flex self-center text-sm w-4/12 ">
+                          <input type="text" placeholder="Введіть адресу електронної пошти" className="border text-black rounded-l-full px-2 h-9 outline-0  w-full border-grayColorForBorder "></input>
+                          <button className=" bg-mainYellowColor rounded-r-full p-1 px-3">Apply</button>
+                        </div>
+                      </div>
                     </div>
 
-                    
-                </div>
-
-
-                <div className='p-2 border rounded-lg mb-4 text-[18px]'>
-                    <p className='p-2  font-semibold'>Схожі товари</p>
-                    <div className='mb-4 grid grid-cols-3 xl:grid-cols-6  xl:gap-2'>
-
-                    {/* {recomendedProducts_2?.payload.map((prod)=>{
-                        return <>
-                            <Link onClick={()=>handleLinkClick()} to={"/product/description/"+prod.id}>
-                                <div className='p-2'>
-                                    <div className='h-[70px] overflow-hidden lg:h-[150px] xl:h-[220px] hover:contrast-100 transition-all contrast-75 rounded-lg  bg-cover bg-no-repeat bg-center xl:mr-2' style={{backgroundImage: `url(${prod.image})`}}   />
-                                    <p className='mt-2 h-[60px] overflow-hidden'>{prod.name} </p>
-                                    <p className=' text-sm text-grayForText'>{prod.price} {currency}</p>
-                                </div>
-                            </Link>
-                        </>
-                    })} */}
-
-                        
-                        
-                    </div>
-                </div>
-
-            {/* РОЗСИЛКА НА ЕМАЙЛ */}
-            <div className=" my-14 xl:block lg:block hidden">
-              <div className="text-white p-6 w-full bg-darkBlueColor flex justify-between ">
-                <p className=" text-sm xl:text-base self-center">
-                  Підпишіться на нашу розсилку - отримайте купон на 300 {currency} на перше замовлення!
-                </p>
-                <div className="flex self-center text-sm w-4/12 ">
-                  <input type="text" placeholder="Введіть адресу електронної пошти" className="border text-black rounded-l-full px-2 h-9 outline-0  w-full border-grayColorForBorder "></input>
-                  <button className=" bg-mainYellowColor rounded-r-full p-1 px-3">Apply</button>
-                </div>
-              </div>
             </div>
 
-            </div>
-        
-            {/* <div className='pl-40 pr-40 '>
-            
-            <div className='mt-10 mb-20'>
-                <div className='grid grid-cols-12 gap-2 '>
-                    <div className=' w-full col-span-5 h-[400px] px-12'>
-                        <div className=' w-full h-[400px]' style={{backgroundImage: `url(${mainImage})`,backgroundPosition:"center",backgroundSize:"contain",backgroundRepeat:'no-repeat' }}>
-
-                        </div>
-                        <div className='grid grid-cols-6 mt-4 gap-3 '>
-                            {data?.payload.images.map((image:string)=>{return<div>
-                                <div onMouseEnter={()=>setMainImage(image)} className='border block hover:scale-105 h-[80px] rounded-xl' style={{backgroundImage: `url(${image})`,backgroundPosition:"center",backgroundSize:"contain",backgroundRepeat:'no-repeat' }} />
-                            </div>})}
-                            
-                        </div>
-
-                    </div>
-                    
-                    <div className='w-full col-span-5 flex flex-col '>
-                        <span className=" text-xl">{data?.payload.name}</span>
-                        <hr className='my-3' />
-                        <div className='flex'>
-                            <span>Price:</span>
-                            <div className='ml-2'>
-                            <p> <span className="text-red-700 text-lg font-medium">
-                                €{data?.payload.price}  
-                                <span className='p-1 rounded-sm text-sm font-medium text-red-700'>
-                                (%{data?.payload.discount})
-                                </span>
-                                </span>
-                            </p>
-                            
-                            </div>
-                        </div>
-                        
-                        <span className='text-sm font-medium mt-4'>About this item</span>
-                        <div dangerouslySetInnerHTML={{ __html: data?.payload.description.toString()! }}/>
-                        
-
-                    </div>
-
-                    <div className='w-full col-span-2 justify-center'>
-                        <button  onClick={()=>{handleAddNewOrder(data?.payload!)}} className='bg-yellow-300 w-full p-2 rounded-xl'>Add to cart</button>
-                        <div className='mt-10'>
-                            {data?.payload.options.map((opt:SelectedOption,index:number)=><div key={index} className='flex justify-between'>
-                                <div className=' font-medium'>
-                                {opt.title}
-                                </div>
-                                <div>
-                                {opt.variant}
-                                </div>
-
-                            </div>)}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <form className='pl-40 pr-40 pt-20' onSubmit={createNewComment}>
-                <div className='mb-10'>
-                <div className="flex items-center justify-between">
-                    <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                    Add Comment
-                    </label>
-                    
-                </div>
-                <hr/>
-                <div className='grid grid-cols-6 mt-4'>
-                <div className=' col-span-1'>
-                    <p className=' text-md font-medium'>
-                    Create your own review
-                    </p>
-                    <div className=' mt-4 w-full flex rounded-full self-end'>
-                        <img onClick={()=>changeStars("1")} id='1' className='h-6 mr-1 hover:contrast-75 image-container' src={star} />
-                        <img onClick={()=>changeStars("2")} id='2' className='h-6 mr-1 hover:contrast-75 image-container' src={star} />
-                        <img onClick={()=>changeStars("3")} id='3' className='h-6 mr-1 hover:contrast-75 image-container' src={star} />
-                        <img onClick={()=>changeStars("4")} id='4' className='h-6 mr-1 hover:contrast-75 image-container' src={star} />
-                        <img onClick={()=>changeStars("5")} id='5' className='h-6 mr-1 hover:contrast-75 image-container' src={star} />
-                    </div>
-
-                    <button
-                    type="submit"
-                    className=" pt-1 mt-8 self-center text-[14px] w-full h-8  flex justify-center rounded-md bg-gray-600  text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                    Add Comment
-                    </button>
-
-                </div>
-                <div className=' col-span-5'>
-
-                    <div className='w-full flex  rounded-xl  pl-2'>
-
-                        <div className='flex flex-col w-full mt-1'>
-                            <label htmlFor='Title' className='text-sm mb-1 font-medium '>Title</label>
-                            <input 
-                            id="Title"
-                            name="Title"
-                            required
-                            className="shadow-xl outline-0 text-[12px] w-full p-3 block rounded-md  py-1.5 text-gray-900 focus:shadow-xl ring-gray-300 placeholder:text-gray-400 " />
-                            
-                            <label htmlFor='Text'  className='text-sm mb-1 font-medium '>Text</label>
-                            <textarea 
-                            id="Text"
-                            name="Text"
-                            required
-                            className="shadow-xl outline-0 text-[12px] w-full p-3 block rounded-md  py-1.5 text-gray-900 focus:shadow-xl ring-gray-300 placeholder:text-gray-400 " />
-                        </div>
-                        
-                    </div>
-
-                </div>
-                </div>
-
-            
-                </div>
-
-
-                <div className='grid grid-cols-6 mt-4'>
-                    <div className=' col-span-1 '>
-                        dfsfdsdasd
-                    </div>
-                    <div className='col-span-5'>
-                        {comments?.map((comm:Comment)=>{
-                            const dateTime = new Date(comm.dateCreated);
-                            const dateOnly = new Date(dateTime.getFullYear(), dateTime.getMonth(), dateTime.getDate());
-
-                            return <div className='p-2 flex' key={comm.id}>
-                            <div className='mr-3 h-8 w-10'>
-                                <img className='h-8 w-8' src={circle} />
-                            </div>
-                            <div className=' w-full'>
-                                <div>
-                                    <div className='flex content-center self-center text-[14px]'>
-                                        {comm.userName}
-                                    </div>
-                                    <div className=' text-[18px] font-medium '>
-                                        <div className=' font-normal text-[11px]  '>{dateOnly.toLocaleDateString()}</div> 
-
-                                        <div className=''>
-                                            {comm.title}
-                                        </div>
-                                        <div className='mt-1 w-full flex rounded-full self-end'>
-                                            {getStarts(comm.stars)}
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                                <div className=' text-[13px] mb-5'>
-                                    {comm.message}
-                                </div>
-                            </div>
-                        </div>
-                        })}
-                        
-                    
-                    </div>
-                </div>
-            </form>
-
-            </div> */
-            }
-
-            </div>
+        </div>
         </>
         
 };

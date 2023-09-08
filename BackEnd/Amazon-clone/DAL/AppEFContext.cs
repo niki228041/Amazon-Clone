@@ -34,6 +34,7 @@ namespace DAL
         public DbSet<TrackGenre> TrackGenre { get; set; }
         public DbSet<Genre> Genre { get; set; }
         public DbSet<Album> Album { get; set; }
+        public DbSet<TrackAlbum> TrackAlbum { get; set; }
         public DbSet<Options> Options { get; set; }
         public DbSet<Variant> Variant { get; set; }
         public DbSet<OptionsCategory> OptionCategory { get; set; }
@@ -173,6 +174,19 @@ namespace DAL
                 .OnDelete(DeleteBehavior.Cascade);
             //END
 
+            //START Many to many
+            modelBuilder.Entity<TrackGenre>()
+                .HasOne(tr => tr.Track)
+                .WithMany(trg => trg.TrackGenre)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<TrackGenre>()
+                .HasOne(gn => gn.Genre)
+                .WithMany(trg => trg.TrackGenre)
+                .OnDelete(DeleteBehavior.Cascade);
+            //END
+
             //START Many to one
             modelBuilder.Entity<Track>()
                 .HasMany(track => track.TrackComments)
@@ -186,6 +200,20 @@ namespace DAL
                 .HasMany(track => track.AnswerToFAQ)
                 .WithOne(com => com.FrequentlyAskedQuestion)
                 .HasForeignKey(com => com.FrequentlyAskedQuestionId)
+                .OnDelete(DeleteBehavior.Cascade);
+            //END
+
+
+            //START Many to many
+            modelBuilder.Entity<TrackAlbum>()
+                .HasOne(vp => vp.Track)
+                .WithMany(prod => prod.TrackAlbums)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<TrackAlbum>()
+                .HasOne(vp => vp.Album)
+                .WithMany(c => c.TrackAlbums)
                 .OnDelete(DeleteBehavior.Cascade);
             //END
 
