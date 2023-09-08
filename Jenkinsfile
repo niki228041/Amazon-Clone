@@ -3,12 +3,7 @@
 pipeline  {
     agent any;
     stages {
-        stage("Remove old backup")
-         {
-             steps{
-                sh "sudo rm -rf /home/azureuser/backup/*"
-             }
-         }
+        
          stage("Backup files")
          {
              steps{
