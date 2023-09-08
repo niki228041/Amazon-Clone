@@ -50,7 +50,8 @@ const Header = () => {
   const orders = useAppSelector((state) => state.orders);
   var user = useAppSelector(((state: { user: UserState; orders: Orders }) => state.user.user));
   var orderWasAdded = useAppSelector((state) => state.orders.orderWasAdded);
-
+  var isAuth = useAppSelector((state) => state.user.isAuth);
+  
   const [onSearch, setSearch] = useState(false);
   const [inputText, setInputText] = useState("");
   const [dropdown, setDropdown] = useState(false);
@@ -268,7 +269,7 @@ const Header = () => {
 
       <div className=" xl:block lg:block sm:block hidden">
         <div className=" grid grid-cols-4 xl:pr-9">
-          <Link to="/profile" className="singindiv">
+          <Link to={isAuth?"/profile":"/login"} className="singindiv">
             <div className="image-container">
               <img src={profile} alt="Profile"  />
             </div>

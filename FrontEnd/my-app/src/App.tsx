@@ -119,7 +119,7 @@ const App: React.FC = () => {
       <Routes>
         
         <>
-          <Route path='/'
+          {/* <Route path='/'
             element={<>
                 <Outlet />
               </>}>
@@ -129,17 +129,17 @@ const App: React.FC = () => {
             <Route path="otppage" element={<OtpPage />} />
             <Route path="resetpassword/" element={<ResetPasswordScreen />} />
             <Route path="registration" element={<Registration />} />
-          </Route>
+          </Route> */}
 
-          <Route path='/*'
+          {/* <Route path='/*'
             element={
             <>
                <LoginScreen />
             </>}>
-          </Route>
+          </Route> */}
           </>
-          :
-          <>
+         
+          
         <Route path='/music' element={<><MusicHeader /><div className="flex flex-col bg-almostBlackColor" style={{ minHeight: "100vh" }}><Player /></div><MusicFooter /></>} >
           <Route path='home' element={<><MiniPlayer /><Home /></>} />
           <Route path='history' element={<History />} />
@@ -204,9 +204,7 @@ const App: React.FC = () => {
 
             
 
-            {/* {!isAuth ? 
-            } */}
-        
+            {isAuth ? 
             <Route path='/profile' element={<ProfileWrap/>}>
               <Route path="" element={<ProfilePage />} />
               <Route path="payment" element={<ProfileCards />} />
@@ -214,7 +212,8 @@ const App: React.FC = () => {
               <Route path="profilehistory" element={<ProfileHistory />} />
               <Route path='editprofile' element={<EditProfile />} />
             </Route>
-
+            :""
+          } 
             <Route path='/giftCards' element={<GiftCards />} />
             <Route path='help' element={<Help/>} />
 
@@ -273,7 +272,8 @@ const App: React.FC = () => {
 
             </>}>
         </Route>
-
+        
+        {!isAuth?
         <Route path='/'
           element={
             <>
@@ -288,8 +288,8 @@ const App: React.FC = () => {
           <Route path="resetpassword/" element={<ResetPasswordScreen />} />
           <Route path="registration" element={<Registration />} />
         </Route>
-
-        </>
+        :""}
+          
         
 
       </Routes>
