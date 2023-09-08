@@ -221,15 +221,22 @@ body {
     position: relative;
 }
 
-.our-products .our-products-main .our-products-main-special>img {
+.our-products-main-special img {
     height: 430px;
+    
 }
 
+
+
+
 .our-products .our-products-main .our-products-main-special .our-products-main-special-img {
-    background-image: url(./../images/headphones-main.svg);
+    /* background-image: url(./../images/headphones-main.svg); */
+    background-size: 350px;
+    background-repeat: no-repeat;
     height: 430px;
     display: flex;
     justify-content: space-between;
+    background-position: center;
 }
 
 .our-products .our-products-main .our-products-main-special .our-products-main-special-img h2 {
@@ -460,20 +467,25 @@ body {
 }
 
 .new-receipts-product-img {
-    background-image: url(./../images/product-img.svg);
     height: 285px;
+    background-size: 230px;
+    background-position: left center;
     display: flex;
     background-repeat: no-repeat;
     margin-left: 20px;
     margin-top: 20px;
 }
 
+.best-offers-main-element h4 {
+    width: 270px;
+}
+
 .best-offers-main-element-img {
-    background-image: url(./../images/product-img.svg);
+    /* background-image: url(./../images/product-img.svg); */
     height: 459px;
     display: flex;
     padding-left: 20px;
-    padding-top: 20px;
+    /* padding-top: 20px; */
     background-repeat: no-repeat;
     background-size: contain;
     justify-content: center;
@@ -481,11 +493,11 @@ body {
 }
 
 .best-offers-main-element-img-5 {
-    background-image: url(./../images/laptop-example-2.svg);
+    /* background-image: url(./../images/laptop-example-2.svg); */
     height: 200px;
     display: flex;
     padding-left: 20px;
-    padding-top: 20px;
+    /* padding-top: 20px; */
     padding-right: 20px;
     background-repeat: no-repeat;
     background-size: contain;
@@ -514,9 +526,20 @@ body {
     flex-direction: row;
 }
 
-.receipts-product-img-labels {
+.receipts-product-img-labels,
+.receipts-product-img-labels-2,
+.receipts-product-img-labels-3 {
     padding-left: 20px;
     padding-bottom: 10px;
+}
+
+.receipts-product-img-labels span,
+.receipts-product-img-labels-2 span {
+    width: 440px;
+}
+
+.receipts-product-img-labels-3 {
+    width: 400px;
 }
 
 .new-receipts-product-card {
@@ -528,6 +551,7 @@ body {
 
 .best-offers-main-element-2 {
     background-color: white;
+    padding-top: 20px;
 }
 
 .best-offers-main {
@@ -551,6 +575,10 @@ body {
     height: 90px;
     background-color: #FF9A02;
     font-size: 24px;
+}
+
+.best-offers-main-element-3 h4 {
+    width: 250px;
 }
 
 .best-offers-main-element-3 button {
@@ -578,7 +606,11 @@ body {
 
 .special-offer>span {
     display: block; 
-    line-height: 29px; 
+    line-height: 29px;
+}
+
+.best-offers-for-span span {
+    width: 300px;
 }
 
 .img-container {
@@ -595,8 +627,13 @@ body {
     align-items: center;
 }
 
+.img-container-4 img {
+    height: 150px;
+}
+
 .img-container img {
     max-width: 100%;
+    height: 200px;
 }
 
 .best-offers-main-element-border,
@@ -626,6 +663,12 @@ body {
     flex-direction: row;
     align-items: center;
     margin-right: 120px;
+
+}
+
+.last-element-card img {
+    height: 158px;
+    margin-right: 10px;
 
 }
 
@@ -693,7 +736,6 @@ body {
 
 .winMart-second-div img {
     height: 129px;
-    width: 158px;
     max-width: 100%; 
     display: block; 
     margin: 0 auto;
@@ -734,7 +776,8 @@ body {
 .winMart-third-div .text-div{
     position: relative;
     top: 80px;
-    left: 40px;
+    /* left: 40px; */
+    margin-left: 40px;
     line-height: 63px;
 }
 
