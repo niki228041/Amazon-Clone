@@ -309,7 +309,7 @@ const Player=()=>{
           }>History</div>
 
 
-          <div className={
+          <div onClick={()=>changeTab("playlists")} className={
               "cursor-pointer flex p-1 justify-center self-center px-2 col-start-10" +
               (whatIsOpen === "playlists" ? " text-orangeColor" : "")
             }>Playlists</div>

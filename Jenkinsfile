@@ -38,10 +38,18 @@ pipeline  {
             sh "sudo docker system prune -af"
          }   
         }
+       
         stage ("Run MSSQL container"){
             steps{
                 sh 'docker run  --restart=always -v /home/db:/var/opt/mssql -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Qwerty-1" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest'
             }
+        }
+         stage ("SonarQube test"){
+           steps{
+            sh '''#!/bin/sh
+            sudo /home/azureuser/sonartest.sh
+            '''
+            } 
         }
         stage("Create frontend docker image") {
             steps {
@@ -117,6 +125,7 @@ pipeline  {
             
                 echo "=========== Log out from Docker Hub =================="
                 sh '''
+                sudo systemctl start sonarqube
                 docker logout
                 '''
         }

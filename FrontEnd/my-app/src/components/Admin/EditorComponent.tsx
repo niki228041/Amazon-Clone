@@ -1,6 +1,6 @@
 
 
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Editor } from '@tinymce/tinymce-react';
 
 const EditorComponent=({editorRef}:{editorRef:any})=> {
@@ -11,6 +11,7 @@ const EditorComponent=({editorRef}:{editorRef:any})=> {
     }
   };
 
+  useEffect(()=>{},[editorRef.current])
 
   return (
     <>

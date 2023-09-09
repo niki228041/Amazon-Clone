@@ -37,7 +37,7 @@ namespace ShopApi.Controllers
         [Route("GetAllOptions")]
         public async Task<IActionResult> GetAllAsync()
         {
-            var res = _optionsRepository.GetAll().Include(c => c.Variants).ToList();
+            var res = _optionsRepository.GetAll().Include(c => c.Variants).Where(opt => !opt.isBaseOptions).ToList();
             var optionsVms = _mapper.Map<List<Options>,List<OptionsVM>>(res);
 
             return Ok(optionsVms);
@@ -93,6 +93,15 @@ namespace ShopApi.Controllers
                 await _variantRepository.Create(new Variant { Title = variant.Title, OptionsId = newOptions.Id});
             }
             
+            return Ok("OK");
+        }
+
+        [HttpPost]
+        [Route("DeleteOption")]
+        public async Task<IActionResult> DeleteOptionAsync(FindByIdVM model)
+        {
+            await _optionsRepository.Delete(model.Id);
+
             return Ok("OK");
         }
 

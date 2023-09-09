@@ -73,6 +73,7 @@ builder.Services.AddScoped<ITrackCommentRepository, TrackCommentRepository>();
 builder.Services.AddScoped<ITrackGenreRepository, TrackGenreRepository>();
 builder.Services.AddScoped<IFAQRepository, FAQRepository>();
 builder.Services.AddScoped<IAnswerFAQRepository, AnswerFAQRepository>();
+builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
 
 
 
@@ -96,6 +97,7 @@ builder.Services.AddScoped<ITrackHistoryService, TrackHistoryService>();
 builder.Services.AddScoped<ITrackCommentService, TrackCommentService>();
 builder.Services.AddScoped<IFAQService, FAQService>();
 builder.Services.AddScoped<IAnswerFAQService, AnswerFAQService>();
+builder.Services.AddScoped<IAlbumService, AlbumService>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

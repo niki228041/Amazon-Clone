@@ -1,4 +1,5 @@
 ﻿using DAL.Entities;
+using DAL.Entities.FilterEntities;
 using DAL.Interfaces;
 using Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
@@ -48,5 +49,36 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
     public ICollection<Product> GetProductsAsync()
     {
         return GetAll().Include(i => i.Category).Include(i=>i.VariantProducts).ToList();
+    }
+
+
+    public async Task RemoveVariantProductsAsync(int productId)
+    {
+        var vrs = await _dbContext.VariantProduct.Where(vp=>vp.ProductId == productId).ToListAsync();
+        _dbContext.VariantProduct.RemoveRange(vrs);
+    }
+
+    public async Task AddVariantProductsToProductAsync(int productId, List<int> variantsIds)
+    {
+        foreach (var variantId in variantsIds)
+        {
+            var real_variant = await _dbContext.Variant.FindAsync(variantId);
+
+            if (real_variant != null)
+            {
+                _dbContext.VariantProduct.Add(new VariantProduct { VariantId = variantId, ProductId = productId });
+            }
+        }
+    }
+
+    public async Task SaveChangesAsync()
+    {
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task RemoveProductImagesAsync(int productId)
+    {
+        var imgs = await _dbContext.ProductImage.Where(prodImg=>prodImg.ProductId == productId).ToListAsync();
+        _dbContext.ProductImage.RemoveRange(imgs);
     }
 }

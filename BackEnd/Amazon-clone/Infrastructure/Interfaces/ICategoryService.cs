@@ -16,6 +16,6 @@ namespace Infrastructure.Interfaces
         Task<ServiceResponse> GetNearSubcategoriesByCategoryId(int id);
         Task<List<CategoryVM>> GetAllSubcategoriesByCategoryId(int id);
         public Task<ICollection<Options>> GetCategoryOptionsAsyncByCategoryId(int id);
-
+        Task<ServiceResponse> EditCategoryAsync(EditCategoryDTO model);
     }
 }

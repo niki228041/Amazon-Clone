@@ -93,6 +93,9 @@ import CreateAnswerToFAQ from './components/Admin/CreateAnswerToFAQ';
 import { ua } from './const/constants';
 import { setCurrency } from './features/user/CurrencyStateSlice';
 import HearAlbum from './components/Player/Album/HearAlbum';
+import Playlists from './components/Player/Tabs/Playlists';
+import EditCategory from './components/Admin/EditCategory';
+import EditProduct from './components/Admin/EditProduct';
 
 
 
@@ -149,6 +152,9 @@ const App: React.FC = () => {
           <Route path='createTrack' element={<CreateTrack />} />
           <Route path='viewTrack/:trackId' element={<ViewTrack />} />
           <Route path='searchTracks' element={<SearchTracks />} />
+          <Route path='playlists' element={<Playlists />} />
+          
+
           <Route path='album' >
               <Route path=':id' element={<HearAlbum/>}/>
           </Route>
@@ -190,6 +196,10 @@ const App: React.FC = () => {
                 <Route path='categories' element={<CreateCategory />} />
                 <Route path='FAQs' element={<CreateFAQ/>} />
                 <Route path='createAnswerToFAQ/:faqId' element={<CreateAnswerToFAQ/>} />
+              </Route>
+              <Route path='edit'>
+                <Route path='category/:categoryId' element={<EditCategory/>} />
+                <Route path='product/:productId' element={<EditProduct/>} />
               </Route>
             </Route>
 

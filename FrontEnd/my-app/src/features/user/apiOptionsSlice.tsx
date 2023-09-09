@@ -40,8 +40,16 @@ export const apiOptionsSlice:any = createApi({
           }),
           providesTags:result=>['Options']
         }),
+        getOptionsByCategoryIdToCreateProduct:builder.mutation<any,any>({
+          query:(todo)=>({
+            url:'/api/Options/GetOptionsByCategoryId',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Options']
+        }),
         
-        
+
     })
 })
 
