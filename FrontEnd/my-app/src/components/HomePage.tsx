@@ -115,7 +115,7 @@ const HomePage = () => {
                                     <span>{category.name}</span>
                                 {/* <div className='w-full h-[100px] bg-contain bg-center bg-no-repeat mt-2' style={{backgroundImage:`url(${category.image})`}} > </div> */}
                                 <img src={category.image} />
-                                    
+                                    {/* test123 */}
                                 </div>
                             </Link>
 
