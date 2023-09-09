@@ -96,6 +96,7 @@ import HearAlbum from './components/Player/Album/HearAlbum';
 import Playlists from './components/Player/Tabs/Playlists';
 import EditCategory from './components/Admin/EditCategory';
 import EditProduct from './components/Admin/EditProduct';
+import CreateAlbum from './components/Player/Album/CreateAlbum';
 
 
 
@@ -150,6 +151,7 @@ const App: React.FC = () => {
           <Route path='mytracks' element={<MyTracks />} />
           <Route path='createGenre' element={<CreateGenre />} />
           <Route path='createTrack' element={<CreateTrack />} />
+          <Route path='createAlbum' element={<CreateAlbum />} />
           <Route path='viewTrack/:trackId' element={<ViewTrack />} />
           <Route path='searchTracks' element={<SearchTracks />} />
           <Route path='playlists' element={<Playlists />} />
