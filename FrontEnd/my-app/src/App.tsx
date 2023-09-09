@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 // import { BrowserRouter as Router, Route, Routes, Outlet } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Profile from './components/Profile/profile';
+import { ProfilePage } from './components/Profile/profile';
 import Main from './components/InteractionWithProducts/Main';
 import OneProduct from './components/InteractionWithProducts/OneProduct';
 
@@ -13,13 +13,12 @@ import Orders from './components/BuyProduct/Orders';
 
 
 import Payment from './components/Profile/Payment';
-import Address from './components/Profile/Address';
 import Order from './components/Profile/Order';
 import EditProfile from "./components/Profile/EditProfile"
 import Player from './components/Player/Player';
 import LoginScreen from './components/Auth/Login';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetAccessToken } from './api/jwtDecodeToken';
+import { GetAccessToken, GetCurrency, SetCurrency } from './api/jwtDecodeToken';
 import { AuthUser } from './features/user/user-slice';
 
 import CreateOptions from './components/Options/CreateOptions';
@@ -81,7 +80,22 @@ import MusicProfile from './components/Player/Account/MusicProfile';
 import MainProfile from './components/Player/Account/MainProfile';
 import SettingProfile from './components/Player/Account/SettingProfile';
 
-
+import "./index.css"
+import GiftCards from './components/Temp/GiftCards/index';
+import TodaysDeals from './components/InteractionWithProducts/TodaysDeals';
+import Help from './components/Profile/Help';
+import ProfileHistory from './components/Profile/History';
+import ProfileCards from './components/Profile/Cards';
+import ProfileWrap from './components/Profile/ProfileWrap';
+import FAQList from './components/Admin/FAQList';
+import CreateFAQ from './components/Admin/CreateFAQ';
+import CreateAnswerToFAQ from './components/Admin/CreateAnswerToFAQ';
+import { ua } from './const/constants';
+import { setCurrency } from './features/user/CurrencyStateSlice';
+import HearAlbum from './components/Player/Album/HearAlbum';
+import Playlists from './components/Player/Tabs/Playlists';
+import EditCategory from './components/Admin/EditCategory';
+import EditProduct from './components/Admin/EditProduct';
 
 
 
@@ -94,22 +108,23 @@ const App: React.FC = () => {
   var isAuth = useSelector((state: any) => state.user.isAuth);
 
 
+
+
   useEffect(() => {
+    dispatch(setCurrency(GetCurrency()!));
     if (token) {
       dispatch(AuthUser(token));
     }
-  }, [])
+  }, [isAuth])
 
   return (
     <BrowserRouter>
       <Routes>
-        {!isAuth ? 
+        
         <>
-          <Route path='/'
+          {/* <Route path='/'
             element={<>
-                <div className="flex flex-col" style={{ minHeight: "180vh" }}>
-                  <Outlet />
-                </div>
+                <Outlet />
               </>}>
             <Route path='/' element={<LoginScreen/>}></Route>
             <Route path="login" element={<LoginScreen />} />
@@ -117,17 +132,17 @@ const App: React.FC = () => {
             <Route path="otppage" element={<OtpPage />} />
             <Route path="resetpassword/" element={<ResetPasswordScreen />} />
             <Route path="registration" element={<Registration />} />
-          </Route>
+          </Route> */}
 
-          <Route path='/*'
+          {/* <Route path='/*'
             element={
             <>
                <LoginScreen />
             </>}>
-          </Route>
+          </Route> */}
           </>
-          :
-          <>
+         
+          
         <Route path='/music' element={<><MusicHeader /><div className="flex flex-col bg-almostBlackColor" style={{ minHeight: "100vh" }}><Player /></div><MusicFooter /></>} >
           <Route path='home' element={<><MiniPlayer /><Home /></>} />
           <Route path='history' element={<History />} />
@@ -135,13 +150,19 @@ const App: React.FC = () => {
           <Route path='mytracks' element={<MyTracks />} />
           <Route path='createGenre' element={<CreateGenre />} />
           <Route path='createTrack' element={<CreateTrack />} />
-          <Route path='viewTrack/:trackId' element={<ViewTrack/>} />
-          <Route path='searchTracks' element={<SearchTracks/>} />
-          <Route path='profile' element={<MusicProfile/>} >
-            <Route path='main' element={<MainProfile/>}/>
-            <Route path='settings' element={<SettingProfile/>}/>
-          </Route>
+          <Route path='viewTrack/:trackId' element={<ViewTrack />} />
+          <Route path='searchTracks' element={<SearchTracks />} />
+          <Route path='playlists' element={<Playlists />} />
           
+
+          <Route path='album' >
+              <Route path=':id' element={<HearAlbum/>}/>
+          </Route>
+          <Route path='profile' element={<MusicProfile />} >
+            <Route path='main' element={<MainProfile />} />
+            <Route path='settings' element={<SettingProfile />} />
+          </Route>
+
         </Route>
 
         <Route path='/'
@@ -155,16 +176,12 @@ const App: React.FC = () => {
                 </div>
 
 
-              
+
               </div>
             </>
           }>
-          <Route path='/' element={<HomePage/>}></Route>
-          <Route path="login" element={<LoginScreen />} />
-          <Route path="forgotpassword" element={<ForgotPasswordScreen />} />
-          <Route path="otppage" element={<OtpPage />} />
-          <Route path="resetpassword/" element={<ResetPasswordScreen />} />
-          <Route path="registration" element={<Registration />} />
+          <Route path='/' element={<HomePage />}></Route>
+
 
           <Route>
             <Route path='admin' element={<Outlet />}>
@@ -172,35 +189,50 @@ const App: React.FC = () => {
                 <Route path='products' element={<ProductList />} />
                 <Route path='categories' element={<CategoryList />} />
                 <Route path='companies' element={<CompanyList />} />
+                <Route path='FAQs' element={<FAQList/>} />
               </Route>
               <Route path='create'>
                 <Route path='products' element={<CreateProduct />} />
                 <Route path='categories' element={<CreateCategory />} />
+                <Route path='FAQs' element={<CreateFAQ/>} />
+                <Route path='createAnswerToFAQ/:faqId' element={<CreateAnswerToFAQ/>} />
+              </Route>
+              <Route path='edit'>
+                <Route path='category/:categoryId' element={<EditCategory/>} />
+                <Route path='product/:productId' element={<EditProduct/>} />
               </Route>
             </Route>
 
+            
             <Route path='orders' element={<Orders />} />
-            
-            <Route path='successful-purchase' element={<SuccessfulPurchase />} />
-            
-            <Route path="product/:productId" element={<OneProduct />} />
-            
-            <Route path="/profile" element={<Profile />} />
-            
-            <Route path="/payment" element={<Payment />} />
 
-            <Route path="/security" element={<Security />} />
+            <Route path='successful-purchase' element={<SuccessfulPurchase />} />
+
+            <Route path="product/:productId" element={<OneProduct />} />
+
+            <Route path='/todaysDeals' element={<><TodaysDeals/><PageWithOptions/></>}></Route>
+
             
-            <Route path="/address" element={<Address />} />
-            
-            <Route path="/proforder" element={<Order />} />
-            
-            <Route path='/editprofile' element={<EditProfile />} />
+
+            {isAuth ? 
+            <Route path='/profile' element={<ProfileWrap/>}>
+              <Route path="" element={<ProfilePage />} />
+              <Route path="payment" element={<ProfileCards />} />
+              <Route path="security" element={<Security />} />
+              <Route path="profilehistory" element={<ProfileHistory />} />
+              <Route path='editprofile' element={<EditProfile />} />
+            </Route>
+            :""
+          } 
+            <Route path='/giftCards' element={<GiftCards />} />
+            <Route path='help' element={<Help/>} />
+
 
             <Route path='/tempProfile' element={<TempProfile />} >
               <Route path='becomeASeller' element={<BecomeASeller />} />
               <Route path='viewMyOrders' element={<ViewMyOrders />} />
               <Route path='cardsSite' element={<CardsSite />} />
+              
               <Route path='addressSite' element={<AddressSite />} />
               <Route path='myCompany' element={<MyCompany />} />
               <Route path='ordersForSeller' element={<OrdersForSeller />} />
@@ -216,10 +248,7 @@ const App: React.FC = () => {
 
 
 
-
-            <Route path="/products" element={<><Main /></>} >
-              <Route path="products" element={<Profile />} />
-            </Route>
+            <Route path='/todaysDeals' element={<><TodaysDeals/><PageWithOptions/></>}></Route>
 
             <Route path='createOptions' element={<CreateOptions />} />
 
@@ -232,7 +261,7 @@ const App: React.FC = () => {
               <Route path='delivery' />
             </Route>
 
-            <Route path="profile" element={<Profile />} />
+            <Route path="profile" element={<ProfilePage />} />
             <Route path="aboutus" element={<AboutUs />} />
             <Route path="wishlist" element={<WishList />} />
             <Route path="aboutUs" element={<AboutUs />} />
@@ -247,14 +276,32 @@ const App: React.FC = () => {
         <Route path='/*'
           element={
             <>
-              <Header />
+              <Header/>
               <NotFound />
-              <Footer />
+              <Footer/>
 
             </>}>
         </Route>
-        </>
-        }
+        
+        {!isAuth?
+        <Route path='/'
+          element={
+            <>
+
+              <Outlet></Outlet>
+
+
+            </>}>
+          <Route path="login" element={<LoginScreen />} />
+          <Route path="forgotpassword" element={<ForgotPasswordScreen />} />
+          <Route path="otppage" element={<OtpPage />} />
+          <Route path="resetpassword/" element={<ResetPasswordScreen />} />
+          <Route path="registration" element={<Registration />} />
+        </Route>
+        :""}
+          
+        
+
       </Routes>
     </BrowserRouter>
 

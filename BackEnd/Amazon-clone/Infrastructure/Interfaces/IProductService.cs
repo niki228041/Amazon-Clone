@@ -11,9 +11,12 @@ public interface IProductService
     Task<ServiceResponse> GetProductByIdAsync(int id);
     Task<ServiceResponse> CreateProductAsync(CreateProductDTO model);
     Task<ServiceResponse> GetProductsAsync(GetProductsVM model);
+    Task<ServiceResponse> GetProductCountAsync();
     Task<ServiceResponse> GetProductsAsync();
-    Task<ServiceResponse> GetProductByCategoryId(int id);
+    Task<ServiceResponse> EditProductAsync(EditProductDTO model);
+    Task<ServiceResponse> GetProductByCategoryIdWithPagination(GetProductsWithPaginationAndByCategoryIdDTO model);
     Task DeleteProductAsync(int id);
-    public Task<ServiceResponse> GetProductByFiltersAsync(FilterVM model);
+    Task<ServiceResponse> GetProductWithLimitByCategoryIdAsync(RecomendedProductDTO model);
+    Task<ServiceResponse> GetProductByFiltersAsync(FilterVM model);
 
 }

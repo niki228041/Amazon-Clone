@@ -136,7 +136,22 @@ export const apiPlayerSlice:any = createApi({
           }),
           invalidatesTags:['Player']
         }),
-        
+        addAlbum:builder.mutation<any,any>({
+          query:(todo)=>({
+            url:'/api/Album/AddAlbum',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Player']
+        }),
+        getAlbumsByUserId:builder.query<any,any>({
+          query:(todo)=>({
+            url:'/api/Album/GetAlbumsByUserId',
+            method:"POST",
+            body:todo
+          }),
+          providesTags:result=>['Player']
+        }),
     })
 })
 
@@ -149,5 +164,6 @@ export const {
   useGetTrackHistoryByUserIdQuery,
   useGetTrackByIdQuery,
   useGetTrackCommentsByTrackIdQuery,
+  useGetAlbumsByUserIdQuery,
 } = apiPlayerSlice
 

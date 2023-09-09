@@ -29,6 +29,7 @@ export interface createCategory{
 export interface Category{
     id: number,
     name: string,
+    countOfProducts:number
 }
 
 
@@ -40,7 +41,8 @@ export interface Options{
   
 export interface Variant{
   id:number,
-  title:string
+  title:string,
+  countOfProducts:number
 }
 
 export interface VariantDTO{

@@ -11,14 +11,13 @@ const Description=()=> {
 
 
   return (
-    <div>
-
-    <div  dangerouslySetInnerHTML={{ __html: data?.payload.description.toString()! }} className='mx-4 py-1 pb-3 w-11/12 text-gray-600'>
+    <div className='text-[18] '>
+    <div dangerouslySetInnerHTML={{ __html: data?.payload.description.toString()! }} className='mx-4 py-1 pb-3 w-11/12 text-gray-600'>
                             
     </div>
 
     {/* ТАБЛИЦЯ З ІНФОРМАЦІЄЮ */}
-    <div className=' ml-4'>
+    {/* <div className=' ml-4'>
     <div className=' w-3/5 border'>
     <div className=' grid grid-cols-6'>
         <div className=' bg-grayColorForBorder col-span-2 p-1 px-2'>
@@ -86,7 +85,7 @@ const Description=()=> {
             <img src={checkGray} />
             <p>Some great feature name here</p>
         </div>
-        </div>
+        </div> */}
 
     </div>
   )

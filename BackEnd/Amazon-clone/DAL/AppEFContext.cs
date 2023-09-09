@@ -2,6 +2,7 @@
 using DAL.Entities.FilterEntities;
 using DAL.Entities.Identity;
 using DAL.Entities.Music;
+using DAL.FAQ;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +34,7 @@ namespace DAL
         public DbSet<TrackGenre> TrackGenre { get; set; }
         public DbSet<Genre> Genre { get; set; }
         public DbSet<Album> Album { get; set; }
+        public DbSet<TrackAlbum> TrackAlbum { get; set; }
         public DbSet<Options> Options { get; set; }
         public DbSet<Variant> Variant { get; set; }
         public DbSet<OptionsCategory> OptionCategory { get; set; }
@@ -41,7 +43,9 @@ namespace DAL
         public DbSet<OrderedProduct> OrderedProducts { get; set; }
         public DbSet<LikedTracks> LikedTracks { get; set; }
         public DbSet<TrackHistory> TrackHistory { get; set; }
-        
+        public DbSet<FrequentlyAskedQuestion> FrequentlyAskedQuestion { get; set; }
+        public DbSet<AnswerToFAQ> AnswerToFAQ { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -76,6 +80,13 @@ namespace DAL
             //END
 
 
+            //START Many to one
+            modelBuilder.Entity<Options>()
+                .HasMany(categ => categ.Variants)
+                .WithOne(prod => prod.Options)
+                .HasForeignKey(prod => prod.OptionsId)
+                .OnDelete(DeleteBehavior.Cascade);
+            //END
 
 
             //START Many to many
@@ -170,11 +181,46 @@ namespace DAL
                 .OnDelete(DeleteBehavior.Cascade);
             //END
 
+            //START Many to many
+            modelBuilder.Entity<TrackGenre>()
+                .HasOne(tr => tr.Track)
+                .WithMany(trg => trg.TrackGenre)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<TrackGenre>()
+                .HasOne(gn => gn.Genre)
+                .WithMany(trg => trg.TrackGenre)
+                .OnDelete(DeleteBehavior.Cascade);
+            //END
+
             //START Many to one
             modelBuilder.Entity<Track>()
                 .HasMany(track => track.TrackComments)
                 .WithOne(com => com.Track)
                 .HasForeignKey(com => com.TrackId)
+                .OnDelete(DeleteBehavior.Cascade);
+            //END
+
+            //START Many to one
+            modelBuilder.Entity<FrequentlyAskedQuestion>()
+                .HasMany(track => track.AnswerToFAQ)
+                .WithOne(com => com.FrequentlyAskedQuestion)
+                .HasForeignKey(com => com.FrequentlyAskedQuestionId)
+                .OnDelete(DeleteBehavior.Cascade);
+            //END
+
+
+            //START Many to many
+            modelBuilder.Entity<TrackAlbum>()
+                .HasOne(vp => vp.Track)
+                .WithMany(prod => prod.TrackAlbums)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<TrackAlbum>()
+                .HasOne(vp => vp.Album)
+                .WithMany(c => c.TrackAlbums)
                 .OnDelete(DeleteBehavior.Cascade);
             //END
 

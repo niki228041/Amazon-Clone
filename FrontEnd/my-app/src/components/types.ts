@@ -9,11 +9,17 @@ export interface Product{
     description: string,
     quantity: string,
     isInTheStock: string,
+    selledCount:number,
     numberOfDaysForDelivery: string,
     address: string,
     image: string,
     comments: Comment[],
     options: SelectedOption[],
+}
+
+export interface ProductsWithPagination{
+    countOfProducts:number,
+    products:Product[]
 }
 
 export interface OneProductVM{
@@ -24,6 +30,7 @@ export interface OneProductVM{
     description: string,
     quantity: string,
     isInTheStock: string,
+    selledCount:number,
     numberOfDaysForDelivery: string,
     address: string,
     images: string[],
@@ -33,8 +40,11 @@ export interface OneProductVM{
 }
 
 
+
+
 export interface SelectedOption{
     title:string,
+    isBaseOptions:boolean,
     variant:string,
     variantId:number
 }
@@ -56,8 +66,11 @@ export interface OrderedOrder{
     id:any;
     fullName:string;
     cardId:number;
+    isBought:boolean;
+    price:number;
     addressId:number;
-    dateCreated:number;
+    dateCreated:string;
+    products:OrderedProductUpdated[];
 }
 
 export interface OrderForSeller{
@@ -65,11 +78,13 @@ export interface OrderForSeller{
     fullName:string;
     cardId:number;
     addressId:number;
-    dateCreated:number;
+    dateCreated:string;
     products:OrderedProductUpdated[];
 }
 
 export interface OrderedProductUpdated{
+    id:number,
+    isBought:boolean,
     count:number,
     product:Product
 }
@@ -169,5 +184,6 @@ export interface OrderDTO{
     userId:number,
     cardId:number,
     addressId:number,
-    orderedProducts_:OrderedProducts[]
+    orderedProducts_:OrderedProducts[],
+    price:number
 }

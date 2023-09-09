@@ -11,6 +11,7 @@ namespace DAL.Entities.FilterEntities
     public class Options : BaseEntity<int>
     {
         public string Title { get; set; }
+        public bool isBaseOptions { get; set; } = false;
         public List<Variant> Variants { get; set; }
         public ICollection<OptionsCategory> OptionsCategories { get; set; }
 

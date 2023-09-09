@@ -75,7 +75,7 @@ namespace ShopApi.Controllers
             if (Request.Host.Port != null)
                 port = ":" + Request.Host.Port.ToString();
 
-            var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/{DirectoriesInProject.CompanyImages}/{fileName + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
+            var url = $@"https://amazonclone.monster/api/{DirectoriesInProject.CompanyImages}/{fileName + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
             return Ok(new ImageLinkVM { Link = url, Id = 0 });
         }
 
@@ -87,7 +87,7 @@ namespace ShopApi.Controllers
             if (Request.Host.Port != null)
                 port = ":" + Request.Host.Port.ToString();
 
-            var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/{DirectoriesInProject.CompanyImages}/{image + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
+            var url = $@"https://amazonclone.monster/api/{DirectoriesInProject.CompanyImages}/{image + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
             return url;
         }
 

@@ -1,4 +1,5 @@
 ﻿using DAL.Constants;
+using DAL.Entities;
 using DAL.Entities.DTO_s;
 using Infrastructure.Enum_s;
 using Infrastructure.Interfaces;
@@ -16,9 +17,13 @@ namespace ShopApi.Controllers
         private readonly IProductService _productService;
         private readonly IImageService _imageService;
         private readonly IProductImageService _productImageService;
+        private readonly IWebHostEnvironment _env;
+        private readonly bool _isProduction;
 
-        public ProductsController(IProductService productService, IImageService imageService,IProductImageService productImageService)
+        public ProductsController(IProductService productService, IImageService imageService,IProductImageService productImageService, IWebHostEnvironment env)
         {
+            _env = env;
+            _isProduction = _env.IsProduction();
             _productService = productService;
             _imageService = imageService;
             _productImageService = productImageService;
@@ -38,6 +43,7 @@ namespace ShopApi.Controllers
             return BadRequest();
         }
 
+
         [HttpGet("GetProduct")]
         public async Task<IActionResult> GetProductAsync(string title)
         {
@@ -53,7 +59,6 @@ namespace ShopApi.Controllers
 
         [HttpPost]
         [Route("CreateProduct")]
-        [DisableRequestSizeLimit]
         public async Task<IActionResult> CreateProductAsync(CreateProductDTO model) 
         {
             var res = await _productService.CreateProductAsync(model);
@@ -62,6 +67,40 @@ namespace ShopApi.Controllers
                 return Ok(res);
             }
             return BadRequest(res);
+        }
+
+
+        [HttpPost]
+        [Route("GetProductWithLimitByCategoryId")]
+        public async Task<IActionResult> GetProductWithLimitByCategoryIdAsync(RecomendedProductDTO model)
+        {
+            var productsBoxing = await _productService.GetProductWithLimitByCategoryIdAsync(model);
+
+            var products = (List<ProductVM>)productsBoxing.Payload;
+            var ids = new List<FindByIdVM>();
+            products.ForEach(prod => ids.Add(new FindByIdVM() { Id = prod.Id }));
+
+            var images = await GetImageLinksByProductsIds(ids);
+
+
+            foreach (var product in products)
+            {
+                foreach (var image in images)
+                {
+                    if (image.productId == product.Id)
+                    {
+                        product.Image = image.image; break;
+                    }
+                }
+            }
+
+            productsBoxing.Payload = products;
+
+            if (productsBoxing.IsSuccess)
+            {
+                return Ok(productsBoxing);
+            }
+            return BadRequest(productsBoxing);
         }
 
         [HttpPost("DeleteProduct")]
@@ -108,14 +147,16 @@ namespace ShopApi.Controllers
             if (Request.Host.Port != null)
                 port = ":" + Request.Host.Port.ToString();
 
-            var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/{dir}/{image + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
+            var url = $@"https://amazonclone.monster/api/{dir}/{image + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
             return url;
         }
 
+
+
         [HttpPost("GetProductByCategoryId")]
-        public async Task<IActionResult> GetProductByCategoryIdAsync([FromBody] FindByIdVM Id)
+        public async Task<IActionResult> GetProductByCategoryIdAsync([FromBody] GetProductsWithPaginationAndByCategoryIdDTO model)
         {
-            var productsBoxing = await _productService.GetProductByCategoryId(Id.Id);
+            var productsBoxing = await _productService.GetProductByCategoryIdWithPagination(model);
             var products = (List<ProductVM>)productsBoxing.Payload;
             var ids = new List<FindByIdVM>();
             products.ForEach(prod=> ids.Add(new FindByIdVM() { Id=prod.Id}));
@@ -152,6 +193,19 @@ namespace ShopApi.Controllers
             return BadRequest(res);
         }
 
+        [HttpGet("GetProductCount")]
+        public async Task<IActionResult> GetProductCountAsync()
+        {
+            var res = await _productService.GetProductCountAsync();
+            if (res.IsSuccess)
+            {
+                return Ok(res);
+            }
+
+            return BadRequest(res);
+        }
+
+
         [HttpPost]
         [Route("UploadImage")]
         public async Task<IActionResult> UploadImage([FromBody] UploadImagesDTO model)
@@ -166,7 +220,7 @@ namespace ShopApi.Controllers
                 string port = string.Empty;
                 if (Request.Host.Port != null)
                     port = ":" + Request.Host.Port.ToString();
-                var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/images/{fileName + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
+                var url = $@"https://amazonclone.monster/api/images/{fileName + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
                 images.Add(url);
             }
             return Ok(images);
@@ -187,7 +241,7 @@ namespace ShopApi.Controllers
                     string port = string.Empty;
                     if (Request.Host.Port != null)
                         port = ":" + Request.Host.Port.ToString();
-                    var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/images/{image.Name + "_" + (int)Qualities.QualitiesSelector.LOW + ".jpg"}";
+                    var url = $@"https://amazonclone.monster/api/images/{image.Name + "_" + (int)Qualities.QualitiesSelector.LOW + ".jpg"}";
                     images.Add(new ProductImageLinkVM { image = url, productId = byId.Id });
                 }
             }
@@ -206,12 +260,24 @@ namespace ShopApi.Controllers
             {
                 if (Request.Host.Port != null)
                     port = ":" + Request.Host.Port.ToString();
-                var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/images/{image.Name + "_" + (int)Qualities.QualitiesSelector.LOW + ".jpg"}";
+                var url = $@"https://amazonclone.monster/api/images/{image.Name + "_" + (int)Qualities.QualitiesSelector.LOW + ".jpg"}";
                 imagesLinks.Add(url);
             }
 
            
             return imagesLinks;
+        }
+
+        [HttpPost]
+        [Route("EditProduct")]
+        public async Task<IActionResult> EditProductAsync(EditProductDTO model)
+        {
+            var res = await _productService.EditProductAsync(model);
+            if (res.IsSuccess)
+            {
+                return Ok(res);
+            }
+            return BadRequest(res);
         }
     }
 }

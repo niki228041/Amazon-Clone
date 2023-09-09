@@ -72,9 +72,65 @@ export const apiProductSlice:any = createApi({
           }),
           invalidatesTags:['Product']
         }),
+        getProductCount:builder.query<any, any>({
+          query:(todo)=>({
+            url:'/api/Products/GetProductCount',
+            method:"GET",
+            body:todo
+          }),
+          providesTags:result=>['Product']
+        }),
+        getProductWithLimitByCategoryId:builder.mutation<any, any>({
+          query:(todo)=>({
+            url:'/api/Products/GetProductWithLimitByCategoryId',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Product']
+        }),
+        createComment:builder.mutation<any,any>({
+          query:(todo)=>({
+            url:'/api/Comment/CreateComment',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Product']
+        }),
+        getCommentsByProductId:builder.query<any,any>({
+          query:(todo)=>({
+            url:'/api/Comment/GetCommentsByProductId',
+            method:"POST",
+            body:todo
+          }),
+          providesTags:result=>['Product']
+        }),
+        canLeaveComment:builder.query<any,any>({
+          query:(todo)=>({
+            url:'/api/Comment/CanLeaveComment',
+            method:"POST",
+            body:todo
+          }),
+          providesTags:result=>['Product']
+        }),
+        editProduct:builder.mutation<any,any>({
+          query:(todo)=>({
+            url:'/api/Products/EditProduct',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Product']
+        }),
+        
     })
 })
 
 
-export const {useGetProductsQuery,useGetProductByIdQuery,useDeleteProductQuery,useGetLinksForProductByProductsIdsQuery} = apiProductSlice
+export const {
+  useGetProductsQuery,
+  useGetProductByIdQuery,
+  useDeleteProductQuery,
+  useGetLinksForProductByProductsIdsQuery,
+  useGetProductCountQuery,
+  useGetCommentsByProductIdQuery,
+  useCanLeaveCommentQuery} = apiProductSlice
 
