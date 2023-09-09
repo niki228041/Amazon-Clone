@@ -93,14 +93,26 @@ namespace Infrastructure.Services
         {
             try
             {
+                var products = _productRepository.GetAll();
                 var categories = await _categoryRepository.Categories
                     .Where(c => c.ParentId == null)
                     .Include(c => c.Subcategories)
                     .ToListAsync();
+
+                foreach(var category in categories)
+                {
+                    var categoriesWithAllSubCategories = await GetAllSubcategoriesByCategoryId(category.Id);
+
+                    var subcategoryIds = categoriesWithAllSubCategories.Select(cat => cat.Id).ToList();
+                    subcategoryIds.Add(category.Id);
+
+                    var productCount = products.Count(prod => subcategoryIds.Contains((int)prod.CategoryId));
+                    category.CountOfProducts = productCount;
+                }
+
                 //var categoriesWithParents = _categoryRepository.Categories.Include(c => c.Parent).ToList();
 
-                var products = _productRepository.GetAll();
-                categories.ForEach(cat => cat.CountOfProducts = products.Where(prod=>prod.CategoryId == cat.Id).Count());
+                //categories.ForEach(cat => cat.CountOfProducts = products.Where(prod=>prod.CategoryId == cat.Id).Count());
 
                 var categoryVMs = _mapper.Map<List<Category>, List<CategoryVM>>(categories);
 
@@ -278,6 +290,33 @@ namespace Infrastructure.Services
             return categ_list;
         }
 
+        public async Task<ServiceResponse> EditCategoryAsync(EditCategoryDTO model)
+        {
+            var category = await _categoryRepository.Categories.FirstOrDefaultAsync(cat => cat.Id == model.CategoryId);
 
+            if(category == null)
+            {
+                return new ServiceResponse()
+                {
+                    Message = "Завантажена категорія була некоректною,оновлення перервано",
+                    IsSuccess = false,
+                };
+            }
+
+            category.Name = model.Name;
+
+            await _optionsRepository.RemoveOptionsForCategoryAsync(category.Id);
+            await _optionsRepository.AddOptionsToCategoryAsync(category.Id,model.OptionsIds);
+            await _optionsRepository.SaveChangesAsync();
+
+            await _categoryRepository.Update(category);
+
+            return new ServiceResponse()
+            {
+                Message = "Оновлення категорії пройшло успішно",
+                IsSuccess = true,
+            };
+
+        }
     }
 }

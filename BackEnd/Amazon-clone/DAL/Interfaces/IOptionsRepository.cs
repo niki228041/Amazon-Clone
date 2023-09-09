@@ -10,5 +10,8 @@ namespace DAL.Interfaces
 {
     public interface IOptionsRepository : IGenericRepository<Options, int>
     {
+        public Task RemoveOptionsForCategoryAsync(int categoryId);
+        public Task AddOptionsToCategoryAsync(int categoryId, List<int> optionIds);
+        public Task SaveChangesAsync();
     }
 }

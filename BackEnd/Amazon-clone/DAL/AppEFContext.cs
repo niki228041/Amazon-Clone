@@ -80,6 +80,13 @@ namespace DAL
             //END
 
 
+            //START Many to one
+            modelBuilder.Entity<Options>()
+                .HasMany(categ => categ.Variants)
+                .WithOne(prod => prod.Options)
+                .HasForeignKey(prod => prod.OptionsId)
+                .OnDelete(DeleteBehavior.Cascade);
+            //END
 
 
             //START Many to many

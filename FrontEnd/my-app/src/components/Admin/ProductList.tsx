@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { apiProductSlice, useGetProductsQuery } from "../../features/user/apiProductSlice";
 import { Product } from "../types";
 
@@ -6,6 +7,8 @@ import { Product } from "../types";
 export const ProductList=()=>{
 
     const [deleteProduct_,{}] = apiProductSlice.useDeleteProductMutation();
+
+    var navigate = useNavigate();
 
     const deleteProductHandle=(id:number)=>{
         deleteProduct_({id:id});
@@ -34,6 +37,7 @@ export const ProductList=()=>{
             </button>
             <button
            type="button"
+           onClick={()=>{navigate("/admin/edit/product/"+product.id)}}
            className="mt-2 mr-1 inline-flex items-center rounded-md  cursor-pointer  bg-yellow-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
            Edit
           </button>

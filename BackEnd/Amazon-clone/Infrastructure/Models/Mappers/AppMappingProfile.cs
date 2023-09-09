@@ -135,6 +135,12 @@ public class AppMappingProfile : Profile
         CreateMap<Album, AlbumDTO>();
         CreateMap<AlbumDTO, Album>();
 
+        CreateMap<Category, EditCategoryDTO>();
+        CreateMap<EditCategoryDTO, Category>();
+
+
+        CreateMap<EditProductDTO, Product>();
+        CreateMap<Product, EditProductDTO>();
     }
 
 

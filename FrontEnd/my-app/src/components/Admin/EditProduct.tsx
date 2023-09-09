@@ -1,20 +1,35 @@
 import { useEffect, useRef, useState } from "react";
 import { useGetCategoriesQuery } from "../../features/user/apiCategorySlice";
-import { apiProductSlice } from "../../features/user/apiProductSlice";
+import { apiProductSlice, useGetProductByIdQuery } from "../../features/user/apiProductSlice";
 import { Category, createProduct, Options, Variant, VariantDTO } from "./types";
 // import ReactQuill from "react-quill";
 // import 'react-quill/dist/quill.snow.css';
 import { apiOptionsSlice, useGetOptionsQuery } from "../../features/user/apiOptionsSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
 import { UserState } from "../../features/user/user-slice";
 import { Orders } from "../../features/user/ordersStateSlice";
 import { useFormik } from "formik";
 import { createProductSchema } from "./Validation/ProductCreateValidation";
 import EditorComponent from "./EditorComponent";
+import { OneProductVM } from "../types";
 
+export interface editProduct{
+  productId:number,
+  name: string,
+  price: number,
+  discount: number,
+  description: string,
+  quantity: number,
+  isInTheStock: boolean,
+  numberOfDaysForDelivery: number,
+  address: string,
+  categoryId: number,
+  images_:any,
+  Variants_:VariantDTO[],
+}
 
-interface createProductValues{
+interface editProductValues{
   name: string,
   price: number,
   discount: number,
@@ -25,16 +40,20 @@ interface createProductValues{
   address: string,
 }
 
-const CreateProduct=()=> {
-  const [value, setValue] = useState('');
-  const editorRef:any = useRef(null);  
+const EditProduct=()=> {
+    const editorRef:any = useRef(null);  
 
+    const params = useParams();
+
+    
     var [createProduct,{}] = apiProductSlice.useCreateProductMutation();
     var [imagesToShow,setImagesToShow] = useState([]);
     var [filesToSend,setFilesToSend] = useState([]);
 
     var navigate = useNavigate();
     const [getOptions,{}] = apiOptionsSlice.useGetOptionsByCategoryIdToCreateProductMutation();
+
+    const {data:product}:{data:{payload:OneProductVM}} = useGetProductByIdQuery({id:params.productId!});
 
     const {data:categories,isSuccess} = useGetCategoriesQuery();
     var user = useAppSelector(((state: { user: UserState; orders: Orders })=>state.user.user));
@@ -50,9 +69,10 @@ const CreateProduct=()=> {
     // console.log(options);
 
     var [getLinksFromServer,{}]= apiProductSlice.useGetLinksForProductMutation();
+    var [editProduct,{}]= apiProductSlice.useEditProductMutation();
+    
 
-
-    const formik = useFormik<createProductValues>({
+    const formik = useFormik<editProductValues>({
       initialValues: {
         name: '',
         isInTheStock:false,
@@ -63,6 +83,8 @@ const CreateProduct=()=> {
         numberOfDaysForDelivery: 0,
         address: ''
       },
+
+
       validationSchema:createProductSchema,
       onSubmit: values => {
         console.log("values");
@@ -107,14 +129,6 @@ const CreateProduct=()=> {
         canCreate=false;
       }
 
-      if(variantsIds.length<=0 )
-      {
-        console.log("Select at least one Variant!!");
-        setServerErrorLogin("Select at least one Variant!!");
-
-        canCreate=false;
-      }
-
       if(canCreate)
       {
         setServerErrorLogin("");
@@ -156,7 +170,7 @@ const CreateProduct=()=> {
         console.log(variantsIds);
 
         Promise.all(promises).then((imagesBytes_toSend) => {
-          var newProduct: createProduct = {
+          var newProduct: editProduct = {
             name: values.name,
             price: values.price,
             discount: values.discount,
@@ -168,11 +182,11 @@ const CreateProduct=()=> {
             categoryId: categoryId,
             images_: imagesBytes_toSend,
             Variants_:variantsIds,
-            userId:Number(user.id),
+            productId:parseInt(params.productId!)
           };
           console.log(newProduct);
         
-          var err = createProduct(newProduct);
+          var err = editProduct(newProduct);
           console.log("res");
 
           err.then((res:any)=>{
@@ -342,9 +356,11 @@ const CreateProduct=()=> {
   }
 
 
-  useEffect(()=>{
-    // console.log(options);
-  },[options])
+  useEffect(() => {
+    if (editorRef.current && product?.payload.description) {
+      editorRef.current.setContent(product.payload.description);
+    }
+  }, [product?.payload.description]);
     
     return <>
     <div className="flex flex-col justify-center px-6 py-12 lg:px-8">
@@ -353,7 +369,7 @@ const CreateProduct=()=> {
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           
           <h2 className="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-           CREATE PRODUCT
+           EDIT PRODUCT
           </h2>
         </div>
 
@@ -491,15 +507,7 @@ const CreateProduct=()=> {
                 Description
               </label>
               <div className="mt-2">
-                {/* <textarea
-                  id="description"
-                  name="description"
-                  autoComplete="description"
-                  required
-                  onChange={}
-                  value={}
-                  className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                /> */}
+                
                 <EditorComponent editorRef={editorRef} />
                 {formik.errors.description ? <div className=' text-red-500 text-sm font-semibold'>{formik.errors.description}</div> : null}
               </div>
@@ -605,5 +613,5 @@ const CreateProduct=()=> {
     </>;
   }
   
-  export default CreateProduct;
+  export default EditProduct;
   

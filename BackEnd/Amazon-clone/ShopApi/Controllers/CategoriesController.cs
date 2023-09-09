@@ -57,5 +57,12 @@ namespace ShopApi.Controllers
             return Ok(model);
         }
 
+        [HttpPost("EditCategory")]
+        public async Task<IActionResult> EditCategoryAsync([FromBody] EditCategoryDTO model)
+        {
+            await _categoryService.EditCategoryAsync(model);
+            return Ok(model);
+        }
+
     }
 }
