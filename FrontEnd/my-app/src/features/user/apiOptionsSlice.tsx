@@ -32,8 +32,26 @@ export const apiOptionsSlice:any = createApi({
           }),
           providesTags:result=>['Options']
         }),
+        getAllBaseOptionsAsync:builder.query<any,any>({
+          query:(todo)=>({
+            url:'/api/Options/GetAllBaseOptionsAsync',
+            method:"GET",
+            body:todo
+          }),
+          providesTags:result=>['Options']
+        }),
+        getOptionsByCategoryIdToCreateProduct:builder.mutation<any,any>({
+          query:(todo)=>({
+            url:'/api/Options/GetOptionsByCategoryId',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Options']
+        }),
+        
+
     })
 })
 
 
-export const {useGetOptionsQuery,useGetOptionsByCategoryIdQuery} = apiOptionsSlice
+export const {useGetOptionsQuery,useGetAllBaseOptionsAsyncQuery,useGetOptionsByCategoryIdQuery} = apiOptionsSlice

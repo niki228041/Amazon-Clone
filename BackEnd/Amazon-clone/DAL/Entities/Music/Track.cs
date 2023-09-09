@@ -14,15 +14,7 @@ namespace DAL.Entities.Music
         public int NumberOfPlays { get; set; }
         public int likes { get; set; }
 
-        //Foreign keys:
-
-        //Every Track have a album
-        public Album Album { get; set; }
-
-        [ForeignKey(nameof(Album))]
-        public int? AlbumId { get; set; }
-
-        //Every Track have a creator
+        
         public User User { get; set; }
 
         [ForeignKey(nameof(User))]
@@ -32,6 +24,7 @@ namespace DAL.Entities.Music
         public virtual ICollection<LikedTracks> LikedTracks { get; set; }
         public virtual ICollection<TrackHistory> TrackHistory { get; set; }
         public virtual ICollection<TrackComment> TrackComments { get; set; }
+        public virtual ICollection<TrackAlbum> TrackAlbums { get; set; }
 
     }
 }

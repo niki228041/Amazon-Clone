@@ -6,6 +6,8 @@ import { Orders } from '../../features/user/ordersStateSlice';
 import { useAppSelector } from '../../app/hooks';
 import { useState } from 'react';
 import { apiAddressSlice} from '../../features/user/apiAddressSlice';
+import { useDispatch } from 'react-redux';
+import { setAddressModalWindow } from '../../features/user/modalWindowsStateSlice';
 
 interface addAddress{
   street:string,
@@ -18,10 +20,12 @@ interface addAddress{
 }
 
 
-export const AdressModal=({ isOpen,onClose }: { isOpen: boolean,onClose:(prop:boolean)=>void })=>{
+export const AdressModal=()=>{
 
   var user = useAppSelector(((state: { user: UserState; orders: Orders })=>state.user.user));
+  var isOpen = useAppSelector((state)=>state.modalWindows.isAddressOpen);
   const [country, setCountry] = useState('');
+  var dispatch = useDispatch();
 
   const [addAddress,{}] = apiAddressSlice.useAddAddressMutation();
 
@@ -50,7 +54,8 @@ export const AdressModal=({ isOpen,onClose }: { isOpen: boolean,onClose:(prop:bo
         userId:Number(user.id)
       }
       addAddress(request);
-      onClose(false);
+      dispatch(setAddressModalWindow(false));
+
       console.log(request);
     }
     
@@ -61,15 +66,15 @@ export const AdressModal=({ isOpen,onClose }: { isOpen: boolean,onClose:(prop:bo
     return( 
         <form onSubmit={handleAddAdress}>
         {isOpen?
-        <div className="flex justify-center absolute w-full h-full bg-black/30 transition-all">
-            <div className=" absolute w-2/4 mt-20 rounded-xl bg-gray-100">
+        <div className="flex justify-center fixed w-full h-full bg-black/30 transition-all z-30">
+            <div className=" absolute w-2/4 mt-32 rounded-xl bg-gray-100">
                 
 
                 <div className=" relative box-border p-2  flex place-content-between select-none px-8 pt-8">
                     <div className=" font-medium text-xl">
                         Add Address
                     </div>
-                    <span  onClick={()=>onClose(false)} className="p-2 cursor-pointer" >
+                    <span  onClick={()=>dispatch(setAddressModalWindow(false))} className="p-2 cursor-pointer" >
                         <img className=' h-5' src={close}></img>
                     </span>
                 </div>

@@ -1,0 +1,57 @@
+.style{
+    width: 1400px;
+    height: 2500px;
+}
+
+.margin{
+    margin-top: 60px;
+}
+
+.margin-left{
+    margin-left: 350px;
+}
+
+.mainLabel{
+    width: 570px;
+    height: 58px;
+    color: #000000;
+    font-family: Inter;
+    font-size: 48px;
+    font-weight: 500;
+    line-height: 58px;
+    letter-spacing: 0em;
+    text-align: center;
+}
+
+.categoryLocation{
+    position: absolute;
+    left: 20px;
+}
+
+.button-container {
+    display: flex;
+    gap: 15px;
+    width: 95%;
+}
+
+.width{
+    width: 95%;
+}
+
+.cursor{
+    cursor: pointer;
+}
+
+.button {
+    width: 280px;
+    height: 70px;
+    padding: 24px 22px;
+    border-radius: 6px;
+    background-color: #002A42;
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: Inter;
+    line-height: 29px;
+    cursor: pointer;
+}
+

@@ -22,16 +22,21 @@ namespace ShopApi.Controllers
         private readonly IMapper _mapper;
         private readonly IImageService _imageService;
         private readonly ITrackCommentService _trackCommentService;
+        private readonly IWebHostEnvironment _env;
+        private readonly bool _isProduction;
 
-        public TrackController(IMapper mapper, ITrackService trackService, IImageService imageService,ITrackCommentService trackCommentService)
+        public TrackController(IMapper mapper, ITrackService trackService, IImageService imageService,ITrackCommentService trackCommentService, IWebHostEnvironment env)
         {
-            _trackCommentService= trackCommentService;
+            _env = env;
+            _isProduction = _env.IsProduction();
+            _trackCommentService = trackCommentService;
             _mapper = mapper;
             _trackService = trackService;
             _imageService = imageService;
         }
 
 
+        [RequestSizeLimit(100_000_000)]
         [HttpPost]
         [Route("CreateTrack")]
         public async Task<IActionResult> CreateTrackAsync(TrackDTO model)
@@ -112,7 +117,7 @@ namespace ShopApi.Controllers
             string port = string.Empty;
             if (Request.Host.Port != null)
                 port = ":" + Request.Host.Port.ToString();
-            var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/{DirectoriesInProject.MusicImages}/{image + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
+            var url = $@"https://amazonclone.monster/api/{DirectoriesInProject.MusicImages}/{image + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
             return Ok(new ImageLinkVM { Link = url, Id = model.Id });
         }
 
@@ -127,7 +132,7 @@ namespace ShopApi.Controllers
             if (Request.Host.Port != null)
                 port = ":" + Request.Host.Port.ToString();
 
-            var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/{DirectoriesInProject.MusicImages}/{fileName + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
+            var url = $@"https://amazonclone.monster/api/{DirectoriesInProject.MusicImages}/{fileName + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
             return Ok(new ImageLinkVM { Link = url, Id = 0 });
         }
 
@@ -139,7 +144,7 @@ namespace ShopApi.Controllers
             if (Request.Host.Port != null)
                 port = ":" + Request.Host.Port.ToString();
 
-            var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/{DirectoriesInProject.MusicImages}/{image + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
+            var url = $@"https://amazonclone.monster/api/{DirectoriesInProject.MusicImages}/{image + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
             return  url;
         }
 
@@ -151,7 +156,7 @@ namespace ShopApi.Controllers
             if (Request.Host.Port != null)
                 port = ":" + Request.Host.Port.ToString();
 
-            var url = $@"{Request.Scheme}://{Request.Host.Host}{port}/{DirectoriesInProject.MusicFiles}/{song}";
+            var url = $@"https://amazonclone.monster/api/{DirectoriesInProject.MusicFiles}/{song}";
             return url;
         }
 

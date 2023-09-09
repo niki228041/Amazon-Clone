@@ -48,12 +48,19 @@ export const apiCategorySlice:any = createApi({
             body:todo
           }),
           invalidatesTags:['Category']
-        })
-        
+        }),
+        editCategory:builder.mutation<any,any>({
+          query:(todo)=>({
+            url:'/api/Categories/EditCategory',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Category']
+        }),
         
     })
 })
 
 
-export const {useGetCategoriesQuery,useGetMainCategoriesQuery} = apiCategorySlice
+export const {useGetCategoriesQuery,useGetMainCategoriesQuery,useEditCategoryMutation} = apiCategorySlice
 

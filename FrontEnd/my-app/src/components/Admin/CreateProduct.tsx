@@ -1,16 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGetCategoriesQuery } from "../../features/user/apiCategorySlice";
 import { apiProductSlice } from "../../features/user/apiProductSlice";
 import { Category, createProduct, Options, Variant, VariantDTO } from "./types";
 // import ReactQuill from "react-quill";
 // import 'react-quill/dist/quill.snow.css';
-import { useGetOptionsQuery } from "../../features/user/apiOptionsSlice";
+import { apiOptionsSlice, useGetOptionsQuery } from "../../features/user/apiOptionsSlice";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
 import { UserState } from "../../features/user/user-slice";
 import { Orders } from "../../features/user/ordersStateSlice";
 import { useFormik } from "formik";
 import { createProductSchema } from "./Validation/ProductCreateValidation";
+import EditorComponent from "./EditorComponent";
 
 
 interface createProductValues{
@@ -26,20 +27,25 @@ interface createProductValues{
 
 const CreateProduct=()=> {
   const [value, setValue] = useState('');
-    
+  const editorRef:any = useRef(null);  
+
     var [createProduct,{}] = apiProductSlice.useCreateProductMutation();
     var [imagesToShow,setImagesToShow] = useState([]);
     var [filesToSend,setFilesToSend] = useState([]);
 
     var navigate = useNavigate();
+    const [getOptions,{}] = apiOptionsSlice.useGetOptionsByCategoryIdToCreateProductMutation();
 
     const {data:categories,isSuccess} = useGetCategoriesQuery();
     var user = useAppSelector(((state: { user: UserState; orders: Orders })=>state.user.user));
 
-    const {data:options,isSuccess:isOptionsSuccess} = useGetOptionsQuery() as {
-      data: Options[];
-      isSuccess: boolean;
-    };
+    // const {data:options,isSuccess:isOptionsSuccess} = useGetOptionsQuery() as {
+    //   data: Options[];
+    //   isSuccess: boolean;
+    // };
+    var [options,setOptions] = useState<Options[]>();
+
+
 
     // console.log(options);
 
@@ -61,7 +67,13 @@ const CreateProduct=()=> {
       onSubmit: values => {
         console.log("values");
 
+      
+
       var e:any = document.getElementById("Category");
+      var description:any = document.getElementById("description");
+      
+      console.log(description);
+      
       var categoryId = e.value;
       
       var canCreate:boolean=true;
@@ -108,6 +120,7 @@ const CreateProduct=()=> {
         setServerErrorLogin("");
 
         console.log("YES U CAN");
+        console.log("res");
 
         console.log(values);
 
@@ -147,7 +160,7 @@ const CreateProduct=()=> {
             name: values.name,
             price: values.price,
             discount: values.discount,
-            description: values.description,
+            description: editorRef.current.getContent(),
             quantity: values.quantity,
             isInTheStock: values.isInTheStock,
             numberOfDaysForDelivery: values.numberOfDaysForDelivery,
@@ -160,14 +173,25 @@ const CreateProduct=()=> {
           console.log(newProduct);
         
           var err = createProduct(newProduct);
+          console.log("res");
 
           err.then((res:any)=>{
-            console.log(res.data.message);
-            console.log(res.data.message);
-            setServerErrorLogin(res.data.message);
+            console.log(res);
+            if(res.data == null)
+            {
+              console.log(res.error.data.message);
+              setServerErrorLogin(res.error.data.message);
+            }
+            else
+            {
+              console.log(res.data.message);
+              console.log(res.data.message);
+              setServerErrorLogin(res.data.message);
+            }
+            
             if(res.data.isSuccess)
             {
-              navigate("/products");
+              // navigate("/products");
             }
           })
 
@@ -241,6 +265,15 @@ const CreateProduct=()=> {
     // console.log(response?.data);
   }
 
+  const handleOptionsByCategoryId=async(categoryId:number)=>{
+    if(Number.isInteger(categoryId))
+    {
+      setDivContent([]);
+      var res = await getOptions({id:categoryId});
+      setOptions(res.data);
+    }
+    
+  }
 
   
   const [divContent, setDivContent] = useState<JSX.Element[]>([]);
@@ -258,14 +291,14 @@ const CreateProduct=()=> {
     {
     const newElement = (
       <div key={value} >
-        <p>{options.find(opt=>opt.id==value)?.title} </p>
+        <p>{options?.find(opt=>opt?.id==value)?.title} </p>
         <div className="flex">
 
         <div className='rounded-full flex flex-col w-full'>
         <select name='Category' id={value.toString()} className=' bg-yellowForInputs text-[15px] mediumFont outline-none rounded-full h-10 pl-3 pr-3 bg-slate-100'>
           <option>-</option>
           {/* {companys.data.map} */}
-          {isSuccess ? options.find(opt=>opt.id==value)?.variants.map((a:Variant)=>{return <option value={a.id} key={a.id}>{a.title}</option>;}) : ""}
+          {isSuccess ? options?.find(opt=>opt?.id==value)?.variants.map((a:Variant)=>{return <option value={a.id} key={a.id}>{a.title}</option>;}) : ""}
         </select>
         </div>
         <button
@@ -283,7 +316,7 @@ const CreateProduct=()=> {
     for (let index = 0; index < inputIds.length; index++) {
       var tmp:any = document.getElementById(inputIds[index]);
       console.log("tmp");
-      if(tmp.id == value)
+      if(tmp?.id == value)
       {
         canBeCreated=false;
       }
@@ -458,17 +491,17 @@ const CreateProduct=()=> {
                 Description
               </label>
               <div className="mt-2">
-                <textarea
+                {/* <textarea
                   id="description"
                   name="description"
                   autoComplete="description"
                   required
-                  onChange={formik.handleChange}
-                  value={formik.values.description}
+                  onChange={}
+                  value={}
                   className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+                /> */}
+                <EditorComponent editorRef={editorRef} />
                 {formik.errors.description ? <div className=' text-red-500 text-sm font-semibold'>{formik.errors.description}</div> : null}
-              {/* <ReactQuill theme="snow" value={value} onChange={setValue} /> */}
               </div>
 
             </div>
@@ -480,7 +513,7 @@ const CreateProduct=()=> {
 
 
               <div className='rounded-full flex flex-col mb-4  pr-3'>
-                  <select name='Category' id="Category" className=' bg-yellowForInputs text-[15px] mediumFont outline-none rounded-full h-10 pl-3 pr-3'>
+                  <select onChange={(E)=>handleOptionsByCategoryId(parseInt(E.currentTarget.value))} name='Category' id="Category" className=' bg-yellowForInputs text-[15px] mediumFont outline-none rounded-full h-10 pl-3 pr-3'>
                     <option>-</option>
                     {/* {companys.data.map} */}
                     {isSuccess ? categories.payload?.map((a:Category)=>{return <option value={a.id} key={a.id}>{a.name}</option>;}) : ""}
@@ -544,7 +577,7 @@ const CreateProduct=()=> {
                     <select name='OptionsTitle' id="OptionsTitle" className=' bg-yellowForInputs text-[15px] mediumFont outline-none rounded-full h-10 pl-3 pr-3 bg-slate-100'>
                       <option>-</option>
                       {/* {companys.data.map} */}
-                      {isOptionsSuccess ? options.map((a:Options)=>{return <option value={a.id} key={a.id}>{a.title}</option>;}) : ""}
+                      {options?.map((a:Options)=>{return <option value={a.id} key={a.id}>{a.title}</option>;})}
                     </select>
                   </div>
                 </div>
