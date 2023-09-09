@@ -10,18 +10,25 @@ import mibandimg from './../images/miband.jpg';
 import usbcimg from './../images/usbc.jpg';
 import example from './../images/example-pic.svg'
 import arrowRight from './../images/main-arrow-right.svg'
+import arrowRightHomePage from './../images/arrowRightHomePage.svg'
 import arrowLeft from './../images/main-arrow-left.svg'
 import headphonesMain from './../images/headphones-main.svg'
 import laptopExample from './../images/laptop-example.svg'
 import winMart from './../images/winMart.svg'
 import foodExample from './../images/food-example.svg'
-
+import { getRecomendedProducts } from './InteractionWithProducts/OneProduct'
 import { url } from "inspector";
 import { right } from "@popperjs/core";
-import { Component, useEffect, useState } from "react";
+import { Component, useEffect, useRef, useState } from "react";
 import { Product } from "./types";
-import { useGetProductsQuery } from "../features/user/apiProductSlice";
+import { apiProductSlice, useGetProductsQuery } from "../features/user/apiProductSlice";
 import axios from "axios";
+import { GetCurrency } from "../api/jwtDecodeToken";
+import { useAppSelector } from "../app/hooks";
+import { Link } from "react-router-dom";
+import { Oval } from "react-loader-spinner";
+import { Category } from "./Admin/types";
+import { useGetCategoriesQuery } from "../features/user/apiCategorySlice";
 
 const HomePage = () => {
     //     const [products, setProducts] = useState<Product[]>([])
@@ -44,10 +51,41 @@ const HomePage = () => {
     //   useEffect(() => {
     //     fetchUserData()
     //   }, [])
+    const loader = () => {
+        return (
+            <div className='m-auto flex self-center justify-center '>
+                <Oval
+                    height={80}
+                    width={80}
+                    color="#46424f"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    visible={true}
+                    ariaLabel='oval-loading'
+                    secondaryColor="#424a4f"
+                    strokeWidth={2}
+                    strokeWidthSecondary={2} />
+            </div>
+
+        )
+    }
 
     const { data: products }: { data?: { payload: Product[] } } = useGetProductsQuery()
+    const { data: categories }: { data?: { payload: Category[] } } = useGetCategoriesQuery()
 
     console.log(products);
+    console.log(categories);
+    var [currentDeals, setCurrentDeals] = useState(0);
+
+
+    var currency = useAppSelector((state) => state.currency.currency);
+
+    var [countOfSmallIconDeals, setCountOfSmallIcon] = useState(5);
+    var [currentSmallIcon, setCurrentSmallIcon] = useState(0);
+
+    var [smallIconOffset, setSmallIconOffset] = useState(currentSmallIcon * 220 * 5);
+
+
 
     return (
         <div >
@@ -65,43 +103,61 @@ const HomePage = () => {
                     </div>
                 </div>
             </div>
-            <div className="second-section">
-                <div className="container-for-carousel">
-                    <div className="prev-item">
-                        <svg style={{ marginTop: "80px" }} width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M41.25 49.5L24.75 33L41.25 16.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </div>
-                    <div style={{ marginLeft: "50px", backgroundImage: `url(${elecimg})` }} className="card-main">
-                        <div style={{ display: "flex", marginTop: "190px", height: "60px", width: "350px", background: "rgba(254, 249, 249, 0.95)" }}>
-                            <a style={{ marginTop: "5px", marginLeft: "15px", fontSize: "30px" }}>Електроніка</a>
-                            <a style={{ marginTop: "5px", marginLeft: "45px", fontSize: "30px", color: "rgba(255, 154, 2, 1)" }}>Купити</a>
-                        </div>
-                    </div>
-                    <div style={{ backgroundImage: `url(${modaimg})` }} className="card-main">
-                        <div style={{ display: "flex", marginTop: "190px", height: "60px", width: "350px", background: "rgba(254, 249, 249, 0.95)" }}>
-                            <a style={{ marginTop: "5px", marginLeft: "15px", fontSize: "30px" }}>Мода</a>
-                            <a style={{ marginTop: "5px", marginLeft: "130px", fontSize: "30px", color: "rgba(255, 154, 2, 1)" }}>Купити</a>
-                        </div>
-                    </div>
-                    <div style={{ backgroundImage: `url(${technicimg})` }} className="card-main">
-                        <div style={{ display: "flex", marginTop: "190px", height: "60px", width: "350px", background: "rgba(254, 249, 249, 0.95)" }}>
-                            <a style={{ marginTop: "5px", marginLeft: "15px", fontSize: "30px" }}>Прилади</a>
-                            <a style={{ marginTop: "5px", marginLeft: "90px", fontSize: "30px", color: "rgba(255, 154, 2, 1)" }}>Купити</a>
-                        </div>
-                    </div>
-                    <div style={{ backgroundImage: `url(${childimg})` }} className="card-main">
-                        <div style={{ display: "flex", marginTop: "190px", height: "60px", width: "350px", background: "rgba(254, 249, 249, 0.95)" }}>
-                            <a style={{ marginTop: "5px", marginLeft: "15px", fontSize: "30px" }}>Дитячі речі</a>
-                            <a style={{ marginTop: "5px", marginLeft: "55px", fontSize: "30px", color: "rgba(255, 154, 2, 1)" }}>Купити</a>
-                        </div>
-                    </div>
-                    <div className="prev-item">
-                        <svg style={{ marginTop: "80px" }} width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M24.75 49.5L41.25 33L24.75 16.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
+            <div className=' overflow-x-hidden flex relative h-[200px] w-full px-20 bg-slate-100'>
+                <div className='overflow-x-hidden flex relative h-[200px] w-full px-4  justify-center'>
+                    <div className="flex absolute justify-center self-center transition-all duration-500" style={{ transform: `translateX(-${smallIconOffset}px)` }}>
+
+                        
+                        {categories?.payload.slice(74, 82).map((category: any) => (
+
+                            <Link to={"/product/description/" + category.id} className='border relative flex hover:border-mainYellowColor p-3 rounded-lg mx-3  w-[220px] hover:scale-105 transition-all duration-200 active:duration-100 cursor-pointer active:scale-100 '>
+                                <div className='self-center'>
+                                    <span>{category.name}</span>
+                                {/* <div className='w-full h-[100px] bg-contain bg-center bg-no-repeat mt-2' style={{backgroundImage:`url(${category.image})`}} > </div> */}
+                                <img src={category.image} />
+                                    
+                                </div>
+                            </Link>
+
+                        ))}
+
 
                     </div>
+                </div>
+
+                <div onClick={() => {
+
+
+                    if (currentSmallIcon > 0) {
+                        setCurrentSmallIcon(currentSmallIcon - 1);
+                        setSmallIconOffset(((currentSmallIcon - 1) * 70 * 2));
+                    }
+
+                    if (currentSmallIcon == 1) {
+                        setSmallIconOffset(0);
+                    }
+
+
+
+
+                }} className=' left-0 self-center ml-5 rounded-lg h-12 w-12 absolute m-auto flex justify-center hover:scale-110 active:scale-90 transition-all duration-100'>
+                    <img className=' rotate-180 self-center h-6' src={arrowRightHomePage} />
+                </div>
+                <div onClick={() => {
+
+
+                    if (currentSmallIcon <= countOfSmallIconDeals) {
+                        setCurrentSmallIcon(currentSmallIcon + 1);
+                        setSmallIconOffset(((currentSmallIcon + 1) * 70 * 2));
+                        console.log(((currentSmallIcon) * 70 * 2));
+                        console.log((currentSmallIcon));
+                    }
+
+
+
+
+                }} className=' right-0 self-center mr-5 rounded-lg h-12 w-12 absolute m-auto flex justify-center hover:scale-110 active:scale-90 transition-all duration-100'>
+                    <img className=' self-center h-6' src={arrowRightHomePage} />
                 </div>
             </div>
 
@@ -204,7 +260,7 @@ const HomePage = () => {
                     </div>
                 </div>
                 <div className="our-products-main">
-                    {products?.payload.slice(0,1).map((product:any) => (
+                    {products?.payload.slice(0, 1).map((product: any) => (
                         <div className="our-products-main-special">
                             <div style={{ backgroundImage: `url(data:image/png;base64,${product.image})` }} className="our-products-main-special-img">
                                 <div>
@@ -410,7 +466,7 @@ const HomePage = () => {
 
                     ))}
 
-                {/* 123 */}
+                    {/* 123 */}
 
 
                 </div>

@@ -12,11 +12,16 @@ namespace DAL.Entities
         public int CountOfProducts { get; set; }
         public Category Parent { get; set; }
 
+        public CategoryImage CategoryImage { get; set; }
+
+        [ForeignKey(nameof(CategoryImage))]
+        public int? CategoryImageId { get; set; }
 
         //Foreign keys:
         public ICollection<Product> Products { get; set; }
         public ICollection<OptionsCategory> OptionsCategories { get; set; } = new List<OptionsCategory>();
         public ICollection<Category> Subcategories { get; set; } = new List<Category>();
+        
     }
 }
 
