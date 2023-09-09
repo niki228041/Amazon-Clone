@@ -47,6 +47,7 @@ pipeline  {
          stage ("SonarQube test"){
            steps{
             sh '''#!/bin/sh
+            export PATH="$PATH:$HOME/.dotnet/tools"
             sudo /home/azureuser/sonartest.sh
             '''
             } 
