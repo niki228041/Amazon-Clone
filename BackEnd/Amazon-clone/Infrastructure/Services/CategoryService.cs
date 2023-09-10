@@ -117,6 +117,8 @@ namespace Infrastructure.Services
                 var categoryVMs = _mapper.Map<List<Category>, List<CategoryVM>>(categories);
 
 
+
+
                 return new ServiceResponse
                 {
                     IsSuccess = true,
@@ -258,7 +260,6 @@ namespace Infrastructure.Services
                     {
                         var allSubCategories = await getSubcategoriesFromCategory(sub_category.Subcategories);
                         categ_list.AddRange(allSubCategories);
-                        categ_list = categ_list;
                     }
                     categ_list.Add(categ_tmp);
                 }

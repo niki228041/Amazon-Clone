@@ -19,7 +19,7 @@ interface AddAvatarToCompany{
   companyId:number,
 }
 
-const MyCompany =()=> {
+const MyCompanyTemp =()=> {
   var user = useAppSelector(((state: { user: UserState; orders: Orders })=>state.user.user));
 
   var {data:company}:{data:Company} = useGetCompanyByUserIdQuery({id:user.id});
@@ -139,4 +139,4 @@ const MyCompany =()=> {
 }
 
 
-export default MyCompany
+export default MyCompanyTemp

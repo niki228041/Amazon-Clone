@@ -197,10 +197,10 @@ const Header = () => {
             <img src={trackOrder} />
             <span>Відслідкувати замовлення</span>
           </div>
-          <div className="shop-container">
+          <Link to="/seller" className="shop-container">
             <img src={shop} />
             <span>Магазин</span>
-          </div>
+          </Link>
           <div className="settings-container">
             <img src={settings} />
             <span>Налаштування</span>
