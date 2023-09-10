@@ -355,10 +355,7 @@ const OneProduct=()=>{
                         </div>
 
                         <div className='w-full mt-2 py-3 text-[15px]'>
-                            <div className='my-2 grid grid-cols-4'>
-                                <span className=' text-grayForText col-span-1  self-center'>Ціна:</span>
-                                <span className='col-span-3'>${data?.payload.price}</span>
-                            </div>
+                            
                             <div className='w-full mt-2 py-3 text-[15px]'>
                                 <div className='my-2 grid grid-cols-4'>
                                     <span className=' text-grayForText col-span-1  self-center'>Ціна:</span>
