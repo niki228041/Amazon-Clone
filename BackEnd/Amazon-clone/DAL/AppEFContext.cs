@@ -23,6 +23,7 @@ namespace DAL
 
         public DbSet<Address> Address { get; set; }
         public DbSet<Category> Category { get; set; }
+        public DbSet<CategoryImage> CategoryImage { get; set; }
         public DbSet<Comment> Comment { get; set; }
         public DbSet<CommentImage> CommentImage { get; set; }
         public DbSet<Company> Company { get; set; }
@@ -104,9 +105,12 @@ namespace DAL
                 .OnDelete(DeleteBehavior.Cascade);
             //END
 
-
-
-
+            ////START One to one
+            //modelBuilder.Entity<Category>()
+            //    .HasOne(c => c.CategoryImage)
+            //    .WithOne()
+            //    .HasForeignKey<Category>(c => c.CategoryImageId);
+            ////END
 
             //START Many to many
             modelBuilder.Entity<VariantProduct>()

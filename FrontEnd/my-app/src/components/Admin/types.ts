@@ -29,7 +29,8 @@ export interface createCategory{
 export interface Category{
     id: number,
     name: string,
-    countOfProducts:number
+    countOfProducts:number,
+    image: string
 }
 
 

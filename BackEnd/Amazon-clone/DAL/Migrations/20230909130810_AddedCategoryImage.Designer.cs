@@ -4,6 +4,7 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppEFContext))]
-    partial class AppEFContextModelSnapshot : ModelSnapshot
+    [Migration("20230909130810_AddedCategoryImage")]
+    partial class AddedCategoryImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -512,12 +514,7 @@ namespace DAL.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("tblAlbum");
                 });
@@ -558,6 +555,9 @@ namespace DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("AlbumId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Background")
                         .HasColumnType("nvarchar(max)");
 
@@ -590,41 +590,11 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AlbumId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("tblTrack");
-                });
-
-            modelBuilder.Entity("DAL.Entities.Music.TrackAlbum", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("AlbumId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("TrackId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AlbumId");
-
-                    b.HasIndex("TrackId");
-
-                    b.ToTable("TrackAlbum");
                 });
 
             modelBuilder.Entity("DAL.Entities.Music.TrackGenre", b =>
@@ -1269,8 +1239,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Entities.FilterEntities.Options", "Options")
                         .WithMany("Variants")
-                        .HasForeignKey("OptionsId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("OptionsId");
 
                     b.Navigation("Options");
                 });
@@ -1328,52 +1297,30 @@ namespace DAL.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DAL.Entities.Music.Album", b =>
-                {
-                    b.HasOne("DAL.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("DAL.Entities.Music.Track", b =>
                 {
+                    b.HasOne("DAL.Entities.Music.Album", "Album")
+                        .WithMany("Tracks")
+                        .HasForeignKey("AlbumId");
+
                     b.HasOne("DAL.Entities.User", "User")
                         .WithMany("Tracks")
                         .HasForeignKey("UserId");
 
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("DAL.Entities.Music.TrackAlbum", b =>
-                {
-                    b.HasOne("DAL.Entities.Music.Album", "Album")
-                        .WithMany("TrackAlbums")
-                        .HasForeignKey("AlbumId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DAL.Entities.Music.Track", "Track")
-                        .WithMany("TrackAlbums")
-                        .HasForeignKey("TrackId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.Navigation("Album");
 
-                    b.Navigation("Track");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DAL.Entities.Music.TrackGenre", b =>
                 {
                     b.HasOne("DAL.Entities.Music.Genre", "Genre")
                         .WithMany("TrackGenre")
-                        .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("GenreId");
 
                     b.HasOne("DAL.Entities.Music.Track", "Track")
                         .WithMany("TrackGenre")
-                        .HasForeignKey("TrackId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TrackId");
 
                     b.Navigation("Genre");
 
@@ -1595,7 +1542,7 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Entities.Music.Album", b =>
                 {
-                    b.Navigation("TrackAlbums");
+                    b.Navigation("Tracks");
                 });
 
             modelBuilder.Entity("DAL.Entities.Music.Genre", b =>
@@ -1606,8 +1553,6 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.Music.Track", b =>
                 {
                     b.Navigation("LikedTracks");
-
-                    b.Navigation("TrackAlbums");
 
                     b.Navigation("TrackComments");
 
