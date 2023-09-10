@@ -15,6 +15,7 @@ export const OrderItem=({order}:{order:OrderedOrder})=>{
     const [elementHeight, setElementHeight] = useState("0px"); // Initial height
     console.log(order);
     var currency = useAppSelector((state)=>state.currency.currency);
+    const parser = new DOMParser();
   
 
     function formatDateDifference(dateString:string) {
@@ -65,7 +66,7 @@ export const OrderItem=({order}:{order:OrderedOrder})=>{
 
         </div>
 
-        {/* <div className='  w-full is-profile overflow-hidden  ' style={{ height: elementHeight}}>
+        <div className='  w-full is-profile overflow-hidden  ' style={{ height: elementHeight}}>
             {order.products != null ?
             <>
               <p className=' pt-4 font-semibold text-lg'>Доставлено {formatDateDifference(order?.dateCreated)}</p>
@@ -76,28 +77,27 @@ export const OrderItem=({order}:{order:OrderedOrder})=>{
 
             {order?.products?.map((prod)=>
               <div className=' py-3 flex  justify-between'>
-                <div className='flex'>
+                <div className='flex '>
                   <div>
                     <div className='h-28 w-28 rounded-lg bg-center bg-cover' style={{backgroundImage:`url(${prod.product?.image})`}} />
                   </div>
                   <div className='ml-2 text-gray-500 '>
-                    <p className=' font-medium'>{prod.product?.name}</p>
+                    <p className=' font-medium '>{prod.product?.name}</p>
                     <p className=' text-gray-400 mt-2'>{parser.parseFromString(prod.product?.description, 'text/html').body.textContent?.slice(0,30)}</p>
                     <p className=' text-gray-500 text-sm'>Час на повернення товару скінчився 6 вересня</p>
                     <div className='mt-4'>
-                      <button className=' bg-mainYellowColor rounded-lg py-2 px-2 text-sm text-white hover:bg-orange-500 transition-all'>Купити знову</button>
-                      <button className=' border border-gray-300 rounded-lg py-2 px-2 text-sm shadow-lg ml-4 hover:shadow-none transition-all'>Детальніше</button>
+                      <button className=' bg-mainYellowColor rounded-lg py-2 px-2 text-sm text-white hover:bg-orange-500 transition-all'>Закрити замовлення</button>
+                      <button className=' border border-gray-300 rounded-lg py-2 px-2 text-sm shadow-lg ml-4 hover:shadow-none transition-all'>Скасувати замовлення</button>
                     </div>
                   </div>
                 </div>
             
-                <div className=' p-2 self-center'>
-                  <div className=' rounded-sm flex justify-center border py-1 px-16 hover:bg-gray-200 cursor-pointer self-center mb-7'>Допомога</div>
-                  <div className=' rounded-sm flex justify-center border py-1 px-16 hover:bg-gray-200 cursor-pointer self-center '>Залишити відгук</div>
+                <div className=' p-2 self-center flex'>
+                  <div className=' rounded-sm flex text-sm flex-nowrap whitespace-nowrap justify-center border py-1 px-6 hover:bg-gray-200 cursor-pointer self-center mb-7'>Переглянути сторінку товара</div>
                 </div>
               </div>
             )}
-        </div> */}
+        </div>
 
 
     </div>
