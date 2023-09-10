@@ -99,6 +99,7 @@ import EditProduct from './components/Admin/EditProduct';
 import CreateAlbum from './components/Player/Album/CreateAlbum';
 import SellerWrap from './components/Profile/SellerProfile/SellerWrap';
 import MySellerCompany from './components/Profile/SellerProfile/Tabs/MyCompany';
+import SellerOrders from './components/Profile/SellerProfile/Tabs/SellerOrders';
 
 
 
@@ -230,6 +231,8 @@ const App: React.FC = () => {
 
               <Route path='/seller' element={<SellerWrap/>}>
                 <Route path='mycompany' element={<MySellerCompany/>} />
+                <Route path='toOrders' element={<SellerOrders/>} />
+                
               </Route>
             
             </>

@@ -129,6 +129,7 @@ namespace Infrastructure.Services
                         Product = _mapper.Map<Product, ProductVM>(item.Product),
                     };
 
+                    if(ordered.Product != null)
                     ordered.Product.Id = item.Id;
 
                     if (item.ProductId != null)
