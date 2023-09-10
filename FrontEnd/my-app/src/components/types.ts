@@ -39,9 +39,6 @@ export interface OneProductVM{
     companyVM:Company,
 }
 
-
-
-
 export interface SelectedOption{
     title:string,
     isBaseOptions:boolean,
