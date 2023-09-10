@@ -89,18 +89,14 @@ const Registration = () => {
   return (
     <form className='' onSubmit={formik.handleSubmit}>
       <div className="w-full grid grid-cols-2 h-full fixed ">
+        <div className=" p-2 bg-litleYellow xl:col-span-1 col-span-2">
 
-        <div className="left p-2 bg-litleYellow ">
-          <div className="leftsd p-2 mx-auto w-3/6">
-            <div className=" flex justify-center mt-10">
-              <img src={logo_auth} />
-            </div>
         <div className='m-auto relative flex h-full justify-center'>
           <div className="absolute flex justify-center mt-10">
             <img src={logo_auth} />
           </div>
           <div className="flex m-auto w-full">
-          <div className=" p-2  m-auto w-3/6 ">
+          <div className=" p-2  m-auto xl:w-3/6 lg:w-4/6 ">
 
             <div className=" flex flex-col justify-center text-grayColorForHeader">
               <p className="flex self-center text-[40px] font-bold">Реєстрація</p>
@@ -167,7 +163,7 @@ const Registration = () => {
         </div>
 
         
-        <div className="rig bg-mainYellowColor">
+        <div className=" bg-mainYellowColor xl:block hidden">
           <div className=" w-4/6 mx-auto ">
             <div className="w-4/6 text-darkBlueColor text-[20px] mt-20">
               <span>
