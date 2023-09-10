@@ -10,16 +10,82 @@ import mibandimg from './../images/miband.jpg';
 import usbcimg from './../images/usbc.jpg';
 import example from './../images/example-pic.svg'
 import arrowRight from './../images/main-arrow-right.svg'
+import arrowRightHomePage from './../images/arrowRightHomePage.svg'
 import arrowLeft from './../images/main-arrow-left.svg'
 import headphonesMain from './../images/headphones-main.svg'
 import laptopExample from './../images/laptop-example.svg'
 import winMart from './../images/winMart.svg'
 import foodExample from './../images/food-example.svg'
-
+import { getRecomendedProducts } from './InteractionWithProducts/OneProduct'
 import { url } from "inspector";
 import { right } from "@popperjs/core";
+import { Component, useEffect, useRef, useState } from "react";
+import { Product } from "./types";
+import { apiProductSlice, useGetProductsQuery } from "../features/user/apiProductSlice";
+import axios from "axios";
+import { GetCurrency } from "../api/jwtDecodeToken";
+import { useAppSelector } from "../app/hooks";
+import { Link } from "react-router-dom";
+import { Oval } from "react-loader-spinner";
+import { Category } from "./Admin/types";
+import { useGetCategoriesQuery } from "../features/user/apiCategorySlice";
 
 const HomePage = () => {
+    //     const [products, setProducts] = useState<Product[]>([])
+
+    //     const fetchUserData = () => {
+    //         fetch("http://localhost:5034/api/Products/GetProducts")
+    //           .then((response) => response.json())
+    //           .then((data) => {
+    //             if (data.payload && Array.isArray(data.payload)) {
+    //               setProducts(data.payload);
+    //             } else {
+    //               console.error("Ошибка: Данные не содержат ожидаемый массив в поле payload");
+    //             }
+    //           })
+    //           .catch((error) => {
+    //             console.error("Ошибка при получении данных:", error);
+    //           });
+    //       };
+
+    //   useEffect(() => {
+    //     fetchUserData()
+    //   }, [])
+    const loader = () => {
+        return (
+            <div className='m-auto flex self-center justify-center '>
+                <Oval
+                    height={80}
+                    width={80}
+                    color="#46424f"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    visible={true}
+                    ariaLabel='oval-loading'
+                    secondaryColor="#424a4f"
+                    strokeWidth={2}
+                    strokeWidthSecondary={2} />
+            </div>
+
+        )
+    }
+
+    const { data: products }: { data?: { payload: Product[] } } = useGetProductsQuery()
+    const { data: categories }: { data?: { payload: Category[] } } = useGetCategoriesQuery()
+
+    console.log(products);
+    console.log(categories);
+    var [currentDeals, setCurrentDeals] = useState(0);
+
+
+    var currency = useAppSelector((state) => state.currency.currency);
+
+    var [countOfSmallIconDeals, setCountOfSmallIcon] = useState(5);
+    var [currentSmallIcon, setCurrentSmallIcon] = useState(0);
+
+    var [smallIconOffset, setSmallIconOffset] = useState(currentSmallIcon * 220 * 5);
+
+
 
     return (
         <div >
@@ -37,43 +103,61 @@ const HomePage = () => {
                     </div>
                 </div>
             </div>
-            <div className="second-section">
-                <div className="container-for-carousel">
-                    <div className="prev-item">
-                        <svg style={{ marginTop: "80px" }} width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M41.25 49.5L24.75 33L41.25 16.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </div>
-                    <div style={{ marginLeft: "50px", backgroundImage: `url(${elecimg})` }} className="card-main">
-                        <div style={{ display: "flex", marginTop: "190px", height: "60px", width: "350px", background: "rgba(254, 249, 249, 0.95)" }}>
-                            <a style={{ marginTop: "5px", marginLeft: "15px", fontSize: "30px" }}>Електроніка</a>
-                            <a style={{ marginTop: "5px", marginLeft: "45px", fontSize: "30px", color: "rgba(255, 154, 2, 1)" }}>Купити</a>
-                        </div>
-                    </div>
-                    <div style={{ backgroundImage: `url(${modaimg})` }} className="card-main">
-                        <div style={{ display: "flex", marginTop: "190px", height: "60px", width: "350px", background: "rgba(254, 249, 249, 0.95)" }}>
-                            <a style={{ marginTop: "5px", marginLeft: "15px", fontSize: "30px" }}>Мода</a>
-                            <a style={{ marginTop: "5px", marginLeft: "130px", fontSize: "30px", color: "rgba(255, 154, 2, 1)" }}>Купити</a>
-                        </div>
-                    </div>
-                    <div style={{ backgroundImage: `url(${technicimg})` }} className="card-main">
-                        <div style={{ display: "flex", marginTop: "190px", height: "60px", width: "350px", background: "rgba(254, 249, 249, 0.95)" }}>
-                            <a style={{ marginTop: "5px", marginLeft: "15px", fontSize: "30px" }}>Прилади</a>
-                            <a style={{ marginTop: "5px", marginLeft: "90px", fontSize: "30px", color: "rgba(255, 154, 2, 1)" }}>Купити</a>
-                        </div>
-                    </div>
-                    <div style={{ backgroundImage: `url(${childimg})` }} className="card-main">
-                        <div style={{ display: "flex", marginTop: "190px", height: "60px", width: "350px", background: "rgba(254, 249, 249, 0.95)" }}>
-                            <a style={{ marginTop: "5px", marginLeft: "15px", fontSize: "30px" }}>Дитячі речі</a>
-                            <a style={{ marginTop: "5px", marginLeft: "55px", fontSize: "30px", color: "rgba(255, 154, 2, 1)" }}>Купити</a>
-                        </div>
-                    </div>
-                    <div className="prev-item">
-                        <svg style={{ marginTop: "80px" }} width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M24.75 49.5L41.25 33L24.75 16.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
+            <div className=' overflow-x-hidden flex relative h-[200px] w-full px-20 bg-slate-100'>
+                <div className='overflow-x-hidden flex relative h-[200px] w-full px-4  justify-center'>
+                    <div className="flex absolute justify-center self-center transition-all duration-500" style={{ transform: `translateX(-${smallIconOffset}px)` }}>
+
+                        
+                        {categories?.payload.slice(74, 82).map((category: any) => (
+
+                            <Link to={"/product/description/" + category.id} className='border relative flex hover:border-mainYellowColor p-3 rounded-lg mx-3  w-[220px] hover:scale-105 transition-all duration-200 active:duration-100 cursor-pointer active:scale-100 '>
+                                <div className='self-center'>
+                                    <span>{category.name}</span>
+                                {/* <div className='w-full h-[100px] bg-contain bg-center bg-no-repeat mt-2' style={{backgroundImage:`url(${category.image})`}} > </div> */}
+                                <img src={category.image} />
+                                    {/* test123 */}
+                                </div>
+                            </Link>
+
+                        ))}
+
 
                     </div>
+                </div>
+
+                <div onClick={() => {
+
+
+                    if (currentSmallIcon > 0) {
+                        setCurrentSmallIcon(currentSmallIcon - 1);
+                        setSmallIconOffset(((currentSmallIcon - 1) * 70 * 2));
+                    }
+
+                    if (currentSmallIcon == 1) {
+                        setSmallIconOffset(0);
+                    }
+
+
+
+
+                }} className=' left-0 self-center ml-5 rounded-lg h-12 w-12 absolute m-auto flex justify-center hover:scale-110 active:scale-90 transition-all duration-100'>
+                    <img className=' rotate-180 self-center h-6' src={arrowRightHomePage} />
+                </div>
+                <div onClick={() => {
+
+
+                    if (currentSmallIcon <= countOfSmallIconDeals) {
+                        setCurrentSmallIcon(currentSmallIcon + 1);
+                        setSmallIconOffset(((currentSmallIcon + 1) * 70 * 2));
+                        console.log(((currentSmallIcon) * 70 * 2));
+                        console.log((currentSmallIcon));
+                    }
+
+
+
+
+                }} className=' right-0 self-center mr-5 rounded-lg h-12 w-12 absolute m-auto flex justify-center hover:scale-110 active:scale-90 transition-all duration-100'>
+                    <img className=' self-center h-6' src={arrowRightHomePage} />
                 </div>
             </div>
 
@@ -124,88 +208,40 @@ const HomePage = () => {
                     <h2 className="mt-0 mb-0 font-normal">Нові надходження</h2>
                     <span>Закінчується через : 08:13:48</span>
                 </div>
+
+
+
                 <div className="arrivals-main">
                     <div className="container-for-card">
-                        <div className="arrivals-card">
+                        {/* {products.slice(0,8).map(product=> (
+                            <div className="arrivals-card">
                             <span>Bin Bakar Електроніка</span>
-                            <h4 className="mt-0 mb-0 font-normal">Samsung 40N5300 S..</h4>
+                            <h4 className="mt-0 mb-0 font-normal">{product.name}</h4>
                             <img src={example} />
                             <div className="price-container flex justify-between">
-                                <span className="old-price">14 800 грн</span>
-                                <span className="new-price">12 399 грн</span>
+                                <span className="old-price">{product.price} грн</span>
+                                <span className="new-price">{product.discount} грн</span>
                             </div>
                             <button>Додати в кошик</button>
                         </div>
-                        <div className="arrivals-card">
-                            <span>Bin Bakar Електроніка</span>
-                            <h4 className="mt-0 mb-0 font-normal">Samsung Automatic..</h4>
-                            <img src={example} />
-                            <div className="price-container flex justify-between">
-                                <span className="old-price">14 800 грн</span>
-                                <span className="new-price">12 399 грн</span>
+                        ))} */}
+
+                        {/* ------------------------------- FIX IMAGE (TOO BIG) -------------------------------*/}
+                        {products?.payload.slice(0, 8).map((product: any) => (
+                            <div className="arrivals-card" key={product.id}>
+                                <span>{product.category}</span>
+                                <h4 className="mt-0 mb-0 font-normal whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</h4>
+                                <img src={`data:image/png;base64,${product.image}`} />
+                                <div className="price-container flex justify-between">
+                                    <span className="old-price">{product.price} грн</span>
+                                    <span className="new-price">{product.discount} грн</span>
+                                </div>
+                                <button>Додати в кошик</button>
                             </div>
-                            <button>Додати в кошик</button>
-                        </div>
-                        <div className="arrivals-card">
-                            <span>Bin Bakar Електроніка</span>
-                            <h4 className="mt-0 mb-0 font-normal">Haier HSU-12HFMAC ..</h4>
-                            <img src={example} />
-                            <div className="price-container flex justify-between">
-                                <span className="old-price">14 800 грн</span>
-                                <span className="new-price">12 399 грн</span>
-                            </div>
-                            <button>Додати в кошик</button>
-                        </div>
-                        <div className="arrivals-card">
-                            <span>Bin Bakar Електроніка</span>
-                            <h4 className="mt-0 mb-0 font-normal">Anex Roti Maker ..</h4>
-                            <img src={example} />
-                            <div className="price-container flex justify-between">
-                                <span className="old-price">14 800 грн</span>
-                                <span className="new-price">12 399 грн</span>
-                            </div>
-                            <button>Додати в кошик</button>
-                        </div>
-                        <div className="arrivals-card">
-                            <span>Bin Bakar Електроніка</span>
-                            <h4 className="mt-0 mb-0 font-normal">Gree GS-12FITH..</h4>
-                            <img src={example} />
-                            <div className="price-container flex justify-between">
-                                <span className="old-price">14 800 грн</span>
-                                <span className="new-price">12 399 грн</span>
-                            </div>
-                            <button>Додати в кошик</button>
-                        </div>
-                        <div className="arrivals-card">
-                            <span>Bin Bakar Електроніка</span>
-                            <h4 className="mt-0 mb-0 font-normal">Gree Air Conditioner..</h4>
-                            <img src={example} />
-                            <div className="price-container flex justify-between">
-                                <span className="old-price">14 800 грн</span>
-                                <span className="new-price">12 399 грн</span>
-                            </div>
-                            <button>Додати в кошик</button>
-                        </div>
-                        <div className="arrivals-card">
-                            <span>Bin Bakar Електроніка</span>
-                            <h4 className="mt-0 mb-0 font-normal">Gree Air Conditioner..</h4>
-                            <img src={example} />
-                            <div className="price-container flex justify-between">
-                                <span className="old-price">14 800 грн</span>
-                                <span className="new-price">12 399 грн</span>
-                            </div>
-                            <button>Додати в кошик</button>
-                        </div>
-                        <div className="arrivals-card">
-                            <span>Bin Bakar Електроніка</span>
-                            <h4 className="mt-0 mb-0 font-normal">Gree Air Conditioner..</h4>
-                            <img src={example} />
-                            <div className="price-container flex justify-between">
-                                <span className="old-price">14 800 грн</span>
-                                <span className="new-price">12 399 грн</span>
-                            </div>
-                            <button>Додати в кошик</button>
-                        </div>
+                        ))}
+
+
+
                     </div>
                 </div>
             </div>
@@ -224,131 +260,57 @@ const HomePage = () => {
                     </div>
                 </div>
                 <div className="our-products-main">
-                    <div className="our-products-main-special">
-                        <div className="our-products-main-special-img">
-                            <div>
-                                <h2 className="text-[#FF9A02] mt-0 mb-0 font-normal">Спеціальна</h2>
-                                <h2 className="second-span mt-0 mb-0 font-normal">пропозиція</h2>
+                    {products?.payload.slice(0, 1).map((product: any) => (
+                        <div className="our-products-main-special">
+                            <div style={{ backgroundImage: `url(data:image/png;base64,${product.image})` }} className="our-products-main-special-img">
+                                <div>
+                                    <h2 className="text-[#FF9A02] mt-0 mb-0 font-normal">Спеціальна</h2>
+                                    <h2 className="second-span mt-0 mb-0 font-normal text-[black]">пропозиція</h2>
+                                </div>
+                                <div className="our-products-right-circle">
+                                    <div className="circle-block"><span>Save 10%</span></div>
+                                </div>
                             </div>
-                            <div className="our-products-right-circle">
-                                <div className="circle-block"><span>Save 10%</span></div>
+                            <div className="our-products-main-special-labels mt-5">
+                                <span className="text-lgMain ">{product.name}</span>
+                                <br />
+                                <span className="text-xlMain pr-5">{product.discount} грн </span>
+                                <span className="text-lgMain line-through">{product.price} грн</span>
+                                <br />
+                                {/* <span className="text-baseMain text-[#002A42] pr-10">Продано: 6</span> */}
+                                <span className="text-baseMain text-[#002A42]">В наявності: {product.quantity}</span>
                             </div>
                         </div>
-                        <div className="our-products-main-special-labels">
-                            <span className="text-lgMain">Nintendo Switch Console</span>
-                            <br />
-                            <span className="text-xlMain pr-5">12 399 грн</span>
-                            <span className="text-lgMain line-through">14 800 грн</span>
-                            <br />
-                            <span className="text-baseMain text-[#002A42] pr-10">Продано: 6</span>
-                            <span className="text-baseMain text-[#002A42]">В наявності: 30</span>
-                        </div>
-                    </div>
+                    ))}
                     <div className="container-main-cards">
                         <div className="first-container-main">
-                            <div className="our-products-main-card">
-                                <span>Bin Bakar Електроніка</span>
-                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
-                                <img src={example} />
-                                <div className="price-container flex justify-between">
-                                    <span className="old-price">14 800 грн</span>
-                                    <span className="new-price">12 399 грн</span>
+                            {products?.payload.slice(0, 5).map((product: any) => (
+                                <div className="our-products-main-card">
+                                    <span>{product.category}</span>
+                                    <h4 className="mt-0 mb-0 font-normal text-[black] whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</h4>
+                                    <img src={`data:image/png;base64,${product.image}`} />
+                                    <div className="price-container flex justify-between">
+                                        <span className="old-price">{product.price} грн</span>
+                                        <span className="new-price">{product.discount} грн</span>
+                                    </div>
+                                    <button>Додати в кошик</button>
                                 </div>
-                                <button>Додати в кошик</button>
-                            </div>
-                            <div className="our-products-main-card">
-                                <span>Bin Bakar Електроніка</span>
-                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
-                                <img src={example} />
-                                <div className="price-container flex justify-between">
-                                    <span className="old-price">14 800 грн</span>
-                                    <span className="new-price">12 399 грн</span>
-                                </div>
-                                <button>Додати в кошик</button>
-                            </div>
-                            <div className="our-products-main-card">
-                                <span>Bin Bakar Електроніка</span>
-                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
-                                <img src={example} />
-                                <div className="price-container flex justify-between">
-                                    <span className="old-price">14 800 грн</span>
-                                    <span className="new-price">12 399 грн</span>
-                                </div>
-                                <button>Додати в кошик</button>
-                            </div>
-                            <div className="our-products-main-card">
-                                <span>Bin Bakar Електроніка</span>
-                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
-                                <img src={example} />
-                                <div className="price-container flex justify-between">
-                                    <span className="old-price">14 800 грн</span>
-                                    <span className="new-price">12 399 грн</span>
-                                </div>
-                                <button>Додати в кошик</button>
-                            </div>
-                            <div className="our-products-main-card">
-                                <span>Bin Bakar Електроніка</span>
-                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
-                                <img src={example} />
-                                <div className="price-container flex justify-between">
-                                    <span className="old-price">14 800 грн</span>
-                                    <span className="new-price">12 399 грн</span>
-                                </div>
-                                <button>Додати в кошик</button>
-                            </div>
+                            ))}
                         </div>
 
                         <div className="second-container-main">
-                            <div className="our-products-main-card">
-                                <span>Bin Bakar Електроніка</span>
-                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
-                                <img src={example} />
-                                <div className="price-container flex justify-between">
-                                    <span className="old-price">14 800 грн</span>
-                                    <span className="new-price">12 399 грн</span>
+                            {products?.payload.slice(6, 11).map((product: any) => (
+                                <div className="our-products-main-card">
+                                    <span>{product.category}</span>
+                                    <h4 className="mt-0 mb-0 font-normal text-[black] whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</h4>
+                                    <img src={`data:image/png;base64,${product.image}`} />
+                                    <div className="price-container flex justify-between">
+                                        <span className="old-price">{product.price} грн</span>
+                                        <span className="new-price">{product.discount} грн</span>
+                                    </div>
+                                    <button>Додати в кошик</button>
                                 </div>
-                                <button>Додати в кошик</button>
-                            </div>
-                            <div className="our-products-main-card">
-                                <span>Bin Bakar Електроніка</span>
-                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
-                                <img src={example} />
-                                <div className="price-container flex justify-between">
-                                    <span className="old-price">14 800 грн</span>
-                                    <span className="new-price">12 399 грн</span>
-                                </div>
-                                <button>Додати в кошик</button>
-                            </div>
-                            <div className="our-products-main-card">
-                                <span>Bin Bakar Електроніка</span>
-                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
-                                <img src={example} />
-                                <div className="price-container flex justify-between">
-                                    <span className="old-price">14 800 грн</span>
-                                    <span className="new-price">12 399 грн</span>
-                                </div>
-                                <button>Додати в кошик</button>
-                            </div>
-                            <div className="our-products-main-card">
-                                <span>Bin Bakar Електроніка</span>
-                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
-                                <img src={example} />
-                                <div className="price-container flex justify-between">
-                                    <span className="old-price">14 800 грн</span>
-                                    <span className="new-price">12 399 грн</span>
-                                </div>
-                                <button>Додати в кошик</button>
-                            </div>
-                            <div className="our-products-main-card">
-                                <span>Bin Bakar Електроніка</span>
-                                <h4 className="mt-0 mb-0 font-normal text-[black]">Gree Air Conditioner..</h4>
-                                <img src={example} />
-                                <div className="price-container flex justify-between">
-                                    <span className="old-price">14 800 грн</span>
-                                    <span className="new-price">12 399 грн</span>
-                                </div>
-                                <button>Додати в кошик</button>
-                            </div>
+                            ))}
                         </div>
 
                     </div>
@@ -371,130 +333,140 @@ const HomePage = () => {
                         <img src={arrowRight} />
                     </div>
                 </div>
+
                 <div className="best-offers-main grid-rows-2 gap-5 mb-10">
-                    <div className="bg-white best-offers-main-element-border">
-                        <div className="best-offers-main-element flex justify-between ">
-                            <div>
-                                <h4 className="text-[20px] mt-0 mb-0 font-normal text-[black]">Nintendo Switch <br />Console</h4>
-                                <span className="text-[22px] text-[#002A42]">12 399 грн</span>
-                                <br />
-                                <span className="text-[19px] text-[#828282] line-through">14 800 грн</span>
-                                <div className="mt-5">
-                                    <button className="">ЗНИЖКА 10%</button>
+                    {products?.payload.slice(0, 1).map((product: any) => (
+                        <div className="bg-white best-offers-main-element-border">
+                            <div className="best-offers-main-element flex justify-between ">
+                                <div className="flex flex-col">
+                                    <h4 className="text-[20px] mt-0 mb-0 font-normal text-[black] whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</h4>
+                                    <span className="text-[22px] text-[#002A42]">{product.discount} грн</span>
+                                    <span className="text-[19px] text-[#828282] line-through">{product.price} грн</span>
+                                    <div className="mt-auto flex">
+                                        <button className="cursor-default">ЗНИЖКА 10%</button>
+                                    </div>
+                                </div>
+                                <div className="element-2">
+                                    <div className="special-offer mb-2">
+                                        <span className="text-[#FF9A02] text-[24px]">Спеціальна</span>
+                                        <span className="text-[24px]">пропозиція</span>
+                                    </div>
+                                    <div className="img-container">
+                                        <img src={`data:image/png;base64,${product.image}`} />
+                                    </div>
                                 </div>
                             </div>
-                            <div className="element-2">
-                                <div className="special-offer">
-                                    <span className="text-[#FF9A02] text-[24px]">Спеціальна</span>
-                                    <span className="text-[24px]">пропозиція</span>
-                                </div>
-                                <div className="img-container">
-                                    <img src={laptopExample} alt="laptop" />
-                                </div>
-                            </div>
+
                         </div>
 
-                    </div>
-
-                    <div className="row-span-2 best-offers-main-element-2">
-                        <div className="best-offers-main-element-img">
-                            <div>
-                                <span className="text-[#FF9A02] text-[24px]">Спеціальна</span>
-                                <br />
-                                <span className="text-[24px]">пропозиція</span>
-
-                            </div>
-                            <div className="best-offers-right-circle">
-                                <div className="offers-circle-block"><span>ЗНИЖКА <br /> 10%</span></div>
-                            </div>
-                        </div>
-                        <div className="receipts-product-img-labels">
-                            <span className="text-[22px]">Nintendo Switch Console</span>
-                            <br />
-                            <span className="text-[27px] text-[#002A42] pr-4">12 399 грн</span>
-                            <span className="text-[19px] line-through text-[#828282]">14 800 грн</span>
-                            <br />
-                            <span className="text-[20px] text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span>
-                            <span className="text-[20px] text-[#002A42]">В наявності: 30</span>
-                        </div>
-                    </div>
-
-                    <div className="bg-white best-offers-main-element-border">
-                        <div className="best-offers-main-element-3 flex justify-between ">
-                            <div>
-                                <h4 className="text-[20px] mt-0 mb-0 font-normal text-[black]">Nintendo Switch <br />Console</h4>
-                                <span className="text-[22px] text-[#002A42]">12 399 грн</span>
-                                <br />
-                                <span className="text-[19px] text-[#828282] line-through">14 800 грн</span>
-                                <div className=" mt-5">
-                                    <button className="">Save <br /> 10%</button>
-                                </div>
-                            </div>
-                            <div className="element-2">
-                                <div className="special-offer">
-                                    <span className="text-[#FF9A02] text-[24px]">Спеціальна</span>
-                                    <span className="text-[24px]">пропозиція</span>
-                                </div>
-                                <div className="img-container">
-                                    <img src={laptopExample} alt="laptop" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="bg-white best-offers-main-element-border">
-                        <div className="best-offers-main-element-4 flex justify-between ">
-                            <div className="special-offer">
-                                <span className="text-[#FF9A02] text-[26px]">Спеціальна</span>
-                                <span className="text-[26px]">пропозиція</span>
+                    ))}
+                    {products?.payload.slice(1, 2).map((product: any) => (
+                        <div className="row-span-2 best-offers-main-element-2">
+                            <div style={{ backgroundImage: `url(data:image/png;base64,${product.image})` }} className="best-offers-main-element-img">
                                 <div>
-                                    <span className="text-[20px]">Nintendo Switch</ span>
-                                    <div>
-                                        <span className="text-[22px] text-[#002A42]">12 399 грн</span>
-                                        <span className="text-[19px] text-[#828282] line-through">14 800 грн</span>
+                                    <span className="text-[#FF9A02] text-[24px]">Спеціальна</span>
+                                    <br />
+                                    <span className="text-[24px]">пропозиція</span>
 
-                                    </div>
-                                    <div>
-                                        <span className="text-[17px] text-[#002A42]">Продано: 6</span>
-                                        <span className="text-[17px] text-[#002A42]">В наявності: 30</span>
-
-                                    </div>
+                                </div>
+                                <div className="best-offers-right-circle">
+                                    <div className="offers-circle-block"><span>ЗНИЖКА <br /> 10%</span></div>
                                 </div>
                             </div>
-                            <div className="element-2">
-                                <div className="best-offers-right-circle-4">
-                                    <div className="offers-circle-block-4"><span>ЗНИЖКА <br /> 10%</span></div>
-                                </div>
-                                <div className="img-container-4">
-                                    <img src={laptopExample} alt="laptop" />
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div className="bg-white best-offers-main-element-border">
-                        <div className="best-offers-main-element-img-5">
-                            <div>
-                                <span className="text-[#FF9A02] text-[20px]">Спеціальна</span>
+                            <div className="receipts-product-img-labels mt-5">
+                                <span className="text-[22px] whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</span>
+                                <span className="text-[27px] text-[#002A42] pr-4">{product.discount} грн</span>
+                                <span className="text-[19px] line-through text-[#828282]">{product.price} грн</span>
                                 <br />
-                                <span className="text-[20px]">пропозиція</span>
-
-                            </div>
-                            <div className="best-offers-right-circle">
-                                <div className="offers-circle-block-5 "><span>ЗНИЖКА <br /> 10%</span></div>
+                                {/* <span className="text-[20px] text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span> */}
+                                <span className="text-[20px] text-[#002A42]">В наявності: {product.quantity}</span>
                             </div>
                         </div>
-                        <div className="receipts-product-img-labels">
-                            <span className="text-[22px]">Nintendo Switch Console</span>
-                            <br />
-                            <span className="text-[27px] text-[#002A42] pr-4">12 399 грн</span>
-                            <span className="text-[19px] line-through text-[#828282]">14 800 грн</span>
-                            <br />
-                            <span className="text-[20px] text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span>
-                            <span className="text-[20px] text-[#002A42]">В наявності: 30</span>
-                        </div>
-                    </div>
 
+                    ))}
+
+                    {products?.payload.slice(2, 3).map((product: any) => (
+                        <div className="bg-white best-offers-main-element-border">
+                            <div className="best-offers-main-element-3 flex justify-between ">
+                                <div className="flex flex-col">
+                                    <h4 className="text-[20px] mt-0 mb-0 font-normal text-[black] whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</h4>
+                                    <span className="text-[22px] text-[#002A42]">{product.discount} грн</span>
+                                    <span className="text-[19px] text-[#828282] line-through">{product.price} грн</span>
+                                    <div className="mt-auto flex">
+                                        <button className="cursor-default">Save <br /> 10%</button>
+                                    </div>
+                                </div>
+                                <div className="element-2">
+                                    <div className="special-offer mb-2">
+                                        <span className="text-[#FF9A02] text-[24px]">Спеціальна</span>
+                                        <span className="text-[24px]">пропозиція</span>
+                                    </div>
+                                    <div className="img-container">
+                                        <img src={`data:image/png;base64,${product.image}`} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                    {products?.payload.slice(3, 4).map((product: any) => (
+
+                        <div className="bg-white best-offers-main-element-border">
+                            <div className="best-offers-main-element-4 flex justify-between ">
+                                <div className="special-offer">
+                                    <span className="text-[#FF9A02] text-[26px]">Спеціальна</span>
+                                    <span className="text-[26px]">пропозиція</span>
+                                    <div className="best-offers-for-span">
+                                        <span className="text-[20px] whitespace-nowrap overflow-hidden text-ellipsis">{product.name}</ span>
+                                        <div>
+                                            <span className="text-[22px] text-[#002A42]">{product.discount} грн</span>
+                                            <span className="text-[19px] text-[#828282] line-through">{product.price} грн</span>
+
+                                        </div>
+                                        <div>
+                                            {/* <span className="text-[17px] text-[#002A42]">Продано: 6</span> */}
+                                            <span className="text-[17px] text-[#002A42]">В наявності: {product.quantity}</span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="element-2">
+                                    <div className="best-offers-right-circle-4">
+                                        <div className="offers-circle-block-4"><span>ЗНИЖКА <br /> 10%</span></div>
+                                    </div>
+                                    <div className="img-container-4">
+                                        <img src={`data:image/png;base64,${product.image}`} />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    ))}
+                    {products?.payload.slice(4, 5).map((product: any) => (
+                        <div className="bg-white best-offers-main-element-border pt-5">
+                            <div style={{ backgroundImage: `url(data:image/png;base64,${product.image})` }} className="best-offers-main-element-img-5">
+                                <div>
+                                    <span className="text-[#FF9A02] text-[20px]">Спеціальна</span>
+                                    <br />
+                                    <span className="text-[20px]">пропозиція</span>
+
+                                </div>
+                                <div className="best-offers-right-circle">
+                                    <div className="offers-circle-block-5 "><span>ЗНИЖКА <br /> 10%</span></div>
+                                </div>
+                            </div>
+                            <div className="receipts-product-img-labels-2">
+                                <span className="text-[22px] whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</span>
+                                <span className="text-[27px] text-[#002A42] pr-4">{product.discount} грн</span>
+                                <span className="text-[19px] line-through text-[#828282]">{product.price} грн</span>
+                                <br />
+                                {/* <span className="text-[20px] text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span> */}
+                                <span className="text-[20px] text-[#002A42]">В наявності: {product.quantity}</span>
+                            </div>
+                        </div>
+
+                    ))}
+
+                    {/* 123 */}
 
 
                 </div>
@@ -507,58 +479,23 @@ const HomePage = () => {
                     </div>
                     <div className="winMart-second-div">
                         <div className="winMart-second-div-first-row">
-                            <div>
-                                <img src={example} alt="example" />
-                                <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
-                                <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">12 399 грн</h4>
-                            </div>
-                            <div>
-                                <img src={example} alt="example" />
-                                <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
-                                <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">12 399 грн</h4>
-                            </div>
-                            <div>
-                                <img src={example} alt="example" />
-                                <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
-                                <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">12 399 грн</h4>
-                            </div>
-                            <div>
-                                <img src={example} alt="example" />
-                                <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
-                                <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">12 399 грн</h4>
-                            </div>
-                            <div>
-                                <img src={example} alt="example" />
-                                <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
-                                <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">12 399 грн</h4>
-                            </div>
+                            {products?.payload.slice(3, 8).map((product: any) => (
+                                <div>
+                                    <img src={`data:image/png;base64,${product.image}`} />
+                                    <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
+                                    <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">{product.price} грн</h4>
+                                </div>
+                            ))}
+
                         </div>
                         <div className="winMart-second-div-second-row">
-                            <div>
-                                <img src={example} alt="example" />
-                                <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
-                                <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">12 399 грн</h4>
-                            </div>
-                            <div>
-                                <img src={example} alt="example" />
-                                <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
-                                <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">12 399 грн</h4>
-                            </div>
-                            <div>
-                                <img src={example} alt="example" />
-                                <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
-                                <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">12 399 грн</h4>
-                            </div>
-                            <div>
-                                <img src={example} alt="example" />
-                                <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
-                                <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">12 399 грн</h4>
-                            </div>
-                            <div>
-                                <img src={example} alt="example" />
-                                <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
-                                <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">12 399 грн</h4>
-                            </div>
+                            {products?.payload.slice(9, 14).map((product: any) => (
+                                <div>
+                                    <img src={`data:image/png;base64,${product.image}`} />
+                                    <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
+                                    <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">{product.price} грн</h4>
+                                </div>
+                            ))}
                         </div>
                     </div>
                     <div className="winMart-third-div">
@@ -578,72 +515,25 @@ const HomePage = () => {
                     <h1 className="text-[#000000] mt-0 mb-0 font-normal">Надходження</h1>
                 </div>
                 <div className="new-receipts-main">
-
                     <div className="new-receipts-product">
-                        <div className="new-receipts-product-card">
-                            <div className="new-receipts-product-img">
-                                <div className="new-reseipts-right-circle">
-                                    <div className="receipts-circle-block"><span>Save <br /> 10%</span></div>
+                        {products?.payload.slice(0, 3).map((product: any) => (
+                            <div className="new-receipts-product-card">
+                                <div style={{ backgroundImage: `url(data:image/png;base64,${product.image})` }} className="new-receipts-product-img ">
+                                    {/* src={`data:image/png;base64,${product.image}`} */}
+                                    <div className="new-reseipts-right-circle">
+                                        <div className="receipts-circle-block"><span>Save <br /> 10%</span></div>
+                                    </div>
+                                </div>
+                                <div className="receipts-product-img-labels-3 mt-3">
+                                    <span className="text-lgMain whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</span>
+                                    <span className="text-baseMain text-[#002A42] pr-4">{product.discount} грн</span>
+                                    <span className="text-xlBiggerMain line-through text-[#828282]">{product.price} грн</span>
+                                    <br />
+                                    {/* <span className="text-baseMain text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span> */}
+                                    <span className="text-baseMain text-[#002A42]">В наявності: {product.quantity}</span>
                                 </div>
                             </div>
-                            <div className="receipts-product-img-labels">
-                                <span className="text-lgMain">Nintendo Switch Console</span>
-                                <br />
-                                <span className="text-xlBiggerMain text-[#002A42] pr-4">12 399 грн</span>
-                                <span className="text-baseMain line-through text-[#828282]">14 800 грн</span>
-                                <br />
-                                <span className="text-baseMain text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span>
-                                <span className="text-baseMain text-[#002A42]">В наявності: 30</span>
-                            </div>
-                        </div>
-                        <div className="new-receipts-product-card">
-                            <div className="new-receipts-product-img">
-                                <div className="new-reseipts-right-circle">
-                                    <div className="receipts-circle-block"><span>Save <br /> 10%</span></div>
-                                </div>
-                            </div>
-                            <div className="receipts-product-img-labels">
-                                <span className="text-lgMain">Nintendo Switch Console</span>
-                                <br />
-                                <span className="text-xlBiggerMain text-[#002A42] pr-4">12 399 грн</span>
-                                <span className="text-baseMain line-through text-[#828282]">14 800 грн</span>
-                                <br />
-                                <span className="text-baseMain text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span>
-                                <span className="text-baseMain text-[#002A42]">В наявності: 30</span>
-                            </div>
-                        </div>
-                        <div className="new-receipts-product-card">
-                            <div className="new-receipts-product-img">
-                                <div className="new-reseipts-right-circle">
-                                    <div className="receipts-circle-block"><span>Save <br /> 10%</span></div>
-                                </div>
-                            </div>
-                            <div className="receipts-product-img-labels">
-                                <span className="text-lgMain">Nintendo Switch Console</span>
-                                <br />
-                                <span className="text-xlBiggerMain text-[#002A42] pr-4">12 399 грн</span>
-                                <span className="text-baseMain line-through text-[#828282]">14 800 грн</span>
-                                <br />
-                                <span className="text-baseMain text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span>
-                                <span className="text-baseMain text-[#002A42]">В наявності: 30</span>
-                            </div>
-                        </div>
-                        <div className="new-receipts-product-card">
-                            <div className="new-receipts-product-img">
-                                <div className="new-reseipts-right-circle">
-                                    <div className="receipts-circle-block"><span>Save <br /> 10%</span></div>
-                                </div>
-                            </div>
-                            <div className="receipts-product-img-labels">
-                                <span className="text-lgMain">Nintendo Switch Console</span>
-                                <br />
-                                <span className="text-xlBiggerMain text-[#002A42] pr-4">12 399 грн</span>
-                                <span className="text-baseMain line-through text-[#828282]">14 800 грн</span>
-                                <br />
-                                <span className="text-baseMain text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span>
-                                <span className="text-baseMain text-[#002A42]">В наявності: 30</span>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </div>
@@ -655,192 +545,64 @@ const HomePage = () => {
                 </div>
                 <div className="last-element-main mt-10">
                     <div className="last-element-first-container">
-                        <div className="last-element-card">
-                            <div>
-                                <img src={example} />
+                        {products?.payload.slice(0, 4).map((product: any) => (
+                            <div className="last-element-card">
+                                <div>
+                                    <img src={`data:image/png;base64,${product.image}`} />
+                                </div>
+                                <div>
+                                    <span className="text-[12px]">{product.category}</span>
+                                    <br />
+                                    <span className="text-[15px] whitespace-nowrap overflow-hidden text-ellipsis inline-block">{product.name}</span>
+                                    <br />
+                                    <span className="text-[13px] text-[#697475] line-through mr-2">{product.price} грн</span>
+                                    <span className="text-[15px] text[#002A42]">{product.discount} грн</span>
+                                    <br />
+                                    <button className="text-[15px] text-[white]">Додати в кошик</button>
+                                </div>
                             </div>
-                            <div>
-                                <span className="text-[12px]">Bin Bakar Електроніка</span>
-                                <br />
-                                <span className="text-[15px]">Samsung 40N5300 S..</span>
-                                <br />
-                                <span className="text-[13px] text-[#697475] line-through mr-2">14 800 грн.</span>
-                                <span className="text-[15px] text[#002A42]">12 399 грн.</span>
-                                <br />
-                                <button className="text-[15px] text-[white]">Додати в кошик</button>
-                            </div>
-                        </div>
-                        <div className="last-element-card">
-                            <div>
-                                <img src={example} />
-                            </div>
-                            <div>
-                                <span className="text-[12px]">Bin Bakar Електроніка</span>
-                                <br />
-                                <span className="text-[15px]">Samsung 40N5300 S..</span>
-                                <br />
-                                <span className="text-[13px] text-[#697475] line-through mr-2">14 800 грн.</span>
-                                <span className="text-[15px] text[#002A42]">12 399 грн.</span>
-                                <br />
-                                <button className="text-[15px] text-[white]">Додати в кошик</button>
-                            </div>
-                        </div>
-                        <div className="last-element-card">
-                            <div>
-                                <img src={example} />
-                            </div>
-                            <div>
-                                <span className="text-[12px]">Bin Bakar Електроніка</span>
-                                <br />
-                                <span className="text-[15px]">Samsung 40N5300 S..</span>
-                                <br />
-                                <span className="text-[13px] text-[#697475] line-through mr-2">14 800 грн.</span>
-                                <span className="text-[15px] text[#002A42]">12 399 грн.</span>
-                                <br />
-                                <button className="text-[15px] text-[white]">Додати в кошик</button>
-                            </div>
-                        </div>
-                        <div className="last-element-card">
-                            <div>
-                                <img src={example} />
-                            </div>
-                            <div>
-                                <span className="text-[12px]">Bin Bakar Електроніка</span>
-                                <br />
-                                <span className="text-[15px]">Samsung 40N5300 S..</span>
-                                <br />
-                                <span className="text-[13px] text-[#697475] line-through mr-2">14 800 грн.</span>
-                                <span className="text-[15px] text[#002A42]">12 399 грн.</span>
-                                <br />
-                                <button className="text-[15px] text-[white]">Додати в кошик</button>
-                            </div>
-                        </div>
+                        ))}
                     </div>
 
                     <div className="last-element-second-container">
-                        <div className="last-element-card">
-                            <div>
-                                <img src={example} />
+                        {products?.payload.slice(4, 8).map((product: any) => (
+                            <div className="last-element-card">
+                                <div>
+                                    <img src={`data:image/png;base64,${product.image}`} />
+                                </div>
+                                <div>
+                                    <span className="text-[12px]">{product.category}</span>
+                                    <br />
+                                    <span className="text-[15px] whitespace-nowrap overflow-hidden text-ellipsis inline-block">{product.name}</span>
+                                    <br />
+                                    <span className="text-[13px] text-[#697475] line-through mr-2">{product.price} грн</span>
+                                    <span className="text-[15px] text[#002A42]">{product.discount} грн</span>
+                                    <br />
+                                    <button className="text-[15px] text-[white]">Додати в кошик</button>
+                                </div>
                             </div>
-                            <div>
-                                <span className="text-[12px]">Bin Bakar Електроніка</span>
-                                <br />
-                                <span className="text-[15px]">Samsung 40N5300 S..</span>
-                                <br />
-                                <span className="text-[13px] text-[#697475] line-through mr-2">14 800 грн.</span>
-                                <span className="text-[15px] text[#002A42]">12 399 грн.</span>
-                                <br />
-                                <button className="text-[15px] text-[white]">Додати в кошик</button>
-                            </div>
-                        </div>
-                        <div className="last-element-card">
-                            <div>
-                                <img src={example} />
-                            </div>
-                            <div>
-                                <span className="text-[12px]">Bin Bakar Електроніка</span>
-                                <br />
-                                <span className="text-[15px]">Samsung 40N5300 S..</span>
-                                <br />
-                                <span className="text-[13px] text-[#697475] line-through mr-2">14 800 грн.</span>
-                                <span className="text-[15px] text[#002A42]">12 399 грн.</span>
-                                <br />
-                                <button className="text-[15px] text-[white]">Додати в кошик</button>
-                            </div>
-                        </div>
-                        <div className="last-element-card">
-                            <div>
-                                <img src={example} />
-                            </div>
-                            <div>
-                                <span className="text-[12px]">Bin Bakar Електроніка</span>
-                                <br />
-                                <span className="text-[15px]">Samsung 40N5300 S..</span>
-                                <br />
-                                <span className="text-[13px] text-[#697475] line-through mr-2">14 800 грн.</span>
-                                <span className="text-[15px] text[#002A42]">12 399 грн.</span>
-                                <br />
-                                <button className="text-[15px] text-[white]">Додати в кошик</button>
-                            </div>
-                        </div>
-                        <div className="last-element-card">
-                            <div>
-                                <img src={example} />
-                            </div>
-                            <div>
-                                <span className="text-[12px]">Bin Bakar Електроніка</span>
-                                <br />
-                                <span className="text-[15px]">Samsung 40N5300 S..</span>
-                                <br />
-                                <span className="text-[13px] text-[#697475] line-through mr-2">14 800 грн.</span>
-                                <span className="text-[15px] text[#002A42]">12 399 грн.</span>
-                                <br />
-                                <button className="text-[15px] text-[white]">Додати в кошик</button>
-                            </div>
-                        </div>
+                        ))}
                     </div>
 
+
                     <div className="last-element-third-container">
-                        <div className="last-element-card">
-                            <div>
-                                <img src={example} />
+                        {products?.payload.slice(4, 8).map((product: any) => (
+                            <div className="last-element-card">
+                                <div>
+                                    <img src={`data:image/png;base64,${product.image}`} />
+                                </div>
+                                <div>
+                                    <span className="text-[12px]">{product.category}</span>
+                                    <br />
+                                    <span className="text-[15px] whitespace-nowrap overflow-hidden text-ellipsis inline-block">{product.name}</span>
+                                    <br />
+                                    <span className="text-[13px] text-[#697475] line-through mr-2">{product.price} грн</span>
+                                    <span className="text-[15px] text[#002A42]">{product.discount} грн</span>
+                                    <br />
+                                    <button className="text-[15px] text-[white]">Додати в кошик</button>
+                                </div>
                             </div>
-                            <div>
-                                <span className="text-[12px]">Bin Bakar Електроніка</span>
-                                <br />
-                                <span className="text-[15px]">Samsung 40N5300 S..</span>
-                                <br />
-                                <span className="text-[13px] text-[#697475] line-through mr-2">14 800 грн.</span>
-                                <span className="text-[15px] text[#002A42]">12 399 грн.</span>
-                                <br />
-                                <button className="text-[15px] text-[white]">Додати в кошик</button>
-                            </div>
-                        </div>
-                        <div className="last-element-card">
-                            <div>
-                                <img src={example} />
-                            </div>
-                            <div>
-                                <span className="text-[12px]">Bin Bakar Електроніка</span>
-                                <br />
-                                <span className="text-[15px]">Samsung 40N5300 S..</span>
-                                <br />
-                                <span className="text-[13px] text-[#697475] line-through mr-2">14 800 грн.</span>
-                                <span className="text-[15px] text[#002A42]">12 399 грн.</span>
-                                <br />
-                                <button className="text-[15px] text-[white]">Додати в кошик</button>
-                            </div>
-                        </div>
-                        <div className="last-element-card">
-                            <div>
-                                <img src={example} />
-                            </div>
-                            <div>
-                                <span className="text-[12px]">Bin Bakar Електроніка</span>
-                                <br />
-                                <span className="text-[15px]">Samsung 40N5300 S..</span>
-                                <br />
-                                <span className="text-[13px] text-[#697475] line-through mr-2">14 800 грн.</span>
-                                <span className="text-[15px] text[#002A42]">12 399 грн.</span>
-                                <br />
-                                <button className="text-[15px] text-[white]">Додати в кошик</button>
-                            </div>
-                        </div>
-                        <div className="last-element-card">
-                            <div>
-                                <img src={example} />
-                            </div>
-                            <div>
-                                <span className="text-[12px]">Bin Bakar Електроніка</span>
-                                <br />
-                                <span className="text-[15px]">Samsung 40N5300 S..</span>
-                                <br />
-                                <span className="text-[13px] text-[#697475] line-through mr-2">14 800 грн.</span>
-                                <span className="text-[15px] text[#002A42]">12 399 грн.</span>
-                                <br />
-                                <button className="text-[15px] text-[white]">Додати в кошик</button>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </div>

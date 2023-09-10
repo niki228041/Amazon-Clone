@@ -112,6 +112,14 @@ export const apiProductSlice:any = createApi({
           }),
           providesTags:result=>['Product']
         }),
+        editProduct:builder.mutation<any,any>({
+          query:(todo)=>({
+            url:'/api/Products/EditProduct',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Product']
+        }),
         
     })
 })

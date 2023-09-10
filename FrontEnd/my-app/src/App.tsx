@@ -18,7 +18,7 @@ import EditProfile from "./components/Profile/EditProfile"
 import Player from './components/Player/Player';
 import LoginScreen from './components/Auth/Login';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetAccessToken } from './api/jwtDecodeToken';
+import { GetAccessToken, GetCurrency, SetCurrency } from './api/jwtDecodeToken';
 import { AuthUser } from './features/user/user-slice';
 
 import CreateOptions from './components/Options/CreateOptions';
@@ -57,7 +57,7 @@ import BecomeASeller from './components/Temp/BecomeASeller';
 import ViewMyOrders from './components/Temp/ViewMyOrders';
 import CardsSite from './components/Temp/CardsSite';
 import AddressSite from './components/Temp/AddressSite';
-import MyCompany from './components/Temp/MyCompany';
+import MyCompany from './components/Temp/MyCompanyTemp';
 import OrdersForSeller from './components/Temp/OrdersForSeller';
 import MusicFooter from './components/Player/MusicFooter';
 import Home from './components/Player/Tabs/Home';
@@ -90,6 +90,15 @@ import ProfileWrap from './components/Profile/ProfileWrap';
 import FAQList from './components/Admin/FAQList';
 import CreateFAQ from './components/Admin/CreateFAQ';
 import CreateAnswerToFAQ from './components/Admin/CreateAnswerToFAQ';
+import { ua } from './const/constants';
+import { setCurrency } from './features/user/CurrencyStateSlice';
+import HearAlbum from './components/Player/Album/HearAlbum';
+import Playlists from './components/Player/Tabs/Playlists';
+import EditCategory from './components/Admin/EditCategory';
+import EditProduct from './components/Admin/EditProduct';
+import CreateAlbum from './components/Player/Album/CreateAlbum';
+import SellerWrap from './components/Profile/SellerProfile/SellerWrap';
+import MySellerCompany from './components/Profile/SellerProfile/Tabs/MyCompany';
 
 
 
@@ -102,7 +111,10 @@ const App: React.FC = () => {
   var isAuth = useSelector((state: any) => state.user.isAuth);
 
 
+
+
   useEffect(() => {
+    dispatch(setCurrency(GetCurrency()!));
     if (token) {
       dispatch(AuthUser(token));
     }
@@ -111,9 +123,9 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {!isAuth ? 
+        
         <>
-          <Route path='/'
+          {/* <Route path='/'
             element={<>
                 <Outlet />
               </>}>
@@ -123,17 +135,17 @@ const App: React.FC = () => {
             <Route path="otppage" element={<OtpPage />} />
             <Route path="resetpassword/" element={<ResetPasswordScreen />} />
             <Route path="registration" element={<Registration />} />
-          </Route>
+          </Route> */}
 
-          <Route path='/*'
+          {/* <Route path='/*'
             element={
             <>
                <LoginScreen />
             </>}>
-          </Route>
+          </Route> */}
           </>
-          :
-          <>
+         
+          
         <Route path='/music' element={<><MusicHeader /><div className="flex flex-col bg-almostBlackColor" style={{ minHeight: "100vh" }}><Player /></div><MusicFooter /></>} >
           <Route path='home' element={<><MiniPlayer /><Home /></>} />
           <Route path='history' element={<History />} />
@@ -141,8 +153,15 @@ const App: React.FC = () => {
           <Route path='mytracks' element={<MyTracks />} />
           <Route path='createGenre' element={<CreateGenre />} />
           <Route path='createTrack' element={<CreateTrack />} />
+          <Route path='createAlbum' element={<CreateAlbum />} />
           <Route path='viewTrack/:trackId' element={<ViewTrack />} />
           <Route path='searchTracks' element={<SearchTracks />} />
+          <Route path='playlists' element={<Playlists />} />
+          
+
+          <Route path='album' >
+              <Route path=':id' element={<HearAlbum/>}/>
+          </Route>
           <Route path='profile' element={<MusicProfile />} >
             <Route path='main' element={<MainProfile />} />
             <Route path='settings' element={<SettingProfile />} />
@@ -182,6 +201,10 @@ const App: React.FC = () => {
                 <Route path='FAQs' element={<CreateFAQ/>} />
                 <Route path='createAnswerToFAQ/:faqId' element={<CreateAnswerToFAQ/>} />
               </Route>
+              <Route path='edit'>
+                <Route path='category/:categoryId' element={<EditCategory/>} />
+                <Route path='product/:productId' element={<EditProduct/>} />
+              </Route>
             </Route>
 
             
@@ -195,16 +218,23 @@ const App: React.FC = () => {
 
             
 
+            {isAuth ? 
+            <>
+              <Route path='/profile' element={<ProfileWrap/>}>
+                <Route path="" element={<ProfilePage />} />
+                <Route path="payment" element={<ProfileCards />} />
+                <Route path="security" element={<Security />} />
+                <Route path="profilehistory" element={<ProfileHistory />} />
+                <Route path='editprofile' element={<EditProfile />} />
+              </Route>
 
-            <Route path='/profile' element={<ProfileWrap/>}>
-              <Route path="" element={<ProfilePage />} />
-              <Route path="payment" element={<ProfileCards />} />
-              <Route path="security" element={<Security />} />
-              <Route path="profilehistory" element={<ProfileHistory />} />
-              <Route path='editprofile' element={<EditProfile />} />
-            </Route>
+              <Route path='/seller' element={<SellerWrap/>}>
+                <Route path='mycompany' element={<MySellerCompany/>} />
+              </Route>
             
-
+            </>
+            :""
+          } 
             <Route path='/giftCards' element={<GiftCards />} />
             <Route path='help' element={<Help/>} />
 
@@ -263,7 +293,8 @@ const App: React.FC = () => {
 
             </>}>
         </Route>
-
+        
+        {!isAuth?
         <Route path='/'
           element={
             <>
@@ -278,9 +309,9 @@ const App: React.FC = () => {
           <Route path="resetpassword/" element={<ResetPasswordScreen />} />
           <Route path="registration" element={<Registration />} />
         </Route>
-
-        </>
-        }
+        :""}
+          
+        
 
       </Routes>
     </BrowserRouter>

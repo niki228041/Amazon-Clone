@@ -4,7 +4,7 @@ import { apiProductSlice } from "../../features/user/apiProductSlice";
 import { Category, createProduct, Options, Variant, VariantDTO } from "./types";
 // import ReactQuill from "react-quill";
 // import 'react-quill/dist/quill.snow.css';
-import { useGetOptionsQuery } from "../../features/user/apiOptionsSlice";
+import { apiOptionsSlice, useGetOptionsQuery } from "../../features/user/apiOptionsSlice";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
 import { UserState } from "../../features/user/user-slice";
@@ -34,14 +34,18 @@ const CreateProduct=()=> {
     var [filesToSend,setFilesToSend] = useState([]);
 
     var navigate = useNavigate();
+    const [getOptions,{}] = apiOptionsSlice.useGetOptionsByCategoryIdToCreateProductMutation();
 
     const {data:categories,isSuccess} = useGetCategoriesQuery();
     var user = useAppSelector(((state: { user: UserState; orders: Orders })=>state.user.user));
 
-    const {data:options,isSuccess:isOptionsSuccess} = useGetOptionsQuery() as {
-      data: Options[];
-      isSuccess: boolean;
-    };
+    // const {data:options,isSuccess:isOptionsSuccess} = useGetOptionsQuery() as {
+    //   data: Options[];
+    //   isSuccess: boolean;
+    // };
+    var [options,setOptions] = useState<Options[]>();
+
+
 
     // console.log(options);
 
@@ -261,6 +265,15 @@ const CreateProduct=()=> {
     // console.log(response?.data);
   }
 
+  const handleOptionsByCategoryId=async(categoryId:number)=>{
+    if(Number.isInteger(categoryId))
+    {
+      setDivContent([]);
+      var res = await getOptions({id:categoryId});
+      setOptions(res.data);
+    }
+    
+  }
 
   
   const [divContent, setDivContent] = useState<JSX.Element[]>([]);
@@ -278,14 +291,14 @@ const CreateProduct=()=> {
     {
     const newElement = (
       <div key={value} >
-        <p>{options.find(opt=>opt.id==value)?.title} </p>
+        <p>{options?.find(opt=>opt?.id==value)?.title} </p>
         <div className="flex">
 
         <div className='rounded-full flex flex-col w-full'>
         <select name='Category' id={value.toString()} className=' bg-yellowForInputs text-[15px] mediumFont outline-none rounded-full h-10 pl-3 pr-3 bg-slate-100'>
           <option>-</option>
           {/* {companys.data.map} */}
-          {isSuccess ? options.find(opt=>opt.id==value)?.variants.map((a:Variant)=>{return <option value={a.id} key={a.id}>{a.title}</option>;}) : ""}
+          {isSuccess ? options?.find(opt=>opt?.id==value)?.variants.map((a:Variant)=>{return <option value={a.id} key={a.id}>{a.title}</option>;}) : ""}
         </select>
         </div>
         <button
@@ -303,7 +316,7 @@ const CreateProduct=()=> {
     for (let index = 0; index < inputIds.length; index++) {
       var tmp:any = document.getElementById(inputIds[index]);
       console.log("tmp");
-      if(tmp.id == value)
+      if(tmp?.id == value)
       {
         canBeCreated=false;
       }
@@ -500,7 +513,7 @@ const CreateProduct=()=> {
 
 
               <div className='rounded-full flex flex-col mb-4  pr-3'>
-                  <select name='Category' id="Category" className=' bg-yellowForInputs text-[15px] mediumFont outline-none rounded-full h-10 pl-3 pr-3'>
+                  <select onChange={(E)=>handleOptionsByCategoryId(parseInt(E.currentTarget.value))} name='Category' id="Category" className=' bg-yellowForInputs text-[15px] mediumFont outline-none rounded-full h-10 pl-3 pr-3'>
                     <option>-</option>
                     {/* {companys.data.map} */}
                     {isSuccess ? categories.payload?.map((a:Category)=>{return <option value={a.id} key={a.id}>{a.name}</option>;}) : ""}
@@ -564,7 +577,7 @@ const CreateProduct=()=> {
                     <select name='OptionsTitle' id="OptionsTitle" className=' bg-yellowForInputs text-[15px] mediumFont outline-none rounded-full h-10 pl-3 pr-3 bg-slate-100'>
                       <option>-</option>
                       {/* {companys.data.map} */}
-                      {isOptionsSuccess ? options.map((a:Options)=>{return <option value={a.id} key={a.id}>{a.title}</option>;}) : ""}
+                      {options?.map((a:Options)=>{return <option value={a.id} key={a.id}>{a.title}</option>;})}
                     </select>
                   </div>
                 </div>

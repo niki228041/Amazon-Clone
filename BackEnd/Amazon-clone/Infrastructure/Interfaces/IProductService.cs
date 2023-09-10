@@ -13,6 +13,7 @@ public interface IProductService
     Task<ServiceResponse> GetProductsAsync(GetProductsVM model);
     Task<ServiceResponse> GetProductCountAsync();
     Task<ServiceResponse> GetProductsAsync();
+    Task<ServiceResponse> EditProductAsync(EditProductDTO model);
     Task<ServiceResponse> GetProductByCategoryIdWithPagination(GetProductsWithPaginationAndByCategoryIdDTO model);
     Task DeleteProductAsync(int id);
     Task<ServiceResponse> GetProductWithLimitByCategoryIdAsync(RecomendedProductDTO model);

@@ -3,21 +3,13 @@
 pipeline  {
     agent any;
     stages {
-        stage("Remove old backup")
-         {
-             steps{
-                sh "sudo rm -rf /home/azureuser/backup/*"
-             }
-         }
+        
          stage("Backup files")
          {
              steps{
                 sh """
-                sudo docker cp  backend:/app/comment_images /home/azureuser/backup/   
-                sudo docker cp  backend:/app/company_images /home/azureuser/backup/ 
-                sudo docker cp  backend:/app/images /home/azureuser/backup/ 
-                sudo docker cp  backend:/app/music_files /home/azureuser/backup/ 
-                sudo docker cp  backend:/app/music_images /home/azureuser/backup/
+                #!/bin/bash
+                sudo /home/azureuser/backup.sh
                 """
              }
          }
@@ -46,10 +38,18 @@ pipeline  {
             sh "sudo docker system prune -af"
          }   
         }
+       
         stage ("Run MSSQL container"){
             steps{
                 sh 'docker run  --restart=always -v /home/db:/var/opt/mssql -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Qwerty-1" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest'
             }
+        }
+         stage ("SonarQube test"){
+           steps{
+            sh '''#!/bin/sh
+            sudo /home/azureuser/sonartest.sh
+            '''
+            } 
         }
         stage("Create frontend docker image") {
             steps {
@@ -125,6 +125,7 @@ pipeline  {
             
                 echo "=========== Log out from Docker Hub =================="
                 sh '''
+                sudo systemctl start sonarqube
                 docker logout
                 '''
         }

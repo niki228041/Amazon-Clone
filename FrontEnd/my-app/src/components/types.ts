@@ -39,9 +39,6 @@ export interface OneProductVM{
     companyVM:Company,
 }
 
-
-
-
 export interface SelectedOption{
     title:string,
     isBaseOptions:boolean,
@@ -83,6 +80,8 @@ export interface OrderForSeller{
 }
 
 export interface OrderedProductUpdated{
+    id:number,
+    isBought:boolean,
     count:number,
     product:Product
 }

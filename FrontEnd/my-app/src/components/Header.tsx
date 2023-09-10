@@ -41,13 +41,17 @@ import { BurgerModal } from "./BurgerModal";
 import classNames from "classnames";
 import { CardModal } from "./BuyProduct/CardModal";
 import { AdressModal } from "./BuyProduct/AdressModal";
+import { GetCurrency, SetCurrency } from "../api/jwtDecodeToken";
+import { ua, us, eu } from "../const/constants";
+import { setCurrency } from "../features/user/CurrencyStateSlice";
 
 
 const Header = () => {
   const orders = useAppSelector((state) => state.orders);
   var user = useAppSelector(((state: { user: UserState; orders: Orders }) => state.user.user));
   var orderWasAdded = useAppSelector((state) => state.orders.orderWasAdded);
-
+  var isAuth = useAppSelector((state) => state.user.isAuth);
+  
   const [onSearch, setSearch] = useState(false);
   const [inputText, setInputText] = useState("");
   const [dropdown, setDropdown] = useState(false);
@@ -77,6 +81,7 @@ const Header = () => {
     console.log("yo");
     
   },[orderWasAdded])
+
 
 
 
@@ -119,6 +124,11 @@ const Header = () => {
   }
 
   const [isBurgerOpen,setIsBurgerOpen] = useState(false);
+  const [isCurrencyDrop,setCurrencyDrop] = useState(false);
+
+  useEffect(()=>{
+    console.log(GetCurrency());
+  },[isCurrencyDrop])
 
   var loc = useLocation();
 
@@ -139,43 +149,69 @@ const Header = () => {
     <AdressModal/>
     
     <div className="sticky z-30 bg-white">
-    <div className="top-header text-sm">
-      <div className="left-elements">
-        <div className="language-container">
-          <img src={languagelogo} />
-          <span>Мова</span>
-          <img src={arrowDown} />
+
+    <div className="relarive">
+
+      <div className="top-header text-sm">
+        <div className="">
+
+          <div className="left-elements">
+            <div className="language-container">
+              <img src={languagelogo} />
+              <span>Мова</span>
+              <img src={arrowDown} />
+            </div>
+
+            <div className=" relative">
+
+              <div onClick={()=>setCurrencyDrop(!isCurrencyDrop)} className="currency-container">
+                <img src={currency} />
+                <span>Валюта</span>
+                <img src={arrowDown} />
+              </div>
+
+              {isCurrencyDrop?
+              <div className=" bg-white border w-full right-0 absolute z-30">
+                <div onClick={()=>{dispatch(setCurrency(ua)); SetCurrency(ua);setCurrencyDrop(false)}} className="py-1 px-2 cursor-pointer hover:bg-gray-200 active:bg-gray-400">Гривня</div>
+                <hr/>
+                <div onClick={()=>{dispatch(setCurrency(eu));SetCurrency(eu);setCurrencyDrop(false)}} className="py-1 px-2 cursor-pointer hover:bg-gray-200 active:bg-gray-400">Євро</div>
+                <hr/>
+                <div onClick={()=>{dispatch(setCurrency(us));SetCurrency(us);setCurrencyDrop(false)}} className="py-1 px-2 cursor-pointer hover:bg-gray-200 active:bg-gray-400">Долар</div>
+              </div>
+              :""}
+            </div>
+
+          </div>
+          
         </div>
-        <div className="currency-container">
-          <img src={currency} />
-          <span>Валюта</span>
-          <img src={arrowDown} />
+
+        <div className="right-elements">
+          <div className="pr-5 grid grid-cols-5 gap-4">
+            <img src={facebook} />
+            <img src={instagram} />
+            <img src={In} />
+            <img src={twitter} />
+            <img src={youtube} />
+          </div>
+          <div className="trackOrder-container">
+            <img src={trackOrder} />
+            <span>Відслідкувати замовлення</span>
+          </div>
+          <Link to="/seller" className="shop-container">
+            <img src={shop} />
+            <span>Магазин</span>
+          </Link>
+          <div className="settings-container">
+            <img src={settings} />
+            <span>Налаштування</span>
+          </div>
+          <Link to="/help" className="faq-container">
+            <span>FAQ</span>
+          </Link>
         </div>
       </div>
-      <div className="right-elements">
-        <div className="pr-5 grid grid-cols-5 gap-4">
-          <img src={facebook} />
-          <img src={instagram} />
-          <img src={In} />
-          <img src={twitter} />
-          <img src={youtube} />
-        </div>
-        <div className="trackOrder-container">
-          <img src={trackOrder} />
-          <span>Відслідкувати замовлення</span>
-        </div>
-        <div className="shop-container">
-          <img src={shop} />
-          <span>Магазин</span>
-        </div>
-        <div className="settings-container">
-          <img src={settings} />
-          <span>Налаштування</span>
-        </div>
-        <Link to="/help" className="faq-container">
-          <span>FAQ</span>
-        </Link>
-      </div>
+      
+      
     </div>
 
     <div className="header grid text-whiteForHeader relative z-20 bg-white ">
@@ -233,7 +269,7 @@ const Header = () => {
 
       <div className=" xl:block lg:block sm:block hidden">
         <div className=" grid grid-cols-4 xl:pr-9">
-          <Link to="/profile" className="singindiv">
+          <Link to={isAuth?"/profile":"/login"} className="singindiv">
             <div className="image-container">
               <img src={profile} alt="Profile"  />
             </div>
@@ -290,7 +326,7 @@ const Header = () => {
         <div className="underheader text-[6px] lg:text-sm xl:text-sm flex justify-between px-10 xl:h-10 h-6">
           <div onClick={() => navigate("/todaysDeals")}                  className="  w-full text-white hover:outline hover:outline-[1px]  outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center ">Сьогоднішні пропозиції</div>
           <div className="hidden xl:block w-full"><div onClick={() => navigate("/giftCards")}                  className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer   h-full flex items-center font-medium justify-center ">Подарункові карти </div></div>
-          <div onClick={() => navigate("/products")}                  className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Обслуговування клієнтів </div>
+          <div onClick={() => navigate("/help")}                  className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Обслуговування клієнтів </div>
           <div className="hidden xl:block w-full"><div onClick={() => navigate("/admin/products")}            className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Сторінка для адміна</div></div>
           <div onClick={() => navigate("/music/home")}                className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer h-full flex items-center font-medium justify-center">Музика</div>
           <div onClick={() => navigate("/tempProfile/becomeASeller")} className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Тимчасовий Профіль</div>

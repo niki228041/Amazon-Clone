@@ -48,6 +48,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryImageRepository, CategoryImageRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductImageRepository, ProductImageRepository>();
 //builder.Services.AddTransient<UserService>();
@@ -72,12 +73,14 @@ builder.Services.AddScoped<ITrackCommentRepository, TrackCommentRepository>();
 builder.Services.AddScoped<ITrackGenreRepository, TrackGenreRepository>();
 builder.Services.AddScoped<IFAQRepository, FAQRepository>();
 builder.Services.AddScoped<IAnswerFAQRepository, AnswerFAQRepository>();
+builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
 
 
 
 //Services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICategoryImageService, CategoryImageService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductImageService, ProductImageService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
@@ -94,6 +97,7 @@ builder.Services.AddScoped<ITrackHistoryService, TrackHistoryService>();
 builder.Services.AddScoped<ITrackCommentService, TrackCommentService>();
 builder.Services.AddScoped<IFAQService, FAQService>();
 builder.Services.AddScoped<IAnswerFAQService, AnswerFAQService>();
+builder.Services.AddScoped<IAlbumService, AlbumService>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

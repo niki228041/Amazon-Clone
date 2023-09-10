@@ -665,4 +665,67 @@ public class ProductService : IProductService
             Payload = randomProducts
         };
     }
+
+    public async Task<ServiceResponse> EditProductAsync(EditProductDTO model)
+    {
+        var oldProduct = await _productRepository.GetById(model.ProductId);
+
+
+
+        var product = _mapper.Map(model, oldProduct);
+
+        bool isFirstPicture = true;
+
+        var variantsIds = new List<int>(); 
+        model.Variants_.ForEach(vr=> variantsIds.Add(vr.Id));
+
+        if (product != null)
+        {
+            await _productRepository.RemoveVariantProductsAsync(product.Id);
+            await _productRepository.AddVariantProductsToProductAsync(product.Id, variantsIds);
+            await _productRepository.RemoveProductImagesAsync(product.Id);
+            await _productRepository.Update(product);
+            await _productRepository.SaveChangesAsync();
+
+            foreach (var img in model.Images_)
+            {
+                var imgTemplate = img.Data;
+                var imgFileName = await _imageService.SaveImageAsync(imgTemplate, DirectoriesInProject.ProductImages);
+
+                if (string.IsNullOrEmpty(imgFileName))
+                {
+                    return new ServiceResponse
+                    {
+                        Message = "Проблема з форматом картинки!",
+                        IsSuccess = false,
+                    };
+                }
+
+
+                ProductImage new_img_to_upload = new ProductImage { Name = imgFileName, ProductId = product.Id };
+
+                if (isFirstPicture == true)
+                {
+                    new_img_to_upload.IsMainImage = true;
+                    isFirstPicture = false;
+                }
+
+                await _productImageService.CreateProductImageAsync(new_img_to_upload);
+            }
+
+            return new ServiceResponse
+            {
+                Message = "Продукт був успішно оновлений!",
+                IsSuccess = true,
+                Payload = "ok"
+            };
+        }
+
+
+        return new ServiceResponse
+        {
+            Message = "Продукт не був успішно оновлений!",
+            IsSuccess = false,
+        };
+    }
 }

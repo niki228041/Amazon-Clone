@@ -31,6 +31,7 @@ module.exports = {
         grayForPlayerColor:"#252525",
         almostBlackColor:"#101010",
         middleGrayColor:"#353535",
+        playerSelectedTabColor:"#1E1E1E",
         orangeColor:"#E9671E",
         almostWhiteColor:"#C9C9C9",
         whiteGrayColor:"#474747",

@@ -43,6 +43,7 @@ namespace ShopApi.Controllers
             return BadRequest();
         }
 
+
         [HttpGet("GetProduct")]
         public async Task<IActionResult> GetProductAsync(string title)
         {
@@ -58,7 +59,6 @@ namespace ShopApi.Controllers
 
         [HttpPost]
         [Route("CreateProduct")]
-        [DisableRequestSizeLimit]
         public async Task<IActionResult> CreateProductAsync(CreateProductDTO model) 
         {
             var res = await _productService.CreateProductAsync(model);
@@ -69,9 +69,9 @@ namespace ShopApi.Controllers
             return BadRequest(res);
         }
 
+
         [HttpPost]
         [Route("GetProductWithLimitByCategoryId")]
-        [DisableRequestSizeLimit]
         public async Task<IActionResult> GetProductWithLimitByCategoryIdAsync(RecomendedProductDTO model)
         {
             var productsBoxing = await _productService.GetProductWithLimitByCategoryIdAsync(model);
@@ -267,6 +267,17 @@ namespace ShopApi.Controllers
            
             return imagesLinks;
         }
-        
+
+        [HttpPost]
+        [Route("EditProduct")]
+        public async Task<IActionResult> EditProductAsync(EditProductDTO model)
+        {
+            var res = await _productService.EditProductAsync(model);
+            if (res.IsSuccess)
+            {
+                return Ok(res);
+            }
+            return BadRequest(res);
+        }
     }
 }
