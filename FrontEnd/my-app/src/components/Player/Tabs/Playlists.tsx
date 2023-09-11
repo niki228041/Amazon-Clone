@@ -11,7 +11,7 @@ import { TrackFromServer } from '../Player';
 import { useDispatch } from 'react-redux';
 import { changeTrack, setIsPlay } from '../../../features/user/musicStateSlice';
 import { addHistoryElement } from './MyTracks';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 export interface Album{
@@ -34,7 +34,6 @@ export const AlbumItem=({ album,changePressed }
     const [isLikePressed, setLikePressed] = useState(false);
     const [isSongPressed, setSongPressed] = useState(false);
     const dispath = useDispatch();
-
 
 
     return(
@@ -65,6 +64,7 @@ const Playlists=()=> {
 
   const {data:albums,isSuccess:isSuccessTracks}:{data:{payload:Album[]},isSuccess:boolean} = useGetAlbumsByUserIdQuery({id:user.id});
   const dispath = useDispatch();
+  const navigate = useNavigate();
 
   console.log("albums");
   console.log(albums?.payload);
@@ -97,7 +97,10 @@ const Playlists=()=> {
     <div className="bg-middleGrayColor rounded-lg mt-2 self-center gap-3 text-white text-[15px] select-none py-3 px-6">
         <div className='flex justify-between'>
             <p className=' text-xl font-semibold'>Playlists</p>
-            <input value={inputText} onChange={event => handleGo(event.target.value)} placeholder='Search a song..' className=" self-center bg-white rounded-full h-6 text-black text-[12px] px-4 pr-8"/>
+            <div>
+              <input value={inputText} onChange={event => handleGo(event.target.value)} placeholder='Search a song..' className=" self-center bg-white rounded-full h-6 text-black text-[12px] px-4 pr-8 mr-2"/>
+              <button onClick={()=>{navigate("/music/createAlbum")}} className='ml-2 px-10 transition-all active:bg-slate-50/50 py-2 bg-whiteGrayColor rounded-xl'>Add Playlist</button>
+            </div>
         </div>
 
         <div className='grid grid-cols-5'>

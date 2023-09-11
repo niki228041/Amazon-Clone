@@ -3,7 +3,7 @@
 
 import { Link, Outlet, useLocation, useNavigate, useParams} from 'react-router-dom'
 import img from '../../images/t-shirt-png.webp'
-import { useGetCommentsByProductIdQuery, useGetProductByIdQuery, useGetProductsQuery } from '../../features/user/apiProductSlice';
+import { apiProductSlice, useGetCommentsByProductIdQuery, useGetProductByIdQuery, useGetProductsQuery } from '../../features/user/apiProductSlice';
 import { ChangeOrderCount, OneProductVM, Order, Product, SelectedOption } from '../types';
 import { useAppSelector } from '../../app/hooks';
 import { useDispatch } from 'react-redux';
@@ -77,6 +77,12 @@ const OneProduct=()=>{
     // const {data:recomendedProducts_1 }:{data:{payload:Product[]}} = useGetProductWithLimitByCategoryIdQuery(request);
     // const {data:recomendedProducts_2 }:{data:{payload:Product[]}} = useGetProductWithLimitByCategoryIdQuery(request);
 
+    var [recomendedProducts_1,setRecomendedProducts_1] = useState<Product[]>([]);
+    var [recomendedProducts_2,setRecomendedProducts_2] = useState<Product[]>([]);
+
+    var request:getRecomendedProducts = {limit:6,categoryId:0}; 
+    const [getRecomendedProducts,{}] = apiProductSlice.useGetProductWithLimitByCategoryIdMutation();
+
     var [mainImage,setMainImage] = useState("");
     var [starsRating,setStarsRating] = useState("");
     const user = useAppSelector((state)=>state.user.user);
@@ -88,8 +94,6 @@ const OneProduct=()=>{
         isSuccess: boolean;
     };
     
-
-
 
     const handleAddNewOrder=(data:OneProductVM)=>{
         console.log(orders.orders);
@@ -265,6 +269,19 @@ const OneProduct=()=>{
             handleStarsRetingFunctionality();
         }
 
+        if (recomendedProducts_1?.length <= 0) {
+          getRecomendedProducts(request).then((res: any) => {
+            console.log(res.data?.payload);
+            setRecomendedProducts_1(res.data?.payload);
+          });
+        }
+
+        if (recomendedProducts_2?.length <= 0) {
+            getRecomendedProducts(request).then((res: any) => {
+              console.log(res.data?.payload);
+              setRecomendedProducts_2(res.data?.payload);
+            });
+          }
     },[isSuccess,stars,location.pathname,data?.payload.images[0],data?.payload.comments])
 
 
@@ -274,8 +291,8 @@ const OneProduct=()=>{
     return <>
 
         <div className="mx-auto mt-10 w-11/12 lg:w-10/12 xl:w-9/12">
-            <div className='grid xl:grid-cols-10 grid-cols-3 sm:grid-cols-1 p-2 xl:py-4 xl:gap-4 border border-grayColorForBorder rounded-lg'>
-                    <div className='col-span-3'>
+            <div className='grid grid-cols-10 p-2 xl:py-4 border border-grayColorForBorder rounded-lg'>
+                    <div className='xl:col-span-3 col-span-10'>
                         <div className='rounded-lg border border-grayColorForBorder '>
                             <div className='h-[410px] bg-contain bg-no-repeat bg-center' style={{backgroundImage: `url(${mainImage})`}} />
                         </div>
@@ -286,7 +303,7 @@ const OneProduct=()=>{
                         </div>
                     </div>
 
-                    <div className='col-span-4 xl:px-8'>
+                    <div className='xl:col-span-4 col-span-10 xl:px-8'>
                         <div className='flex '>
                             <img className='h-6 self-center' src={data?.payload.isInTheStock ? check : ""} /> 
                             <p className={classNames(
@@ -338,10 +355,7 @@ const OneProduct=()=>{
                         </div>
 
                         <div className='w-full mt-2 py-3 text-[15px]'>
-                            <div className='my-2 grid grid-cols-4'>
-                                <span className=' text-grayForText col-span-1  self-center'>Ціна:</span>
-                                <span className='col-span-3'>${data?.payload.price}</span>
-                            </div>
+                            
                             <div className='w-full mt-2 py-3 text-[15px]'>
                                 <div className='my-2 grid grid-cols-4'>
                                     <span className=' text-grayForText col-span-1  self-center'>Ціна:</span>
@@ -370,7 +384,7 @@ const OneProduct=()=>{
                         </div>
                     </div>
 
-                    <div className='col-span-3 px-2 xl:pl-10'>
+                    <div className='xl:col-span-3 col-span-10 px-2 xl:pl-10'>
                         <div className='border border-grayColorForBorder rounded-lg p-3'>
                             <div className=' flex'>
                                 <div className=' bg-slate-400 w-16 h-16 rounded-lg bg-cover'  style={{backgroundImage: `url(${data?.payload.companyVM?.image})`}}/>
@@ -450,7 +464,7 @@ const OneProduct=()=>{
                         <div className='ml-2 col-span-3 hidden  xl:block'>
                             <div className='border border-grayColorForBorder rounded-lg p-4'>
                             <p className=' font-semibold'>Вам може сподобатись</p>
-                            {/* {recomendedProducts_1?.payload.map((prod)=>{
+                            {recomendedProducts_1?.map((prod)=>{
                                 return <>
                                     <Link  onClick={()=>handleLinkClick()} to={"/product/description/"+prod.id} className='flex mt-4 h-[70px] my-4 mb-8'>
                                         <div>
@@ -464,7 +478,7 @@ const OneProduct=()=>{
                                         </div>
                                     </Link>
                                 </>
-                            })} */}
+                            })}
 
                             {/* <div className='flex mt-4 h-[70px] my-4 mb-8'>
                                 <div className='h-[80px] w-[80px] rounded-lg border bg-contain bg-no-repeat bg-center mr-2' style={{backgroundImage: `url(${mainImage})`}}  />
@@ -507,7 +521,7 @@ const OneProduct=()=>{
                         <p className='p-2  font-semibold'>Схожі товари</p>
                         <div className='mb-4 grid grid-cols-3 xl:grid-cols-6  xl:gap-2'>
 
-                        {/* {recomendedProducts_2?.payload.map((prod)=>{
+                        {recomendedProducts_2?.map((prod)=>{
                             return <>
                                 <Link onClick={()=>handleLinkClick()} to={"/product/description/"+prod.id}>
                                     <div className='p-2'>
@@ -517,7 +531,7 @@ const OneProduct=()=>{
                                     </div>
                                 </Link>
                             </>
-                        })} */}
+                        })}
 
 
 

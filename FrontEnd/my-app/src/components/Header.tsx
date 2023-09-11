@@ -197,10 +197,10 @@ const Header = () => {
             <img src={trackOrder} />
             <span>Відслідкувати замовлення</span>
           </div>
-          <div className="shop-container">
+          <Link to="/seller/mycompany" className="shop-container">
             <img src={shop} />
             <span>Магазин</span>
-          </div>
+          </Link>
           <div className="settings-container">
             <img src={settings} />
             <span>Налаштування</span>
@@ -325,7 +325,7 @@ const Header = () => {
 
         <div className="underheader text-[6px] lg:text-sm xl:text-sm flex justify-between px-10 xl:h-10 h-6 ">
           <div onClick={() => navigate("/todaysDeals")}                  className="  w-full text-white hover:outline hover:outline-[1px]  outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center ">Сьогоднішні пропозиції</div>
-          <div className="hidden xl:block w-full"><div onClick={() => navigate("/products")}                  className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer   h-full flex items-center font-medium justify-center ">Подарункові карти </div></div>
+          <div className="hidden xl:block w-full"><div onClick={() => navigate("/giftCards")}                  className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer   h-full flex items-center font-medium justify-center ">Подарункові карти </div></div>
           <div onClick={() => navigate("/help")}                  className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Обслуговування клієнтів </div>
           <div onClick={() => navigate("/profile/profilehistory")}                  className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Історія покупок </div>
           <div className="hidden xl:block w-full"><div onClick={() => navigate("/aboutUs")}                   className="  w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer h-full flex items-center font-medium justify-center">Про нас</div></div>

@@ -57,7 +57,7 @@ import BecomeASeller from './components/Temp/BecomeASeller';
 import ViewMyOrders from './components/Temp/ViewMyOrders';
 import CardsSite from './components/Temp/CardsSite';
 import AddressSite from './components/Temp/AddressSite';
-import MyCompany from './components/Temp/MyCompany';
+import MyCompany from './components/Temp/MyCompanyTemp';
 import OrdersForSeller from './components/Temp/OrdersForSeller';
 import MusicFooter from './components/Player/MusicFooter';
 import Home from './components/Player/Tabs/Home';
@@ -96,6 +96,10 @@ import HearAlbum from './components/Player/Album/HearAlbum';
 import Playlists from './components/Player/Tabs/Playlists';
 import EditCategory from './components/Admin/EditCategory';
 import EditProduct from './components/Admin/EditProduct';
+import CreateAlbum from './components/Player/Album/CreateAlbum';
+import SellerWrap from './components/Profile/SellerProfile/SellerWrap';
+import MySellerCompany from './components/Profile/SellerProfile/Tabs/MyCompany';
+import SellerOrders from './components/Profile/SellerProfile/Tabs/SellerOrders';
 
 
 
@@ -150,6 +154,7 @@ const App: React.FC = () => {
           <Route path='mytracks' element={<MyTracks />} />
           <Route path='createGenre' element={<CreateGenre />} />
           <Route path='createTrack' element={<CreateTrack />} />
+          <Route path='createAlbum' element={<CreateAlbum />} />
           <Route path='viewTrack/:trackId' element={<ViewTrack />} />
           <Route path='searchTracks' element={<SearchTracks />} />
           <Route path='playlists' element={<Playlists />} />
@@ -215,13 +220,22 @@ const App: React.FC = () => {
             
 
             {isAuth ? 
-            <Route path='/profile' element={<ProfileWrap/>}>
-              <Route path="" element={<ProfilePage />} />
-              <Route path="payment" element={<ProfileCards />} />
-              <Route path="security" element={<Security />} />
-              <Route path="profilehistory" element={<ProfileHistory />} />
-              <Route path='editprofile' element={<EditProfile />} />
-            </Route>
+            <>
+              <Route path='/profile' element={<ProfileWrap/>}>
+                <Route path="" element={<ProfilePage />} />
+                <Route path="payment" element={<ProfileCards />} />
+                <Route path="security" element={<Security />} />
+                <Route path="profilehistory" element={<ProfileHistory />} />
+                <Route path='editprofile' element={<EditProfile />} />
+              </Route>
+
+              <Route path='/seller' element={<SellerWrap/>}>
+                <Route path='mycompany' element={<MySellerCompany/>} />
+                <Route path='toOrders' element={<SellerOrders/>} />
+                
+              </Route>
+            
+            </>
             :""
           } 
             <Route path='/giftCards' element={<GiftCards />} />
