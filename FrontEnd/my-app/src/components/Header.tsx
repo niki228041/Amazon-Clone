@@ -46,6 +46,7 @@ import { ua, us, eu } from "../const/constants";
 import { setCurrency } from "../features/user/CurrencyStateSlice";
 import RequestToLogin from "./ModalWindows/RequestToLogin";
 import { setLoginRequestWindow } from "../features/user/modalWindowsStateSlice";
+import { CompanyModal } from "./BuyProduct/CompanyModal";
 
 
 const Header = () => {
@@ -140,11 +141,11 @@ const Header = () => {
  }
 
 
-  const handleIsAuth=()=>{
+  const handleIsAuth=(path:string)=>{
     if(!isAuth)
       dispatch(setLoginRequestWindow(true));
     else
-      navigate("/profile");
+      navigate(path);
   }
 
   console.log(isBurgerOpen);
@@ -154,6 +155,7 @@ const Header = () => {
     <CardModal/>
     <AdressModal/>
     <RequestToLogin/>
+    <CompanyModal/>
     
     <div className="sticky z-30 bg-white">
 
@@ -204,10 +206,10 @@ const Header = () => {
             <img src={trackOrder} />
             <span>Відслідкувати замовлення</span>
           </div>
-          <Link to="/seller/mycompany" className="shop-container">
+          <div onClick={()=>handleIsAuth("/seller/mycompany")} className=" cursor-pointer shop-container">
             <img src={shop} />
             <span>Магазин</span>
-          </Link>
+          </div>
           <div className="settings-container">
             <img src={settings} />
             <span>Налаштування</span>
@@ -276,7 +278,7 @@ const Header = () => {
 
       <div className=" xl:block lg:block sm:block hidden">
         <div className=" grid grid-cols-4 xl:pr-9">
-          <div onClick={()=>handleIsAuth()} className="singindiv cursor-pointer">
+          <div onClick={()=>handleIsAuth("/profile")} className="singindiv cursor-pointer">
             <div className="image-container">
               <img src={profile} alt="Profile"  />
             </div>

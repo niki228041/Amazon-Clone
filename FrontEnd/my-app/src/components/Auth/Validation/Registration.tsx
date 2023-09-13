@@ -2,7 +2,7 @@ import * as yup from 'yup';
 
 
 export const registrationSchema = yup.object().shape({
-    userName:yup.string().required("Юзер нейм користувача є обов'язковим."),
+    displayName:yup.string().required("Юзер нейм користувача є обов'язковим."),
     firstName:yup.string().required("Ім'я є обов'язковим."),
     lastName:yup.string().required("Прізвище є обов'язковим."),
     email:yup.string().required("Емайл не може бути пустим.").email("Некоректний емайл."),

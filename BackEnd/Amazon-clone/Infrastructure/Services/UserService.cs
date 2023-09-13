@@ -55,6 +55,7 @@ namespace Infrastructure.Services
             }
 
             var newUser = _mapper.Map<RegisterViewModel, User>(model);
+            newUser.UserName = newUser.Email;
 
             var result = await _userRepository.RegisterUserAsync(newUser, model.Password);
             

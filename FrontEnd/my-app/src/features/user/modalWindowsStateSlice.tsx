@@ -8,12 +8,14 @@ export interface Modals{
     isCardOpen:boolean;
     isAddressOpen:boolean;
     isLoginRequestOpen:boolean;
+    isCompanyOpen:boolean;
 }
 
 const initialState:Modals= {
     isCardOpen:false,
     isAddressOpen:false,
-    isLoginRequestOpen:false
+    isLoginRequestOpen:false,
+    isCompanyOpen:false,
 };
 
 const modalWindowsStateSlice = createSlice(
@@ -31,6 +33,9 @@ const modalWindowsStateSlice = createSlice(
         setLoginRequestWindow(state,action: PayloadAction<boolean>){
             state.isLoginRequestOpen = action.payload;
         },
+        setCompanyModalWindow(state,action: PayloadAction<boolean>){
+            state.isCompanyOpen = action.payload;
+        },
     },
     extraReducers(builder){
     }
@@ -39,5 +44,5 @@ const modalWindowsStateSlice = createSlice(
 
 
 // export const {login,registration} = userSlice.actions;
-export const { setCardModalWindow,setAddressModalWindow,setLoginRequestWindow} = modalWindowsStateSlice.actions
+export const { setCardModalWindow,setAddressModalWindow,setLoginRequestWindow,setCompanyModalWindow} = modalWindowsStateSlice.actions
 export default modalWindowsStateSlice.reducer;

@@ -29,7 +29,7 @@ function RequestToLogin() {
         </div>
 
 
-        <div onClick={()=>{dispatch(setLoginRequestWindow(false)); navigate("/login");}} className='flex justify-center bg-mainYellowColor rounded-lg border py-1 px-10 my-5 text-white font-medium'>Увійти</div>
+        <div onClick={()=>{dispatch(setLoginRequestWindow(false)); navigate("/login");}} className='flex justify-center bg-mainYellowColor rounded-lg border py-1 px-10 my-5 text-white font-medium cursor-pointer'>Увійти</div>
 
       </div>
 
