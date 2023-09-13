@@ -65,6 +65,14 @@ namespace ShopApi.Controllers
             return Ok(result);
         }
 
+        [HttpPost("LeaveCompany")]
+        public async Task<IActionResult> LeaveCompanyByUserIdAsync(FindByIdVM model)
+        {
+            var result = await _companyService.LeaveCompanyByUserIdAsync(model.Id);
+            return Ok(result);
+        }
+
+
         [HttpPost]
         [Route("UploadImage")]
         public async Task<IActionResult> UploadImage([FromBody] UploadImageDTO model)

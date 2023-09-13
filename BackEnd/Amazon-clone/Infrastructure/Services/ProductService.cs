@@ -234,7 +234,7 @@ public class ProductService : IProductService
         var optionsToSend = new List<SelectedOptionVM>();
 
         
-
+        if(res != null)
         foreach (var variantProduct in res.VariantProducts)
         {
             var variant = await _variantRepository.GetById((int)variantProduct.VariantId);

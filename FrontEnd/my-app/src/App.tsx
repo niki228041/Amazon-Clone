@@ -232,7 +232,6 @@ const App: React.FC = () => {
               <Route path='/seller' element={<SellerWrap/>}>
                 <Route path='mycompany' element={<MySellerCompany/>} />
                 <Route path='toOrders' element={<SellerOrders/>} />
-                
               </Route>
             
             </>

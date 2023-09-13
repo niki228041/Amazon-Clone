@@ -19,6 +19,11 @@ interface AddAvatarToCompany{
   companyId:number,
 }
 
+interface ServerResponse{
+  message:string,
+  isSuccess:boolean
+}
+
 const MyCompanyTemp =()=> {
   var user = useAppSelector(((state: { user: UserState; orders: Orders })=>state.user.user));
 
@@ -29,16 +34,22 @@ const MyCompanyTemp =()=> {
 
   
   var [fileToSend,setFileToSend] = useState("");
+  var [serverError,setServerError] = useState<ServerResponse>({isSuccess:true,message:""});
   var [selectedImage,setSelectedImage] = useState();
   
 
-  const handleAddMember=(data:React.FormEvent<HTMLFormElement>)=>{
+  const handleAddMember= async (data:React.FormEvent<HTMLFormElement>)=>{
     data.preventDefault();
     var curentData = new FormData(data.currentTarget);
     var email = curentData?.get("email")?.toString()!;
 
     var request:AddUserToCompany = {userEmail:email,companyId:company.id};
-    addUserToCompany(request);
+    var res = await addUserToCompany(request);
+
+    if(res?.data){
+      setServerError({isSuccess:res.data.isSuccess,message:res?.data.message});
+    }
+
   }
 
   
@@ -114,6 +125,7 @@ const MyCompanyTemp =()=> {
           <button className=' hover:bg-orange-500 bg-orange-600 py-1 px-5 mt-2 rounded-lg text-white'>
               Add Member to your company
           </button>
+          <p>{serverError?.message}</p>
         </form>
         
         <div className=' col-span-1 m-auto'>

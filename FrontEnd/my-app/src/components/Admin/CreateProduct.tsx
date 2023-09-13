@@ -4,7 +4,7 @@ import { apiProductSlice } from "../../features/user/apiProductSlice";
 import { Category, createProduct, Options, Variant, VariantDTO } from "./types";
 // import ReactQuill from "react-quill";
 // import 'react-quill/dist/quill.snow.css';
-import { apiOptionsSlice, useGetOptionsQuery } from "../../features/user/apiOptionsSlice";
+import { apiOptionsSlice, useGetAllBaseOptionsAsyncQuery, useGetOptionsQuery } from "../../features/user/apiOptionsSlice";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
 import { UserState } from "../../features/user/user-slice";
@@ -45,7 +45,7 @@ const CreateProduct=()=> {
     // };
     var [options,setOptions] = useState<Options[]>();
 
-
+    const { data: baseOptions }:{data:Options[]} = useGetAllBaseOptionsAsyncQuery();
 
     // console.log(options);
 
@@ -95,22 +95,22 @@ const CreateProduct=()=> {
 
       if(imagesToShow.length <=0)
       {
-        console.log("Select at least one picture!!");
-        setServerErrorLogin("Select at least one picture!!");
+        console.log("Виберіть хоча б одну картинку!!");
+        setServerErrorLogin("Виберіть хоча б одну картинку!!");
         canCreate=false;
       }
 
       if(categoryId == '-')
       {
-        console.log("Select product Category!!");
-        setServerErrorLogin("Select product Category!!");
+        console.log("Виберіть категорію товару!!");
+        setServerErrorLogin("Виберіть категорію товару!!");
         canCreate=false;
       }
 
       if(variantsIds.length<=0 )
       {
-        console.log("Select at least one Variant!!");
-        setServerErrorLogin("Select at least one Variant!!");
+        console.log("Виберіть принаймні один варіант, якщо ви хочете використовувати власні варіанти, вам потрібно створити варіант і додати його до своєї категорії!!");
+        setServerErrorLogin("Виберіть принаймні один варіант, якщо ви хочете використовувати власні варіанти, вам потрібно створити варіант і додати його до своєї категорії!!");
 
         canCreate=false;
       }
@@ -189,9 +189,9 @@ const CreateProduct=()=> {
               setServerErrorLogin(res.data.message);
             }
             
-            if(res.data.isSuccess)
+            if(res?.data?.isSuccess)
             {
-              // navigate("/products");
+              navigate("/todaysDeals");
             }
           })
 
@@ -270,11 +270,15 @@ const CreateProduct=()=> {
     {
       setDivContent([]);
       var res = await getOptions({id:categoryId});
-      setOptions(res.data);
+      var allOptions = res.data;
+      setOptions(allOptions);
+      baseOptions.forEach(element => {
+        setOptions((prev)=>[...prev!,element]);
+        console.log(element);
+      });
     }
     
   }
-
   
   const [divContent, setDivContent] = useState<JSX.Element[]>([]);
   const [inputValues, setInputValues] = useState<string[]>([]);
@@ -344,7 +348,10 @@ const CreateProduct=()=> {
 
   useEffect(()=>{
     // console.log(options);
-  },[options])
+    if(baseOptions && options == null)
+      setOptions(baseOptions);
+
+  },[options,baseOptions])
     
     return <>
     <div className="flex flex-col justify-center px-6 py-12 lg:px-8">

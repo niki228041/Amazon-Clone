@@ -99,7 +99,7 @@ namespace Infrastructure.Services
                 }
                 albumVm.Tracks = tracksList;
                 if(album.User != null)
-                albumVm.Username = album.User.UserName;
+                albumVm.Username = album.User.DisplayName;
 
                 albumVm.Background = $@"https://amazonclone.monster/api/{DirectoriesInProject.MusicImages}/{albumVm.Background + "_" + (int)Qualities.QualitiesSelector.LOW + ".jpg"}";
 
@@ -135,7 +135,7 @@ namespace Infrastructure.Services
                 }
                 albumVm.Tracks = tracksList;
                 if (album.User != null)
-                albumVm.Username = album.User.UserName;
+                albumVm.Username = album.User.DisplayName;
 
                 albumVm.Background = $@"https://amazonclone.monster/api/{DirectoriesInProject.MusicImages}/{albumVm.Background + "_" + (int)Qualities.QualitiesSelector.LOW + ".jpg"}";
 
