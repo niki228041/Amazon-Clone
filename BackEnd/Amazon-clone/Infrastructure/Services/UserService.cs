@@ -91,7 +91,7 @@ namespace Infrastructure.Services
                 {
                     case "PasswordTooShort":errorUA = "Пароль повиннен бути не менше чим 6 символів.";break;
                     case "DuplicateUserName": errorUA = "Користувач з таким ім'ям користувача вже існує, виберіть інший!";break;
-                    default: errorUA = "Щось пішло не так...";break;
+                    default: errorUA = error.Code;break;
                 }
 
                 return new ServiceResponse

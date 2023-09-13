@@ -7,11 +7,13 @@ import { baseURL } from "../../api/axios";
 export interface Modals{
     isCardOpen:boolean;
     isAddressOpen:boolean;
+    isLoginRequestOpen:boolean;
 }
 
 const initialState:Modals= {
     isCardOpen:false,
-    isAddressOpen:false
+    isAddressOpen:false,
+    isLoginRequestOpen:false
 };
 
 const modalWindowsStateSlice = createSlice(
@@ -26,6 +28,9 @@ const modalWindowsStateSlice = createSlice(
         setAddressModalWindow(state,action: PayloadAction<boolean>){
             state.isAddressOpen = action.payload;
         },
+        setLoginRequestWindow(state,action: PayloadAction<boolean>){
+            state.isLoginRequestOpen = action.payload;
+        },
     },
     extraReducers(builder){
     }
@@ -34,5 +39,5 @@ const modalWindowsStateSlice = createSlice(
 
 
 // export const {login,registration} = userSlice.actions;
-export const { setCardModalWindow,setAddressModalWindow } = modalWindowsStateSlice.actions
+export const { setCardModalWindow,setAddressModalWindow,setLoginRequestWindow} = modalWindowsStateSlice.actions
 export default modalWindowsStateSlice.reducer;

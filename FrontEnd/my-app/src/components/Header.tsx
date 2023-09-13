@@ -44,6 +44,8 @@ import { AdressModal } from "./BuyProduct/AdressModal";
 import { GetCurrency, SetCurrency } from "../api/jwtDecodeToken";
 import { ua, us, eu } from "../const/constants";
 import { setCurrency } from "../features/user/CurrencyStateSlice";
+import RequestToLogin from "./ModalWindows/RequestToLogin";
+import { setLoginRequestWindow } from "../features/user/modalWindowsStateSlice";
 
 
 const Header = () => {
@@ -83,7 +85,11 @@ const Header = () => {
   },[orderWasAdded])
 
 
+  var user = useAppSelector(((state: { user: UserState; orders: Orders })=>state.user.user));
 
+  const handleBecomeASeller=()=>{
+
+  }
 
   const getProducts = async () => {
     let response: any = await getProductsByCategory({ id: -1 });
@@ -116,13 +122,6 @@ const Header = () => {
     setDropdown(false);
   }
 
-  const sortProductsByInput = () => {
-    // products = products?.filter(
-    //     (item:any)=>{
-    //         return inputText.toLowerCase() === ' ' ? item : item.name.toLowerCase().includes(inputText) });
-    // console.log(isSuccess);
-  }
-
   const [isBurgerOpen,setIsBurgerOpen] = useState(false);
   const [isCurrencyDrop,setCurrencyDrop] = useState(false);
 
@@ -141,12 +140,20 @@ const Header = () => {
  }
 
 
+  const handleIsAuth=()=>{
+    if(!isAuth)
+      dispatch(setLoginRequestWindow(true));
+    else
+      navigate("/profile");
+  }
+
   console.log(isBurgerOpen);
 
   return (<div className=" ">
     <BurgerModal isOpen={isBurgerOpen} onClose={setIsBurgerOpen}  />
     <CardModal/>
     <AdressModal/>
+    <RequestToLogin/>
     
     <div className="sticky z-30 bg-white">
 
@@ -269,12 +276,12 @@ const Header = () => {
 
       <div className=" xl:block lg:block sm:block hidden">
         <div className=" grid grid-cols-4 xl:pr-9">
-          <Link to={isAuth?"/profile":"/login"} className="singindiv">
+          <div onClick={()=>handleIsAuth()} className="singindiv cursor-pointer">
             <div className="image-container">
               <img src={profile} alt="Profile"  />
             </div>
             <a className="alang">Профіль</a>
-          </Link>
+          </div>
 
           <Link to="/message" className="singindiv">
             <div className="image-container">
@@ -327,7 +334,7 @@ const Header = () => {
           <div onClick={() => navigate("/todaysDeals")}                  className="  w-full text-white hover:outline hover:outline-[1px]  outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center ">Сьогоднішні пропозиції</div>
           <div className="hidden xl:block w-full"><div onClick={() => navigate("/giftCards")}                  className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer   h-full flex items-center font-medium justify-center ">Подарункові карти </div></div>
           <div onClick={() => navigate("/help")}                  className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Обслуговування клієнтів </div>
-          <div className="hidden xl:block w-full"><div onClick={() => navigate("/admin/products")}            className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Сторінка для адміна</div></div>
+          {user?.roles?.includes("admin")? <div className="hidden xl:block w-full"><div onClick={() => navigate("/admin/products")}            className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Сторінка для адміна</div></div> : ""}
           <div onClick={() => navigate("/music/home")}                className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer h-full flex items-center font-medium justify-center">Музика</div>
           <div onClick={() => navigate("/tempProfile/becomeASeller")} className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Тимчасовий Профіль</div>
           <div className="hidden xl:block w-full"><div onClick={() => navigate("/aboutUs")}                   className="  w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer h-full flex items-center font-medium justify-center">Про нас</div></div>
