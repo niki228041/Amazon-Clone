@@ -60,8 +60,8 @@ const EditProfile=()=> {
 
             <div className='my-8 flex text-[20px] text-grayColorForHeader font-semibold mb-2'>Персональна інформація</div>
             <div className='grid grid-cols-3 gap-5 my-8'>
-                <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 ' placeholder='Ім`я' />
-                <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 ' placeholder='Прізвище' />
+                <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 '  value={user.name} />
+                <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 ' value={user.surname} />
                 <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 ' placeholder='По‑батькові' />
             </div>
             <div className='grid grid-cols-3 gap-5 my-8'>
@@ -125,7 +125,7 @@ const EditProfile=()=> {
             <div className='my-8 flex text-[20px] text-grayColorForHeader font-semibold mb-2'>Контактні дані</div>
             <div className='grid grid-cols-3 gap-5 my-8'>
                 <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 ' placeholder='Номер ' />
-                <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 ' placeholder='Email' />
+                <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 ' value={user.email} />
             </div>
 
             <div className='my-8 flex text-[20px] text-grayColorForHeader font-semibold mb-2'>Адреса доставки</div>
