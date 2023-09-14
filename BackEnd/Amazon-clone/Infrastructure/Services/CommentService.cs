@@ -86,9 +86,9 @@ namespace Infrastructure.Services
             for (int i = 0; i < comments_vms.Count; i++)
             {
                 var foundedUser = users.FirstOrDefault(user => user.Id == comments_vms[i].UserId);
-                if(!string.IsNullOrEmpty(foundedUser.UserName))
+                if(!string.IsNullOrEmpty(foundedUser.DisplayName))
                 {
-                    comments_vms[i].UserName = foundedUser.UserName;
+                    comments_vms[i].UserName = foundedUser.DisplayName;
                 }
             }
             return comments_vms;

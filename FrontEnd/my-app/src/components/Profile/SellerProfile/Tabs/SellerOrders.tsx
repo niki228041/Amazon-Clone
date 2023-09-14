@@ -28,8 +28,11 @@ export const OrderItem=({order}:{order:OrderedOrder})=>{
         return difference;
       }
 
+      console.log("order?.products");
+      console.log(order?.products);
+
     return(
-    <div className='my-1'>
+    <div className='my-1 text-zinc-950'>
         <div className=' bg-gray-200 p-4 px-6 rounded-lg flex justify-between'>
 
         <div className='flex'>
@@ -96,7 +99,7 @@ export const OrderItem=({order}:{order:OrderedOrder})=>{
                   <div className=' rounded-sm flex text-sm flex-nowrap whitespace-nowrap justify-center border py-1 px-6 hover:bg-gray-200 cursor-pointer self-center mb-7'>Переглянути сторінку товара</div>
                 </div>
               </div>
-            )}
+            ) }
         </div>
 
 
@@ -116,9 +119,9 @@ function SellerOrders() {
       <div className='flex'>
 
         <div className=' w-full py-4 '>
-            { orders?.map(order=>{
+            {orders?.length>0 ? orders?.map(order=>{
                 return <OrderItem order={order} />
-            }) }
+            }) :"У вас немає поки замовлень"}
         </div>
 
       </div>

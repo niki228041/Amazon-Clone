@@ -26,7 +26,7 @@ const TempProfile=()=> {
     var dispatch= useDispatch();
 
     return (<>
-    <CompanyModal isOpen={isCompanyModalOpen} onClose={toggleCompanyModal} />
+    <CompanyModal/>
     <div className='grid gap-4 grid-cols-4 border rounded-lg p-4 mx-auto w-2/3 mt-24'>
         <div className=' border p-2 col-span-1 rounded-lg my-2 font-semibold'>
             <div>

@@ -16,9 +16,9 @@ const EditorComponent=({editorRef}:{editorRef:any})=> {
   return (
     <>
       <Editor
-        apiKey='your-api-key'
+        apiKey='wpc83k2awzvzhgdx2i11bpbbr5n1dnsnxil2f744or9y1pin'
         onInit={(evt, editor) => editorRef.current = editor}
-        initialValue="<p>This is the initial content of the editor.</p>"
+        initialValue=""
         init={{
           height: 500,
           plugins: [

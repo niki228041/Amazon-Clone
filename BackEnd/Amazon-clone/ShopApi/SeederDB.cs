@@ -55,8 +55,9 @@ namespace ShopApi
                     {
                         Email = admin,
                         FirstName = admin,
+                        DisplayName = "Адмін",
+                        UserName = admin,
                         LastName = "Главний",
-                        UserName= admin,
                     };
                     var result = userManager.CreateAsync(user, "123456").Result;
                     result = userManager.AddToRoleAsync(user, Roles.Admin).Result;
