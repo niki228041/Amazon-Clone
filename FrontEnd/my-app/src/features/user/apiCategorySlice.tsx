@@ -33,6 +33,14 @@ export const apiCategorySlice:any = createApi({
           }),
           invalidatesTags:['Category']
         }),
+        getLinksForCategory:builder.mutation<any, any>({
+          query:(todo)=>({
+            url:'/api/Categories/UploadImage',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Category']
+        }),
         getMainCategories:builder.query<any,any>({
           query:(todo)=>({
             url:'/api/Categories/GetMainCategories',

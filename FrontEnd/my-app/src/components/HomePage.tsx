@@ -31,26 +31,6 @@ import { Category } from "./Admin/types";
 import { useGetCategoriesQuery } from "../features/user/apiCategorySlice";
 
 const HomePage = () => {
-    //     const [products, setProducts] = useState<Product[]>([])
-
-    //     const fetchUserData = () => {
-    //         fetch("http://localhost:5034/api/Products/GetProducts")
-    //           .then((response) => response.json())
-    //           .then((data) => {
-    //             if (data.payload && Array.isArray(data.payload)) {
-    //               setProducts(data.payload);
-    //             } else {
-    //               console.error("Ошибка: Данные не содержат ожидаемый массив в поле payload");
-    //             }
-    //           })
-    //           .catch((error) => {
-    //             console.error("Ошибка при получении данных:", error);
-    //           });
-    //       };
-
-    //   useEffect(() => {
-    //     fetchUserData()
-    //   }, [])
     const loader = () => {
         return (
             <div className='m-auto flex self-center justify-center '>
@@ -69,13 +49,32 @@ const HomePage = () => {
 
         )
     }
+/////////
+    var [products, setProducts2] = useState<Product[]>([]);
 
-    const { data: products }: { data?: { payload: Product[] } } = useGetProductsQuery()
+    var request: getRecomendedProducts = { limit: 7, categoryId: 0 };
+    const [getRecomendedProducts, { }] = apiProductSlice.useGetProductWithLimitByCategoryIdMutation();
+    
+    useEffect(() => {
+        if(products?.length <= 0) {
+            getRecomendedProducts(request).then((res: any) => {
+                console.log("My here 3", res.data?.payload);
+                    setProducts2(res.data?.payload);
+            })
+        }
+    }, [])
+
+    useEffect(() => {
+        console.log(products?.length / 4);
+    }, [products])
+/////////
+
+    // const { data: products }: { data?: { payload: Product[] } } = useGetProductsQuery()
     const { data: categories }: { data?: { payload: Category[] } } = useGetCategoriesQuery()
 
-    console.log(products);
-    console.log(categories);
-    var [currentDeals, setCurrentDeals] = useState(0);
+
+    // console.log("Here:", products);
+    console.log("Categories: ", categories);
 
 
     var currency = useAppSelector((state) => state.currency.currency);
@@ -85,10 +84,32 @@ const HomePage = () => {
 
     var [smallIconOffset, setSmallIconOffset] = useState(currentSmallIcon * 220 * 5);
 
-
-
     return (
         <div >
+            {/* <div className="flex absolute h-[320px] justify-center self-center transition-all duration-500"  >
+            {products?.map((prod:Product)=>{
+                    return<>
+                    <Link to={"/product/description/" + prod.id} className='border relative flex hover:border-mainYellowColor p-3 rounded-lg mx-3  w-[220px] hover:scale-105 transition-all duration-200 active:duration-100 cursor-pointer active:scale-100 '>
+                        <div className=' self-center'>
+                            <div className='w-full h-[100px] bg-contain bg-center bg-no-repeat mt-2' style={{backgroundImage:`url(${prod.image})`}} ></div>
+                            <div className=' text-sm font-semibold mt-2'>Гаряча пропозиція</div>
+                            <div className=' text-sm mt-2 h-10 overflow-hidden '>{prod.name}</div>
+                            <div className='flex mt-1'>
+                                <div className=' self-center'>
+                                    <div className=' bg-rose-600 text-white rounded-lg py-1 px-3 font-semibold text-sm overflow-x-clip w-14 '>-{prod.discount}%</div>
+                                </div>
+                                <div className=' text-rose-600 rounded-lg py-1 ml-2 font-semibold text-sm '>Пропозиція лімітована по часу </div>
+                            </div>
+                            <div className=' font-bold text-lg '>
+                                {prod.price} {currency}
+                            </div>
+                        </div>
+                    </Link>
+                    </>
+                })}
+            </div> */}
+            
+
             <div className="first-section">
                 <div className="image-div">
                     <div className="left-elements-image">
@@ -103,22 +124,19 @@ const HomePage = () => {
                     </div>
                 </div>
             </div>
+            
             <div className=' overflow-x-hidden flex relative h-[200px] w-full px-20 bg-slate-100'>
                 <div className='overflow-x-hidden flex relative h-[200px] w-full px-4  justify-center'>
                     <div className="flex absolute justify-center self-center transition-all duration-500" style={{ transform: `translateX(-${smallIconOffset}px)` }}>
 
                         
-                        {categories?.payload.slice(74, 82).map((category: any) => (
-
-                            <Link to={"/product/description/" + category.id} className='border relative flex hover:border-mainYellowColor p-3 rounded-lg mx-3  w-[220px] hover:scale-105 transition-all duration-200 active:duration-100 cursor-pointer active:scale-100 '>
+                        {categories?.payload.slice(63, 64).map((category: any) => (
                                 <div className='self-center'>
                                     <span>{category.name}</span>
-                                {/* <div className='w-full h-[100px] bg-contain bg-center bg-no-repeat mt-2' style={{backgroundImage:`url(${category.image})`}} > </div> */}
+                                <div className='w-full h-[100px] bg-contain bg-center bg-no-repeat mt-2' style={{backgroundImage:`url(${category.image})`}} > </div>
                                 <img src={category.image} />
                                     {/* test123 */}
                                 </div>
-                            </Link>
-
                         ))}
 
 
@@ -227,11 +245,11 @@ const HomePage = () => {
                         ))} */}
 
                         {/* ------------------------------- FIX IMAGE (TOO BIG) -------------------------------*/}
-                        {products?.payload.slice(0, 8).map((product: any) => (
+                        {products?.map((product: any) => (
                             <div className="arrivals-card" key={product.id}>
                                 <span>{product.category}</span>
                                 <h4 className="mt-0 mb-0 font-normal whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</h4>
-                                <img src={`data:image/png;base64,${product.image}`} />
+                                <img src= {product.image} />
                                 <div className="price-container flex justify-between">
                                     <span className="old-price">{product.price} грн</span>
                                     <span className="new-price">{product.discount} грн</span>
@@ -260,9 +278,9 @@ const HomePage = () => {
                     </div>
                 </div>
                 <div className="our-products-main">
-                    {products?.payload.slice(0, 1).map((product: any) => (
+                    {products?.slice(0, 1).map((product: any) => (
                         <div className="our-products-main-special">
-                            <div style={{ backgroundImage: `url(data:image/png;base64,${product.image})` }} className="our-products-main-special-img">
+                            <div style={{backgroundImage:`url(${product.image})`}} className="our-products-main-special-img">
                                 <div>
                                     <h2 className="text-[#FF9A02] mt-0 mb-0 font-normal">Спеціальна</h2>
                                     <h2 className="second-span mt-0 mb-0 font-normal text-[black]">пропозиція</h2>
@@ -284,7 +302,7 @@ const HomePage = () => {
                     ))}
                     <div className="container-main-cards">
                         <div className="first-container-main">
-                            {products?.payload.slice(0, 5).map((product: any) => (
+                            {products?.slice(0, 5).map((product: any) => (
                                 <div className="our-products-main-card">
                                     <span>{product.category}</span>
                                     <h4 className="mt-0 mb-0 font-normal text-[black] whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</h4>
@@ -299,7 +317,7 @@ const HomePage = () => {
                         </div>
 
                         <div className="second-container-main">
-                            {products?.payload.slice(6, 11).map((product: any) => (
+                            {products?.slice(6, 11).map((product: any) => (
                                 <div className="our-products-main-card">
                                     <span>{product.category}</span>
                                     <h4 className="mt-0 mb-0 font-normal text-[black] whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</h4>
@@ -335,7 +353,7 @@ const HomePage = () => {
                 </div>
 
                 <div className="best-offers-main grid-rows-2 gap-5 mb-10">
-                    {products?.payload.slice(0, 1).map((product: any) => (
+                    {products?.slice(0, 1).map((product: any) => (
                         <div className="bg-white best-offers-main-element-border">
                             <div className="best-offers-main-element flex justify-between ">
                                 <div className="flex flex-col">
@@ -360,7 +378,7 @@ const HomePage = () => {
                         </div>
 
                     ))}
-                    {products?.payload.slice(1, 2).map((product: any) => (
+                    {products?.slice(1, 2).map((product: any) => (
                         <div className="row-span-2 best-offers-main-element-2">
                             <div style={{ backgroundImage: `url(data:image/png;base64,${product.image})` }} className="best-offers-main-element-img">
                                 <div>
@@ -385,7 +403,7 @@ const HomePage = () => {
 
                     ))}
 
-                    {products?.payload.slice(2, 3).map((product: any) => (
+                    {products?.slice(2, 3).map((product: any) => (
                         <div className="bg-white best-offers-main-element-border">
                             <div className="best-offers-main-element-3 flex justify-between ">
                                 <div className="flex flex-col">
@@ -408,7 +426,7 @@ const HomePage = () => {
                             </div>
                         </div>
                     ))}
-                    {products?.payload.slice(3, 4).map((product: any) => (
+                    {products?.slice(3, 4).map((product: any) => (
 
                         <div className="bg-white best-offers-main-element-border">
                             <div className="best-offers-main-element-4 flex justify-between ">
@@ -441,7 +459,7 @@ const HomePage = () => {
 
                         </div>
                     ))}
-                    {products?.payload.slice(4, 5).map((product: any) => (
+                    {products?.slice(4, 5).map((product: any) => (
                         <div className="bg-white best-offers-main-element-border pt-5">
                             <div style={{ backgroundImage: `url(data:image/png;base64,${product.image})` }} className="best-offers-main-element-img-5">
                                 <div>
@@ -479,7 +497,7 @@ const HomePage = () => {
                     </div>
                     <div className="winMart-second-div">
                         <div className="winMart-second-div-first-row">
-                            {products?.payload.slice(3, 8).map((product: any) => (
+                            {products?.slice(3, 8).map((product: any) => (
                                 <div>
                                     <img src={`data:image/png;base64,${product.image}`} />
                                     <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
@@ -489,7 +507,7 @@ const HomePage = () => {
 
                         </div>
                         <div className="winMart-second-div-second-row">
-                            {products?.payload.slice(9, 14).map((product: any) => (
+                            {products?.slice(9, 14).map((product: any) => (
                                 <div>
                                     <img src={`data:image/png;base64,${product.image}`} />
                                     <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
@@ -516,7 +534,7 @@ const HomePage = () => {
                 </div>
                 <div className="new-receipts-main">
                     <div className="new-receipts-product">
-                        {products?.payload.slice(0, 3).map((product: any) => (
+                        {products?.slice(0, 3).map((product: any) => (
                             <div className="new-receipts-product-card">
                                 <div style={{ backgroundImage: `url(data:image/png;base64,${product.image})` }} className="new-receipts-product-img ">
                                     {/* src={`data:image/png;base64,${product.image}`} */}
@@ -545,7 +563,7 @@ const HomePage = () => {
                 </div>
                 <div className="last-element-main mt-10">
                     <div className="last-element-first-container">
-                        {products?.payload.slice(0, 4).map((product: any) => (
+                        {products?.slice(0, 4).map((product: any) => (
                             <div className="last-element-card">
                                 <div>
                                     <img src={`data:image/png;base64,${product.image}`} />
@@ -565,7 +583,7 @@ const HomePage = () => {
                     </div>
 
                     <div className="last-element-second-container">
-                        {products?.payload.slice(4, 8).map((product: any) => (
+                        {products?.slice(4, 8).map((product: any) => (
                             <div className="last-element-card">
                                 <div>
                                     <img src={`data:image/png;base64,${product.image}`} />
@@ -586,7 +604,7 @@ const HomePage = () => {
 
 
                     <div className="last-element-third-container">
-                        {products?.payload.slice(4, 8).map((product: any) => (
+                        {products?.slice(4, 8).map((product: any) => (
                             <div className="last-element-card">
                                 <div>
                                     <img src={`data:image/png;base64,${product.image}`} />
@@ -606,7 +624,7 @@ const HomePage = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 
 }
