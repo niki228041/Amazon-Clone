@@ -3,6 +3,7 @@ import { Company } from "./Admin/types";
 
 export interface Product{
     id: number,
+    category: string,
     name: string,
     price: number,
     discount: string,

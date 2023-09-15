@@ -560,6 +560,7 @@ public class ProductService : IProductService
 
         List<Product> res = _productRepository.GetAll()
             .Include(prod => prod.VariantProducts)
+            .Include(prod => prod.Category)
             .ToList();
         List<ProductVM> res_to_send = new List<ProductVM>();
 
