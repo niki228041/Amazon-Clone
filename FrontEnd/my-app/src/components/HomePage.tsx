@@ -52,7 +52,7 @@ const HomePage = () => {
 /////////
     var [products, setProducts2] = useState<Product[]>([]);
 
-    var request: getRecomendedProducts = { limit: 7, categoryId: 0 };
+    var request: getRecomendedProducts = { limit: 12, categoryId: 0 };
     const [getRecomendedProducts, { }] = apiProductSlice.useGetProductWithLimitByCategoryIdMutation();
     
     useEffect(() => {
@@ -83,6 +83,14 @@ const HomePage = () => {
     var [currentSmallIcon, setCurrentSmallIcon] = useState(0);
 
     var [smallIconOffset, setSmallIconOffset] = useState(currentSmallIcon * 220 * 5);
+
+    const productsWithDiscounts = products?.map((product: any) => {
+        const discountPercentageString = product.price; // 14 800 грн
+
+        const discountPercentage = discountPercentageString - (discountPercentageString * (product.discount / 100));
+      
+        return { ...product, discountPercentage };
+      });
 
     return (
         <div >
@@ -125,7 +133,7 @@ const HomePage = () => {
                 </div>
             </div>
             
-            <div className=' overflow-x-hidden flex relative h-[200px] w-full px-20 bg-slate-100'>
+            <div className= "topCategory overflow-x-hidden flex relative h-[200px] w-full px-20">
                 <div className='overflow-x-hidden flex relative h-[200px] w-full px-4  justify-center'>
                     <div className="flex absolute justify-center self-center transition-all duration-500" style={{ transform: `translateX(-${smallIconOffset}px)` }}>
 
@@ -158,7 +166,7 @@ const HomePage = () => {
 
 
 
-                }} className=' left-0 self-center ml-5 rounded-lg h-12 w-12 absolute m-auto flex justify-center hover:scale-110 active:scale-90 transition-all duration-100'>
+                }} className='left-0 self-center ml-5 rounded-lg h-12 w-12 absolute m-auto flex justify-center hover:scale-110 active:scale-90 transition-all duration-100'>
                     <img className=' rotate-180 self-center h-6' src={arrowRightHomePage} />
                 </div>
                 <div onClick={() => {
@@ -181,7 +189,7 @@ const HomePage = () => {
 
             <hr style={{ borderWidth: "1px", marginTop: "40px", width: "1700px", marginLeft: "110px" }} />
 
-            <div style={{ display: "flex", marginTop: "50px", height: "360px", background: "#F7F7F7", marginBottom: "80px" }} >
+            {/* <div style={{ display: "flex", marginTop: "50px", height: "360px", background: "#F7F7F7", marginBottom: "80px" }} >
                 <svg style={{ marginLeft: "35px", marginTop: "100px" }} width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M40.3364 49.5L23.4019 33L40.3364 16.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
@@ -219,7 +227,7 @@ const HomePage = () => {
                 <svg style={{ marginLeft: "170px", marginTop: "100px" }} width="68" height="66" viewBox="0 0 68 66" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M25.6636 49.5L42.5981 33L25.6636 16.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
-            </div>
+            </div> */}
 
             <div className="arrivals">
                 <div className="arrivals-header flex justify-between">
@@ -245,16 +253,17 @@ const HomePage = () => {
                         ))} */}
 
                         {/* ------------------------------- FIX IMAGE (TOO BIG) -------------------------------*/}
-                        {products?.map((product: any) => (
+                        {productsWithDiscounts?.slice(0, 8).map((product: any) => (
+                            
                             <div className="arrivals-card" key={product.id}>
-                                <span>{product.category}</span>
+                                <span className="leading-[32px]">{product.category}</span>
                                 <h4 className="mt-0 mb-0 font-normal whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</h4>
-                                <img src= {product.image} />
+                                <img className="mt-[10px] mb-[10px]" src= {product.image} />
                                 <div className="price-container flex justify-between">
                                     <span className="old-price">{product.price} грн</span>
-                                    <span className="new-price">{product.discount} грн</span>
+                                    <span className="new-price">{product.discountPercentage} грн</span>
                                 </div>
-                                <button>Додати в кошик</button>
+                                <button className="rounded">Додати в кошик</button>
                             </div>
                         ))}
 
@@ -278,7 +287,7 @@ const HomePage = () => {
                     </div>
                 </div>
                 <div className="our-products-main">
-                    {products?.slice(0, 1).map((product: any) => (
+                    {productsWithDiscounts?.slice(0, 1).map((product: any) => (
                         <div className="our-products-main-special">
                             <div style={{backgroundImage:`url(${product.image})`}} className="our-products-main-special-img">
                                 <div>
@@ -286,13 +295,13 @@ const HomePage = () => {
                                     <h2 className="second-span mt-0 mb-0 font-normal text-[black]">пропозиція</h2>
                                 </div>
                                 <div className="our-products-right-circle">
-                                    <div className="circle-block"><span>Save 10%</span></div>
+                                    <div className="circle-block"><span className="text-[white]">Save 10%</span></div>
                                 </div>
                             </div>
                             <div className="our-products-main-special-labels mt-5">
                                 <span className="text-lgMain ">{product.name}</span>
                                 <br />
-                                <span className="text-xlMain pr-5">{product.discount} грн </span>
+                                <span className="text-xlMain pr-5">{product.discountPercentage} грн </span>
                                 <span className="text-lgMain line-through">{product.price} грн</span>
                                 <br />
                                 {/* <span className="text-baseMain text-[#002A42] pr-10">Продано: 6</span> */}
@@ -302,31 +311,31 @@ const HomePage = () => {
                     ))}
                     <div className="container-main-cards">
                         <div className="first-container-main">
-                            {products?.slice(0, 5).map((product: any) => (
+                            {productsWithDiscounts?.slice(0, 4).map((product: any) => (
                                 <div className="our-products-main-card">
                                     <span>{product.category}</span>
                                     <h4 className="mt-0 mb-0 font-normal text-[black] whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</h4>
-                                    <img src={`data:image/png;base64,${product.image}`} />
+                                    <img src={product.image} />
                                     <div className="price-container flex justify-between">
                                         <span className="old-price">{product.price} грн</span>
-                                        <span className="new-price">{product.discount} грн</span>
+                                        <span className="new-price">{product.discountPercentage} грн</span>
                                     </div>
-                                    <button>Додати в кошик</button>
+                                    <button className="rounded">Додати в кошик</button>
                                 </div>
                             ))}
                         </div>
 
                         <div className="second-container-main">
-                            {products?.slice(6, 11).map((product: any) => (
+                            {productsWithDiscounts?.slice(4, 8).map((product: any) => (
                                 <div className="our-products-main-card">
                                     <span>{product.category}</span>
                                     <h4 className="mt-0 mb-0 font-normal text-[black] whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</h4>
-                                    <img src={`data:image/png;base64,${product.image}`} />
+                                    <img src={product.image} />
                                     <div className="price-container flex justify-between">
                                         <span className="old-price">{product.price} грн</span>
-                                        <span className="new-price">{product.discount} грн</span>
+                                        <span className="new-price">{product.discountPercentage} грн</span>
                                     </div>
-                                    <button>Додати в кошик</button>
+                                    <button className="rounded">Додати в кошик</button>
                                 </div>
                             ))}
                         </div>
@@ -353,15 +362,15 @@ const HomePage = () => {
                 </div>
 
                 <div className="best-offers-main grid-rows-2 gap-5 mb-10">
-                    {products?.slice(0, 1).map((product: any) => (
+                    {productsWithDiscounts?.slice(0, 1).map((product: any) => (
                         <div className="bg-white best-offers-main-element-border">
                             <div className="best-offers-main-element flex justify-between ">
                                 <div className="flex flex-col">
                                     <h4 className="text-[20px] mt-0 mb-0 font-normal text-[black] whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</h4>
-                                    <span className="text-[22px] text-[#002A42]">{product.discount} грн</span>
+                                    <span className="text-[22px] text-[#002A42]">{product.discountPercentage} грн</span>
                                     <span className="text-[19px] text-[#828282] line-through">{product.price} грн</span>
                                     <div className="mt-auto flex">
-                                        <button className="cursor-default">ЗНИЖКА 10%</button>
+                                        <button className="cursor-default text-[white] text-[20px]">ЗНИЖКА 10%</button>
                                     </div>
                                 </div>
                                 <div className="element-2">
@@ -370,7 +379,7 @@ const HomePage = () => {
                                         <span className="text-[24px]">пропозиція</span>
                                     </div>
                                     <div className="img-container">
-                                        <img src={`data:image/png;base64,${product.image}`} />
+                                    <img src={product.image} />
                                     </div>
                                 </div>
                             </div>
@@ -378,9 +387,9 @@ const HomePage = () => {
                         </div>
 
                     ))}
-                    {products?.slice(1, 2).map((product: any) => (
+                    {productsWithDiscounts?.slice(1, 2).map((product: any) => (
                         <div className="row-span-2 best-offers-main-element-2">
-                            <div style={{ backgroundImage: `url(data:image/png;base64,${product.image})` }} className="best-offers-main-element-img">
+                            <div style={{ backgroundImage: `url(${product.image})` }} className="best-offers-main-element-img">
                                 <div>
                                     <span className="text-[#FF9A02] text-[24px]">Спеціальна</span>
                                     <br />
@@ -388,12 +397,12 @@ const HomePage = () => {
 
                                 </div>
                                 <div className="best-offers-right-circle">
-                                    <div className="offers-circle-block"><span>ЗНИЖКА <br /> 10%</span></div>
+                                    <div className="offers-circle-block"><span className="text-[20px]">ЗНИЖКА <br /> 10%</span></div>
                                 </div>
                             </div>
                             <div className="receipts-product-img-labels mt-5">
                                 <span className="text-[22px] whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</span>
-                                <span className="text-[27px] text-[#002A42] pr-4">{product.discount} грн</span>
+                                <span className="text-[27px] text-[#002A42] pr-4">{product.discountPercentage} грн</span>
                                 <span className="text-[19px] line-through text-[#828282]">{product.price} грн</span>
                                 <br />
                                 {/* <span className="text-[20px] text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span> */}
@@ -403,12 +412,12 @@ const HomePage = () => {
 
                     ))}
 
-                    {products?.slice(2, 3).map((product: any) => (
+                    {productsWithDiscounts?.slice(2, 3).map((product: any) => (
                         <div className="bg-white best-offers-main-element-border">
                             <div className="best-offers-main-element-3 flex justify-between ">
                                 <div className="flex flex-col">
                                     <h4 className="text-[20px] mt-0 mb-0 font-normal text-[black] whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</h4>
-                                    <span className="text-[22px] text-[#002A42]">{product.discount} грн</span>
+                                    <span className="text-[22px] text-[#002A42]">{product.discountPercentage} грн</span>
                                     <span className="text-[19px] text-[#828282] line-through">{product.price} грн</span>
                                     <div className="mt-auto flex">
                                         <button className="cursor-default">Save <br /> 10%</button>
@@ -420,13 +429,13 @@ const HomePage = () => {
                                         <span className="text-[24px]">пропозиція</span>
                                     </div>
                                     <div className="img-container">
-                                        <img src={`data:image/png;base64,${product.image}`} />
+                                    <img src={product.image} />
                                     </div>
                                 </div>
                             </div>
                         </div>
                     ))}
-                    {products?.slice(3, 4).map((product: any) => (
+                    {productsWithDiscounts?.slice(3, 4).map((product: any) => (
 
                         <div className="bg-white best-offers-main-element-border">
                             <div className="best-offers-main-element-4 flex justify-between ">
@@ -436,7 +445,7 @@ const HomePage = () => {
                                     <div className="best-offers-for-span">
                                         <span className="text-[20px] whitespace-nowrap overflow-hidden text-ellipsis">{product.name}</ span>
                                         <div>
-                                            <span className="text-[22px] text-[#002A42]">{product.discount} грн</span>
+                                            <span className="text-[22px] text-[#002A42]">{product.discountPercentage} грн</span>
                                             <span className="text-[19px] text-[#828282] line-through">{product.price} грн</span>
 
                                         </div>
@@ -452,16 +461,16 @@ const HomePage = () => {
                                         <div className="offers-circle-block-4"><span>ЗНИЖКА <br /> 10%</span></div>
                                     </div>
                                     <div className="img-container-4">
-                                        <img src={`data:image/png;base64,${product.image}`} />
+                                    <img src={product.image} />
                                     </div>
                                 </div>
                             </div>
 
                         </div>
                     ))}
-                    {products?.slice(4, 5).map((product: any) => (
+                    {productsWithDiscounts?.slice(4, 5).map((product: any) => (
                         <div className="bg-white best-offers-main-element-border pt-5">
-                            <div style={{ backgroundImage: `url(data:image/png;base64,${product.image})` }} className="best-offers-main-element-img-5">
+                            <div style={{ backgroundImage: `url(${product.image})` }} className="best-offers-main-element-img-5">
                                 <div>
                                     <span className="text-[#FF9A02] text-[20px]">Спеціальна</span>
                                     <br />
@@ -474,7 +483,7 @@ const HomePage = () => {
                             </div>
                             <div className="receipts-product-img-labels-2">
                                 <span className="text-[22px] whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</span>
-                                <span className="text-[27px] text-[#002A42] pr-4">{product.discount} грн</span>
+                                <span className="text-[27px] text-[#002A42] pr-4">{product.discountPercentage} грн</span>
                                 <span className="text-[19px] line-through text-[#828282]">{product.price} грн</span>
                                 <br />
                                 {/* <span className="text-[20px] text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span> */}
@@ -497,9 +506,9 @@ const HomePage = () => {
                     </div>
                     <div className="winMart-second-div">
                         <div className="winMart-second-div-first-row">
-                            {products?.slice(3, 8).map((product: any) => (
+                            {productsWithDiscounts?.slice(0, 6).map((product: any) => (
                                 <div>
-                                    <img src={`data:image/png;base64,${product.image}`} />
+                                    <img src={product.image} />
                                     <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
                                     <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">{product.price} грн</h4>
                                 </div>
@@ -507,9 +516,9 @@ const HomePage = () => {
 
                         </div>
                         <div className="winMart-second-div-second-row">
-                            {products?.slice(9, 14).map((product: any) => (
+                            {products?.slice(6, 12).map((product: any) => (
                                 <div>
-                                    <img src={`data:image/png;base64,${product.image}`} />
+                                    <img src={product.image} />
                                     <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
                                     <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">{product.price} грн</h4>
                                 </div>
@@ -534,9 +543,9 @@ const HomePage = () => {
                 </div>
                 <div className="new-receipts-main">
                     <div className="new-receipts-product">
-                        {products?.slice(0, 3).map((product: any) => (
+                        {productsWithDiscounts?.slice(0, 3).map((product: any) => (
                             <div className="new-receipts-product-card">
-                                <div style={{ backgroundImage: `url(data:image/png;base64,${product.image})` }} className="new-receipts-product-img ">
+                                <div style={{ backgroundImage: `url(${product.image})` }} className="new-receipts-product-img ">
                                     {/* src={`data:image/png;base64,${product.image}`} */}
                                     <div className="new-reseipts-right-circle">
                                         <div className="receipts-circle-block"><span>Save <br /> 10%</span></div>
@@ -544,7 +553,7 @@ const HomePage = () => {
                                 </div>
                                 <div className="receipts-product-img-labels-3 mt-3">
                                     <span className="text-lgMain whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</span>
-                                    <span className="text-baseMain text-[#002A42] pr-4">{product.discount} грн</span>
+                                    <span className="text-baseMain text-[#002A42] pr-4">{product.discountPercentage} грн</span>
                                     <span className="text-xlBiggerMain line-through text-[#828282]">{product.price} грн</span>
                                     <br />
                                     {/* <span className="text-baseMain text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span> */}
@@ -555,7 +564,7 @@ const HomePage = () => {
                     </div>
                 </div>
             </div>
-            <div className="last-element bg-white ">
+            <div className="last-element mt-[40px]">
                 <div className="last-element-header">
                     <h1 className="mt-0 mb-0 font-normal">Рекомендовані товари</h1>
                     <h1 className="mt-0 mb-0 font-normal">Розпродаж</h1>
@@ -563,10 +572,10 @@ const HomePage = () => {
                 </div>
                 <div className="last-element-main mt-10">
                     <div className="last-element-first-container">
-                        {products?.slice(0, 4).map((product: any) => (
+                        {productsWithDiscounts?.slice(0, 3).map((product: any) => (
                             <div className="last-element-card">
                                 <div>
-                                    <img src={`data:image/png;base64,${product.image}`} />
+                                    <img  src={`${product.image}`} />
                                 </div>
                                 <div>
                                     <span className="text-[12px]">{product.category}</span>
@@ -574,19 +583,19 @@ const HomePage = () => {
                                     <span className="text-[15px] whitespace-nowrap overflow-hidden text-ellipsis inline-block">{product.name}</span>
                                     <br />
                                     <span className="text-[13px] text-[#697475] line-through mr-2">{product.price} грн</span>
-                                    <span className="text-[15px] text[#002A42]">{product.discount} грн</span>
+                                    <span className="text-[15px] text[#002A42]">{product.discountPercentage} грн</span>
                                     <br />
-                                    <button className="text-[15px] text-[white]">Додати в кошик</button>
+                                    <button className="text-[15px] text-[white] rounded">Додати в кошик</button>
                                 </div>
                             </div>
                         ))}
                     </div>
 
                     <div className="last-element-second-container">
-                        {products?.slice(4, 8).map((product: any) => (
+                        {productsWithDiscounts?.slice(3, 6).map((product: any) => (
                             <div className="last-element-card">
                                 <div>
-                                    <img src={`data:image/png;base64,${product.image}`} />
+                                    <img src={`${product.image}`} />
                                 </div>
                                 <div>
                                     <span className="text-[12px]">{product.category}</span>
@@ -594,9 +603,9 @@ const HomePage = () => {
                                     <span className="text-[15px] whitespace-nowrap overflow-hidden text-ellipsis inline-block">{product.name}</span>
                                     <br />
                                     <span className="text-[13px] text-[#697475] line-through mr-2">{product.price} грн</span>
-                                    <span className="text-[15px] text[#002A42]">{product.discount} грн</span>
+                                    <span className="text-[15px] text[#002A42]">{product.discountPercentage} грн</span>
                                     <br />
-                                    <button className="text-[15px] text-[white]">Додати в кошик</button>
+                                    <button className="text-[15px] text-[white] rounded">Додати в кошик</button>
                                 </div>
                             </div>
                         ))}
@@ -604,10 +613,10 @@ const HomePage = () => {
 
 
                     <div className="last-element-third-container">
-                        {products?.slice(4, 8).map((product: any) => (
+                        {productsWithDiscounts?.slice(6, 9).map((product: any) => (
                             <div className="last-element-card">
                                 <div>
-                                    <img src={`data:image/png;base64,${product.image}`} />
+                                    <img src={`${product.image}`} />
                                 </div>
                                 <div>
                                     <span className="text-[12px]">{product.category}</span>
@@ -615,9 +624,9 @@ const HomePage = () => {
                                     <span className="text-[15px] whitespace-nowrap overflow-hidden text-ellipsis inline-block">{product.name}</span>
                                     <br />
                                     <span className="text-[13px] text-[#697475] line-through mr-2">{product.price} грн</span>
-                                    <span className="text-[15px] text[#002A42]">{product.discount} грн</span>
+                                    <span className="text-[15px] text[#002A42]">{product.discountPercentage} грн</span>
                                     <br />
-                                    <button className="text-[15px] text-[white]">Додати в кошик</button>
+                                    <button className="text-[15px] text-[white] rounded">Додати в кошик</button>
                                 </div>
                             </div>
                         ))}
