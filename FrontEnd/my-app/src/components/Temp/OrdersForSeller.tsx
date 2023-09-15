@@ -30,6 +30,7 @@ const OrdersForSeller=()=> {
                     </span>
                     {order.fullName}
                     <div>
+                        
                         {order.products.map((orderedProduct)=>{
                         
                         return <>

@@ -65,6 +65,7 @@ export interface OrderedOrder{
     cardId:number;
     isBought:boolean;
     price:number;
+    userName:string;
     addressId:number;
     dateCreated:string;
     products:OrderedProductUpdated[];
@@ -72,7 +73,10 @@ export interface OrderedOrder{
 
 export interface OrderForSeller{
     id:any;
+    price:number;
+    image:string;
     fullName:string;
+    userName:string;
     cardId:number;
     addressId:number;
     dateCreated:string;
