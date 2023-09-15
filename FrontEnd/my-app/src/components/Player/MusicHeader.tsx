@@ -49,7 +49,7 @@ const MusicHeader=()=>{
               <img className="h-10 my-1  m-auto" src={allMartMusicLogo} />
           </div>
 
-          <div onClick={()=>navigate("/products")} className="col-start-3 font-semibold text-mainYellowColor flex justify-center cursor-pointer  my-auto self-center">
+          <div onClick={()=>navigate("/")} className="col-start-3 font-semibold text-mainYellowColor flex justify-center cursor-pointer  my-auto self-center">
             ГОЛОВНА
           </div>
 

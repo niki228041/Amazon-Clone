@@ -113,7 +113,7 @@ const Product_Component=({ data , productsImages,viewListOrGrid}: { data: Produc
     " col-span-1 ":viewListOrGrid=="grid"
   })}
   >
-  <Link to={"/product/" + data.id} >
+  <Link to={"/product/description/" + data.id} >
     <div className={classNames('pb-2 w-full hover:shadow-lg grid rounded-lg p-2 py-10 bg-whiteColor ',{
     " grid-cols-10 ":viewListOrGrid=="list",
     " grid-cols-1 ":viewListOrGrid=="grid"})}>

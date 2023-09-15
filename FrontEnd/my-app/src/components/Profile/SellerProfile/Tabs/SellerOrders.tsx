@@ -3,13 +3,16 @@ import React, { useState } from 'react'
 import { uk } from 'date-fns/locale';
 import { Order, OrderForSeller, OrderedOrder } from '../../../types';
 import { useAppSelector } from '../../../../app/hooks';
-import { useGetOrdersByUserIdQuery } from '../../../../features/user/apiOrderSlice';
+import { apiOrderSlice, useGetOrdersByCompanyIdQuery, useGetOrdersByUserIdQuery } from '../../../../features/user/apiOrderSlice';
 import classNames from 'classnames';
 import arrowDownForSearch from '../../../../images/arrow_down.svg';
+import { useGetCompanyByUserIdQuery } from '../../../../features/user/apiCompanySlice';
+import { Company } from '../../../Admin/types';
 
-export const OrderItem=({order}:{order:OrderedOrder})=>{
+export const OrderItem=({order}:{order:OrderForSeller})=>{
 
     var currency = useAppSelector((state)=>state.currency.currency);
+    var [closeAnOrderById,{}] = apiOrderSlice.useCloseAnOrderByIdMutation();
 
     const [dropDown,setDropDown] =  useState(false);
     const [elementHeight, setElementHeight] = useState("0px"); // Initial height
@@ -43,12 +46,12 @@ export const OrderItem=({order}:{order:OrderedOrder})=>{
           <div className='mx-4'></div>
           <div className=''>
             <p className='font-medium text-[16px] text-grayColorForHeader '>Сума</p>
-            <span className=' text-sm font-medium text-grayColorForHeader'>{order.price} {currency}</span>
+            <span className=' text-sm font-medium text-grayColorForHeader'>{order?.price} {currency}</span>
           </div>
           <div className='mx-4'></div>
           <div className=''>
             <p className='font-medium text-[16px] text-grayColorForHeader '>Клієнт</p>
-            <span className=' text-sm font-medium cursor-pointer text-darkBlueColor'>Шафранська Анна</span>
+            <span className=' text-sm font-medium cursor-pointer text-darkBlueColor'>{order.userName}</span>
           </div>
 
         </div>
@@ -89,7 +92,9 @@ export const OrderItem=({order}:{order:OrderedOrder})=>{
                     <p className=' text-gray-400 mt-2'>{parser.parseFromString(prod.product?.description, 'text/html').body.textContent?.slice(0,30)}</p>
                     <p className=' text-gray-500 text-sm'>Час на повернення товару скінчився 6 вересня</p>
                     <div className='mt-4'>
-                      <button className=' bg-mainYellowColor rounded-lg py-2 px-2 text-sm text-white hover:bg-orange-500 transition-all'>Закрити замовлення</button>
+                      {!prod.isBought  ?
+                      <button  onClick={()=>{closeAnOrderById({id:prod.id})}} className=' bg-mainYellowColor rounded-lg py-2 px-2 text-sm text-white hover:bg-orange-500 transition-all'>Закрити замовлення</button>
+                      :"Замовлення позначенно як доставленне"}
                       <button className=' border border-gray-300 rounded-lg py-2 px-2 text-sm shadow-lg ml-4 hover:shadow-none transition-all'>Скасувати замовлення</button>
                     </div>
                   </div>
@@ -111,8 +116,13 @@ export const OrderItem=({order}:{order:OrderedOrder})=>{
 function SellerOrders() {
 
     var user = useAppSelector(((state)=>state.user.user));
-    var {data:orders,isSuccess}:{data:OrderedOrder[],isSuccess:boolean} = useGetOrdersByUserIdQuery({id:user.id});
 
+    var {data:company}:{data:Company} = useGetCompanyByUserIdQuery({id:user.id});
+    var [closeAnOrderById,{}] = apiOrderSlice.useCloseAnOrderByIdMutation();
+  
+  
+    var {data:orders,isSuccess}:{data:OrderForSeller[],isSuccess:boolean} = useGetOrdersByCompanyIdQuery({id:company?.id});
+    console.log(orders);
 
   return (
     <div>
