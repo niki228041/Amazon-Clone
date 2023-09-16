@@ -20,7 +20,7 @@ post{
                 // Send a Telegram notification on build success
                 telegramSend(
                     message: "Build of ${currentBuild.fullDisplayName} was successful!",
-                    chatId: -1001941946915
+                    chatId: -4073766435
                 )
             }
      }
@@ -30,7 +30,7 @@ post{
                 // Send a Telegram notification on build success
                 telegramSend(
                     message: "Build of ${currentBuild.fullDisplayName} was aborted!",
-                    chatId: -1001941946915
+                    chatId: -4073766435
                 )
             }
 
@@ -40,7 +40,7 @@ post{
                 // Send a Telegram notification on build success
                 telegramSend(
                     message: "Build of ${currentBuild.fullDisplayName} was failed!",
-                    chatId: -1001941946915
+                    chatId: -4073766435
                 )
             }
      }
