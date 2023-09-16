@@ -126,7 +126,7 @@ post{
                 // Send a Telegram notification on build success
                 telegramSend(
                     message: "Build of ${currentBuild.fullDisplayName} was successful!",
-                    recipients: "6637495252"
+                    chatID: 4073766435
                 )
             }
      }
@@ -136,7 +136,7 @@ post{
                 // Send a Telegram notification on build success
                 telegramSend(
                     message: "Build of ${currentBuild.fullDisplayName} was aborted!",
-                    recipients: "6637495252"
+                    chatID: 4073766435
                 )
             }
 
@@ -146,7 +146,7 @@ post{
                 // Send a Telegram notification on build success
                 telegramSend(
                     message: "Build of ${currentBuild.fullDisplayName} was failed!",
-                    recipients: "6637495252"
+                    chatID: 4073766435
                 )
             }
      }
@@ -154,7 +154,6 @@ post{
             
                 echo "=========== Log out from Docker Hub =================="
                 sh '''
-                sudo systemctl start sonarqube
                 docker logout
                 '''
     }
