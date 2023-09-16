@@ -121,28 +121,34 @@ pipeline  {
         
     }
 post{
-        success {
-        withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'), string(credentialsId: 'telegramID', variable: 'CHAT_ID')]) {
-        sh  ("""
-            curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d text='*${env.JOB_NAME}* : POC *Branch*: ${env.GIT_BRANCH} *Build* : OK *Published* = YES'
-        """)
-        }
+    success {
+       script {
+                // Send a Telegram notification on build success
+                telegramSend(
+                    message: "Build of ${currentBuild.fullDisplayName} was successful!",
+                    recipients: "6637495252"
+                )
+            }
      }
 
      aborted {
-        withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'), string(credentialsId: 'telegramID', variable: 'CHAT_ID')]) {
-        sh  ("""
-            curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d text='*${env.JOB_NAME}* : POC *Branch*: ${env.GIT_BRANCH} *Build* : `Aborted` *Published* = `Aborted`'
-        """)
-        }
+       script {
+                // Send a Telegram notification on build success
+                telegramSend(
+                    message: "Build of ${currentBuild.fullDisplayName} was aborted!",
+                    recipients: "6637495252"
+                )
+            }
 
      }
      failure {
-        withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'), string(credentialsId: 'telegramID', variable: 'CHAT_ID')]) {
-        sh  ("""
-            curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d text='*${env.JOB_NAME}* : POC  *Branch*: ${env.GIT_BRANCH} *Build* : `not OK` *Published* = `no`'
-        """)
-        }
+       script {
+                // Send a Telegram notification on build success
+                telegramSend(
+                    message: "Build of ${currentBuild.fullDisplayName} was failed!",
+                    recipients: "6637495252"
+                )
+            }
      }
     always{
             
