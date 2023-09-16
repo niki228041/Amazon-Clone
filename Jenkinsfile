@@ -120,14 +120,37 @@ pipeline  {
         }
         
     }
-    post{
-        always{
+post{
+        success {
+        withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'), string(credentialsId: 'telegramID', variable: 'CHAT_ID')]) {
+        sh  ("""
+            curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d text='*${env.JOB_NAME}* : POC *Branch*: ${env.GIT_BRANCH} *Build* : OK *Published* = YES'
+        """)
+        }
+     }
+
+     aborted {
+        withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'), string(credentialsId: 'telegramID', variable: 'CHAT_ID')]) {
+        sh  ("""
+            curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d text='*${env.JOB_NAME}* : POC *Branch*: ${env.GIT_BRANCH} *Build* : `Aborted` *Published* = `Aborted`'
+        """)
+        }
+
+     }
+     failure {
+        withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'), string(credentialsId: 'telegramID', variable: 'CHAT_ID')]) {
+        sh  ("""
+            curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d text='*${env.JOB_NAME}* : POC  *Branch*: ${env.GIT_BRANCH} *Build* : `not OK` *Published* = `no`'
+        """)
+        }
+     }
+    always{
             
                 echo "=========== Log out from Docker Hub =================="
                 sh '''
                 sudo systemctl start sonarqube
                 docker logout
                 '''
-        }
+    }
     }
 }
