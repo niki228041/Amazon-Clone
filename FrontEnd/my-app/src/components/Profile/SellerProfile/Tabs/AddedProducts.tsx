@@ -59,7 +59,7 @@ function AddedProducts() {
         return <>
           <div className='grid grid-cols-8  gap-6'>
             <div className='col-span-1'>
-              <div className=' h-40 bg-gray-300' style={{backgroundImage:`url(${prod.name})`}}>
+              <div className=' h-40 bg-center bg-contain bg-no-repeat ' style={{backgroundImage:`url(${prod.image})`}}>
 
               </div>
               <div className=' bg-slate-800 mt-2 flex p-1'>
