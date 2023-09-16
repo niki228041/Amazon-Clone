@@ -4,46 +4,17 @@ pipeline  {
     agent any;
       stages {
         
-         stage("Backup files")
+         stage("SonarQube Analysis")
          {
-             steps{
-                sh """
-                #!/bin/bash
-                echo "Hello World"
-                """
-             }
+    def scannerHome = tool 'SonarScanner for MSBuild'
+    withSonarQubeEnv() {
+      sh "dotnet ${scannerHome}/SonarScanner.MSBuild.dll begin /k:\"Amazon-Clone\""
+      sh "dotnet build"
+      sh "dotnet ${scannerHome}/SonarScanner.MSBuild.dll end"
+    }
          }
       }
 post{
-   success {
-       script {
-                // Send a Telegram notification on build success
-                telegramSend(
-                    message: "Build of ${currentBuild.fullDisplayName} was successful!",
-                    chatId: -4073766435
-                )
-            }
-     }
-
-     aborted {
-       script {
-                // Send a Telegram notification on build success
-                telegramSend(
-                    message: "Build of ${currentBuild.fullDisplayName} was aborted!",
-                    chatId: -4073766435
-                )
-            }
-
-     }
-     failure {
-       script {
-                // Send a Telegram notification on build success
-                telegramSend(
-                    message: "Build of ${currentBuild.fullDisplayName} was failed!",
-                    chatId: -4073766435
-                )
-            }
-     }
     always{
             
                 echo "=========== Log out from Docker Hub =================="
