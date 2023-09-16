@@ -34,6 +34,11 @@ const EditProfile=()=> {
 
    const [selectedSex,setSelectedSex] =  useState("Стать");
    const [selectedCountry,setSelectedCountry] =  useState("Країна");
+   const [userName,setUserName] =  useState(user.username);
+   const [firstName,setFirstName] =  useState(user.name);
+   const [userSurname,setSurname] =  useState(user.surname);
+   const [email,setEmail] =  useState(user.email);
+   const [phoneNumber,setPhoneNumber] =  useState(user.phoneNumber);
 
    function formatDateDifference(date: Date) {
     if(date)
@@ -55,13 +60,19 @@ const EditProfile=()=> {
 
             <div className='flex '>
                 <img className='h-32 w-32 mr-6 rounded-lg' src={BlankProfilePicture} />
-                <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 w-1/4' placeholder='Ім`я користувача' />
+                <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 w-1/4' placeholder='Ім`я користувача' value={userName} onChange={(e) => {
+                  setUserName(e.currentTarget.value)
+                }} />
             </div>
 
             <div className='my-8 flex text-[20px] text-grayColorForHeader font-semibold mb-2'>Персональна інформація</div>
             <div className='grid grid-cols-3 gap-5 my-8'>
-                <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 '  value={user.name} />
-                <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 ' value={user.surname} />
+                <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 '  value={firstName} onChange={(e) => {
+                  setUserName(e.currentTarget.value)
+                }} />
+                <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 ' value={userSurname} onChange={(e) => {
+                  setSurname(e.currentTarget.value)
+                }} />
                 <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 ' placeholder='По‑батькові' />
             </div>
             <div className='grid grid-cols-3 gap-5 my-8'>
@@ -124,8 +135,12 @@ const EditProfile=()=> {
 
             <div className='my-8 flex text-[20px] text-grayColorForHeader font-semibold mb-2'>Контактні дані</div>
             <div className='grid grid-cols-3 gap-5 my-8'>
-                <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 ' placeholder='Номер ' />
-                <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 ' value={user.email} />
+                <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 ' value={phoneNumber} onChange={(e) => {
+                  setPhoneNumber(e.currentTarget.value)
+                }} />
+                <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 ' value={email} onChange={(e) => {
+                  setEmail(e.currentTarget.value)
+                }} />
             </div>
 
             <div className='my-8 flex text-[20px] text-grayColorForHeader font-semibold mb-2'>Адреса доставки</div>
