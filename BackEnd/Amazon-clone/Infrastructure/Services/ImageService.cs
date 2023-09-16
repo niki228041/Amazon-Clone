@@ -33,7 +33,6 @@ namespace Infrastructure.Services
                     List<Qualities.QualitiesSelector> list = new List<Qualities.QualitiesSelector>
                     {
                         Qualities.QualitiesSelector.LOW,
-                        Qualities.QualitiesSelector.NORMAL,
                         Qualities.QualitiesSelector.HIGH
                     };
 

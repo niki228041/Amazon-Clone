@@ -146,7 +146,7 @@ const Reviews=()=> {
 
     useEffect(()=>{},[comments?.length,canLeaveComment?.payload])
 
-    console.log(comments);
+    console.log(canLeaveComment);
 
   return (
     <div className='p-5 px-10 '>

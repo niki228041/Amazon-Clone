@@ -43,36 +43,62 @@ namespace Infrastructure.Services
         {
             Comment comment = _mapper.Map<CreateCommentDTO,Comment>(model);
 
-            await _commentRepository.Create(comment);
+            
 
             var orders = _orderRepository.GetAll().Include(order => order.OrderedProducts).Where(order => order.User.Id == model.UserId).ToList();
-            orders = orders.FindAll(order => order.OrderedProducts.FirstOrDefault(prod => prod.ProductId == model.ProductId) != null);
 
-            var order = orders.Find(order=>order.OrderedProducts.FirstOrDefault(prod=>prod.canLeaveComment== true && prod.ProductId == model.ProductId) != null);
-            var prod = order.OrderedProducts.FirstOrDefault(prod=>prod.canLeaveComment == true && prod.ProductId == model.ProductId);
-            prod.canLeaveComment = false;
+            var canLeaveComment = false;
 
-            await _orderedProductRepository.Update(prod);
-
-            if (model.Images != null)
-            foreach (var img in model.Images)
+            foreach (var order in orders)
             {
-                var imgTemplate = img.Data;
-                var imgFileName = await _imageService.SaveImageAsync(imgTemplate, DirectoriesInProject.CommentImages);
-
-                CommentImage new_img_to_upload = new CommentImage { Name = imgFileName, CommentId = comment.Id };
-
-
-                await _commentImageService.CreateCommentImageAsync(new_img_to_upload);
-            }
-
-            if (comment != null)
-            {
-                return new ServiceResponse
+                foreach (var ordProd in order.OrderedProducts)
                 {
-                    IsSuccess = true,
-                };
+                    if(ordProd.ProductId == model.ProductId && ordProd.isBought == true && ordProd.canLeaveComment == true)
+                    {
+                        canLeaveComment = true;
+                        ordProd.canLeaveComment = false;
+                        await _orderedProductRepository.Update(ordProd);
+                    }
+                }
             }
+
+            if(canLeaveComment)
+            {
+                await _commentRepository.Create(comment);
+
+                foreach (var order_ in orders)
+                {
+                    foreach (var prod_ in order_.OrderedProducts)
+                    {
+                        if (prod_.isBought == true && prod_.canLeaveComment == true)
+                        {
+                            canLeaveComment = true; break;
+                        }
+                    }
+                }
+
+
+                if (model.Images != null)
+                foreach (var img in model.Images)
+                {
+                    var imgTemplate = img.Data;
+                    var imgFileName = await _imageService.SaveImageAsync(imgTemplate, DirectoriesInProject.CommentImages);
+
+                    CommentImage new_img_to_upload = new CommentImage { Name = imgFileName, CommentId = comment.Id };
+
+
+                    await _commentImageService.CreateCommentImageAsync(new_img_to_upload);
+                }
+
+                if (comment != null)
+                {
+                    return new ServiceResponse
+                    {
+                        IsSuccess = true,
+                    };
+                }
+                }
+
             return null;
 
         }
@@ -124,13 +150,23 @@ namespace Infrastructure.Services
             }
 
             var orders = _orderRepository.GetAll().Include(order=>order.OrderedProducts).Where(order => order.User.Id == user.Id).ToList();
-            orders = orders.FindAll(order=>order.OrderedProducts.FirstOrDefault(prod=>prod.ProductId == product.Id)!=null);
 
             if(orders.Any())
             {
-                var check = orders.Find(order=>order.isBought == true && order.OrderedProducts.FirstOrDefault(prod=>prod.ProductId == product.Id && prod.canLeaveComment == true) != null);
+                var canLeaveComment = false;
 
-                if(check != null)
+                foreach(var order in orders)
+                {
+                    foreach(var prod in order.OrderedProducts)
+                    {
+                        if(prod.isBought == true && prod.canLeaveComment == true && prod.ProductId == model.ProductId)
+                        {
+                            canLeaveComment = true; break;
+                        }
+                    }
+                }
+
+                if(canLeaveComment)
                 {
                     return new ServiceResponse()
                     {
