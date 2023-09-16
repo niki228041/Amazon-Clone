@@ -48,7 +48,6 @@ namespace DAL.Entities
         public DateTime Created_At { get; set; } = DateTime.UtcNow;
 
 
-
     //Foreign keys:
 
         //Every product have a company
@@ -56,6 +55,12 @@ namespace DAL.Entities
 
         [ForeignKey(nameof(Company))]
         public int? CompanyId { get; set; }
+
+        //Every product have a company
+        public User User { get; set; }
+
+        [ForeignKey(nameof(User))]
+        public int? UserId { get; set; }
 
 
         //Every product have a category
@@ -65,7 +70,6 @@ namespace DAL.Entities
         public int? CategoryId { get; set; }
 
         public virtual ICollection<VariantProduct> VariantProducts { get; set; } = new List<VariantProduct>();
-
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<ProductImage> ProductImages { get; set; }
         public virtual ICollection<OrderedProduct> OrderedProducts { get; set; }

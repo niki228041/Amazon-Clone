@@ -43,6 +43,7 @@ namespace Infrastructure.Services
         public async Task<OrderVM> AddOrderAsync(OrderDTO model)
         {
             var order = _mapper.Map<OrderDTO, Order>(model);
+            order.isBought = false;
             await _orderRepository.Create(order);
 
             foreach (var orderedProdct_tmp in model.OrderedProducts_)
@@ -62,7 +63,7 @@ namespace Infrastructure.Services
             await _emailService.SendEmailAsync(user.Email, "THANK YOU FOR YOUR PURCHASE", "</div><h1>Your order id:" + order.Id +"</h1>" + 
                 "<p>" +
                 "You can check your order status in your profile" +
-                "<p>" +
+                "</p>" +
                 "<p>" +
                 "If you have any questions write us: allmarkt@gmail.com" +
                 "</p></div>");
@@ -132,8 +133,6 @@ namespace Infrastructure.Services
                         Product = _mapper.Map<Product, ProductVM>(item.Product),
                     };
 
-                    if(ordered.Product != null)
-                    ordered.Product.Id = item.Id;
 
                     if (item.ProductId != null)
                     {
