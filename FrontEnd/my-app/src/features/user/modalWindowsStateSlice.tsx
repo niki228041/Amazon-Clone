@@ -9,6 +9,8 @@ export interface Modals{
     isAddressOpen:boolean;
     isLoginRequestOpen:boolean;
     isCompanyOpen:boolean;
+    isAlbumModalOpen:boolean;
+    selectedTracksIds:number[];
 }
 
 const initialState:Modals= {
@@ -16,6 +18,8 @@ const initialState:Modals= {
     isAddressOpen:false,
     isLoginRequestOpen:false,
     isCompanyOpen:false,
+    isAlbumModalOpen:false,
+    selectedTracksIds:[],
 };
 
 const modalWindowsStateSlice = createSlice(
@@ -36,6 +40,12 @@ const modalWindowsStateSlice = createSlice(
         setCompanyModalWindow(state,action: PayloadAction<boolean>){
             state.isCompanyOpen = action.payload;
         },
+        setAlbumModalWindow(state,action: PayloadAction<boolean>){
+            state.isAlbumModalOpen = action.payload;
+        },
+        setSelectedTracksIds(state,action: PayloadAction<number[]>){
+            state.selectedTracksIds = action.payload;
+        },
     },
     extraReducers(builder){
     }
@@ -44,5 +54,5 @@ const modalWindowsStateSlice = createSlice(
 
 
 // export const {login,registration} = userSlice.actions;
-export const { setCardModalWindow,setAddressModalWindow,setLoginRequestWindow,setCompanyModalWindow} = modalWindowsStateSlice.actions
+export const { setCardModalWindow,setAddressModalWindow,setLoginRequestWindow,setCompanyModalWindow,setAlbumModalWindow,setSelectedTracksIds} = modalWindowsStateSlice.actions
 export default modalWindowsStateSlice.reducer;

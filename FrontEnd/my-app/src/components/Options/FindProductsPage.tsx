@@ -245,13 +245,13 @@ const PageWithOptions = () => {
   var [page, setPage] = useState(1);
   var [limit, setLimit] = useState(8);
 
+
   var [viewListOrGrid, setViewListOrGrid] = useState("grid");
   var [seeAllCategories, setSeeAllCategories] = useState(true);
 
 
 
   var [categoriesToView, setCategoriesToView] = useState<Category[]>([]);
-  var [allFilters,setAllFilters] = useState<AllFilters>({categoryId:-1,min_Preis:-1,max_Preis:-1,stars:-1,variants:[],productName:"",page:page,limit:limit,sortBy:""});
   var [products, setProducts] = useState([]);
   var [productsCount, setProductsCount] = useState<number>();
 
