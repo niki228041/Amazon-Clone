@@ -17,6 +17,7 @@ import { useAppSelector } from "../../app/hooks";
 import { setCurrentTime, setDurationTime, setIsPlay, setPercentageTime } from "../../features/user/musicStateSlice";
 import { useDispatch } from "react-redux";
 import MiniPlayer from "./MiniPlayer";
+import SelectSongsForAlbumModal from "./Album/SelectSongsForAlbumModal";
 
 
 

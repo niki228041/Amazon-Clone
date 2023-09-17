@@ -5,7 +5,7 @@ import tmp_2 from '../../../images/Billie-Eilish-Happier-Than-Ever 1.png'
 import { useDispatch } from 'react-redux';
 import { changeTrack, setIsPlay, setOnChangeSlider } from '../../../features/user/musicStateSlice';
 import { useAppSelector } from '../../../app/hooks';
-import { useGetTrackByIdQuery } from '../../../features/user/apiPlayerSlice';
+import { useGetAlbumByIdQuery, useGetTrackByIdQuery } from '../../../features/user/apiPlayerSlice';
 import { TrackFromServer } from '../Player';
 import { useParams } from 'react-router-dom';
 import Play from "../../../images/Play.svg";
@@ -19,15 +19,27 @@ import Comment from "../../../images/createComment.png";
 import LikeOrange from "../../../images/clickLike_orange.png";
 import Play_small from "../../../images/play.png";
 
+interface AlbumFromServer{
+    title:string,
+    id:number,
+    background:string,
+    userId:number,
+    username:string,
+    tracks:TrackFromServer[]
+}
 
 function HearAlbum() {
     const [isPlayPressed, setPlayPressed] = useState(false);
     const dispath = useDispatch();
+    const params = useParams();
+
+    const {data:album}:{data:{payload:AlbumFromServer}}=useGetAlbumByIdQuery({id:params.id});
+    
+    console.log(params.id);
 
     const track = useAppSelector((state)=>state.track);
     const isPlay = useAppSelector((state)=>state.track.isPlay);
 
-    const params = useParams();
     var data:any;
     // const {data}: { data?: TrackFromServer} = useGetTrackByIdQuery({ Id: params?.trackId });
 
@@ -76,7 +88,7 @@ function HearAlbum() {
             <div className=' col-span-3'>
                 <div className=' bg-middleGrayColor px-4 pt-4 pb-2  rounded-lg'>
                     <div className='flex '>
-                        <div className='rounded w-[350px] bg-center bg-cover mr-2' style={{ backgroundImage:`url(${tmp})`}}>
+                        <div className='rounded w-[350px] bg-center bg-cover mr-2' style={{ backgroundImage:`url(${album?.payload.background})`}}>
                         </div>
                         <div className='  w-full h-full text-almostWhiteColor'>
                             <div className='flex'>
@@ -135,52 +147,30 @@ function HearAlbum() {
             <div className=' col-span-4'>
                 <span className='text-almostWhiteColor'>Tracks in this album</span>
                 <div className=' bg-middleGrayColor rounded-lg p-2 px-4 mt-3'>
-                    <div className='text-almostWhiteColor mt-2 text-[18px]'>7 Tracks</div>
-                    
-                    <div className=' bg-middleGrayColor rounded-lg mt-2 cursor-pointer'>
-                        <div>
-                            <div className='  hover:bg-whiteGrayColor active:bg-almostWhiteColor/60 p-2 flex text-white rounded-lg'>
-                                <span className=' self-center mr-2'>1</span>
-                                <div>
-                                    <div className=' h-12 w-12 bg-cover rounded-lg mx-2' style={{backgroundImage:`url(${tmp})`}}/>
-                                </div>
-                                <span className=' self-center mx-2 text-sm flex-nowrap whitespace-nowrap'>Destructo Disk - Electric Sock</span>
-                                <div className=' w-full text-sm  flex flex-row-reverse'>
-                                    <span className=' self-center mx-4 flex'>
-                                        52
-                                        <img className='h-4 self-center' src={Play_small} />
-                                    </span>
-                                </div>
-                            </div>
-                            <div className='  hover:bg-whiteGrayColor active:bg-almostWhiteColor/60 p-2 flex text-white rounded-lg'>
-                                <span className=' self-center mr-2'>2</span>
-                                <div>
-                                    <div className=' h-12 w-12 bg-cover rounded-lg mx-2' style={{backgroundImage:`url(${tmp})`}}/>
-                                </div>
-                                <span className=' self-center mx-2 text-sm flex-nowrap whitespace-nowrap'>Destructo Disk - Electric Sock</span>
-                                <div className=' w-full text-sm  flex flex-row-reverse'>
-                                    <span className=' self-center mx-4 flex'>
-                                        52
-                                        <img className='h-4 self-center' src={Play_small} />
-                                    </span>
+                    <div className='text-almostWhiteColor mt-2 text-[18px]'>{album?.payload.tracks.length} Tracks</div>
+                    {album?.payload.tracks.map((track,index)=>{
+                        return<>
+                        <div className=' bg-middleGrayColor rounded-lg mt-2 cursor-pointer'>
+                            <div>
+                                <div className='  hover:bg-whiteGrayColor active:bg-almostWhiteColor/60 p-2 flex text-white rounded-lg'>
+                                    <span className=' self-center mr-2'>{index}</span>
+                                    <div>
+                                        <div className=' h-12 w-12 bg-cover rounded-lg mx-2' style={{backgroundImage:`url(${track.image})`}}/>
+                                    </div>
+                                    <span className=' self-center mx-2 text-sm flex-nowrap whitespace-nowrap'>{track.title}</span>
+                                    <div className=' w-full text-sm  flex flex-row-reverse'>
+                                        <span className=' self-center mx-4 flex'>
+                                            {track.views}
+                                            <img className='h-4 self-center' src={Play_small} />
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                            <div className='  hover:bg-whiteGrayColor active:bg-almostWhiteColor/60 p-2 flex text-white rounded-lg'>
-                                <span className=' self-center mr-2'>3</span>
-                                <div>
-                                    <div className=' h-12 w-12 bg-cover rounded-lg mx-2' style={{backgroundImage:`url(${tmp})`}}/>
-                                </div>
-                                <span className=' self-center mx-2 text-sm flex-nowrap whitespace-nowrap'>Destructo Disk - Electric Sock</span>
-                                <div className=' w-full text-sm  flex flex-row-reverse'>
-                                    <span className=' self-center mx-4 flex'>
-                                        52
-                                        <img className='h-4 self-center' src={Play_small} />
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
 
-                    </div>
+                        </div>
+                        </>
+                    })}
+                    
 
                 </div>
             </div>

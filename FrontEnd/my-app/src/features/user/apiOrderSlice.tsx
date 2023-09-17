@@ -34,9 +34,9 @@ export const apiOrderSlice:any = createApi({
           }),
           providesTags:result=>['Order']
         }),
-        getOrdersByCompanyId:builder.query<any,any>({
+        getOrdersByCompanyIdWithPagination:builder.query<any,any>({
           query:(todo)=>({
-            url:'/api/Order/GetOrdersByCompanyId',
+            url:'/api/Order/GetOrdersByCompanyIdWithPagination',
             method:"POST",
             body:todo
           }),
@@ -55,4 +55,4 @@ export const apiOrderSlice:any = createApi({
 })
 
 
-export const {useGetOrdersByUserIdQuery,useGetOrdersByCompanyIdQuery} = apiOrderSlice
+export const {useGetOrdersByUserIdQuery,useGetOrdersByCompanyIdWithPaginationQuery} = apiOrderSlice

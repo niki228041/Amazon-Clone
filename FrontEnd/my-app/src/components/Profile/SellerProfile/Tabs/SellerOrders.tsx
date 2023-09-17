@@ -1,13 +1,19 @@
 import { parseISO,format } from 'date-fns';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { uk } from 'date-fns/locale';
 import { Order, OrderForSeller, OrderedOrder } from '../../../types';
 import { useAppSelector } from '../../../../app/hooks';
-import { apiOrderSlice, useGetOrdersByCompanyIdQuery, useGetOrdersByUserIdQuery } from '../../../../features/user/apiOrderSlice';
+import {  apiOrderSlice, useGetOrdersByCompanyIdWithPaginationQuery} from '../../../../features/user/apiOrderSlice';
 import classNames from 'classnames';
 import arrowDownForSearch from '../../../../images/arrow_down.svg';
 import { useGetCompanyByUserIdQuery } from '../../../../features/user/apiCompanySlice';
 import { Company } from '../../../Admin/types';
+
+
+export interface OrdersWithPagination{
+  orders:OrderForSeller[],
+  total:number
+}
 
 export const OrderItem=({order}:{order:OrderForSeller})=>{
 
@@ -19,7 +25,7 @@ export const OrderItem=({order}:{order:OrderForSeller})=>{
     console.log(order);
     var currency = useAppSelector((state)=>state.currency.currency);
     const parser = new DOMParser();
-  
+      
 
     function formatDateDifference(dateString:string) {
         const date = parseISO(dateString);
@@ -119,19 +125,80 @@ function SellerOrders() {
 
     var {data:company}:{data:Company} = useGetCompanyByUserIdQuery({id:user.id});
     var [closeAnOrderById,{}] = apiOrderSlice.useCloseAnOrderByIdMutation();
+    const [countOfViewedPage, setCountOfViewedPage] = useState<string[]>(["1","2","3"]);
+    var [ordersCount, setOrdersCount] = useState<number>();
   
+    var [page, setPage] = useState(1);
+    var [limit, setLimit] = useState(7);
+
+
+
+
+    const handleSetCountOfPagesToView=()=>{
+      setCountOfViewedPage([]);
   
-    var {data:orders,isSuccess}:{data:OrderForSeller[],isSuccess:boolean} = useGetOrdersByCompanyIdQuery({id:company?.id});
-    console.log(orders);
+      for (let index = 0; index <= 4; index++) {
+        if(page>=2)
+        {
+          if(((index+page) * limit)<ordersCount!+limit)
+          {
+            setCountOfViewedPage(prev=>[...prev,((index+page)).toString()]);
+          }
+        }
+        else{
+          if(((index+1) * limit)<ordersCount!+limit)
+          {
+            setCountOfViewedPage(prev=>[...prev,(index+1).toString()]);
+          }
+        }
+      }
+
+    }
+
+    const handleSetPage=(page:number)=>{
+      setPage(page);
+    }
+
+    var request = {id:company?.id,page:page,limit:limit};
+    var {data:orders,isSuccess}:{data:{payload:OrdersWithPagination},isSuccess:boolean} = useGetOrdersByCompanyIdWithPaginationQuery(request);
+
+    useEffect(()=>{
+      setOrdersCount(orders?.payload.total);
+    },[orders?.payload.orders?.length])
+
+    useEffect(()=>{
+      handleSetCountOfPagesToView();
+    },[page])
+
 
   return (
     <div>
-      <div className='flex'>
+      <div className=''>
 
         <div className=' w-full py-4 '>
-            {orders?.length>0 ? orders?.map(order=>{
+            {orders?.payload.orders?.length>0 ? orders?.payload.orders?.map(order=>{
                 return <OrderItem order={order} />
             }) :"У вас немає поки замовлень"}
+        </div>
+
+        <div className='bottom-0 mb-10 mx-auto flex self-center'>
+          <div className='w-full flex flex-col  mx-auto'>
+            {/* <span className=' flex justify-center'>
+              <span className='mx-1'>Page: {page}</span>
+              <span className='mx-1'>Limit: {limit}</span>
+            </span> */}
+
+            <div className='flex mt-2 justify-center'>
+              <div onClick={()=>{if(page > 1)(handleSetPage(page-1))}} className={classNames(' border transition-all select-none mx-2 cursor-pointer active:scale-110 p-1 px-4 rounded-md',{"text-gray-400":page == 1})}>
+                Назад
+              </div>
+              {countOfViewedPage.map((pageNum)=><div className='border rounded-md py-1 px-3 mx-1 cursor-pointer' onClick={()=>handleSetPage(parseInt(pageNum))}>{pageNum}</div>)}
+              <div onClick={()=>{if((page * (limit))<ordersCount!)(handleSetPage(page+1))}}  className={classNames(' border transition-all select-none mx-2 cursor-pointer active:scale-110 p-1 px-4 rounded-md',{"text-gray-400":(page * limit)>=ordersCount! })}>
+                Вперед
+              </div>
+            </div>
+
+          </div>
         </div>
 
       </div>

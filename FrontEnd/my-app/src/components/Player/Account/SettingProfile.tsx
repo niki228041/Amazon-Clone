@@ -24,6 +24,7 @@ const SettingProfile=()=> {
                             {" bg-white translate-x-5":isAutoPlay}
                             )}>
 
+
                             </div>
                         </div>
                     </div>
