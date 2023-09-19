@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using DAL.Constants;
 using System.Globalization;
 using System.Resources;
+using DAL.Repositories;
 
 
 namespace Infrastructure.Services
@@ -188,6 +189,29 @@ namespace Infrastructure.Services
                 Payload = usersVM
             };
 
+        }
+
+        public async Task<ServiceResponse> EditUserAsync(EditUserDTO model)
+        {
+            var oldUser = await _userRepository.GetUserByEmailAsync(model.Email);
+            var user = _mapper.Map(model, oldUser);
+            if (user != null)
+            {
+                await _userRepository.UpdateUserAsync(user);
+                return new ServiceResponse
+                {
+                    Message = "Користувач був успішно оновлений!",
+                    IsSuccess = true,
+                    Payload = "ok"
+                };
+            }
+
+
+            return new ServiceResponse
+            {
+                Message = "Користувач не був успішно оновлений!",
+                IsSuccess = false,
+            };
         }
 
     }
