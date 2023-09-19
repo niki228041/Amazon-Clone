@@ -17,6 +17,7 @@ import { useAppSelector } from "../../app/hooks";
 import { setCurrentTime, setDurationTime, setIsPlay, setPercentageTime } from "../../features/user/musicStateSlice";
 import { useDispatch } from "react-redux";
 import MiniPlayer from "./MiniPlayer";
+import SelectSongsForAlbumModal from "./Album/SelectSongsForAlbumModal";
 
 
 
@@ -97,10 +98,13 @@ const Player=()=>{
 
   const getCurrDuration = (e:any) => {
     const percent = ((e.currentTarget.currentTime / e.currentTarget.duration) * 100).toFixed(2)
-    const time = e.currentTarget.currentTime
+    const time = e.currentTarget.currentTime;
 
-    setPercentage(+percent)
-    ;
+    console.log("percent");
+    console.log(percent);
+
+    setPercentage(+percent);
+
     dispatch(setPercentageTime(percent));
 
     const audio = audioRef.current;
@@ -111,7 +115,7 @@ const Player=()=>{
   const onChange = () => {
     const audio = audioRef?.current;
 
-    if(onChangeSlider != "" && audio?.duration != undefined && Number(onChangeSlider) < audio?.duration)
+    if(onChangeSlider != "" && audio?.duration != undefined)
       audio.currentTime = (audio?.duration / 100) * Number(onChangeSlider);
 
   }
@@ -237,9 +241,17 @@ const Player=()=>{
     audioRef.current.currentTime = divprogress / 100 * currentSong.length;
   }
 
+  console.log("onChangeSlider");
+  console.log(onChangeSlider);
+
   const onPlaying = () => {
     const duration = audioRef.current.duration;
     const ct = audioRef.current.currentTime;
+
+    console.log("duration");
+    console.log(ct);
+    console.log(duration);
+    console.log(ct / duration * 100);
 
     setCurrentSong({ ...currentSong, "progress": ct / duration * 100, "length": duration })
   }

@@ -103,6 +103,45 @@ namespace ShopApi.Controllers
             return BadRequest(productsBoxing);
         }
 
+
+        [HttpPost]
+        [Route("GetProductWithLimitByUserId")]
+        public async Task<IActionResult> GetProductWithLimitByUserIdAsync(GetProductsWithPaginationAndByUserIdDTO model)
+        {
+            var productsBoxing = await _productService.GetProductWithLimitByUserIdAsync(model);
+
+            var products = (List<ProductVM>)productsBoxing.Payload;
+            var ids = new List<FindByIdVM>();
+            if (products != null)
+            {
+                products.ForEach(prod => ids.Add(new FindByIdVM() { Id = prod.Id }));
+
+                var images = await GetImageLinksByProductsIds(ids);
+
+
+                foreach (var product in products)
+                {
+                    foreach (var image in images)
+                    {
+                        if (image.productId == product.Id)
+                        {
+                            product.Image = image.image; break;
+                        }
+                    }
+                }
+
+                productsBoxing.Payload = products;
+
+                if (productsBoxing.IsSuccess)
+                {
+                    return Ok(productsBoxing);
+                }
+            }
+            return BadRequest(productsBoxing);
+        }
+
+
+
         [HttpPost("DeleteProduct")]
         public async Task<IActionResult> DeleteProductAsync([FromBody] FindByIdVM model)
         {

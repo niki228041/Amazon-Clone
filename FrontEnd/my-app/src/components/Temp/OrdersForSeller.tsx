@@ -1,7 +1,7 @@
 import { useAppSelector } from '../../app/hooks';
 import { UserState } from "../../features/user/user-slice";
 import { Orders } from "../../features/user/ordersStateSlice";
-import { apiOrderSlice, useGetOrdersByCompanyIdQuery, useGetOrdersByUserIdQuery } from '../../features/user/apiOrderSlice';
+import { apiOrderSlice, useGetOrdersByCompanyIdWithPaginationQuery, useGetOrdersByUserIdQuery } from '../../features/user/apiOrderSlice';
 import { OrderForSeller, OrderedOrder } from '../types';
 import { useGetCompanyByUserIdQuery } from '../../features/user/apiCompanySlice';
 import { Company } from '../Admin/types';
@@ -13,7 +13,7 @@ const OrdersForSeller=()=> {
   var [closeAnOrderById,{}] = apiOrderSlice.useCloseAnOrderByIdMutation();
 
 
-  var {data,isSuccess}:{data:OrderForSeller[],isSuccess:boolean} = useGetOrdersByCompanyIdQuery({id:company?.id});
+  var {data,isSuccess}:{data:OrderForSeller[],isSuccess:boolean} = useGetOrdersByCompanyIdWithPaginationQuery({id:company?.id});
   console.log(data);
 
   return (
@@ -30,6 +30,7 @@ const OrdersForSeller=()=> {
                     </span>
                     {order.fullName}
                     <div>
+                        
                         {order.products.map((orderedProduct)=>{
                         
                         return <>

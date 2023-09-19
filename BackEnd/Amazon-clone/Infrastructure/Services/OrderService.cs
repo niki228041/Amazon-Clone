@@ -43,6 +43,7 @@ namespace Infrastructure.Services
         public async Task<OrderVM> AddOrderAsync(OrderDTO model)
         {
             var order = _mapper.Map<OrderDTO, Order>(model);
+            order.isBought = false;
             await _orderRepository.Create(order);
 
             foreach (var orderedProdct_tmp in model.OrderedProducts_)
@@ -62,7 +63,7 @@ namespace Infrastructure.Services
             await _emailService.SendEmailAsync(user.Email, "THANK YOU FOR YOUR PURCHASE", "</div><h1>Your order id:" + order.Id +"</h1>" + 
                 "<p>" +
                 "You can check your order status in your profile" +
-                "<p>" +
+                "</p>" +
                 "<p>" +
                 "If you have any questions write us: allmarkt@gmail.com" +
                 "</p></div>");
@@ -115,6 +116,9 @@ namespace Infrastructure.Services
 
                 var tmpOrder = _mapper.Map<Order, OrderVM>(order);
 
+                var user = await _userRepository.GetUserByIdAsync(order.UserId.ToString());
+                tmpOrder.UserName = user.DisplayName;
+
                 foreach (var item in order.OrderedProducts)
                 {
                     
@@ -129,7 +133,6 @@ namespace Infrastructure.Services
                         Product = _mapper.Map<Product, ProductVM>(item.Product),
                     };
 
-                    ordered.Product.Id = item.Id;
 
                     if (item.ProductId != null)
                     {
@@ -166,6 +169,8 @@ namespace Infrastructure.Services
                     {
                         canCloseOrder = false;
                     }
+
+                    
                 }
 
                 if (canCloseOrder)
@@ -207,17 +212,29 @@ namespace Infrastructure.Services
             foreach (var order in selectedOrders)
             {
                 var tmpOrder = _mapper.Map<Order, OrderVM>(order);
+                var user = await _userRepository.GetUserByIdAsync(order.UserId.ToString());
+                tmpOrder.UserName = user.DisplayName;
 
                 foreach (var item in order.OrderedProducts)
                 {
                     if (tmpOrder.Products == null) { tmpOrder.Products = new List<OrderedProductUpdatedVM>(); }
+
+                    var image = await _productImageService.GetMainImageByIdAsync((int)item.ProductId);
+                    var url = $@"https://amazonclone.monster/api/images/{image.Name + "_" + (int)Qualities.QualitiesSelector.LOW + ".jpg"}";
+
+                    var productVm = _mapper.Map<Product, ProductVM>(item.Product);
+                    productVm.Image = url;
+
                     tmpOrder.Products.Add(new OrderedProductUpdatedVM
                     {
                         isBought=item.isBought,
                         Count = item.Count,
                         Id= item.Id,
-                        Product= _mapper.Map<Product, ProductVM>(item.Product),
+                        Product= productVm,
                     });
+
+                    
+
                 }
                 orderVMs.Add(tmpOrder);
 

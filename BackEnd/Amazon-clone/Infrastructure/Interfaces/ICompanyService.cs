@@ -1,5 +1,6 @@
 ﻿using DAL.Entities;
 using Infrastructure.Models;
+using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,9 @@ namespace Infrastructure.Interfaces
     {
         public Task<List<CompanyVM>> GetAllCompaniesAsync();
         public Task<CompanyVM> AddCompanyAsync(CompanyDTO model);
-        public Task<CompanyVM> AddUserToCompanyAsync(AddUserToCompanyDTO model);
+        public Task<ServiceResponse> AddUserToCompanyAsync(AddUserToCompanyDTO model);
         public Task<Company> GetCompanyByUserIdAsync(int userId);
+        public Task<ServiceResponse> LeaveCompanyByUserIdAsync(int userId);
         public Task<CompanyVM> AddImageByCompanyIdAsync(ImageForCompanyDTO model);
     }
 }

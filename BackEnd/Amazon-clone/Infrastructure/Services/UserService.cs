@@ -56,6 +56,7 @@ namespace Infrastructure.Services
             }
 
             var newUser = _mapper.Map<RegisterViewModel, User>(model);
+            newUser.UserName = newUser.Email;
 
             var result = await _userRepository.RegisterUserAsync(newUser, model.Password);
             
@@ -92,7 +93,7 @@ namespace Infrastructure.Services
                 {
                     case "PasswordTooShort":errorUA = "Пароль повиннен бути не менше чим 6 символів.";break;
                     case "DuplicateUserName": errorUA = "Користувач з таким ім'ям користувача вже існує, виберіть інший!";break;
-                    default: errorUA = "Щось пішло не так...";break;
+                    default: errorUA = error.Code;break;
                 }
 
                 return new ServiceResponse
@@ -192,7 +193,6 @@ namespace Infrastructure.Services
 
         public async Task<ServiceResponse> EditUserAsync(EditUserDTO model)
         {
-           
             var oldUser = await _userRepository.GetUserByEmailAsync(model.Email);
             var user = _mapper.Map(model, oldUser);
             if (user != null)

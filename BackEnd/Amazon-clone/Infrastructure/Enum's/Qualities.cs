@@ -10,9 +10,8 @@ namespace Infrastructure.Enum_s
     {
         public enum QualitiesSelector
         {
-            LOW = 500,
-            NORMAL = 1000,
-            HIGH = 2000,
+            LOW = 400,
+            HIGH = 1400,
         }
     }
 }

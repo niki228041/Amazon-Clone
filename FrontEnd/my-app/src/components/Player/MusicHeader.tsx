@@ -15,6 +15,7 @@ import __1 from "../../images/__1.png"
 import __2 from "../../images/__2.png"
 import __3 from "../../images/__3.png"
 import __4 from "../../images/__4.png"
+import SelectSongsForAlbumModal from "./Album/SelectSongsForAlbumModal";
 
 
 const MusicHeader=()=>{
@@ -40,6 +41,8 @@ const MusicHeader=()=>{
     
 
     return(
+      <>
+      <SelectSongsForAlbumModal/>
       <div className="bg-cover w-full z-20 relative">
             
         <div className="w-full bg-musicHeaderGray text-white">
@@ -49,7 +52,7 @@ const MusicHeader=()=>{
               <img className="h-10 my-1  m-auto" src={allMartMusicLogo} />
           </div>
 
-          <div onClick={()=>navigate("/products")} className="col-start-3 font-semibold text-mainYellowColor flex justify-center cursor-pointer  my-auto self-center">
+          <div onClick={()=>navigate("/")} className="col-start-3 font-semibold text-mainYellowColor flex justify-center cursor-pointer  my-auto self-center">
             ГОЛОВНА
           </div>
 
@@ -95,6 +98,7 @@ const MusicHeader=()=>{
         </div>
         
       </div>
+      </>
     )
 }
 

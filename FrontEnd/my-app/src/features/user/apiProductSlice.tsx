@@ -88,6 +88,7 @@ export const apiProductSlice:any = createApi({
           }),
           invalidatesTags:['Product']
         }),
+        
         createComment:builder.mutation<any,any>({
           query:(todo)=>({
             url:'/api/Comment/CreateComment',
@@ -115,6 +116,14 @@ export const apiProductSlice:any = createApi({
         editProduct:builder.mutation<any,any>({
           query:(todo)=>({
             url:'/api/Products/EditProduct',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Product']
+        }),
+        getProductWithLimitByUserId:builder.mutation<any, any>({
+          query:(todo)=>({
+            url:'/api/Products/GetProductWithLimitByUserId',
             method:"POST",
             body:todo
           }),

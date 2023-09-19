@@ -1,4 +1,7 @@
-﻿using DAL.Entities;
+﻿using DAL.Constants;
+using DAL.Entities;
+using DAL.Entities.DTO_s;
+using Infrastructure.Enum_s;
 using Infrastructure.Interfaces;
 using Infrastructure.Models;
 using Infrastructure.Models.Caterories;
@@ -15,10 +18,12 @@ namespace ShopApi.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
+        private readonly IImageService _imageService;
 
-        public CategoriesController(ICategoryService categoryService)
+        public CategoriesController(ICategoryService categoryService, IImageService imageService)
         {
             _categoryService = categoryService;
+            _imageService = imageService;
         }
 
         [HttpPost]
@@ -48,6 +53,26 @@ namespace ShopApi.Controllers
         public async Task<IActionResult> GetAllSubcategoriesByCategoryIdAsync([FromBody] FindByIdVM model)
         {
             return Ok(await _categoryService.GetNearSubcategoriesByCategoryId(model.Id));
+        }
+
+        [HttpPost]
+        [Route("UploadImage")]
+        public async Task<IActionResult> UploadImage([FromBody] UploadImagesDTO model)
+        {
+            List<string> images = new List<string>();
+            foreach (var Image in model.images)
+            {
+                string fileName = await _imageService.SaveImageAsync(Image, DirectoriesInProject.CategoryImages);
+
+
+
+                string port = string.Empty;
+                if (Request.Host.Port != null)
+                    port = ":" + Request.Host.Port.ToString();
+                var url = $@"https://amazonclone.monster/api/images/{fileName + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
+                images.Add(url);
+            }
+            return Ok(images);
         }
 
         [HttpPost("DeleteCategory")]

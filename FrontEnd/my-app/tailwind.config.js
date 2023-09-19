@@ -52,7 +52,9 @@ module.exports = {
         whiteGrayComment:"#F0F0F0",
         grayForProductToast:"#D9D9D9",
         litleYellow:"#fffbe8",
-        veryYellowColor:"#BEBEBE"
+        veryYellowColor:"#BEBEBE",
+        veryWhiteGrayColor:"#6F6F6F",
+        mostWhiteGrayColor:"#8a8a8a"
 
       }
     },
