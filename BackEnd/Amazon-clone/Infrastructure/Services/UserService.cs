@@ -193,17 +193,14 @@ namespace Infrastructure.Services
 
         public async Task<ServiceResponse> EditUserAsync(EditUserDTO model)
         {
-            var oldUser = await _userRepository.GetUserByIdAsync(model.Id.ToString());
-
+            var oldUser = await _userRepository.GetUserByEmailAsync(model.Email);
             var user = _mapper.Map(model, oldUser);
-
             if (user != null)
             {
                 await _userRepository.UpdateUserAsync(user);
-
                 return new ServiceResponse
                 {
-                    Message = "Продукт був успішно оновлений!",
+                    Message = "Користувач був успішно оновлений!",
                     IsSuccess = true,
                     Payload = "ok"
                 };
@@ -212,7 +209,7 @@ namespace Infrastructure.Services
 
             return new ServiceResponse
             {
-                Message = "Продукт не був успішно оновлений!!!",
+                Message = "Користувач не був успішно оновлений!",
                 IsSuccess = false,
             };
         }

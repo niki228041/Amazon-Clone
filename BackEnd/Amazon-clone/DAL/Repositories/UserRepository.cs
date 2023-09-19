@@ -6,11 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository :  IUserRepository
     {
+        
         private readonly UserManager<User> _userManager;
 
-        public UserRepository(UserManager<User> userManager)
+        public UserRepository(UserManager<User> userManager) 
         {
             _userManager = userManager;
         }
@@ -81,12 +82,15 @@ namespace DAL.Repositories
             await _userManager.UpdateAsync(model);
             return model;
         }
+        
 
         public async Task<User> AddRoleAsync(User model,string role)
         {
             await _userManager.AddToRoleAsync(model, role);
             return model;
         }
+
+       
     }
 }
 
