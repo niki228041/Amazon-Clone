@@ -153,6 +153,8 @@ namespace Infrastructure.Services
         public async Task<ServiceResponse> GetOrdersByCompanyIdWithPaginationAsync(GetOrdersByCompanyIdWithPaginationDTO model)//
         {
             var orders = _orderRepository.GetAll()
+            .Include(order=>order.Card)
+            .Include(order=>order.Address)
             .Include(order => order.OrderedProducts)
                 .ThenInclude(orderedProduct => orderedProduct.Product) // Include the related products
             .ToList();
@@ -220,6 +222,11 @@ namespace Infrastructure.Services
             foreach (var order in selectedOrders)
             {
                 var tmpOrder = _mapper.Map<Order, OrderVM>(order);
+                var address = _mapper.Map<Address,AddressVM>(order.Address);
+                var card = _mapper.Map< Card, CardVM>(order.Card);
+                tmpOrder.Address = address;
+                tmpOrder.Card = card;
+
                 var user = await _userRepository.GetUserByIdAsync(order.UserId.ToString());
                 tmpOrder.UserName = user.DisplayName;
 

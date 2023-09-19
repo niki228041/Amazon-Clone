@@ -20,6 +20,7 @@ export const OrderItem=({order}:{order:OrderForSeller})=>{
     var currency = useAppSelector((state)=>state.currency.currency);
     var [closeAnOrderById,{}] = apiOrderSlice.useCloseAnOrderByIdMutation();
 
+
     const [dropDown,setDropDown] =  useState(false);
     const [elementHeight, setElementHeight] = useState("0px"); // Initial height
     console.log(order);
@@ -66,7 +67,7 @@ export const OrderItem=({order}:{order:OrderForSeller})=>{
           <span className=' text-grayColorForHeader text-sm font-medium'>ЗАМОВЛЕННЯ № {order.id}</span>
           <div className='flex justify-between'>
             <span className=' font-medium cursor-pointer text-sm text-darkBlueColor'>Деталі </span>
-            <div className='flex cursor-pointer' onClick={()=>{setDropDown(!dropDown);setElementHeight(dropDown ? '0px' : (order?.products?.length * 167 + 60)+ "px");}}>
+            <div className='flex cursor-pointer' onClick={()=>{setDropDown(!dropDown);setElementHeight(dropDown ? '0px' : (order?.products?.length * 167 + 300)+ "px");}}>
               <span className=' font-medium text-sm text-darkBlueColor' >Invoice</span>
               <img className={classNames(" transition-all h-6 ",{"rotate-180":dropDown})} src={arrowDownForSearch} />
             </div>
@@ -78,11 +79,74 @@ export const OrderItem=({order}:{order:OrderForSeller})=>{
 
         </div>
 
+
+
         <div className='  w-full is-profile overflow-hidden  ' style={{ height: elementHeight}}>
+
+            <p className=' pt-4 font-semibold text-xl mt-2'>Адреса</p>
+            <div className=' flex justify-between px-16'>
+              <div>
+                <p className=' pt-2 font-semibold text-md'>Країна</p>
+                <p className=' pt-2  text-md'>{order.address.country}</p>
+              </div>
+
+              <div className=' w-[4px] self-center h-[55px] bg-slate-300 rounded-lg'/>
+              
+              <div>
+                <p className=' pt-2 font-semibold text-md'>Місто</p>
+                <p className=' pt-2  text-md'>{order.address.city}</p>
+              </div>
+
+              <div className=' w-[4px] self-center h-[55px] bg-slate-300 rounded-lg'/>
+
+              <div>
+                <p className=' pt-2 font-semibold text-md'>Вулиця</p>
+                <p className=' pt-2  text-md'>{order.address.street}</p>
+              </div>
+
+              <div className=' w-[4px] self-center h-[55px] bg-slate-300 rounded-lg'/>
+
+              <div>
+                <p className=' pt-2 font-semibold text-md'>Поштовий індех</p>
+                <p className=' pt-2  text-md'>{order.address.postcode}</p>
+              </div>
+
+              <div className=' w-[4px] self-center h-[55px] bg-slate-300 rounded-lg'/>
+
+              <div className=''>
+                <p className=' pt-2 font-semibold text-md'>Телефон</p>
+                <p className=' pt-2  text-md'>{order.address.phone}</p>
+              </div>
+
+            </div>
+
+            <p className=' pt-4 font-semibold text-xl mt-2'>Банківська картка</p>
+            <div className=' flex justify-between px-16 w-1/2'>
+              <div>
+                <p className=' pt-2 font-semibold text-md'>Ім’я Власника</p>
+                <p className=' pt-2  text-md'>{order.card.ownerName}</p>
+              </div>
+
+              <div className=' w-[4px] self-center h-[55px] bg-slate-300 rounded-lg'/>
+              
+              <div>
+                <p className=' pt-2 font-semibold text-md'>Номер картки</p>
+                <p className=' pt-2  text-md'>{order.card.cardNumber}</p>
+              </div>
+
+              <div className=' w-[4px] self-center h-[55px] bg-slate-300 rounded-lg'/>
+
+              <div>
+                <p className=' pt-2 font-semibold text-md'>Дата</p>
+                <p className=' pt-2  text-md'>{order.card.month}/{order.card.year}</p>
+              </div>
+              
+            </div>
+
+
             {order.products != null ?
             <>
-              <p className=' pt-4 font-semibold text-lg'>Доставлено {formatDateDifference(order?.dateCreated)}</p>
-              <p className=' font-semibold '>Посилка була передана покупцю </p>
+              <p className=' pt-4 font-semibold text-xl mt-2'>Замовлені товари</p>
             </>
 
             :""}
@@ -113,7 +177,6 @@ export const OrderItem=({order}:{order:OrderForSeller})=>{
             ) }
         </div>
 
-
     </div>
     )
 }
@@ -129,7 +192,7 @@ function SellerOrders() {
     var [ordersCount, setOrdersCount] = useState<number>();
   
     var [page, setPage] = useState(1);
-    var [limit, setLimit] = useState(7);
+    var [limit, setLimit] = useState(4);
 
 
 
@@ -168,7 +231,7 @@ function SellerOrders() {
 
     useEffect(()=>{
       handleSetCountOfPagesToView();
-    },[page])
+    },[page,orders?.payload.orders?.length])
 
     useEffect(()=>{
       handleSetCountOfPagesToView();
@@ -179,7 +242,7 @@ function SellerOrders() {
       <div className=''>
 
         <div className=' w-full py-4 '>
-            {orders?.payload.orders?.length>0 ? orders?.payload.orders?.map(order=>{
+            {orders?.payload.orders?.length>0 ? orders?.payload.orders?.slice().map(order=>{
                 return <OrderItem order={order} />
             }) :"У вас немає поки замовлень"}
         </div>

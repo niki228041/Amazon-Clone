@@ -80,6 +80,8 @@ export interface OrderForSeller{
     userName:string;
     cardId:number;
     addressId:number;
+    address:Address;
+    card:Card;
     dateCreated:string;
     products:OrderedProductUpdated[];
 }
