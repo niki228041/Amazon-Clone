@@ -139,6 +139,11 @@ public class AppMappingProfile : Profile
 
         CreateMap<EditProductDTO, Product>();
         CreateMap<Product, EditProductDTO>();
+
+        CreateMap<Address, AddressVM>();
+        CreateMap<AddressVM, Address>();
+
+        
     }
 
 
