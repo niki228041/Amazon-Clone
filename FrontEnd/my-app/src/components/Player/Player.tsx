@@ -309,6 +309,9 @@ const Player=()=>{
             Home
           </div>
 
+
+          {auth == true ?
+          <>
           <div onClick={()=>changeTab("history")}
           className={
             "cursor-pointer flex p-1 justify-center self-center px-2 col-start-9" +
@@ -327,12 +330,13 @@ const Player=()=>{
               (whatIsOpen === "likes" ? " text-orangeColor" : "")
             }>Likes</div>
 
-          {auth == true ?
+          
           <div onClick={()=>changeTab("mytracks")}
             className={
               "cursor-pointer flex p-1 justify-center self-center px-2 col-start-12" +
               (whatIsOpen === "mytracks" ? " text-orangeColor" : "")
             }>My Tracks</div>
+          </>
           :""
           }
         </div>
