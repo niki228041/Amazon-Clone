@@ -150,12 +150,21 @@ namespace Infrastructure.Services
             return orderVMs;
         }
 
-        public async Task<List<OrderVM>> GetOrdersByCompanyIdAsync(int id)
+        public async Task<ServiceResponse> GetOrdersByCompanyIdWithPaginationAsync(GetOrdersByCompanyIdWithPaginationDTO model)//
         {
             var orders = _orderRepository.GetAll()
             .Include(order => order.OrderedProducts)
                 .ThenInclude(orderedProduct => orderedProduct.Product) // Include the related products
             .ToList();
+
+            if(!orders.Any())
+            {
+                return new ServiceResponse()
+                {
+                    Message = "У вас немає замовлень",
+                    IsSuccess = false
+                };
+            }
 
             var selectedOrders = new List<Order>();
 
@@ -169,7 +178,6 @@ namespace Infrastructure.Services
                     {
                         canCloseOrder = false;
                     }
-
                     
                 }
 
@@ -191,7 +199,7 @@ namespace Infrastructure.Services
                 for (int i = 0; i < orderedProductsList.Count; i++)
                 {
                     if (orderedProductsList[i].ProductId != null)
-                    if (orderedProductsList[i].Product.CompanyId==id)
+                    if (orderedProductsList[i].Product.CompanyId== model.Id)
                     {
                         selectedProducts.Add(orderedProductsList[i]);
                     }
@@ -240,7 +248,28 @@ namespace Infrastructure.Services
 
             }
 
-            return orderVMs;
+            var page = model.Page;
+            var limit = model.Limit;
+
+            var startIndex = (page - 1) * limit;
+            var endIndex = page * limit;
+
+
+            var res = orderVMs
+                .Skip(startIndex)
+                .Take(limit)
+                .ToList();
+
+            OrdersWithPagination ordersWithPagination = new OrdersWithPagination();
+            ordersWithPagination.Orders = res;
+            ordersWithPagination.Total = orderVMs.Count;
+
+            return new ServiceResponse()
+            {
+                Message="Замовлення за ід компанії",
+                Payload= ordersWithPagination,
+                IsSuccess=true
+            };
         }
 
 

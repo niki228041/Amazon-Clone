@@ -51,5 +51,13 @@ namespace ShopApi.Controllers
             return Ok(res);
         }
 
+        [HttpPost]
+        [Route("GetAlbumById")]
+        public async Task<IActionResult> GetAlbumByIdAsync(FindByIdVM model)
+        {
+            var res = await _albumService.GetAlbumByIdAsync(model.Id);
+            return Ok(res);
+        }
+
     }
 }

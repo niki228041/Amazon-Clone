@@ -38,10 +38,10 @@ namespace ShopApi.Controllers
             return Ok(result);
         }
 
-        [HttpPost("GetOrdersByCompanyId")]
-        public async Task<IActionResult> GetOrdersByCompanyIdAsync(FindByIdVM model)
+        [HttpPost("GetOrdersByCompanyIdWithPagination")]
+        public async Task<IActionResult> GetOrdersByCompanyIdWithPaginationAsync(GetOrdersByCompanyIdWithPaginationDTO model)
         {
-            var result = await _orderService.GetOrdersByCompanyIdAsync(model.Id);
+            var result = await _orderService.GetOrdersByCompanyIdWithPaginationAsync(model);
             return Ok(result);
         }
 

@@ -111,12 +111,18 @@ namespace Infrastructure.Services
             var tracksVMs = _mapper.Map<List<Track>, List<TrackVM>>(tracks);
             var likedTracks = await _likedTracksService.GetLikedTracks();
 
+            var allHistory = await _trackHistoryService.GetAllTrackHistoryAsync();
+
+            
+
             foreach (var track in tracksVMs)
             {
                 foreach (var likedTrack in likedTracks)
                 {
                     if (likedTrack.Track.Id == track.Id)
                         track.WasLikedByUsers.Add((int)likedTrack.UserId);
+
+                    track.Views = allHistory.FindAll(his => his.TrackId == track.Id).Count;
                 }
             }
 
@@ -239,6 +245,39 @@ namespace Infrastructure.Services
 
             return trackVM;
         }
+
+        public async Task<List<TrackVM>> GetTrackByIdsAsync(FindByIdVM[] model)
+        {
+            var trackIds = model.Select(m => m.Id).ToArray();
+
+            var tracks = await _trackRepository.GetAll()
+                .Where(track => trackIds.Contains(track.Id))
+                .ToListAsync();
+
+            var likedTracks = await _likedTracksService.GetLikedTracks();
+            var allHistory = await _trackHistoryService.GetAllTrackHistoryAsync();
+
+            var trackVMs = new List<TrackVM>();
+
+            foreach (var track in tracks)
+            {
+                var trackVM = _mapper.Map<Track, TrackVM>(track);
+
+                trackVM.Views = allHistory.Count(his => his.TrackId == track.Id);
+
+                foreach (var likedTrack in likedTracks)
+                {
+                    if (likedTrack.Track.Id == track.Id)
+                        trackVM.WasLikedByUsers.Add((int)likedTrack.UserId);
+                }
+
+                trackVMs.Add(trackVM);
+            }
+
+            return trackVMs;
+        }
+
+        
 
         public async Task<List<TrackVM>> GetSearchTracksByNameAsync(string name)
         {
