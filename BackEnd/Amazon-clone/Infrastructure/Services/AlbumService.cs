@@ -97,8 +97,13 @@ namespace Infrastructure.Services
                 foreach (var track in album.TrackAlbums)
                 {
                     var trackVm = _mapper.Map<Track, TrackVM>(track.Track);
+
+                    trackVm.Image = $@"https://amazonclone.monster/api/{DirectoriesInProject.MusicImages}/{trackVm.Image + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
+                    trackVm.Song = $@"https://amazonclone.monster/api/{DirectoriesInProject.MusicFiles}/{trackVm.Song}";
+
                     tracksList.Add(trackVm);
                 }
+
                 albumVm.Tracks = tracksList;
                 if (album.User != null)
                     albumVm.Username = album.User.DisplayName;

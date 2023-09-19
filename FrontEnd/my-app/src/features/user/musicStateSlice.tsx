@@ -6,6 +6,7 @@ import { TrackFromServer } from "../../components/Player/Player";
 
 export interface Track{
     currentTrack:TrackFromServer | null;
+    tracksQuery:TrackFromServer[] | null;
     isPlay:boolean;
     currentTime:number;
     duration:number;
@@ -17,6 +18,7 @@ export interface Track{
 // State :
 const initialState:Track= {
     currentTrack:null,
+    tracksQuery:[],
     isPlay:false,
     currentTime:0,
     duration:0,
@@ -45,6 +47,10 @@ const trackSlice = createSlice(
         {
             state.currentTime = action?.payload;
         },
+        setTracksQuery(state,action:PayloadAction<TrackFromServer[]|null>)
+        {
+            state.tracksQuery = action?.payload;
+        },
         setDurationTime(state,action:PayloadAction<number>)
         {
             state.duration = action.payload;
@@ -71,5 +77,16 @@ const trackSlice = createSlice(
     extraReducers(builder){}
 });
 
-export const { changeTrack, deleteTrack,setIsPlay,setCurrentTime,setDurationTime,setPercentageTime,setOnChangeSlider,setLikes,setMenu,setMainMusicProfile} = trackSlice.actions
+export const { 
+    changeTrack, 
+    deleteTrack,
+    setIsPlay,
+    setCurrentTime,
+    setDurationTime,
+    setPercentageTime,
+    setOnChangeSlider,
+    setLikes,
+    setMenu,
+    setMainMusicProfile,
+    setTracksQuery} = trackSlice.actions
 export default trackSlice.reducer;

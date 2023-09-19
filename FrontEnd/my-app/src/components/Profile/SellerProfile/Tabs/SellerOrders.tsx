@@ -129,7 +129,7 @@ function SellerOrders() {
     var [ordersCount, setOrdersCount] = useState<number>();
   
     var [page, setPage] = useState(1);
-    var [limit, setLimit] = useState(7);
+    var [limit, setLimit] = useState(4);
 
 
 
@@ -168,7 +168,7 @@ function SellerOrders() {
 
     useEffect(()=>{
       handleSetCountOfPagesToView();
-    },[page])
+    },[page,orders?.payload.orders?.length])
 
     useEffect(()=>{
       handleSetCountOfPagesToView();
@@ -179,7 +179,7 @@ function SellerOrders() {
       <div className=''>
 
         <div className=' w-full py-4 '>
-            {orders?.payload.orders?.length>0 ? orders?.payload.orders?.map(order=>{
+            {orders?.payload.orders?.length>0 ? orders?.payload.orders?.slice().map(order=>{
                 return <OrderItem order={order} />
             }) :"У вас немає поки замовлень"}
         </div>
