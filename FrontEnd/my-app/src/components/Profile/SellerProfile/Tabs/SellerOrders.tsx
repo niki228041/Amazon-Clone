@@ -170,6 +170,9 @@ function SellerOrders() {
       handleSetCountOfPagesToView();
     },[page])
 
+    useEffect(()=>{
+      handleSetCountOfPagesToView();
+    })
 
   return (
     <div>

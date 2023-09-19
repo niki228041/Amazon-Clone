@@ -236,17 +236,6 @@ namespace ShopApi.Controllers
             return Ok(token);
         }
 
-        [HttpPost]
-        [Route("EditUser")]
-        public async Task<IActionResult> EditUserAsync(EditUserDTO model)
-        {
-            var res = await _userService.EditUserAsync(model);
-            if (res.IsSuccess)
-            {
-                return Ok(res);
-            }
-            return BadRequest(res);
-        }
 
     }   
 }

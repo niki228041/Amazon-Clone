@@ -67,10 +67,10 @@ const EditProfile=()=> {
 
             <div className='my-8 flex text-[20px] text-grayColorForHeader font-semibold mb-2'>Персональна інформація</div>
             <div className='grid grid-cols-3 gap-5 my-8'>
-                <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 '  value={firstName} onChange={(e) => {
+                <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 ' placeholder='Ім`я'  value={firstName} onChange={(e) => {
                   setUserName(e.currentTarget.value)
                 }} />
-                <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 ' value={userSurname} onChange={(e) => {
+                <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 '  placeholder='Прізвище' value={userSurname} onChange={(e) => {
                   setSurname(e.currentTarget.value)
                 }} />
                 <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 ' placeholder='По‑батькові' />
@@ -135,10 +135,10 @@ const EditProfile=()=> {
 
             <div className='my-8 flex text-[20px] text-grayColorForHeader font-semibold mb-2'>Контактні дані</div>
             <div className='grid grid-cols-3 gap-5 my-8'>
-                <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 ' value={phoneNumber} onChange={(e) => {
+                <input placeholder='Номер' className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 ' value={phoneNumber} onChange={(e) => {
                   setPhoneNumber(e.currentTarget.value)
                 }} />
-                <input className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 ' value={email} onChange={(e) => {
+                <input placeholder='Емайл' className='flex h-10 self-center rounded-lg border border-gray-400 outline-0 px-4 ' value={email} onChange={(e) => {
                   setEmail(e.currentTarget.value)
                 }} />
             </div>
