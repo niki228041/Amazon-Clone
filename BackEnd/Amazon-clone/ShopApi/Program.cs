@@ -74,6 +74,7 @@ builder.Services.AddScoped<ITrackGenreRepository, TrackGenreRepository>();
 builder.Services.AddScoped<IFAQRepository, FAQRepository>();
 builder.Services.AddScoped<IAnswerFAQRepository, AnswerFAQRepository>();
 builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
+builder.Services.AddScoped<IUserFollowerRepository, UserFollowerRepository>();
 
 
 

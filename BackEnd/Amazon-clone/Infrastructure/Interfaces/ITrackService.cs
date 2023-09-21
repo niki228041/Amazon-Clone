@@ -21,9 +21,13 @@ namespace Infrastructure.Interfaces
         Task<List<TrackVM>> GetTrackHistoryByUserIdAsync(FindByIdVM model);
         Task<TrackVM> GetTrackByIdAsync(int id);
         Task<List<TrackVM>> GetTrackByIdsAsync(FindByIdVM[] model);
-        
+
+        Task<ServiceResponse> SubscribeAsync(SubscribeDTO model);
         Task DeleteTrackAsync(int id);
         Task<List<TrackVM>> GetSearchTracksByNameAsync(string name);
-        
+        Task<ServiceResponse> GetSubscribersByUserIdAsync(int id);
+        Task<ServiceResponse> GetMySubscribesByUserIdAsync(int id);
+
+
     }
 }

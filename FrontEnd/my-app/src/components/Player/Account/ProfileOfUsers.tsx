@@ -4,25 +4,23 @@ import Play_small from "../../../images/play.png";
 import { useAppSelector } from '../../../app/hooks';
 import { TrackFromServer } from '../Player';
 import { useGetLikedTracksByUserIdQuery, useGetMySubscribesByUserIdQuery, useGetSubscribersByUserIdQuery, useGetTracksByUserIdQuery } from '../../../features/user/apiPlayerSlice';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import plus from '../../../images/PlusForComment.svg'
 import classNames from 'classnames';
-import { User, UserVM } from '../../types';
+import { User } from '../../types';
 
-const MainProfile=()=> {
+const ProfileOfUsers=()=> {
 
-//   const user = useAppSelector((state)=>state.user.user);
+  const user = useAppSelector((state)=>state.user.user);
+  var {data:userTracks}:{data:TrackFromServer[]} = useGetTracksByUserIdQuery({id:user.id});
 
-  var params = useParams();
-  
-  var userId = params.userId;
 
-  var {data:userTracks}:{data:TrackFromServer[]} = useGetTracksByUserIdQuery({id:userId});
-  var {data:followers}:{data:{payload:UserVM[]}} = useGetSubscribersByUserIdQuery({id:userId});
-  var {data:following}:{data:{payload:UserVM[]}} = useGetMySubscribesByUserIdQuery({id:userId});
-  var {data:userTracks}:{data:TrackFromServer[]} = useGetTracksByUserIdQuery({id:userId});
-  var {data:likedTracks}:{data:TrackFromServer[]} = useGetLikedTracksByUserIdQuery({id:userId});
+
+  var {data:followers}:{data:{payload:User[]}} = useGetSubscribersByUserIdQuery({id:user.id});
+  var {data:following}:{data:{payload:User[]}} = useGetMySubscribesByUserIdQuery({id:user.id});
+  var {data:userTracks}:{data:TrackFromServer[]} = useGetTracksByUserIdQuery({id:user.id});
+  var {data:likedTracks}:{data:TrackFromServer[]} = useGetLikedTracksByUserIdQuery({id:user.id});
 
   var navigate = useNavigate();
 
@@ -94,23 +92,43 @@ const MainProfile=()=> {
 
                 <div className='rounded-lg mt-1'>
                     <div className=' bg-middleGrayColor p-1 rounded-lg mt-4'>
-                    {followers?.payload?.map((follower)=>{
-                        return<>
-                        <div>
-                            <div className='  hover:bg-whiteGrayColor select-none active:bg-almostWhiteColor/60 p-2 flex text-white rounded-lg'>
-                                <div>
-                                    <div className=' h-12 w-12 bg-cover rounded-lg mx-2' style={{backgroundImage:`url(${follower?.avatar})`}}/>
-                                </div>
-                                <div className='flex relative'>
-                                    <span className=' self-start mx-2 flex-nowrap whitespace-nowrap'>{follower?.firstName}</span>
-                                    <span className=' self-end mx-2 text-sm text-almostWhiteColor flex-nowrap whitespace-nowrap absolute'>See Profile</span>
-                                </div>
-
+                    <div>
+                        <div className='  hover:bg-whiteGrayColor select-none active:bg-almostWhiteColor/60 p-2 flex text-white rounded-lg'>
+                            <div>
+                                <div className=' h-12 w-12 bg-cover rounded-lg mx-2' style={{backgroundImage:`url(${tmp})`}}/>
                             </div>
+                            <div className='flex relative'>
+                                <span className=' self-start mx-2 flex-nowrap whitespace-nowrap'>Uishjro</span>
+                                <span className=' self-end mx-2 text-sm text-almostWhiteColor flex-nowrap whitespace-nowrap absolute'>342 Followers</span>
+                            </div>
+                           
                         </div>
+                    </div>
+                    <div>
+                        <div className='  hover:bg-whiteGrayColor select-none active:bg-almostWhiteColor/60 p-2 flex text-white rounded-lg'>
+                            <div>
+                                <div className=' h-12 w-12 bg-cover rounded-lg mx-2' style={{backgroundImage:`url(${tmp})`}}/>
+                            </div>
+                            <div className='flex relative'>
+                                <span className=' self-start mx-2 flex-nowrap whitespace-nowrap'>Uishjro</span>
+                                <span className=' self-end mx-2 text-sm text-almostWhiteColor flex-nowrap whitespace-nowrap absolute'>342 Followers</span>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <div>
+                        <div className='  hover:bg-whiteGrayColor select-none active:bg-almostWhiteColor/60 p-2 flex text-white rounded-lg'>
+                            <div>
+                                <div className=' h-12 w-12 bg-cover rounded-lg mx-2' style={{backgroundImage:`url(${tmp})`}}/>
+                            </div>
+                            <div className='flex relative'>
+                                <span className=' self-start mx-2 flex-nowrap whitespace-nowrap'>Uishjro</span>
+                                <span className=' self-end mx-2 text-sm text-almostWhiteColor flex-nowrap whitespace-nowrap absolute'>342 Followers</span>
+                            </div>
+                           
+                        </div>
+                    </div>
 
-                        </>
-                    })}
 
                 </div>
                 <div className=' text-white text-lg mt-6 flex justify-between'>
@@ -149,4 +167,4 @@ const MainProfile=()=> {
   )
 }
 
-export default MainProfile
+export default ProfileOfUsers

@@ -16,10 +16,14 @@ namespace Infrastructure.Models
         public string Image { get; set; }
         public int AlbumId_ { get; set; }
         public int UserId { get; set; }
+        public string Username { get; set; }
+        
         public List<int> GenresIds { get; set; }
         public string Song { get; set; }
         public List<GenreVM> Genres { get; set; }
         public List<int> WasLikedByUsers { get; set; }=new List<int>();
+        public List<AllUsersVM> Subscribers { get; set; }=new List<AllUsersVM>();
+        
         public int Views { get; set; }
         public int Comments { get; set; }
         public DateTime DateCreated { get; set; }

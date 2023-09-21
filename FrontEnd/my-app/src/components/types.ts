@@ -116,7 +116,8 @@ export interface UserVM {
     lastName: string,
     userName: string,
     email: string,
-    avatar:string
+    avatar:string,
+    id:number,
 }
 
 export interface Login {

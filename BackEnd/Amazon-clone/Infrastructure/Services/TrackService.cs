@@ -13,6 +13,7 @@ using DAL.Entities.FilterEntities;
 using Microsoft.VisualBasic;
 using DAL.Entities.Music;
 using DAL.Constants;
+using DAL.Migrations;
 
 namespace Infrastructure.Services
 {
@@ -26,9 +27,11 @@ namespace Infrastructure.Services
         private readonly ITrackHistoryService _trackHistoryService;
         private readonly ITrackCommentService _trackCommentService;
         private readonly ITrackGenreRepository _trackGenreRepository;
+        private readonly IUserFollowerRepository _userFollowerRepository;
+
         private readonly IGenreService _genreService;
 
-        public TrackService(IMapper mapper, ITrackRepository trackRepository, IImageService imageService, ILikedTracksService likedTracksService, IUserRepository userRepository, ITrackHistoryService trackHistoryService, ITrackCommentService trackCommentService, ITrackGenreRepository trackGenreRepository, IGenreService genreService)
+        public TrackService(IMapper mapper, ITrackRepository trackRepository, IImageService imageService, ILikedTracksService likedTracksService, IUserRepository userRepository, ITrackHistoryService trackHistoryService, ITrackCommentService trackCommentService, ITrackGenreRepository trackGenreRepository, IGenreService genreService, IUserFollowerRepository userFollowerRepository)
         {
             _mapper = mapper;
             _trackRepository = trackRepository;
@@ -39,6 +42,7 @@ namespace Infrastructure.Services
             _trackCommentService = trackCommentService;
             _trackGenreRepository = trackGenreRepository;
             _genreService = genreService;
+            _userFollowerRepository = userFollowerRepository;
         }
 
         public async Task<Track> CreateTrackAsync(TrackDTO model)
@@ -157,6 +161,9 @@ namespace Infrastructure.Services
             var likedTracks = await _likedTracksService.GetLikedTracksByUserId(id);
             var list = new List<TrackVM>();
             likedTracks.ForEach(lt=>list.Add(lt.Track));
+            var allHistory = await _trackHistoryService.GetAllTrackHistoryAsync();
+
+            list.ForEach(track => track.Views = allHistory.FindAll(his => his.TrackId == track.Id).Count);
 
             return list;
         }
@@ -234,6 +241,14 @@ namespace Infrastructure.Services
             var trackVM = _mapper.Map<Track, TrackVM>(track);
             var likedTracks = await _likedTracksService.GetLikedTracks();
             var allHistory = await _trackHistoryService.GetAllTrackHistoryAsync();
+
+            var user = await _userRepository.GetUserByIdAsync(track.UserId.ToString());
+
+            var subscribers = await GetSubscribersByUserIdAsync((int)track.UserId);
+            trackVM.Subscribers = (List<AllUsersVM>)subscribers.Payload;
+
+            trackVM.Username = user.DisplayName;
+
 
             trackVM.Views = allHistory.FindAll(his => his.TrackId == track.Id).Count;
 
@@ -313,5 +328,189 @@ namespace Infrastructure.Services
 
             return tracksVM;
         }
+
+        public async Task<ServiceResponse> SubscribeAsync(SubscribeDTO model)
+        {
+            var user = await _userRepository.GetUserByIdAsync(model.UserId.ToString());
+            var subscriber = await _userRepository.GetUserByIdAsync(model.SubscriberId.ToString());
+            var userFollowers = _userFollowerRepository.GetAll();
+
+            if (user == null)
+            {
+                return new ServiceResponse()
+                {
+                    Message = "Не знайденно такого користувача.",
+                    IsSuccess= false
+                };
+            }
+
+            if (subscriber == null)
+            {
+                return new ServiceResponse()
+                {
+                    Message = "Ви не зареэстровані.",
+                    IsSuccess = false
+                };
+            }
+
+            var canSubscribe = false;
+            UserFollower follower = null;
+
+            foreach (var foll in userFollowers)
+            {
+                if(foll.UserId == model.UserId && foll.FollowerId == model.SubscriberId)
+                {
+                    canSubscribe = true;
+                    follower = foll;
+                }
+            }
+
+
+            if (!canSubscribe)
+            {
+                await _userFollowerRepository.Create(new UserFollower() { UserId = user.Id, FollowerId = subscriber.Id });
+
+                return new ServiceResponse()
+                {
+                    Message = "Ви підписалися.",
+                    IsSuccess = false
+                };
+            }
+            else
+            {
+                if(follower != null)
+                {
+                    await _userFollowerRepository.Delete(follower);
+
+                    return new ServiceResponse()
+                    {
+                        Message = "Ви вже були підписані, тому відписалися.",
+                        IsSuccess = false
+                    };
+                }
+                else
+                {
+                    return new ServiceResponse()
+                    {
+                        Message = "Немаэ підписників.",
+                        IsSuccess = false
+                    };
+                }
+                
+
+            }
+
+        }
+
+        public async Task<ServiceResponse> GetSubscribersByUserIdAsync(int id)
+        {
+            var user = await _userRepository.GetUserByIdAsync(id.ToString());
+            var userFollowers = _userFollowerRepository.GetAll();
+
+
+            if (user == null)
+            {
+                return new ServiceResponse()
+                {
+                    Message = "Ви не зареэстровані.",
+                    IsSuccess = false,
+                };
+            }
+
+            var followers = new List<UserFollower>();
+
+            foreach (var foll in userFollowers)
+            {
+                if (foll.UserId == id)
+                {
+                    followers.Add(foll);
+                }
+            }
+
+            if (followers.Count >=0)
+            {
+                var subscribersVms = new List<AllUsersVM>();
+                foreach (var foll in followers)
+                {
+                    var tmp = await _userRepository.GetUserByIdAsync(foll.FollowerId.ToString());
+                    var userVm = _mapper.Map<User, AllUsersVM>(tmp);
+                    userVm.Username = tmp.DisplayName;
+
+                    subscribersVms.Add(userVm);
+                }
+                
+
+                return new ServiceResponse()
+                {
+                    Message = "Список підписників.",
+                    IsSuccess = true,
+                    Payload = subscribersVms
+                };
+            }
+
+            return new ServiceResponse()
+            {
+                Message = "Немаэ підписників.",
+                IsSuccess = false,
+            };
+
+        }
+
+        public async Task<ServiceResponse> GetMySubscribesByUserIdAsync(int id)
+        {
+            var user = await _userRepository.GetUserByIdAsync(id.ToString());
+            var userFollowers = _userFollowerRepository.GetAll();
+
+
+            if (user == null)
+            {
+                return new ServiceResponse()
+                {
+                    Message = "Ви не зареэстровані.",
+                    IsSuccess = false,
+                };
+            }
+
+            var followers = new List<UserFollower>();
+
+            foreach (var foll in userFollowers)
+            {
+                if (foll.FollowerId == id)
+                {
+                    followers.Add(foll);
+                }
+            }
+
+            if (followers.Count >= 0)
+            {
+                var subscribers = new List<User>();
+                foreach (var foll in followers)
+                {
+                    var tmp = await _userRepository.GetUserByIdAsync(foll.UserId.ToString());
+
+                    subscribers.Add(tmp);
+                }
+
+
+                var subscribersVms = _mapper.Map<List<User>, List<AllUsersVM>>(subscribers);
+
+
+                return new ServiceResponse()
+                {
+                    Message = "Список виконавців.",
+                    IsSuccess = true,
+                    Payload = subscribersVms
+                };
+            }
+
+            return new ServiceResponse()
+            {
+                Message = "Немаэ виконавців.",
+                IsSuccess = false,
+            };
+
+        }
+
+
     }
 }

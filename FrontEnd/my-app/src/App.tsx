@@ -101,6 +101,7 @@ import SellerWrap from './components/Profile/SellerProfile/SellerWrap';
 import MySellerCompany from './components/Profile/SellerProfile/Tabs/MyCompany';
 import SellerOrders from './components/Profile/SellerProfile/Tabs/SellerOrders';
 import AddedProducts from './components/Profile/SellerProfile/Tabs/AddedProducts';
+import ProfileOfUsers from './components/Player/Account/ProfileOfUsers';
 
 
 
@@ -159,13 +160,12 @@ const App: React.FC = () => {
           <Route path='viewTrack/:trackId' element={<ViewTrack />} />
           <Route path='searchTracks' element={<SearchTracks />} />
           <Route path='playlists' element={<Playlists />} />
-          
 
           <Route path='album' >
               <Route path=':id' element={<HearAlbum/>}/>
           </Route>
           <Route path='profile' element={<MusicProfile />} >
-            <Route path='main' element={<MainProfile />} />
+            <Route path='main/:userId' element={<MainProfile />} />
             <Route path='settings' element={<SettingProfile />} />
           </Route>
 
@@ -245,7 +245,8 @@ const App: React.FC = () => {
             <Route path='help' element={<Help/>} />
 
 
-            <Route path='/tempProfile' element={<TempProfile />} >
+            
+            {/* <Route path='/tempProfile' element={<TempProfile />} >
               <Route path='becomeASeller' element={<BecomeASeller />} />
               <Route path='viewMyOrders' element={<ViewMyOrders />} />
               <Route path='cardsSite' element={<CardsSite />} />
@@ -253,7 +254,7 @@ const App: React.FC = () => {
               <Route path='addressSite' element={<AddressSite />} />
               <Route path='myCompany' element={<MyCompany />} />
               <Route path='ordersForSeller' element={<OrdersForSeller />} />
-            </Route>
+            </Route> */}
 
             <Route path="/findProducts" element={<PageWithOptions />}>
 

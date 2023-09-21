@@ -45,7 +45,7 @@ import { GetCurrency, SetCurrency } from "../api/jwtDecodeToken";
 import { ua, us, eu } from "../const/constants";
 import { setCurrency } from "../features/user/CurrencyStateSlice";
 import RequestToLogin from "./ModalWindows/RequestToLogin";
-import { setLoginRequestWindow } from "../features/user/modalWindowsStateSlice";
+import { setBurgerModalWindow, setLoginRequestWindow } from "../features/user/modalWindowsStateSlice";
 import { CompanyModal } from "./BuyProduct/CompanyModal";
 
 
@@ -54,6 +54,7 @@ const Header = () => {
   var user = useAppSelector(((state: { user: UserState; orders: Orders }) => state.user.user));
   var orderWasAdded = useAppSelector((state) => state.orders.orderWasAdded);
   var isAuth = useAppSelector((state) => state.user.isAuth);
+  var isBurgerModalOpen = useAppSelector((state) => state.modalWindows.isBurgerModalOpen);
   
   const [onSearch, setSearch] = useState(false);
   const [inputText, setInputText] = useState("");
@@ -91,6 +92,8 @@ const Header = () => {
   const handleBecomeASeller=()=>{
 
   }
+
+  
 
   const getProducts = async () => {
     let response: any = await getProductsByCategory({ id: -1 });
@@ -151,7 +154,7 @@ const Header = () => {
   console.log(isBurgerOpen);
 
   return (<div className=" ">
-    <BurgerModal isOpen={isBurgerOpen} onClose={setIsBurgerOpen}  />
+    <BurgerModal/>
     <CardModal/>
     <AdressModal/>
     <RequestToLogin/>
@@ -208,7 +211,7 @@ const Header = () => {
           </div>
           <div onClick={()=>handleIsAuth("/seller/mycompany")} className=" cursor-pointer shop-container">
             <img src={shop} />
-            <span>Магазин</span>
+            <span>Сторінка Продавця</span>
           </div>
           <div className="settings-container">
             <img src={settings} />
@@ -225,7 +228,7 @@ const Header = () => {
 
     <div className="header grid text-whiteForHeader relative z-20 bg-white ">
       <div className="languagediv">
-        <div className="hamburger xl:p-5 p-2" onClick={()=>{setIsBurgerOpen(!isBurgerOpen)}}>
+        <div className="hamburger xl:p-5 p-2" onClick={()=>{dispatch(setBurgerModalWindow(!isBurgerModalOpen))}}>
           <img src={union} />
         </div>
         <div onClick={() => navigate("/")} className="pl-2 xl:mr-10 mr-2">
@@ -338,7 +341,7 @@ const Header = () => {
           <div onClick={() => navigate("/help")}                  className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Обслуговування клієнтів </div>
           {user?.roles?.includes("admin")? <div className="hidden xl:block w-full"><div onClick={() => navigate("/admin/products")}            className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Сторінка для адміна</div></div> : ""}
           <div onClick={() => navigate("/music/home")}                className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer h-full flex items-center font-medium justify-center">Музика</div>
-          <div onClick={() => navigate("/tempProfile/becomeASeller")} className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Тимчасовий Профіль</div>
+          {/* <div onClick={() => navigate("/tempProfile/becomeASeller")} className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Тимчасовий Профіль</div> */}
           <div className="hidden xl:block w-full"><div onClick={() => navigate("/aboutUs")}                   className="  w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer h-full flex items-center font-medium justify-center">Про нас</div></div>
         </div>
       </div>

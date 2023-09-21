@@ -10,6 +10,7 @@ using Infrastructure.Models;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Services;
 using System.Diagnostics;
 
 namespace ShopApi.Controllers
@@ -261,6 +262,35 @@ namespace ShopApi.Controllers
             }
             return tracks;
         }
+
+
+        [HttpPost]
+        [Route("Subscribe")]
+        public async Task<IActionResult> SubscribeAsync(SubscribeDTO model)
+        {
+            var response = await _trackService.SubscribeAsync(model);
+            
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("GetSubscribers")]
+        public async Task<IActionResult> GetSubscribersByUserIdAsync(FindByIdVM model)
+        {
+            var response = await _trackService.GetSubscribersByUserIdAsync(model.Id);
+
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("GetMySubscribes")]
+        public async Task<IActionResult> GetMySubscribesByUserIdAsync(FindByIdVM model)
+        {
+            var response = await _trackService.GetMySubscribesByUserIdAsync(model.Id);
+
+            return Ok(response);
+        }
+
 
     }
 }

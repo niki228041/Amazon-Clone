@@ -49,6 +49,13 @@ namespace DAL.Entities
         public Address Address { get; set; }
 
 
+
+        // Navigation property for users who follow this user
+        public virtual ICollection<UserFollower> Followers { get; set; } = new List<UserFollower>();
+
+        // Navigation property for users whom this user follows
+        public virtual ICollection<UserFollower> Following { get; set; } = new List<UserFollower>();
+
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<UserRoleEntity> UserRoles { get; set; }

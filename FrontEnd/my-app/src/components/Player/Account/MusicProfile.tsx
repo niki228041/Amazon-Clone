@@ -6,6 +6,9 @@ import { setMainMusicProfile } from '../../../features/user/musicStateSlice';
 import { useAppSelector } from '../../../app/hooks';
 import { useDispatch } from 'react-redux';
 import './Profile.css';
+import { useGetMySubscribesByUserIdQuery, useGetSubscribersByUserIdQuery, useGetTracksByUserIdQuery} from '../../../features/user/apiPlayerSlice';
+import { User } from '../../types';
+import { TrackFromServer } from '../Player';
 
 const MusicProfile=()=> {
   const [isFollow, setIsFollow] = useState(false);
@@ -14,7 +17,15 @@ const MusicProfile=()=> {
   const dispatch = useDispatch();
   const fullPath = location.pathname + location.search + location.hash;
   const isMusicProfile = useAppSelector((state)=>state.track.mainMusicProfile);
+
+  const user = useAppSelector((state)=>state.user.user);
   
+  var {data:followers}:{data:{payload:User[]}} = useGetSubscribersByUserIdQuery({id:user.id});
+  var {data:following}:{data:{payload:User[]}} = useGetMySubscribesByUserIdQuery({id:user.id});
+  var {data:userTracks}:{data:TrackFromServer[]} = useGetTracksByUserIdQuery({id:user.id});
+
+  
+
   const [elementHeight, setElementHeight] = useState('300px'); // Initial height
 
 
@@ -53,15 +64,15 @@ const MusicProfile=()=> {
           height: elementHeight, // Set the height dynamically
         }}
       >
-        <span className={classNames("text-white text-[80px] font-semibold transition-all self-end")}>Uishjro</span>
+        <span className={classNames("text-white text-[80px] font-semibold transition-all self-end")}>{user.username}</span>
       </div>
     </div>
 
       <div className='bg-middleGrayColor p-4 px-6 rounded-b-lg flex justify-between pb-10'>
         <div className='flex self-center'>
-          <span className='mr-10 text-white text-sm  self-end hover:underline cursor-pointer'>342 Followers</span>
-          <span className='mr-10 text-white text-sm  self-end hover:underline cursor-pointer'>54 Following</span>
-          <span className='mr-10 text-white text-sm  self-end hover:underline cursor-pointer'>5 Tracks</span>
+          <span className='mr-10 text-white text-sm  self-end hover:underline cursor-pointer'>{followers?.payload.length} Followers</span>
+          <span className='mr-10 text-white text-sm  self-end hover:underline cursor-pointer'>{following?.payload.length} Following</span>
+          <span className='mr-10 text-white text-sm  self-end hover:underline cursor-pointer'>{userTracks?.length } Tracks</span>
         </div>
 
         <div className=''>

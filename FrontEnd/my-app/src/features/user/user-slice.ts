@@ -27,7 +27,6 @@ interface User{
     phoneNumber:string,
     roles:any,
     id:string,
-    
 }
 
 
