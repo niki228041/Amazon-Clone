@@ -88,8 +88,11 @@ const HomePage = () => {
         const discountPercentageString = product.price; // 14 800 грн
 
         const discountPercentage = discountPercentageString - (discountPercentageString * (product.discount / 100));
-      
-        return { ...product, discountPercentage };
+
+        // Видалення цифр після , і розділення на тисячі
+        const formattedPrice = Math.floor(discountPercentage).toLocaleString('uk-UA', { style: 'currency', currency: 'UAH', minimumFractionDigits: 0 });
+
+        return { ...product, discountPercentage: formattedPrice, discountPercentageString: formattedPrice};
       });
 
     return (
@@ -121,10 +124,10 @@ const HomePage = () => {
             <div className="first-section">
                 <div className="image-div">
                     <div className="left-elements-image">
-                        <h1 className="text-[#002A42] text-[40px] font-normal">Комп'ютери купуй та <br /> експерементуй</h1>
-                        <span className="text-[13px]">"Від потужних ігрових систем до стильних і ультратонких ноутбуків – ми пропонуємо <br /> найсучасніші рішення для будь-яких потреб. Оберіть ідеальний комп'ютер за <br /> сьогоднішніми стандартами технологій та стилю вже сьогодні."</span>
+                        <h1 className="text-[#002A42] text-[40px] font-normal leading-[37px]">Комп'ютери купуй та <br /> експерементуй</h1>
+                        <span className="text-[13px]">«Від потужних ігрових систем до стильних і ультратонких ноутбуків – ми пропонуємо <br /> найсучасніші рішення для будь-яких потреб. Оберіть ідеальний комп'ютер за <br /> сьогоднішніми стандартами технологій та стилю вже сьогодні.»</span>
                         <div className="forButton">
-                            <button>Дізнатися більше</button>
+                            <button>Дивитись більше</button>
                         </div>
                     </div>
                     <div className="right-elements-image">
@@ -138,11 +141,11 @@ const HomePage = () => {
                     <div className="flex absolute justify-center self-center transition-all duration-500" style={{ transform: `translateX(-${smallIconOffset}px)` }}>
 
                         
-                        {categories?.payload.slice(63, 64).map((category: any) => (
+                        {categories?.payload.slice(63, 70).map((category: Category) => (
                                 <div className='self-center'>
                                     <span>{category.name}</span>
                                 <div className='w-full h-[100px] bg-contain bg-center bg-no-repeat mt-2' style={{backgroundImage:`url(${category.image})`}} > </div>
-                                <img src={category.image} />
+                                <span>{category.image}</span>
                                     {/* test123 */}
                                 </div>
                         ))}
@@ -189,6 +192,89 @@ const HomePage = () => {
 
             <hr style={{ borderWidth: "1px", marginTop: "40px", width: "1700px", marginLeft: "110px" }} />
 
+            <div className= " font-['Inter'] overflow-x-hidden flex relative h-[359px] w-full px-20">
+                <div className='overflow-x-hidden flex relative h-[359px] w-full px-4'>
+                    <div className="grid absolute self-center transition-all duration-500" style={{ transform: `translateX(-${smallIconOffset}px)` }}>
+
+                        {/*                         
+                        {productsWithDiscounts?.slice(0, 8).map((product: any) => (
+                                <div >
+                                <div className='w-full h-[100px] bg-contain bg-center bg-no-repeat mt-2' style={{backgroundImage:`url(${product.image})`}} > 
+                                    <span className="w-[33px] whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</span>
+                                </div>
+                                </div>
+                                ))} */}
+
+                        <div className="block ">
+                            <div>
+                                <span className="text-[#000000] text-[33px] leading-[38px]">ПРОПОЗИЦІЇ</span>
+                                <br />
+                                <span className="text-[#FF9A02] text-[33px]">ДНЯ</span>
+                            </div>
+                            <div className="leading-[14px]">
+                                <span className=" text-[12px]">«Сьогоднішня пропозиція дня в нашому інтернет-магазині: </span>
+                                <br />
+                                <span className=" text-[12px]">найкраща можливість придбати якісний товар за неймовірно </span>
+                                <br />
+                                <span className=" text-[12px]">вигідною ціною! Поспішайте, пропозиція обмежена часом і </span>
+                                <br />
+                                <span className=" text-[12px]">кількістю товару».</span>
+                            </div>
+                            <div className="mt-[40px]">
+                                <button className="bg-[#FF9A02] w-[152px] h-[40px] rounded-[5px] text-[12px] text-white">ДИВИТИСЬ БІЛЬШЕ</button>
+                            </div>
+                        </div>
+                        
+                        <div>
+
+                        </div>
+
+                        <div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div onClick={() => {
+
+
+                    if (currentSmallIcon > 0) {
+                        setCurrentSmallIcon(currentSmallIcon - 1);
+                        setSmallIconOffset(((currentSmallIcon - 1) * 120 * 2));
+                    }
+
+                    if (currentSmallIcon == 1) {
+                        setSmallIconOffset(0);
+                    }
+
+
+
+
+                }} className='left-0 self-center ml-5 rounded-lg h-12 w-12 absolute m-auto flex justify-center hover:scale-110 active:scale-90 transition-all duration-100'>
+                    <img className=' rotate-180 self-center h-[33px]' src={arrowRightHomePage} />
+                </div>
+                <div onClick={() => {
+
+
+                    if (currentSmallIcon <= countOfSmallIconDeals) {
+                        setCurrentSmallIcon(currentSmallIcon + 1);
+                        setSmallIconOffset(((currentSmallIcon + 1) * 120 * 2));
+                        console.log(((currentSmallIcon) * 120 * 2));
+                        console.log((currentSmallIcon));
+                    }
+
+
+
+
+                }} className=' right-0 self-center mr-5 rounded-lg h-12 w-12 absolute m-auto flex justify-center hover:scale-110 active:scale-90 transition-all duration-100'>
+                    <img className=' self-center h-[33px]' src={arrowRightHomePage} />
+                </div>
+            </div>
+
+                
+
             {/* <div style={{ display: "flex", marginTop: "50px", height: "360px", background: "#F7F7F7", marginBottom: "80px" }} >
                 <svg style={{ marginLeft: "35px", marginTop: "100px" }} width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M40.3364 49.5L23.4019 33L40.3364 16.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -234,24 +320,8 @@ const HomePage = () => {
                     <h2 className="mt-0 mb-0 font-normal">Нові надходження</h2>
                     <span>Закінчується через : 08:13:48</span>
                 </div>
-
-
-
                 <div className="arrivals-main">
                     <div className="container-for-card">
-                        {/* {products.slice(0,8).map(product=> (
-                            <div className="arrivals-card">
-                            <span>Bin Bakar Електроніка</span>
-                            <h4 className="mt-0 mb-0 font-normal">{product.name}</h4>
-                            <img src={example} />
-                            <div className="price-container flex justify-between">
-                                <span className="old-price">{product.price} грн</span>
-                                <span className="new-price">{product.discount} грн</span>
-                            </div>
-                            <button>Додати в кошик</button>
-                        </div>
-                        ))} */}
-
                         {/* ------------------------------- FIX IMAGE (TOO BIG) -------------------------------*/}
                         {productsWithDiscounts?.slice(0, 8).map((product: any) => (
                             
@@ -260,15 +330,12 @@ const HomePage = () => {
                                 <h4 className="mt-0 mb-0 font-normal whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</h4>
                                 <img className="mt-[10px] mb-[10px]" src= {product.image} />
                                 <div className="price-container flex justify-between">
-                                    <span className="old-price">{product.price} грн</span>
-                                    <span className="new-price">{product.discountPercentage} грн</span>
+                                    <span className="old-price whitespace-nowrap ">{product.discountPercentageString}</span>
+                                    <span className="new-price whitespace-nowrap">{product.discountPercentage}</span>
                                 </div>
                                 <button className="rounded">Додати в кошик</button>
                             </div>
                         ))}
-
-
-
                     </div>
                 </div>
             </div>
@@ -301,8 +368,8 @@ const HomePage = () => {
                             <div className="our-products-main-special-labels mt-5">
                                 <span className="text-lgMain ">{product.name}</span>
                                 <br />
-                                <span className="text-xlMain pr-5">{product.discountPercentage} грн </span>
-                                <span className="text-lgMain line-through">{product.price} грн</span>
+                                <span className="text-xlMain pr-5">{product.discountPercentage}</span>
+                                <span className="text-lgMain line-through">{product.discountPercentageString}</span>
                                 <br />
                                 {/* <span className="text-baseMain text-[#002A42] pr-10">Продано: 6</span> */}
                                 <span className="text-baseMain text-[#002A42]">В наявності: {product.quantity}</span>
@@ -317,8 +384,8 @@ const HomePage = () => {
                                     <h4 className="mt-0 mb-0 font-normal text-[black] whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</h4>
                                     <img src={product.image} />
                                     <div className="price-container flex justify-between">
-                                        <span className="old-price">{product.price} грн</span>
-                                        <span className="new-price">{product.discountPercentage} грн</span>
+                                        <span className="old-price">{product.discountPercentageString}</span>
+                                        <span className="new-price">{product.discountPercentage}</span>
                                     </div>
                                     <button className="rounded">Додати в кошик</button>
                                 </div>
@@ -332,8 +399,8 @@ const HomePage = () => {
                                     <h4 className="mt-0 mb-0 font-normal text-[black] whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</h4>
                                     <img src={product.image} />
                                     <div className="price-container flex justify-between">
-                                        <span className="old-price">{product.price} грн</span>
-                                        <span className="new-price">{product.discountPercentage} грн</span>
+                                        <span className="old-price">{product.discountPercentageString}</span>
+                                        <span className="new-price">{product.discountPercentage}</span>
                                     </div>
                                     <button className="rounded">Додати в кошик</button>
                                 </div>
@@ -367,8 +434,8 @@ const HomePage = () => {
                             <div className="best-offers-main-element flex justify-between ">
                                 <div className="flex flex-col">
                                     <h4 className="text-[20px] mt-0 mb-0 font-normal text-[black] whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</h4>
-                                    <span className="text-[22px] text-[#002A42]">{product.discountPercentage} грн</span>
-                                    <span className="text-[19px] text-[#828282] line-through">{product.price} грн</span>
+                                    <span className="text-[22px] text-[#002A42]">{product.discountPercentage}</span>
+                                    <span className="text-[19px] text-[#828282] line-through">{product.discountPercentageString}</span>
                                     <div className="mt-auto flex">
                                         <button className="cursor-default text-[white] text-[20px]">ЗНИЖКА 10%</button>
                                     </div>
@@ -402,8 +469,8 @@ const HomePage = () => {
                             </div>
                             <div className="receipts-product-img-labels mt-5">
                                 <span className="text-[22px] whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</span>
-                                <span className="text-[27px] text-[#002A42] pr-4">{product.discountPercentage} грн</span>
-                                <span className="text-[19px] line-through text-[#828282]">{product.price} грн</span>
+                                <span className="text-[27px] text-[#002A42] pr-4">{product.discountPercentage}</span>
+                                <span className="text-[19px] line-through text-[#828282]">{product.discountPercentageString}</span>
                                 <br />
                                 {/* <span className="text-[20px] text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span> */}
                                 <span className="text-[20px] text-[#002A42]">В наявності: {product.quantity}</span>
@@ -417,8 +484,8 @@ const HomePage = () => {
                             <div className="best-offers-main-element-3 flex justify-between ">
                                 <div className="flex flex-col">
                                     <h4 className="text-[20px] mt-0 mb-0 font-normal text-[black] whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</h4>
-                                    <span className="text-[22px] text-[#002A42]">{product.discountPercentage} грн</span>
-                                    <span className="text-[19px] text-[#828282] line-through">{product.price} грн</span>
+                                    <span className="text-[22px] text-[#002A42]">{product.discountPercentage}</span>
+                                    <span className="text-[19px] text-[#828282] line-through">{product.discountPercentageString}</span>
                                     <div className="mt-auto flex">
                                         <button className="cursor-default">Save <br /> 10%</button>
                                     </div>
@@ -445,8 +512,8 @@ const HomePage = () => {
                                     <div className="best-offers-for-span">
                                         <span className="text-[20px] whitespace-nowrap overflow-hidden text-ellipsis">{product.name}</ span>
                                         <div>
-                                            <span className="text-[22px] text-[#002A42]">{product.discountPercentage} грн</span>
-                                            <span className="text-[19px] text-[#828282] line-through">{product.price} грн</span>
+                                            <span className="text-[22px] text-[#002A42]">{product.discountPercentage}</span>
+                                            <span className="text-[19px] text-[#828282] line-through">{product.discountPercentageString}</span>
 
                                         </div>
                                         <div>
@@ -483,8 +550,8 @@ const HomePage = () => {
                             </div>
                             <div className="receipts-product-img-labels-2">
                                 <span className="text-[22px] whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</span>
-                                <span className="text-[27px] text-[#002A42] pr-4">{product.discountPercentage} грн</span>
-                                <span className="text-[19px] line-through text-[#828282]">{product.price} грн</span>
+                                <span className="text-[27px] text-[#002A42] pr-4">{product.discountPercentage}</span>
+                                <span className="text-[19px] line-through text-[#828282]">{product.discountPercentageString}</span>
                                 <br />
                                 {/* <span className="text-[20px] text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span> */}
                                 <span className="text-[20px] text-[#002A42]">В наявності: {product.quantity}</span>
@@ -510,7 +577,7 @@ const HomePage = () => {
                                 <div>
                                     <img src={product.image} />
                                     <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
-                                    <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">{product.price} грн</h4>
+                                    <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">{product.discountPercentageString}</h4>
                                 </div>
                             ))}
 
@@ -520,7 +587,7 @@ const HomePage = () => {
                                 <div>
                                     <img src={product.image} />
                                     <a className="text-[#002A42] text-[15px]">Додати в кошик</a>
-                                    <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">{product.price} грн</h4>
+                                    <h4 className="text-[15px] mt-0 mb-0 font-normal text-[black]">{product.discountPercentageString}</h4>
                                 </div>
                             ))}
                         </div>
@@ -553,8 +620,8 @@ const HomePage = () => {
                                 </div>
                                 <div className="receipts-product-img-labels-3 mt-3">
                                     <span className="text-lgMain whitespace-nowrap overflow-hidden text-ellipsis block">{product.name}</span>
-                                    <span className="text-baseMain text-[#002A42] pr-4">{product.discountPercentage} грн</span>
-                                    <span className="text-xlBiggerMain line-through text-[#828282]">{product.price} грн</span>
+                                    <span className="text-baseMain text-[#002A42] pr-4">{product.discountPercentage}</span>
+                                    <span className="text-xlBiggerMain line-through text-[#828282]">{product.discountPercentageString}</span>
                                     <br />
                                     {/* <span className="text-baseMain text-[#002A42]" style={{ paddingRight: "53px" }}>Продано: 6</span> */}
                                     <span className="text-baseMain text-[#002A42]">В наявності: {product.quantity}</span>
@@ -582,8 +649,8 @@ const HomePage = () => {
                                     <br />
                                     <span className="text-[15px] whitespace-nowrap overflow-hidden text-ellipsis inline-block">{product.name}</span>
                                     <br />
-                                    <span className="text-[13px] text-[#697475] line-through mr-2">{product.price} грн</span>
-                                    <span className="text-[15px] text[#002A42]">{product.discountPercentage} грн</span>
+                                    <span className="text-[13px] text-[#697475] line-through mr-2">{product.discountPercentageString}</span>
+                                    <span className="text-[15px] text[#002A42]">{product.discountPercentage}</span>
                                     <br />
                                     <button className="text-[15px] text-[white] rounded">Додати в кошик</button>
                                 </div>
@@ -602,8 +669,8 @@ const HomePage = () => {
                                     <br />
                                     <span className="text-[15px] whitespace-nowrap overflow-hidden text-ellipsis inline-block">{product.name}</span>
                                     <br />
-                                    <span className="text-[13px] text-[#697475] line-through mr-2">{product.price} грн</span>
-                                    <span className="text-[15px] text[#002A42]">{product.discountPercentage} грн</span>
+                                    <span className="text-[13px] text-[#697475] line-through mr-2">{product.discountPercentageString}</span>
+                                    <span className="text-[15px] text[#002A42]">{product.discountPercentage}</span>
                                     <br />
                                     <button className="text-[15px] text-[white] rounded">Додати в кошик</button>
                                 </div>
@@ -623,8 +690,8 @@ const HomePage = () => {
                                     <br />
                                     <span className="text-[15px] whitespace-nowrap overflow-hidden text-ellipsis inline-block">{product.name}</span>
                                     <br />
-                                    <span className="text-[13px] text-[#697475] line-through mr-2">{product.price} грн</span>
-                                    <span className="text-[15px] text[#002A42]">{product.discountPercentage} грн</span>
+                                    <span className="text-[13px] text-[#697475] line-through mr-2">{product.discountPercentageString}</span>
+                                    <span className="text-[15px] text[#002A42]">{product.discountPercentage}</span>
                                     <br />
                                     <button className="text-[15px] text-[white] rounded">Додати в кошик</button>
                                 </div>
