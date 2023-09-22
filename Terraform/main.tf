@@ -1,15 +1,13 @@
 terraform {
-  required_version = ">=0.12"
   required_providers {
     azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~>2.0"
+      source = "hashicorp/azurerm"
+      version = "2.99.0"
     }
   }
 }
 provider "azurerm" {
   features {}
-  
 }
 resource "azurerm_resource_group" "Amazon_Clone" {
   name="AmazonClone"
@@ -30,6 +28,12 @@ resource "azurerm_subnet" "Amazon_Clone" {
   address_prefixes = ["10.0.2.0/24"]
   
 }
+resource "azurerm_public_ip" "Amazon_Clone_public_IP" {
+  name                = "Amazon_Clone_public_IP"
+  resource_group_name = azurerm_resource_group.Amazon_Clone.name
+  location            = azurerm_resource_group.Amazon_Clone.location
+  allocation_method   = "Dynamic"
+}
 resource "azurerm_network_interface" "Amazon_Clone" {
   name = "AmazonCloneNic"
   location = azurerm_resource_group.Amazon_Clone.location
@@ -38,41 +42,36 @@ resource "azurerm_network_interface" "Amazon_Clone" {
     name                          = "AmazonCloneConfig1"
     subnet_id                     = azurerm_subnet.Amazon_Clone.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id = azurerm_public_ip.Amazon_Clone_public_IP.id 
   }
-  
-  # Create (and display) an SSH key
-resource "tls_private_key" "secureadmin_ssh" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
-}
 }
 resource "azurerm_linux_virtual_machine" "Amazon_Clone" {
   name  = "AmazonCloneVM1"
   location = azurerm_resource_group.Amazon_Clone.location
   resource_group_name = azurerm_resource_group.Amazon_Clone.name
   network_interface_ids = [ azurerm_network_interface.Amazon_Clone.id ]
-  vm_size = "Standard_B2ms"
-   storage_image_reference {
+  size = "Standard_B2ms"
+  source_image_reference {
     publisher = "Canonical"
     offer     = "0001-com-ubuntu-server-jammy"
     sku       = "22_04-lts"
     version   = "latest"
   }
-  storage_os_disk {
+  os_disk {
     name              = "AmazonCloneOSDisk1"
     caching           = "ReadWrite"
-    create_option     = "FromImage"
-    managed_disk_type = "Standard_LRS"
+    storage_account_type = "Standard_LRS"
     disk_size_gb = 30
   }
-  
     computer_name  = "AmazonCloneUser"
     admin_username = "azureuser"
     disable_password_authentication = true
     admin_ssh_key {
       username = "azureuser"
-      public_key = tls_private_key.secureadmin_ssh.public_key_openssh
+      public_key = file("~/.ssh/id_rsa.pub")
     }
- 
+    depends_on = [ 
+      azurerm_network_interface.Amazon_Clone
+    ]
   
 }
