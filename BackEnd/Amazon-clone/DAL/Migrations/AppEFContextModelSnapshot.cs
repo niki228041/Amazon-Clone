@@ -803,6 +803,9 @@ namespace DAL.Migrations
                     b.Property<int?>("SubcategoryId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -810,6 +813,8 @@ namespace DAL.Migrations
                     b.HasIndex("CompanyId");
 
                     b.HasIndex("SubcategoryId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("tblProducts");
                 });
@@ -1438,9 +1443,15 @@ namespace DAL.Migrations
                         .WithMany("Products")
                         .HasForeignKey("SubcategoryId");
 
+                    b.HasOne("DAL.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Category");
 
                     b.Navigation("Company");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DAL.Entities.ProductImage", b =>

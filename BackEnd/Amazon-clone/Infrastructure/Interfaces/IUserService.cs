@@ -16,5 +16,6 @@ namespace Infrastructure.Interfaces
         public Task<ServiceResponse> GetAllUsersAsync();
         public Task<ServiceResponse> RegisterUserAsync(RegisterViewModel model);
         public Task<ServiceResponse> ConfirmEmailAsync(String userId, string token);
+        public Task<ServiceResponse> EditUserAsync(EditUserDTO model);
     }
 }

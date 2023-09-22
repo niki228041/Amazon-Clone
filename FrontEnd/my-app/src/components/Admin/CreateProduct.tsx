@@ -191,7 +191,7 @@ const CreateProduct=()=> {
             
             if(res?.data?.isSuccess)
             {
-              navigate("/todaysDeals");
+              navigate(-1);
             }
           })
 

@@ -18,6 +18,8 @@ namespace Infrastructure.Models
         public bool isBought { get; set; }
         public int? CardId { get; set; }
         public int? AddressId { get; set; }
+        public AddressVM Address { get; set; }
+        public CardVM Card { get; set; }
         public DateTime DateCreated { get; set; }
         public ICollection<OrderedProductUpdatedVM> Products { get; set; }
     }

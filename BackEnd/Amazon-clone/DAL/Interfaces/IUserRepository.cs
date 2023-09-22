@@ -19,6 +19,7 @@ namespace DAL.Interfaces
         Task<string> GenerateEmailConfirmationTokenAsync(User appUser);
         Task<List<User>> GetAllUsersAsync();
         Task<User> AddRoleAsync(User model,string role);
+       
     }
 }
 

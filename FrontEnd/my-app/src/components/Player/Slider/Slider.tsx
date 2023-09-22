@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import './slider.css'
 import './thumb.css'
+import { useAppSelector } from '../../../app/hooks'
 
 function Slider({ percentage = 0, onChange }:any) {
   const [position, setPosition] = useState(0)
@@ -8,6 +9,7 @@ function Slider({ percentage = 0, onChange }:any) {
   const [progressBarWidth, setProgressBarWidth] = useState(0)
 
   const [visible, setVisible] = useState("invisible")
+
 
 
   const rangeRef:any = useRef()
@@ -23,6 +25,7 @@ function Slider({ percentage = 0, onChange }:any) {
     setProgressBarWidth(centerProgressBar)
   }, [percentage])
 
+
   const handleVisibleThumb=(visible:boolean)=>{
     if(visible){
       setVisible("visible");
@@ -32,6 +35,8 @@ function Slider({ percentage = 0, onChange }:any) {
     }
     console.log(("hi"));
   }
+
+
 
   return (
     <div className='slider-container'>

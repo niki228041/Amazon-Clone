@@ -121,6 +121,14 @@ export const apiProductSlice:any = createApi({
           }),
           invalidatesTags:['Product']
         }),
+        getProductWithLimitByUserId:builder.mutation<any, any>({
+          query:(todo)=>({
+            url:'/api/Products/GetProductWithLimitByUserId',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Product']
+        }),
         
     })
 })

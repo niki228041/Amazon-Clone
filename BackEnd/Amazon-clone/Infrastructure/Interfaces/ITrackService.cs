@@ -20,6 +20,8 @@ namespace Infrastructure.Interfaces
         Task<TrackHistory> AddTrackHistoryAsync(AddTrackHistoryDTO model);
         Task<List<TrackVM>> GetTrackHistoryByUserIdAsync(FindByIdVM model);
         Task<TrackVM> GetTrackByIdAsync(int id);
+        Task<List<TrackVM>> GetTrackByIdsAsync(FindByIdVM[] model);
+        
         Task DeleteTrackAsync(int id);
         Task<List<TrackVM>> GetSearchTracksByNameAsync(string name);
         

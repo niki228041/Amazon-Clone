@@ -89,7 +89,7 @@ const ViewTrack=()=>{
       return () => {
         document.removeEventListener("keydown", handleKeyDown);
       };
-    },[commentText,user.id,data?.id])
+    },[commentText,user.id,data?.id,track.currentTrack?.id,isPlay])
 
 
 
@@ -100,9 +100,10 @@ const ViewTrack=()=>{
       {
         dispath(changeTrack(data!));
       }
-
-      dispath(setOnChangeSlider(e.target.value));
-
+      else
+      {
+        dispath(setOnChangeSlider(e.target.value));
+      }
     }
     
 
@@ -120,6 +121,15 @@ const ViewTrack=()=>{
       {
         setPlayPressed(false);
         dispath(setIsPlay(false))
+      }
+      else if(isPlayPressed == true && track.currentTrack?.id != data?.id)
+      {
+        if(data != undefined)
+        {
+          setPlayPressed(true);
+          dispath(changeTrack(data!));
+          dispath(setIsPlay(true))
+        }
       }
       else if(isPlayPressed == false && track.currentTrack?.id == data?.id)
       {

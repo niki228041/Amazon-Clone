@@ -113,7 +113,7 @@ const Product_Component=({ data , productsImages,viewListOrGrid}: { data: Produc
     " col-span-1 ":viewListOrGrid=="grid"
   })}
   >
-  <Link to={"/product/" + data.id} >
+  <Link to={"/product/description/" + data.id} >
     <div className={classNames('pb-2 w-full hover:shadow-lg grid rounded-lg p-2 py-10 bg-whiteColor ',{
     " grid-cols-10 ":viewListOrGrid=="list",
     " grid-cols-1 ":viewListOrGrid=="grid"})}>
@@ -245,13 +245,13 @@ const PageWithOptions = () => {
   var [page, setPage] = useState(1);
   var [limit, setLimit] = useState(8);
 
+
   var [viewListOrGrid, setViewListOrGrid] = useState("grid");
   var [seeAllCategories, setSeeAllCategories] = useState(true);
 
 
 
   var [categoriesToView, setCategoriesToView] = useState<Category[]>([]);
-  var [allFilters,setAllFilters] = useState<AllFilters>({categoryId:-1,min_Preis:-1,max_Preis:-1,stars:-1,variants:[],productName:"",page:page,limit:limit,sortBy:""});
   var [products, setProducts] = useState([]);
   var [productsCount, setProductsCount] = useState<number>();
 

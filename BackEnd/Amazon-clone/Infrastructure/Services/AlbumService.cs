@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DAL.Constants;
+using DAL.Entities;
 using DAL.Entities.Music;
 using DAL.Interfaces;
 using Infrastructure.Enum_s;
@@ -37,7 +38,7 @@ namespace Infrastructure.Services
         {
             var album = _mapper.Map<AlbumDTO, Album>(model);
             var backgroundImage = await _imageService.SaveImageAsync(model.Background, DirectoriesInProject.MusicImages);
-            album.Background = $@"https://amazonclone.monster/api/{DirectoriesInProject.MusicImages}/{backgroundImage + "_" + (int)Qualities.QualitiesSelector.LOW + ".jpg"}";
+            album.Background = backgroundImage;
 
             await _albumRepository.Create(album);
 
@@ -79,6 +80,51 @@ namespace Infrastructure.Services
             await _albumRepository.Delete(id);
         }
 
+        public async Task<ServiceResponse> GetAlbumByIdAsync(int id)
+        {
+            var album = await _albumRepository.GetAll()
+                .Include(alb => alb.TrackAlbums)
+                    .ThenInclude(trackAlbum => trackAlbum.Track)
+                .Include(alb => alb.User)
+                .FirstOrDefaultAsync(alb => alb.Id == id);
+
+            
+            var albumVm = _mapper.Map<Album, AlbumVM>(album);
+            var tracksList = new List<TrackVM>();
+
+            if (album != null)
+            {
+                foreach (var track in album.TrackAlbums)
+                {
+                    var trackVm = _mapper.Map<Track, TrackVM>(track.Track);
+
+                    trackVm.Image = $@"https://amazonclone.monster/api/{DirectoriesInProject.MusicImages}/{trackVm.Image + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
+                    trackVm.Song = $@"https://amazonclone.monster/api/{DirectoriesInProject.MusicFiles}/{trackVm.Song}";
+
+                    tracksList.Add(trackVm);
+                }
+
+                albumVm.Tracks = tracksList;
+                if (album.User != null)
+                    albumVm.Username = album.User.DisplayName;
+
+                albumVm.Background = $@"https://amazonclone.monster/api/{DirectoriesInProject.MusicImages}/{albumVm.Background + "_" + (int)Qualities.QualitiesSelector.LOW + ".jpg"}";
+
+
+                return new ServiceResponse()
+                {
+                    Message = "Альбом",
+                    Payload = albumVm
+                };
+            }
+
+            return new ServiceResponse()
+            {
+                Message = "Не правильна ід Альбома",
+                Payload = albumVm
+            };
+        }
+
         public async Task<ServiceResponse> GetAlbumsByUserIdAsync(int userId)
         {
             var albums = _albumRepository.GetAll()
@@ -87,6 +133,7 @@ namespace Infrastructure.Services
                 .Include(alb => alb.User)
                 .Where(alb => alb.UserId == userId);
             var albumsVms = new List<AlbumVM>();
+
             foreach (var album in albums)
             {
                 var albumVm = _mapper.Map<Album, AlbumVM>(album);
@@ -107,13 +154,13 @@ namespace Infrastructure.Services
             }
 
 
-
             return new ServiceResponse()
             {
                 Message = "Альбоми за юзером",
                 Payload = albumsVms
             };
         }
+
 
         public async Task<ServiceResponse> GetAllAlbumsAsync()
         {
