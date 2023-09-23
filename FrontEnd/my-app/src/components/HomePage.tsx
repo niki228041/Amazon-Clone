@@ -91,7 +91,6 @@ const handleAddNewOrder = (productId: string) => {
       const existingOrder = orders.orders.find((order) => order.product_id === productId);
   
       if (!existingOrder) {
-        // Если заказа для этого продукта еще нет, создаем новый заказ
         const newOrder = {
           id: uuidv4(),
           name: product.name,
@@ -102,21 +101,18 @@ const handleAddNewOrder = (productId: string) => {
         };
         dispatch(addOrder(newOrder));
       } else {
-        // Если заказ уже существует, увеличиваем количество, если оно меньше 5
-        const index = orders.orders.findIndex((order) => order.product_id === productId); // Находим индекс
+        const index = orders.orders.findIndex((order) => order.product_id === productId); 
         if (index !== -1 && existingOrder.count < 5) {
           const updatedOrder = {
             ...existingOrder,
             count: existingOrder.count + 1,
           };
   
-          dispatch(updateOrder({ index, count: updatedOrder.count })); // Передаем индекс и обновленное количество
+          dispatch(updateOrder({ index, count: updatedOrder.count })); 
         }
       }
   
       setTimeout(() => {
-        // Возможно, здесь вам также нужно диспетчировать экшен для сброса флага wasAddedToFalse
-        // dispatch(turnWasAddedToFalse());
       }, 2000);
     }
   };
