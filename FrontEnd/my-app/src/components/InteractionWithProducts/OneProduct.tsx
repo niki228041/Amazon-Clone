@@ -96,6 +96,7 @@ const OneProduct=()=>{
     
 
     const handleAddNewOrder=(data:OneProductVM)=>{
+        console.log('Data:', data);
         console.log(orders.orders);
         var order = orders.orders.find(ord=>ord.product_id==data.id);
         if(!order)
