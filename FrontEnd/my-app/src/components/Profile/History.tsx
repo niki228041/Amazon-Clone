@@ -98,13 +98,14 @@ const HistoryItem=({order}:{order:OrderedOrder})=>{
       
       {order?.products?.map((prod)=>
         <div className=' py-3 flex  justify-between'>
-          <div className='flex'>
+          
+          <div className='flex w-2/3'>
             <div>
               <div className='h-28 w-28 rounded-lg bg-center bg-cover' style={{backgroundImage:`url(${prod.product?.image})`}} />
             </div>
             <div className='ml-2 text-gray-500 '>
-              <p className=' font-medium'>{prod.product?.name}</p>
-              <p className=' text-gray-400 mt-2'>{parser.parseFromString(prod.product?.description, 'text/html').body.textContent?.slice(0,30)}</p>
+              <p className=' font-medium h-7 overflow-hidden'>{prod.product?.name}</p>
+              <p className=' text-gray-400 h-7 overflow-hidden'>{parser.parseFromString(prod.product?.description, 'text/html').body.textContent?.slice(0,30)}</p>
               <p className=' text-gray-500 text-sm'>Час на повернення товару скінчився 6 вересня</p>
               <div className='mt-4'>
                 <Link to={"/product/description/"+prod.product.id} className=' bg-mainYellowColor rounded-lg py-2 px-2 text-sm text-white hover:bg-orange-500 transition-all'>Купити знову</Link>

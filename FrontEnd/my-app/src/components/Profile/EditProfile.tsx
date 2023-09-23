@@ -15,6 +15,9 @@ import { useDispatch } from 'react-redux';
 import { apiAddressSlice, useGetAddressByUserIdQuery } from '../../features/user/apiAddressSlice';
 import { Address } from '../types';
 import { setAddressModalWindow } from '../../features/user/modalWindowsStateSlice';
+import { useGetCountriesQuery } from '../../features/user/apiCountriesSlice';
+
+
 
 const EditProfile=()=> {
    const [dropDownSex,setDropDownSex] =  useState(false);
@@ -25,6 +28,9 @@ const EditProfile=()=> {
    var dispatch = useDispatch();
  
    var {data:address,isSuccess}:{data:Address,isSuccess:boolean}  = useGetAddressByUserIdQuery({id:user.id});
+
+   
+
  
    const [deleteAddress,{}]= apiAddressSlice.useDeleteAddressMutation();
  

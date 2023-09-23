@@ -4,10 +4,11 @@ import close from "../../images/close.png"
 import { UserState } from '../../features/user/user-slice';
 import { Orders } from '../../features/user/ordersStateSlice';
 import { useAppSelector } from '../../app/hooks';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { apiAddressSlice } from '../../features/user/apiAddressSlice';
 import { useDispatch } from 'react-redux';
 import { setAddressModalWindow } from '../../features/user/modalWindowsStateSlice';
+import { useGetCountriesQuery } from '../../features/user/apiCountriesSlice';
 
 interface addAddress {
   street: string,
@@ -20,6 +21,24 @@ interface addAddress {
 }
 
 
+export interface Flag{
+  png:string,
+  svg:string,
+  als:string,
+}
+
+
+export interface CountryName{
+  common: string,
+  official: string,
+}
+
+
+export interface Country{
+  flags:Flag,
+  name:CountryName
+}
+
 export const AdressModal = () => {
 
   var user = useAppSelector(((state: { user: UserState; orders: Orders }) => state.user.user));
@@ -29,8 +48,29 @@ export const AdressModal = () => {
 
   const [addAddress, { }] = apiAddressSlice.useAddAddressMutation();
 
+  var {data:countriesApi}:{data:Country[]}  = useGetCountriesQuery();
+
+  const [sortedCountries,setSortedCountries] = useState<Country[]>([]);
 
 
+  useEffect(() => {
+    if (countriesApi != null && countriesApi != undefined) {
+      const sorted = [...countriesApi].sort((a, b) => {
+        const nameA = a.name.common.toUpperCase();
+        const nameB = b.name.common.toUpperCase();
+        if (nameA < nameB) {
+          return -1;
+        } else if (nameA > nameB) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+  
+      setSortedCountries(sorted);
+    }
+  }, [countriesApi]);
+  
 
   const handleAddAdress = (data: React.FormEvent<HTMLFormElement>) => {
     data.preventDefault();
@@ -93,14 +133,14 @@ export const AdressModal = () => {
                   className='w-full bg-slate-200 text-[15px] mediumFont outline-none rounded-md h-8 px-2 mt-2'
                   onChange={(e) => setCountry(e.currentTarget.value)}
                 >
-                  <option value=''>-</option>
+                  {/* <option value=''>-</option>
                   <option value='Ukraine'>Ukraine</option>
                   <option value='Germany'>Germany</option>
                   <option value='USA'>USA</option>
-                  <option value='Itali'>Itali</option>
-                  {/* {availableCounts.map((count) => (
-                      <option  key={count} value={count}>{count}</option>
-                    ))} */}
+                  <option value='Itali'>Itali</option> */}
+                  {sortedCountries?.map((country,index) => (
+                      <option  key={index} value={country.name.common}>{country.name.common}</option>
+                    ))}
                 </select>
               </div>
 

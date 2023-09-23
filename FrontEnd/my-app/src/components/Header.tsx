@@ -47,6 +47,7 @@ import { setCurrency } from "../features/user/CurrencyStateSlice";
 import RequestToLogin from "./ModalWindows/RequestToLogin";
 import { setBurgerModalWindow, setLoginRequestWindow } from "../features/user/modalWindowsStateSlice";
 import { CompanyModal } from "./BuyProduct/CompanyModal";
+import { useGetCurrencyQuery } from "../features/user/apiCurrencySlice";
 
 
 const Header = () => {
@@ -92,6 +93,18 @@ const Header = () => {
   const handleBecomeASeller=()=>{
 
   }
+
+  var request = {
+    access_key:"cced39933489c33dfef9699f1e3fc638",
+    currencies:"EUR,GBP,CAD,PLN",
+    source:"USD",
+    format:1
+  };
+
+  var {data} = useGetCurrencyQuery();
+
+  console.log("useGetCurrencyQuery");
+  console.log(data);
 
   
 
