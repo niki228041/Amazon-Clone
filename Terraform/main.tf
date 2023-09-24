@@ -45,6 +45,56 @@ resource "azurerm_network_interface" "Amazon_Clone" {
     public_ip_address_id = azurerm_public_ip.Amazon_Clone_public_IP.id 
   }
 }
+resource "azurerm_network_security_group" "Amazon_Clone" {
+  name="AmazonCloneSecurityGroup"
+  location = azurerm_resource_group.Amazon_Clone.location
+  resource_group_name = azurerm_resource_group.Amazon_Clone.name
+  
+}
+# Create a security rule to allow inbound traffic on port 80 (HTTP) from any source
+resource "azurerm_network_security_rule" "http" {
+  name                        = "allow-http"
+  priority                    = 100
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "80"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.Amazon_Clone.name
+  network_security_group_name = azurerm_network_security_group.Amazon_Clone.name
+}
+
+# Create a security rule to allow inbound traffic on port 443 (HTTPS) from any source
+resource "azurerm_network_security_rule" "https" {
+  name                        = "allow-https"
+  priority                    = 110
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "443"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.Amazon_Clone.name
+  network_security_group_name = azurerm_network_security_group.Amazon_Clone.name
+}
+
+# Create a security rule to allow inbound traffic on port 22 (SSH) from any source
+resource "azurerm_network_security_rule" "ssh" {
+  name                        = "allow-ssh"
+  priority                    = 120
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "22"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.Amazon_Clone.name
+  network_security_group_name = azurerm_network_security_group.Amazon_Clone.name
+}
 resource "azurerm_linux_virtual_machine" "Amazon_Clone" {
   name  = "AmazonCloneVM1"
   location = azurerm_resource_group.Amazon_Clone.location
@@ -73,5 +123,6 @@ resource "azurerm_linux_virtual_machine" "Amazon_Clone" {
     depends_on = [ 
       azurerm_network_interface.Amazon_Clone
     ]
+    user_data = base64encode(data.template_file.Amazon_Clone.rendered) 
   
 }
