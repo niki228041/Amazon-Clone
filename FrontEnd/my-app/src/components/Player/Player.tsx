@@ -18,6 +18,7 @@ import { changeTrack, setCurrentTime, setDurationTime, setIsPlay, setPercentageT
 import { useDispatch } from "react-redux";
 import MiniPlayer from "./MiniPlayer";
 import SelectSongsForAlbumModal from "./Album/SelectSongsForAlbumModal";
+import { UserVM } from "../types";
 
 
 
@@ -39,8 +40,11 @@ export interface TrackFromServer{
   image:string,
   background:string,
   likes:string,
+  userId:number,
+  username:string,
   id:number,
   dateCreated:string,
+  subscribers:UserVM[],
   comments:number,
   wasLikedByUsers:any,
   trackHistoryDateCreated:string,
@@ -59,6 +63,7 @@ const Player=()=>{
   const auth = useAppSelector((state)=>state.user.isAuth);
 
   const track = useAppSelector((state)=>state.track.currentTrack);
+  const user = useAppSelector((state)=>state.user.user);
   const isMenuOpen = useAppSelector((state)=>state.track.isMenuOpen);
   const onChangeSlider = useAppSelector((state)=>state.track.onChangeSlider);
   const isPlay = useAppSelector((state)=>state.track.isPlay);
@@ -368,7 +373,7 @@ const Player=()=>{
           </div>
 
           <div className={classNames("bg-middleGrayColor p-2 rounded-lg mt-4 text-almostWhiteColor select-none transition-all")}>
-            <div onClick={()=>navigate("profile/main")} className="p-3 flex pl-5 hover:scale-105 transition-all cursor-pointer active:bg-slate-50/50 active:transition-none rounded-lg m-2">
+            <div onClick={()=>navigate("profile/main/"+user?.id)} className="p-3 flex pl-5 hover:scale-105 transition-all cursor-pointer active:bg-slate-50/50 active:transition-none rounded-lg m-2">
               <span>Account</span>
             </div>
             <div onClick={()=>navigate("profile/settings")} className="p-3 flex pl-5 hover:scale-105 transition-all cursor-pointer active:bg-slate-50/50 active:transition-none rounded-lg m-2">

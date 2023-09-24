@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../app/hooks";
 import { deleteAllOrder, deleteOrder, updateOrder, updateOrderInBasket } from "../../features/user/ordersStateSlice";
 import { apiProductSlice, useGetLinksForProductByProductsIdsQuery } from "../../features/user/apiProductSlice";
-import { Card, ChangeOrderCount, FindById, ImageLink, Order, OrderDTO, OrderedProducts } from "../types";
+import { Address, Card, ChangeOrderCount, FindById, ImageLink, Order, OrderDTO, OrderedProducts } from "../types";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import OrdersList from "./OrdersList";
 import { AdressModal } from "./AdressModal";
@@ -161,7 +161,7 @@ export const Orders=()=>{
 
     const { data: productsImages, isSuccess: isProductsImages } = useGetLinksForProductByProductsIdsQuery(request);
     const { data: defaultCard, isSuccess: isDefaultCard }:{data:Card,isSuccess:boolean} = useGetDefaultCardByUserIdQuery({id:user.id});
-    const { data: address, isSuccess: isAddress }:{data:Card,isSuccess:boolean} = useGetAddressByUserIdQuery({id:user.id});
+    const { data: address, isSuccess: isAddress }:{data:{payload:Address},isSuccess:boolean} = useGetAddressByUserIdQuery({id:user.id});
     const [addOrder,{isLoading}]= apiOrderSlice.useAddOrderMutation();
     
     const breadcrumbs = [
@@ -218,10 +218,12 @@ export const Orders=()=>{
           fullName:defaultCard?.ownerName!,
           userId:Number(user.id),
           cardId:Number(defaultCard?.id),
-          addressId:Number(address?.id),
+          addressId:Number(address?.payload?.id),
           orderedProducts_:orderedProducts_,
           price:parseInt(endPrice)
       }
+
+      console.log(address);
 
       var canBeOrdered = true;
 
@@ -240,9 +242,9 @@ export const Orders=()=>{
         setOrderError("Добавте банківську картку в профілі!");
         canBeOrdered=false;
       }
-      else if(address == null)
+      else if(address?.payload == null)
       {
-        setOrderError("Добавте адресс в профілі!");
+        setOrderError("Добавте і виберіть адресс в профілі!");
         canBeOrdered=false;
       }
 

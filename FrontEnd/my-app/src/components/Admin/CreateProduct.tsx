@@ -12,6 +12,7 @@ import { Orders } from "../../features/user/ordersStateSlice";
 import { useFormik } from "formik";
 import { createProductSchema } from "./Validation/ProductCreateValidation";
 import EditorComponent from "./EditorComponent";
+import { getFileExtension, toBase64 } from "../ImageConvert/imageConvert";
 
 
 interface createProductValues{
@@ -202,22 +203,11 @@ const CreateProduct=()=> {
   
       },
   });
+
   
-    const [showServerErrorLogin, setServerErrorLogin] = useState("");
+  const [showServerErrorLogin, setServerErrorLogin] = useState("");
 
-  const toBase64:any = (file:File) => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
 
-  });
-
-  function getFileExtension(filename:any){
-    // get file extension
-    const extension = "." + filename.split('.').pop();
-    return extension;
-  }
 
   const handleDeleteImg=(img:any)=>{
     var index = imagesToShow.findIndex((img_:any)=>img_==img);

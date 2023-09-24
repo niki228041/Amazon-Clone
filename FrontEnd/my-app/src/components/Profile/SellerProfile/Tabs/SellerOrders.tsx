@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import arrowDownForSearch from '../../../../images/arrow_down.svg';
 import { useGetCompanyByUserIdQuery } from '../../../../features/user/apiCompanySlice';
 import { Company } from '../../../Admin/types';
+import { Link } from 'react-router-dom';
 
 
 export interface OrdersWithPagination{
@@ -171,7 +172,7 @@ export const OrderItem=({order}:{order:OrderForSeller})=>{
                 </div>
             
                 <div className=' p-2 self-center flex'>
-                  <div className=' rounded-sm flex text-sm flex-nowrap whitespace-nowrap justify-center border py-1 px-6 hover:bg-gray-200 cursor-pointer self-center mb-7'>Переглянути сторінку товара</div>
+                  <Link to={"/product/description/"+prod?.product.id} className=' rounded-sm flex text-sm flex-nowrap whitespace-nowrap justify-center border py-1 px-6 hover:bg-gray-200 cursor-pointer self-center mb-7'>Переглянути сторінку товара</Link>
                 </div>
               </div>
             ) }
@@ -193,7 +194,6 @@ function SellerOrders() {
   
     var [page, setPage] = useState(1);
     var [limit, setLimit] = useState(4);
-
 
 
 

@@ -17,6 +17,7 @@ using DAL.Constants;
 using System.Globalization;
 using System.Resources;
 using DAL.Repositories;
+using DAL.Entities.Music;
 
 
 namespace Infrastructure.Services
@@ -28,15 +29,17 @@ namespace Infrastructure.Services
         private EmailService _emailService;
         private IJwtTokenService _jwtService;
         private readonly IMapper _mapper;
+        private readonly IImageService _imageService;
         private TokenValidationParameters _tokenValidationParameters;
+        
 
-
-        public UserService(IUserRepository userRepository, IJwtTokenService jwtService, IConfiguration configuration, EmailService emailService, IMapper mapper, TokenValidationParameters tokenValidationParameters)
+        public UserService(IUserRepository userRepository, IJwtTokenService jwtService, IConfiguration configuration, EmailService emailService, IMapper mapper, TokenValidationParameters tokenValidationParameters, IImageService imageService)
         {
             _userRepository = userRepository;
             _configuration = configuration;
             _jwtService = jwtService;
             _mapper = mapper;
+            _imageService = imageService;
         }
 
         public async Task<ServiceResponse> RegisterUserAsync(RegisterViewModel model)
@@ -193,10 +196,16 @@ namespace Infrastructure.Services
 
         public async Task<ServiceResponse> EditUserAsync(EditUserDTO model)
         {
-            var oldUser = await _userRepository.GetUserByEmailAsync(model.Email);
+            var oldUser = await _userRepository.GetUserByIdAsync(model.Id.ToString());
             var user = _mapper.Map(model, oldUser);
+
+
             if (user != null)
             {
+                var mainImage = await _imageService.SaveImageAsync(model.AvatarImage, DirectoriesInProject.ProductImages);
+
+                user.AvatarImage = mainImage;
+
                 await _userRepository.UpdateUserAsync(user);
                 return new ServiceResponse
                 {
@@ -206,7 +215,6 @@ namespace Infrastructure.Services
                 };
             }
 
-
             return new ServiceResponse
             {
                 Message = "Користувач не був успішно оновлений!",
@@ -214,6 +222,28 @@ namespace Infrastructure.Services
             };
         }
 
+        public async Task<ServiceResponse> GetUserByIdAsync(int id)
+        {
+            var user = await _userRepository.GetUserByIdAsync(id.ToString());
+
+            if (user != null)
+            {
+                var userVM = _mapper.Map<User, AllUsersVM>(user);
+
+                return new ServiceResponse()
+                {
+                    Payload = userVM,
+                    Message = "Користувача знайдено",
+                    IsSuccess = true,
+                };
+            }
+            
+            return new ServiceResponse()
+            {
+                Message = "Такого користувача не існує",
+                IsSuccess = false,
+            };
+        }
     }
 }
 

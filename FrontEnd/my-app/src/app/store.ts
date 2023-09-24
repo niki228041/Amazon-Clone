@@ -18,6 +18,9 @@ import musicStateSlice from "../features/user/musicStateSlice";
 import { apiFAQSlice } from "../features/user/apiFAQSlice";
 import modalWindowsStateSlice from "../features/user/modalWindowsStateSlice";
 import CurrencyStateSlice from "../features/user/CurrencyStateSlice";
+import { apiCurrencySlice } from "../features/user/apiCurrencySlice";
+import { apiCountriesSlice } from "../features/user/apiCountriesSlice";
+import { apiUserSlice } from "../features/user/apiUserSlice";
 
 
 export const store = configureStore({
@@ -32,7 +35,9 @@ export const store = configureStore({
     [apiOrderSlice.reducerPath]:apiOrderSlice.reducer,
     [apiCompanySlice.reducerPath]:apiCompanySlice.reducer,
     [apiFAQSlice.reducerPath]:apiFAQSlice.reducer,
-
+    [apiCurrencySlice.reducerPath]:apiCurrencySlice.reducer,
+    [apiCountriesSlice.reducerPath]:apiCountriesSlice.reducer,
+    [apiUserSlice.reducerPath]:apiUserSlice.reducer,
 
     user: userSlice,
     orders: ordersStateSlice,
@@ -51,7 +56,10 @@ export const store = configureStore({
       apiOrderSlice.middleware,
       apiAddressSlice.middleware,
       apiCompanySlice.middleware,
-      apiFAQSlice.middleware),
+      apiFAQSlice.middleware,
+      apiCurrencySlice.middleware,
+      apiCountriesSlice.middleware,
+      apiUserSlice.middleware),
 });
 
 
