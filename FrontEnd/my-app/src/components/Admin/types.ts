@@ -31,7 +31,7 @@ export interface Category{
     id: number,
     name: string,
     countOfProducts:number,
-    image: string
+    images_: string
 }
 
 

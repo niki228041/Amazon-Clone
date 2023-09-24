@@ -7,7 +7,7 @@ body {
     justify-content: space-between;
     font-family: 'Inter';
     height: 430px;
-    background-color: #F3EDC9;
+    /* background-color: #F3EDC9; */
 }
 
 .first-section .image-div .left-elements-image {
@@ -15,8 +15,11 @@ body {
     flex-direction: column;
     justify-content: center;
     margin-left: 90px;
-
 }
+
+/* .first-section {
+    background-image: url(../images/topMainImage.svg);
+} */
 
 .first-section .image-div .right-elements-image .circle-block {
     display: flex;
@@ -33,7 +36,7 @@ body {
 }
 
 .topCategory {
-    background-image: linear-gradient(rgba(243, 237, 201, 1), rgba(255, 255, 255, 0));
+    background-image: linear-gradient(#F3EDC9, #FFFFFF00);
 }
 
 .first-section .image-div .right-elements-image .circle-block span {
