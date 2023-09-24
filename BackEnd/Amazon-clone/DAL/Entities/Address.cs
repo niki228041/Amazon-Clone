@@ -22,6 +22,7 @@ namespace DAL.Entities
         public string FullName { get; set; }
 
         public string Country { get; set; }
+        public bool IsDefault { get; set; }
 
 
         [Required(ErrorMessage = "Field postcode is required")]

@@ -1,5 +1,6 @@
 ﻿using DAL.Entities;
 using Infrastructure.Models;
+using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,9 @@ namespace Infrastructure.Interfaces
     {
         public Task<List<Address>> GetAllAddressesAsync();
         public Task<Address> AddAddressAsync(AddressDTO model);
-        public Task<Address> GetAddressByUserIdAsync(int userId);
+        public Task<ServiceResponse> GetAddressByUserIdAsync(int userId);
         public Task DeleteAddressByUserIdAsync(int userId);
+        public Task<List<Address>> GetAddressesByUserIdAsync(int userId);
+        public Task<ServiceResponse> SetDefaultAddressByAddressIdAsync(int addressId);
     }
 }

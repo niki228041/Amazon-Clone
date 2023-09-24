@@ -126,7 +126,8 @@ const HomePage = () => {
             }
 
             setTimeout(() => {
-            }, 2000);
+                dispatch(turnWasAddedToFalse());
+              }, 2000);
         }
     };
 

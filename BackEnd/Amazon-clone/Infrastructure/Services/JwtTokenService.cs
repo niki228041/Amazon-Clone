@@ -10,6 +10,8 @@ using DAL.Entities;
 using ExternalLoginRequest = DAL.Entities.ExternalLoginRequest;
 using Microsoft.Extensions.Configuration;
 using Infrastructure.Settings;
+using DAL.Constants;
+using Infrastructure.Enum_s;
 
 namespace Infrastructure.Services
 {
@@ -36,12 +38,26 @@ namespace Infrastructure.Services
         public async Task<string> CreateToken(User user)
         {
             var roles = await _userManager.GetRolesAsync(user);
+            var phoneNumber = "";
+            var image = "";
+            if (user.PhoneNumber!= null)
+            {
+                phoneNumber = user.PhoneNumber;
+            }
+
+            if(user.AvatarImage!= null)
+            {
+                image = $@"https://amazonclone.monster/api/{DirectoriesInProject.ProductImages}/{user.AvatarImage + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
+            }
+
             List<Claim> claims = new List<Claim>()
             {
                 new Claim("name", user.FirstName),
                 new Claim("id", user.Id.ToString()),
                 new Claim("surname", user.LastName),
                 new Claim("username", user.DisplayName),
+                new Claim("avatar", image),
+                new Claim("phoneNumber",phoneNumber),
                 new Claim("email", user.Email)
             };
 

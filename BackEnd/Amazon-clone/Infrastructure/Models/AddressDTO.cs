@@ -17,7 +17,7 @@ namespace Infrastructure.Models
         public string FullName { get; set; }
         public string Country { get; set; }
         public string Postcode { get; set; }
-        //public int? OrderId { get; set; }
+        public bool IsDefault { get; set; }
         public int UserId { get; set; }
     }
 }

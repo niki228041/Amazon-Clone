@@ -125,6 +125,18 @@ namespace ShopApi.Controllers
             return BadRequest(result);
         }
 
+        [HttpPost("GetUserById")]
+        public async Task<IActionResult> GetUserByIdAsync(FindByIdVM model)
+        {
+            var result = await _userService.GetUserByIdAsync(model.Id);
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+
         [HttpPost("GoogleExternalLogin")]
         public async Task<IActionResult> GoogleExternalLoginAsync([FromBody] ExternalLoginRequest request)
         {

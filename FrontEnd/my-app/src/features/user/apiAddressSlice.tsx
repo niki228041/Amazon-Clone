@@ -39,9 +39,27 @@ export const apiAddressSlice:any = createApi({
             body:todo
           }),
           invalidatesTags:['Address']
+        }),
+        getAddressesByUserId:builder.query<any,any>({
+          query:(todo)=>({
+            url:'/api/Address/GetAddressesByUserId',
+            method:"POST",
+            body:todo
+          }),
+          providesTags:result=>['Address']
+        }),
+        setDefaultAddressByAddressId:builder.mutation<any,any>({
+          query:(todo)=>({
+            url:'/api/Address/SetDefaultAddressByAddressId',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Address']
         })
+        
+        
     })
 })
 
 
-export const {useGetAddressByUserIdQuery} = apiAddressSlice
+export const {useGetAddressByUserIdQuery,useGetAddressesByUserIdQuery,useSetDefaultAddressByAddressIdMutation} = apiAddressSlice

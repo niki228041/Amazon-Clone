@@ -15,12 +15,16 @@ import classNames from 'classnames';
 import { apiCategorySlice, useGetMainCategoriesQuery } from '../features/user/apiCategorySlice';
 import { Category } from './Admin/types';
 import { categorySequence } from './types';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setBurgerModalWindow } from '../features/user/modalWindowsStateSlice';
 
 
 export const ModelOne = ({ handleNextMenu , styles,position,setPosition,name,categorySequence,subcategories,handleGoBackMenu}: { handleNextMenu: (prop: Category) => void ,styles:string,position:string,setPosition:(val:any)=>void,name:string,categorySequence:categorySequence[],subcategories:Category[],handleGoBackMenu:()=>void})=>{
   var [categoriesToView, setCategoriesToView] = useState<Category[]>([]);
   const { data: categories }:{data?: { payload: Category[] }} = useGetMainCategoriesQuery();
+
+
 
 
   const user = useAppSelector((state)=>state.user.user);
@@ -137,6 +141,7 @@ export const ModelOne = ({ handleNextMenu , styles,position,setPosition,name,cat
       {subcategories?.map((category)=>{
          return<>
          <div
+
           className={classNames("flex justify-between hover:underline transition-all")}
           onClick={()=>{
             handleNextMenu(category);
@@ -158,7 +163,7 @@ export const ModelOne = ({ handleNextMenu , styles,position,setPosition,name,cat
 } 
 
 
-export const BurgerModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: (prop: boolean) => void }) => {
+export const BurgerModal = () => {
 
   const [nextMenu, setNextMenu] = useState("");
   const [cardYear, setCardYear] = useState("");
@@ -179,14 +184,23 @@ export const BurgerModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: (pr
   const [positionThree, setPositionThree] = useState("right-right");
 
 
+  const navigate = useNavigate();
+  const handleToCategory=(categoryId:number)=>{
+
+    navigate(`/findProducts` + `?categoryId=${encodeURIComponent(categoryId)}`);
+  }
+
+
   const user = useAppSelector((state)=>state.user.user);
+  const isBurgerModalOpen = useAppSelector((state)=>state.modalWindows.isBurgerModalOpen);
 
-
+  
   useEffect(()=>{
     if (categories)
       setCategoriesToView(categories?.payload);
-
   },[])
+
+
   
   const handleNextMenu=async (category:Category)=>{
     setNextMenu(category.name);
@@ -212,42 +226,48 @@ export const BurgerModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: (pr
     
 
 
-    if(positionOne == "mid")
-    {
-      setPositionOne("left");
-      setPositionTwo("mid");
-      setPositionThree("right");
-
-
-      setStylesOne("-translate-x-[350px] transition-all absolute");
-      setStylesTwo("transition-all absolute");
-      setStylesThree("translate-x-[350px] transition-none");
-    }
+      if(positionOne == "mid")
+      {
+        setPositionOne("left");
+        setPositionTwo("mid");
+        setPositionThree("right");
+      
+      
+        setStylesOne("-translate-x-[350px] transition-all absolute");
+        setStylesTwo("transition-all absolute");
+        setStylesThree("translate-x-[350px] transition-none");
+      }
     
-    if(positionOne == "left")
-    {
-      setPositionOne("right");
-      setPositionTwo("left");
-      setPositionThree("mid");
+      if(positionOne == "left")
+      {
+        setPositionOne("right");
+        setPositionTwo("left");
+        setPositionThree("mid");
 
-      setStylesOne("translate-x-[350px] transition-none absolute");
-      setStylesTwo("-translate-x-[350px] transition-all absolute");
-      setStylesThree("transition-all");
+        setStylesOne("translate-x-[350px] transition-none absolute");
+        setStylesTwo("-translate-x-[350px] transition-all absolute");
+        setStylesThree("transition-all");
+      }
+
+      if(positionOne == "right")
+      {
+        setPositionOne("mid");
+        setPositionTwo("right");
+        setPositionThree("left");
+
+        setStylesOne("transition-all absolute");
+        setStylesTwo("translate-x-[350px] transition-none absolute");
+        setStylesThree("-translate-x-[350px] transition-all");
+      }
     }
-
-    if(positionOne == "right")
-    {
-      setPositionOne("mid");
-      setPositionTwo("right");
-      setPositionThree("left");
-
-      setStylesOne("transition-all absolute");
-      setStylesTwo("translate-x-[350px] transition-none absolute");
-      setStylesThree("-translate-x-[350px] transition-all");
-    }
+    else{
+      handleToCategory(category.id);
+      dispatch(setBurgerModalWindow(false));
     }
 
   }
+
+  const dispatch = useDispatch();
 
   const handleGoBackMenu=async ()=>{
     console.log(categoriesSequence.length);
@@ -314,9 +334,9 @@ export const BurgerModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: (pr
   return (
     <form >
         <div className=''>
-        <div className={classNames("flex fixed inset-0 bg-black/30 transition-all duration-500 z-20 pt-11 ",{"scale-x-0":!isOpen,} )}/>
+        <div className={classNames("flex fixed inset-0 bg-black/30 transition-all duration-500 z-20 pt-11 ",{"scale-x-0":!isBurgerModalOpen,} )}/>
 
-        <div className={classNames(" absolute  mt-[124px]  grid z-20 w-[350px] transition-all -translate-x-full",{"translate-x-0":isOpen,} )}>
+        <div className={classNames(" absolute  mt-[124px]  grid z-20 w-[350px] transition-all -translate-x-full",{"translate-x-0":isBurgerModalOpen,} )}>
             <div className='flex px-5 py-2 justify-between bg-mainYellowColor'>
               <div className=' text-white text-[17px] self-center font-semibold mr-5'>Привіт {user.name}</div>
               <div className='self-center'>
