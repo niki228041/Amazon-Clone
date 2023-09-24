@@ -95,6 +95,19 @@ resource "azurerm_network_security_rule" "ssh" {
   resource_group_name         = azurerm_resource_group.Amazon_Clone.name
   network_security_group_name = azurerm_network_security_group.Amazon_Clone.name
 }
+resource "azurerm_network_security_rule" "ssh" {
+  name                        = "allow-ssh"
+  priority                    = 130
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "1433"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.Amazon_Clone.name
+  network_security_group_name = azurerm_network_security_group.Amazon_Clone.name
+}
 resource "azurerm_linux_virtual_machine" "Amazon_Clone" {
   name  = "AmazonCloneVM1"
   location = azurerm_resource_group.Amazon_Clone.location
