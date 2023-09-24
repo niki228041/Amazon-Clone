@@ -115,6 +115,7 @@ export interface UserVM {
     firstName: string,
     lastName: string,
     userName: string,
+    displayName: string,
     email: string,
     avatar:string,
     id:number,

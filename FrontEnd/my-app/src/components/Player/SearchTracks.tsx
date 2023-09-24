@@ -17,14 +17,24 @@ import { useAppSelector } from '../../app/hooks';
 import { addHistoryElement, setLike } from './Tabs/MyTracks';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { formatDistanceToNow, parseISO } from 'date-fns';
+import { Album } from './Tabs/Playlists';
+import { UserVM } from '../types';
+import BlankProfilePicture from '../../images/blankProfilePicture.webp';
+
 
 interface searchDTO{
     name:string,
 }
 
-export const TrackItem=({ track,changePressed }
+
+interface searchAll{
+  item:TrackFromServer|Album|UserVM,
+  type:string,
+  name:string,
+}
+
+  export const TrackItem=({ track}
     : { track: TrackFromServer,
-        changePressed:(value:TrackFromServer)=>{},
       }
     )=>{
   
@@ -36,13 +46,11 @@ export const TrackItem=({ track,changePressed }
       const [isSongPressed, setSongPressed] = useState(false);
       const dispath = useDispatch();
 
-
-    //   searchTitle
-  
+        
       var [setLike,{}] = apiPlayerSlice.useSetLikeMutation();
       const [addHistory,{}]=apiPlayerSlice.useAddHistoryMutation();
   
-      const changeTrack=()=>{
+      const handleChangeTrack=()=>{
         if(globalTrack?.id != track.id)
         {
           var request:addHistoryElement = {userId:Number(user.id),trackId:track.id};
@@ -63,7 +71,7 @@ export const TrackItem=({ track,changePressed }
         }
         else{
           setSongPressed(true);
-          changePressed(track);
+          dispath(changeTrack(track));
           dispath(setIsPlay(true));
         }
   
@@ -129,7 +137,7 @@ export const TrackItem=({ track,changePressed }
                 <div>
                     <div className=' w-36 h-36 rounded-lg bg-center bg-cover flex justify-center relative' style={{backgroundImage:`url(${track.image})`}}>
                         <span className='absolute right-0 flex text-white text-sm p-1'>{track.views} <img className='h-4 self-center' src={Play_small}/></span>
-                        <img onClick={()=>changeTrack()} src={!isSongPressed ? Play : Stop} className="transition-all active:scale-105 pr-2 h-12 self-center" />
+                        <img onClick={()=>handleChangeTrack()} src={!isSongPressed ? Play : Stop} className="transition-all active:scale-105 pr-2 h-12 self-center" />
                     </div>
                 </div>
                 <div className='grid grid-cols-7 w-full'>
@@ -153,7 +161,7 @@ export const TrackItem=({ track,changePressed }
                                 </div>
                                 <div className='flex text-sm text-almostWhiteColor mr-2'>
                                     <span className='mr-2 font-medium'>Comments {track.comments}</span>
-                                    <img className='h-5 self-center hover:scale-125 active:scale-150 transition-all' onClick={()=>navigate("/music/viewTrack/"+track.id)} src={Comment} />
+                                    <img className='h-5 self-center hover:scale-125 active:scale-150 transition-all' onClick={()=>{navigate("/music/viewTrack/"+track.id);window.scroll(0,0)}} src={Comment} />
                                 </div>
                                 <div className='flex text-sm text-almostWhiteColor'>
                                     <img className='h-4 self-center' src={DotsMenu} />
@@ -169,19 +177,149 @@ export const TrackItem=({ track,changePressed }
       )
   }
 
+
+  export const UserItem=({user}
+    : { user: UserVM,}
+    )=>{
+  
+      const globalTrack = useAppSelector((state)=>state.track.currentTrack);
+      const isPlay = useAppSelector((state)=>state.track.isPlay);
+  
+      const [isLikePressed, setLikePressed] = useState(false);
+      const [isSongPressed, setSongPressed] = useState(false);
+      const dispath = useDispatch();  
+        
+      var [setLike,{}] = apiPlayerSlice.useSetLikeMutation();
+      const [addHistory,{}]=apiPlayerSlice.useAddHistoryMutation();
+  
+      
+      const navigate = useNavigate();
+      
+      function formatDateDifference(dateString:string) {
+        const date = parseISO(dateString);
+        const now = new Date();
+  
+      
+        const difference = formatDistanceToNow(date, { addSuffix: true });
+      
+        return difference;
+      }
+      
+  
+      console.log("user.avatar");
+      console.log(user.avatar);
+      
+      
+      return(
+        <div onClick={()=>{navigate("/music/profile/main/"+user.id);window.scroll(0,0)}} className=' bg-middleGrayColor p-2 rounded-lg mt-4 hover:bg-grayColorForHeader'>
+            <div className='flex'>
+                <div>
+                    <div className=' w-36 h-36 rounded-lg bg-center bg-cover flex justify-center relative' style={{backgroundImage:`url(${user?.avatar?.length >0 ? user?.avatar : BlankProfilePicture})`}}>
+
+                    </div>
+                </div>
+                <div className='grid grid-cols-7 w-full'>
+                    <div className='w-full p-2 ml-2  col-span-4 '>
+                        <span className='text-xl font-semibold text-white'>{user.displayName}</span>
+                        <div className='flex flex-wrap mt-2 text-sm'>
+
+                        </div>
+                    </div>
+                    <div className='col-span-3 p-2 relative'>
+                        <div className='flex h-full flex-row-reverse'>
+                            <div className='flex self-end'>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+  
+      )
+  }
+
+
+  export const AlbumItem=({album}
+    : { album: Album,}
+    )=>{
+  
+      const globalTrack = useAppSelector((state)=>state.track.currentTrack);
+      const isPlay = useAppSelector((state)=>state.track.isPlay);
+  
+      const [isLikePressed, setLikePressed] = useState(false);
+      const [isSongPressed, setSongPressed] = useState(false);
+      const dispath = useDispatch();  
+        
+      var [setLike,{}] = apiPlayerSlice.useSetLikeMutation();
+      const [addHistory,{}]=apiPlayerSlice.useAddHistoryMutation();
+  
+      
+      const navigate = useNavigate();
+      
+      function formatDateDifference(dateString:string) {
+        const date = parseISO(dateString);
+        const now = new Date();
+  
+      
+        const difference = formatDistanceToNow(date, { addSuffix: true });
+      
+        return difference;
+      }
+      
+      return(
+        <div className=' bg-middleGrayColor p-2 rounded-lg mt-4 hover:bg-grayColorForHeader'>
+            <div className='flex'>
+                <div>
+                    <div className=' w-36 h-36 rounded-lg bg-center bg-cover flex justify-center relative' style={{backgroundImage:`url(${album.background})`}}>
+                      <img onClick={()=>{navigate("/music/album/"+album.id);window.scroll(0,0)}} src={!isSongPressed ? Play : Stop} className="transition-all active:scale-105 pr-2 h-12 self-center" />
+                    </div>
+                </div>
+                <div className='grid grid-cols-7 w-full'>
+                    <div className='w-full p-2 ml-2  col-span-4 '>
+                        <span className='text-xl font-semibold text-white'>{album.title}</span>
+                        <div className='flex flex-wrap mt-2 text-sm'>
+
+                        </div>
+                    </div>
+                    <div className='col-span-3 p-2 relative'>
+                        <div className='flex h-full flex-row-reverse'>
+                            <div className='flex self-end'>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+  
+      )
+  }
+
+
+export const SearchItem=({item}:{item:searchAll})=>{
+  return<>
+    {item.type == "Track" ? <TrackItem track={item.item as TrackFromServer} /> : ""}
+    {item.type == "Album" ? <AlbumItem album={item.item as Album} /> : ""}
+    {item.type == "User" ? <UserItem user={item.item as UserVM} /> : ""}
+  </>
+}
+
 const SearchTracks=()=>{
   const [checkSetting,setCheckSetting] = useState("everything");
-  const [tracks,setTracks] = useState<TrackFromServer[]>();
+  const [items,setItems] = useState<searchAll[]>();
   
 
   const [getSearchTracks,{}] = apiPlayerSlice.useGetSearchTracksByNameMutation();
   const dispath = useDispatch();
   const [search_, setSearch] = useSearchParams();
   
-  const handleChangeStand=(value:TrackFromServer)=>{
-    dispath(changeTrack(value));
-    return "";
-  }
+  // const handleChangeStand=(value:TrackFromServer)=>{
+  //   dispath(changeTrack(value));
+  //   return "";
+  // }
 
   const getSearchParams = () => {
     return new URLSearchParams(window.location.search);
@@ -191,7 +329,7 @@ const SearchTracks=()=>{
   useEffect(()=>{
     handleGetSearchTracksAsync();
 
-  },[search_,tracks])
+  },[search_,items])
 
   const handleGetSearchTracksAsync = async ()=>{
     var searchValue = search_.get("search");
@@ -200,8 +338,10 @@ const SearchTracks=()=>{
     {
       let response: any = await getSearchTracks(request);
       console.log("HERE PLS:");
-      console.log(response?.data);
-      setTracks(response?.data);
+      console.log(response?.data?.payload);
+      var data:searchAll[] = response?.data?.payload;
+      console.log(data);
+      setItems(data);
     }
 
   }
@@ -250,10 +390,10 @@ const SearchTracks=()=>{
                 </div>
             </div>
             <div className='col-span-4 mb-20'>
-                <p className=' text-almostWhiteColor mt-6'>{tracks?.length} Tracks was founded, {0} People was founded, {0} Albums was founded</p>
+                <p className=' text-almostWhiteColor mt-6'>{items?.filter(item => item.type === "Track").length} Tracks was founded, {items?.filter(item => item.type === "User").length} People was founded, {items?.filter(item => item.type === "Album").length} Albums was founded</p>
 
-                {tracks?.map((track)=>{
-                  return <TrackItem track={track} changePressed={handleChangeStand}/>;
+                {items?.map((item)=>{
+                  return <SearchItem item={item} />;
                 })}
 
                 

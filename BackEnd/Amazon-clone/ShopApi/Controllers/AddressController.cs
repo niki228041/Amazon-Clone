@@ -38,11 +38,25 @@ namespace ShopApi.Controllers
             return Ok(result);
         }
 
+        [HttpPost("GetAddressesByUserId")]
+        public async Task<IActionResult> GetAddressesByUserId(FindByIdVM model)
+        {
+            var result = await _addressService.GetAddressesByUserIdAsync(model.Id);
+            return Ok(result);
+        }
+
         [HttpPost("DeleteAddressByUserId")]
         public async Task<IActionResult> DeleteAddressByUserIdAsync(FindByIdVM model)
         {
             await _addressService.DeleteAddressByUserIdAsync(model.Id);
             return Ok("ok");
+        }
+
+        [HttpPost("SetDefaultAddressByAddressId")]
+        public async Task<IActionResult> SetDefaultAddressByAddressIdAsync(FindByIdVM model)
+        {
+            var result = await _addressService.SetDefaultAddressByAddressIdAsync(model.Id);
+            return Ok(result);
         }
 
     }

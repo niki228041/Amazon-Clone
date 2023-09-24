@@ -129,6 +129,13 @@ namespace DAL
 
 
 
+            //START Many to one
+            modelBuilder.Entity<User>()
+                .HasMany(user => user.Addresses)
+                .WithOne(adr => adr.User)
+                .HasForeignKey(adr => adr.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+            //END
 
 
             //START Many to one

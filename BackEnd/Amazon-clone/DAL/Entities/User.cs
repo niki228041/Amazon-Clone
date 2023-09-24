@@ -13,8 +13,9 @@ namespace DAL.Entities
         public string DisplayName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-
+        public string FathersName { get; set; }
         public string MiddleName { get; set; }
+        public string AvatarImage { get; set; }
 
         public string Gender { get; set; }
 
@@ -45,9 +46,9 @@ namespace DAL.Entities
 
         public bool isBossOfCompany { get; set; }
 
-        //Every User have an Adress
-        public Address Address { get; set; }
 
+        // Navigation property to represent the one-to-many relationship
+        public ICollection<Address> Addresses { get; set; }
 
 
         // Navigation property for users who follow this user

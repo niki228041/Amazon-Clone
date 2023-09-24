@@ -44,6 +44,9 @@ namespace DAL.Migrations
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
@@ -68,9 +71,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
+                    b.HasIndex("UserId");
 
                     b.ToTable("tblAddresses");
                 });
@@ -951,6 +952,9 @@ namespace DAL.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("AvatarImage")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("CompanyId")
                         .HasColumnType("int");
 
@@ -971,6 +975,9 @@ namespace DAL.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FathersName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
@@ -1216,8 +1223,9 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.Address", b =>
                 {
                     b.HasOne("DAL.Entities.User", "User")
-                        .WithOne("Address")
-                        .HasForeignKey("DAL.Entities.Address", "UserId");
+                        .WithMany("Addresses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("User");
                 });
@@ -1704,7 +1712,7 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Entities.User", b =>
                 {
-                    b.Navigation("Address");
+                    b.Navigation("Addresses");
 
                     b.Navigation("Cards");
 

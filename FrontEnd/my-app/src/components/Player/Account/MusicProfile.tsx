@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import img from '../../../images/d33644fc9c30c11105de0b3112780647.jpg'
 import classNames from 'classnames';
-import { Outlet, useLocation, useSearchParams } from 'react-router-dom';
+import { Outlet, useLocation, useParams, useSearchParams } from 'react-router-dom';
 import { setMainMusicProfile } from '../../../features/user/musicStateSlice';
 import { useAppSelector } from '../../../app/hooks';
 import { useDispatch } from 'react-redux';
 import './Profile.css';
 import { useGetMySubscribesByUserIdQuery, useGetSubscribersByUserIdQuery, useGetTracksByUserIdQuery} from '../../../features/user/apiPlayerSlice';
-import { User } from '../../types';
+import { User, UserVM } from '../../types';
 import { TrackFromServer } from '../Player';
+import { useGetUserByIdQuery } from '../../../features/user/apiUserSlice';
 
 const MusicProfile=()=> {
   const [isFollow, setIsFollow] = useState(false);
@@ -24,7 +25,13 @@ const MusicProfile=()=> {
   var {data:following}:{data:{payload:User[]}} = useGetMySubscribesByUserIdQuery({id:user.id});
   var {data:userTracks}:{data:TrackFromServer[]} = useGetTracksByUserIdQuery({id:user.id});
 
-  
+  var params = useParams();
+  console.log("userId");
+  console.log(params.userId);
+  var userId = params.userId;
+
+  var {data:userFromServer}:{data:{payload:UserVM}} = useGetUserByIdQuery({id:userId});
+  console.log(userFromServer);
 
   const [elementHeight, setElementHeight] = useState('300px'); // Initial height
 
@@ -64,7 +71,7 @@ const MusicProfile=()=> {
           height: elementHeight, // Set the height dynamically
         }}
       >
-        <span className={classNames("text-white text-[80px] font-semibold transition-all self-end")}>{user.username}</span>
+        <span className={classNames("text-white text-[80px] font-semibold transition-all self-end")}>{userFromServer?.payload.displayName}</span>
       </div>
     </div>
 
@@ -77,15 +84,20 @@ const MusicProfile=()=> {
 
         <div className=''>
           <div className="flex h-full ">
-            <button onClick={()=>{setIsFollow(!isFollow)}} className={classNames(
-              "rounded-lg transition-all duration-125 py-1",
-              {
-                "bg-orangeColor text-black px-12 ": !isFollow,
-                "bg-almostBlackColor text-orangeColor px-6 ": isFollow,
-              }
-            )}>
-              <span >{!isFollow ? "Follow" : "Followed"}</span>
-            </button>
+            {
+              user.id == userFromServer?.payload.id.toString() ?
+              ""
+                :
+              <button onClick={()=>{setIsFollow(!isFollow)}} className={classNames(
+                "rounded-lg transition-all duration-125 py-1",
+                {
+                  "bg-orangeColor text-black px-12 ": !isFollow,
+                  "bg-almostBlackColor text-orangeColor px-6 ": isFollow,
+                }
+              )}>
+                <span >{!isFollow ? "Follow" : "Followed"}</span>
+              </button>
+            }
           </div>
         </div>
       </div>

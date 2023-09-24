@@ -14,6 +14,7 @@ using Microsoft.VisualBasic;
 using DAL.Entities.Music;
 using DAL.Constants;
 using DAL.Migrations;
+using Infrastructure.Enum_s;
 
 namespace Infrastructure.Services
 {
@@ -28,10 +29,11 @@ namespace Infrastructure.Services
         private readonly ITrackCommentService _trackCommentService;
         private readonly ITrackGenreRepository _trackGenreRepository;
         private readonly IUserFollowerRepository _userFollowerRepository;
+        private readonly IAlbumRepository _albumRepository;
 
         private readonly IGenreService _genreService;
 
-        public TrackService(IMapper mapper, ITrackRepository trackRepository, IImageService imageService, ILikedTracksService likedTracksService, IUserRepository userRepository, ITrackHistoryService trackHistoryService, ITrackCommentService trackCommentService, ITrackGenreRepository trackGenreRepository, IGenreService genreService, IUserFollowerRepository userFollowerRepository)
+        public TrackService(IMapper mapper, ITrackRepository trackRepository, IImageService imageService, ILikedTracksService likedTracksService, IUserRepository userRepository, ITrackHistoryService trackHistoryService, ITrackCommentService trackCommentService, ITrackGenreRepository trackGenreRepository, IGenreService genreService, IUserFollowerRepository userFollowerRepository,IAlbumRepository albumRepository)
         {
             _mapper = mapper;
             _trackRepository = trackRepository;
@@ -43,6 +45,7 @@ namespace Infrastructure.Services
             _trackGenreRepository = trackGenreRepository;
             _genreService = genreService;
             _userFollowerRepository = userFollowerRepository;
+            _albumRepository = albumRepository;
         }
 
         public async Task<Track> CreateTrackAsync(TrackDTO model)
@@ -294,7 +297,7 @@ namespace Infrastructure.Services
 
         
 
-        public async Task<List<TrackVM>> GetSearchTracksByNameAsync(string name)
+        public async Task<ServiceResponse> GetSearchTracksByNameAsync(string name) ////
         {
             var lowercaseName = string.IsNullOrEmpty(name) ? string.Empty : name.ToLower();
 
@@ -304,29 +307,66 @@ namespace Infrastructure.Services
                 .Where(prod => string.IsNullOrEmpty(lowercaseName) || prod.Title.ToLower().Contains(lowercaseName))
                 .ToList();
 
+            var users = await _userRepository.GetAllUsersAsync();
+
+            var foundedUsers = users.FindAll(user => string.IsNullOrEmpty(lowercaseName) || user.DisplayName.ToLower().Contains(lowercaseName)).ToList();
+            var foundedUsersVms = _mapper.Map<List<User>, List<AllUsersVM>>(foundedUsers);
+
+            var foundedAlbums = _albumRepository.GetAll()
+                .Where(album => string.IsNullOrEmpty(lowercaseName) || album.Title.ToLower().Contains(lowercaseName))
+                .ToList();
+            var foundedAlbumsVMs = _mapper.Map<List<Album>, List<AlbumVM>>(foundedAlbums);
+
+
             var tracksVM = _mapper.Map<List<Track>, List<TrackVM>>(tracks);
             var likedTracks = await _likedTracksService.GetLikedTracks();
             var allHistory = await _trackHistoryService.GetAllTrackHistoryAsync();
-            
-
-
-
 
             tracksVM.ForEach(track => track.Views = allHistory.FindAll(his => his.TrackId == track.Id).Count);
+
+            var list = new List<SearchPlayerItem>();
 
             foreach (var track in tracksVM)
             {
                 var comments = await _trackCommentService.GetTrackCommentsByTrackIdAsync(track.Id);
                 track.Genres = await _genreService.GetGenresByTrackIdAsync(track.Id);
                 track.Comments = comments.Count;
+
+                track.Song = $@"https://amazonclone.monster/api/{DirectoriesInProject.MusicFiles}/{track.Song}";
+                track.Image = $@"https://amazonclone.monster/api/{DirectoriesInProject.MusicImages}/{track.Image + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
+
                 foreach (var likedTrack in likedTracks)
                 {
                     if (likedTrack.Track.Id == track.Id)
                         track.WasLikedByUsers.Add((int)likedTrack.UserId);
                 }
+
+                list.Add(new SearchPlayerItem() { Type = "Track",Name=track.Title,Item=track});
             }
 
-            return tracksVM;
+            foreach (var albumVM in foundedAlbumsVMs)
+            {
+                albumVM.Background = $@"https://amazonclone.monster/api/{DirectoriesInProject.MusicImages}/{albumVM.Background + "_" + (int)Qualities.QualitiesSelector.LOW + ".jpg"}";
+                list.Add(new SearchPlayerItem() { Type = "Album", Name = albumVM.Title, Item = albumVM });
+            }
+
+            foreach (var usersVm in foundedUsersVms)
+            {
+                if (usersVm.Avatar != null)
+                {
+                    usersVm.Avatar = $@"https://amazonclone.monster/api/{DirectoriesInProject.ProductImages}/{usersVm.Avatar + "_" + (int)Qualities.QualitiesSelector.LOW + ".jpg"}";
+                }
+                list.Add(new SearchPlayerItem() { Type = "User", Name = usersVm.DisplayName, Item = usersVm });
+            }
+
+            var sortedList = list.OrderBy(item => item.Name).ToList();
+
+            return new ServiceResponse()
+            {
+                Payload = sortedList,
+                IsSuccess = true,
+                Message = "Результати Пошуку"
+            };
         }
 
         public async Task<ServiceResponse> SubscribeAsync(SubscribeDTO model)

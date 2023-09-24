@@ -24,7 +24,7 @@ namespace Infrastructure.Interfaces
 
         Task<ServiceResponse> SubscribeAsync(SubscribeDTO model);
         Task DeleteTrackAsync(int id);
-        Task<List<TrackVM>> GetSearchTracksByNameAsync(string name);
+        Task<ServiceResponse> GetSearchTracksByNameAsync(string name);
         Task<ServiceResponse> GetSubscribersByUserIdAsync(int id);
         Task<ServiceResponse> GetMySubscribesByUserIdAsync(int id);
 

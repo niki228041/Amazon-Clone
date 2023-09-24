@@ -9,6 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import plus from '../../../images/PlusForComment.svg'
 import classNames from 'classnames';
 import { User, UserVM } from '../../types';
+import { apiUserSlice, useGetUserByIdQuery } from '../../../features/user/apiUserSlice';
 
 const MainProfile=()=> {
 
@@ -88,7 +89,7 @@ const MainProfile=()=> {
                 </div>
 
                 <div className=' text-white text-lg mt-6 flex justify-between'>
-                    <span>{followers?.payload.length} Followers</span>
+                    <span>{followers?.payload?.length} Followers</span>
                     <span className=' text-sm text-almostWhiteColor hover:text-white cursor-pointer'>View all</span>
                 </div>
 

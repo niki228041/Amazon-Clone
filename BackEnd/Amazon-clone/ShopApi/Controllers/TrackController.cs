@@ -251,16 +251,11 @@ namespace ShopApi.Controllers
 
         [HttpPost]
         [Route("GetSearchTracksByName")]
-        public async Task<List<TrackVM>> GetSearchTracksByNameAsync(SearchTrackDTO model)
+        public async Task<IActionResult> GetSearchTracksByNameAsync(SearchTrackDTO model)
         {
-            var tracks = await _trackService.GetSearchTracksByNameAsync(model.Name);
-            foreach (var track in tracks)
-            {
-                track.Image = await GetFullLinkByImageName(track.Image);
-                track.Background = await GetFullLinkByImageName(track.Background);
-                track.Song = await GetFullLinkBySongName(track.Song);
-            }
-            return tracks;
+            var searchInPlayer = await _trackService.GetSearchTracksByNameAsync(model.Name);
+            
+            return Ok(searchInPlayer);
         }
 
 

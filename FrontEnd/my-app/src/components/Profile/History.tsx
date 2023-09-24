@@ -88,10 +88,10 @@ const HistoryItem=({order}:{order:OrderedOrder})=>{
     </div>
 
     <div className='  w-full is-profile overflow-hidden  ' style={{ height: elementHeight}}>
-      {order.products != null ?
+      {order?.products != null ?
       <>
         <p className=' pt-4 font-semibold text-lg'>Доставлено {formatDateDifference(order?.dateCreated)}</p>
-        <p className=' font-semibold '>{order.isBought ? "Посилка була передана покупцю " : "Обробка замовлення"}</p>
+        <p className=' font-semibold '>{order?.isBought ? "Посилка була передана покупцю " : "Обробка замовлення"}</p>
       </>
 
       :""}
@@ -108,7 +108,7 @@ const HistoryItem=({order}:{order:OrderedOrder})=>{
               <p className=' text-gray-400 h-7 overflow-hidden'>{parser.parseFromString(prod.product?.description, 'text/html').body.textContent?.slice(0,30)}</p>
               <p className=' text-gray-500 text-sm'>Час на повернення товару скінчився 6 вересня</p>
               <div className='mt-4'>
-                <Link to={"/product/description/"+prod.product.id} className=' bg-mainYellowColor rounded-lg py-2 px-2 text-sm text-white hover:bg-orange-500 transition-all'>Купити знову</Link>
+                <Link to={"/product/description/"+prod.product?.id} className=' bg-mainYellowColor rounded-lg py-2 px-2 text-sm text-white hover:bg-orange-500 transition-all'>Купити знову</Link>
                 <button className=' border border-gray-300 rounded-lg py-2 px-2 text-sm shadow-lg ml-4 hover:shadow-none transition-all'>Детальніше</button>
               </div>
             </div>
@@ -116,7 +116,7 @@ const HistoryItem=({order}:{order:OrderedOrder})=>{
 
           <div className=' p-2 self-center'>
             <div className=' rounded-sm flex justify-center border py-1 px-16 hover:bg-gray-200 cursor-pointer self-center mb-7'>Допомога</div>
-            <Link to={"/product/reviews/"+prod.product.id} className=' rounded-sm flex justify-center border py-1 px-16 hover:bg-gray-200 cursor-pointer self-center '>Залишити відгук</Link>
+            <Link to={"/product/reviews/"+prod.product?.id} className=' rounded-sm flex justify-center border py-1 px-16 hover:bg-gray-200 cursor-pointer self-center '>Залишити відгук</Link>
           </div>
         </div>
       )}

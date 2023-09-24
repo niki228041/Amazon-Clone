@@ -143,7 +143,10 @@ public class AppMappingProfile : Profile
         CreateMap<Address, AddressVM>();
         CreateMap<AddressVM, Address>();
 
-        
+        CreateMap<EditUserDTO, User>();
+        CreateMap<User, EditUserDTO>();
+
+
     }
 
 
