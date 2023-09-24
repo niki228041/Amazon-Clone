@@ -113,6 +113,7 @@ const handleAddNewOrder = (productId: string) => {
       }
   
       setTimeout(() => {
+        dispatch(turnWasAddedToFalse());
       }, 2000);
     }
   };

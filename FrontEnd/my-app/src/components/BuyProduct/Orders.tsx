@@ -155,7 +155,7 @@ export const Orders=()=>{
     var [endPrice,setEndPrice]= useState(0);
 
     var request:FindById[] = [];
-    orders.forEach(order => {
+    orders?.forEach(order => {
       request.push({id:order.product_id});
     });
 

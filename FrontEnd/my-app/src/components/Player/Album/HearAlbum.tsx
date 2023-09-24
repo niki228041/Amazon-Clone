@@ -7,7 +7,7 @@ import { changeTrack, setIsPlay, setOnChangeSlider, setTracksQuery } from '../..
 import { useAppSelector } from '../../../app/hooks';
 import { useGetAlbumByIdQuery, useGetTrackByIdQuery } from '../../../features/user/apiPlayerSlice';
 import { TrackFromServer } from '../Player';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Play from "../../../images/Play.svg";
 import SkipRight from "../../../images/Skip right.svg";
 import Stop from "../../../images/Stop.svg";
@@ -134,6 +134,7 @@ function HearAlbum() {
         dispath(setOnChangeSlider(e.target.value));
     }
 
+    var navigate = useNavigate();
 
     return (
     <div>
@@ -180,7 +181,7 @@ function HearAlbum() {
                           </div>
                         </div>
                         <div className='flex justify-end text-white text-sm'>
-                            <span className=' self-center'>{currentAlbumSong?.likes?.length! == undefined ? "0" : currentAlbumSong?.likes?.length}</span>
+                            <span className=' self-center'>{currentAlbumSong?.wasLikedByUsers?.length!}</span>
                             <div className='mx-1' />
                             <img className='self-center h-5 cursor-pointer' src={Like} />
                             
@@ -188,7 +189,7 @@ function HearAlbum() {
 
                             <span className=' self-center'>{currentAlbumSong?.comments}</span>
                             <div className='mx-1' />
-                            <img className='self-center h-5 cursor-pointer' src={Comment} />
+                            <img onClick={()=>navigate("")} className='self-center h-5 cursor-pointer' src={Comment} />
 
                             <div className='mx-1 mr-2' />
                             <img className='self-center h-4 cursor-pointer' src={DotsMenu} />

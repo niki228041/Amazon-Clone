@@ -67,7 +67,7 @@ const Header = () => {
 
   var totalCount: number = 0;
 
-  orders.orders.forEach(order => {
+  orders?.orders?.forEach(order => {
     totalCount += order.count;
   });
 
