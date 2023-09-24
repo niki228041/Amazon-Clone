@@ -352,10 +352,8 @@ namespace Infrastructure.Services
 
             foreach (var usersVm in foundedUsersVms)
             {
-                if (usersVm.Avatar != null)
-                {
-                    usersVm.Avatar = $@"https://amazonclone.monster/api/{DirectoriesInProject.ProductImages}/{usersVm.Avatar + "_" + (int)Qualities.QualitiesSelector.LOW + ".jpg"}";
-                }
+                usersVm.AvatarImage = $@"https://amazonclone.monster/api/{DirectoriesInProject.ProductImages}/{usersVm.AvatarImage + "_" + (int)Qualities.QualitiesSelector.LOW + ".jpg"}";
+
                 list.Add(new SearchPlayerItem() { Type = "User", Name = usersVm.DisplayName, Item = usersVm });
             }
 

@@ -6,10 +6,11 @@ import { setMainMusicProfile } from '../../../features/user/musicStateSlice';
 import { useAppSelector } from '../../../app/hooks';
 import { useDispatch } from 'react-redux';
 import './Profile.css';
-import { useGetMySubscribesByUserIdQuery, useGetSubscribersByUserIdQuery, useGetTracksByUserIdQuery} from '../../../features/user/apiPlayerSlice';
+import { apiPlayerSlice, useGetMySubscribesByUserIdQuery, useGetSubscribersByUserIdQuery, useGetTracksByUserIdQuery} from '../../../features/user/apiPlayerSlice';
 import { User, UserVM } from '../../types';
 import { TrackFromServer } from '../Player';
 import { useGetUserByIdQuery } from '../../../features/user/apiUserSlice';
+import { FollowDTO } from '../ViewTrack';
 
 const MusicProfile=()=> {
   const [isFollow, setIsFollow] = useState(false);
@@ -21,20 +22,50 @@ const MusicProfile=()=> {
 
   const user = useAppSelector((state)=>state.user.user);
   
-  var {data:followers}:{data:{payload:User[]}} = useGetSubscribersByUserIdQuery({id:user.id});
-  var {data:following}:{data:{payload:User[]}} = useGetMySubscribesByUserIdQuery({id:user.id});
-  var {data:userTracks}:{data:TrackFromServer[]} = useGetTracksByUserIdQuery({id:user.id});
-
   var params = useParams();
   console.log("userId");
   console.log(params.userId);
   var userId = params.userId;
+
+  var {data:followers}:{data:{payload:UserVM[]}} = useGetSubscribersByUserIdQuery({id:userId});
+  var {data:following}:{data:{payload:UserVM[]}} = useGetMySubscribesByUserIdQuery({id:userId});
+  var {data:userTracks}:{data:TrackFromServer[]} = useGetTracksByUserIdQuery({id:userId});
+
+
+
 
   var {data:userFromServer}:{data:{payload:UserVM}} = useGetUserByIdQuery({id:userId});
   console.log(userFromServer);
 
   const [elementHeight, setElementHeight] = useState('300px'); // Initial height
 
+  const [subscribe,{}] = apiPlayerSlice.useSubscribeMutation();
+
+  const handleFollow=()=>{
+    console.log(user.id);
+    var request:FollowDTO = {userId:userId!,subscriberId:user.id};
+    subscribe(request);
+  }
+
+  useEffect(()=>{
+    var isFollow = false;
+    console.log("followers?.payload");
+    console.log(followers?.payload);
+    if(followers?.payload)
+    {
+      for (let index = 0; index < followers?.payload.length; index++) {
+        const element = followers.payload[index];
+        if(element.id == parseInt(user.id))
+        {
+          isFollow = true;
+        }
+      }
+    }
+
+    setIsFollow(isFollow);
+    console.log("YO");
+
+  },[followers?.payload])
 
 
   useEffect(()=>{
@@ -77,8 +108,8 @@ const MusicProfile=()=> {
 
       <div className='bg-middleGrayColor p-4 px-6 rounded-b-lg flex justify-between pb-10'>
         <div className='flex self-center'>
-          <span className='mr-10 text-white text-sm  self-end hover:underline cursor-pointer'>{followers?.payload.length} Followers</span>
-          <span className='mr-10 text-white text-sm  self-end hover:underline cursor-pointer'>{following?.payload.length} Following</span>
+          <span className='mr-10 text-white text-sm  self-end hover:underline cursor-pointer'>{followers?.payload?.length} Followers</span>
+          <span className='mr-10 text-white text-sm  self-end hover:underline cursor-pointer'>{following?.payload?.length} Following</span>
           <span className='mr-10 text-white text-sm  self-end hover:underline cursor-pointer'>{userTracks?.length } Tracks</span>
         </div>
 
@@ -88,7 +119,7 @@ const MusicProfile=()=> {
               user.id == userFromServer?.payload.id.toString() ?
               ""
                 :
-              <button onClick={()=>{setIsFollow(!isFollow)}} className={classNames(
+              <button onClick={()=>handleFollow()} className={classNames(
                 "rounded-lg transition-all duration-125 py-1",
                 {
                   "bg-orangeColor text-black px-12 ": !isFollow,

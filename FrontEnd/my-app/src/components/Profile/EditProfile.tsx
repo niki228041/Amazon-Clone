@@ -88,6 +88,12 @@ const EditProfile=()=> {
     }
   }
   console.log(user.phoneNumber);
+  console.log(user);
+
+  useEffect(()=>{
+    setMainImage(user.avatar);
+  },[])
+
   const formik = useFormik<editProfile>({
     initialValues: {
       displayName: user.username,
@@ -175,7 +181,7 @@ const EditProfile=()=> {
                     className="hidden " />
                 </div>
 
-                <label htmlFor="mainImage" className=' cursor-pointer h-32 w-32 mr-6 rounded-lg bg-center bg-cover' style={{backgroundImage:`url(${mainImage?.length <=0 ? BlankProfilePicture : ""})`}} />
+                <label htmlFor="mainImage" className=' cursor-pointer h-32 w-32 mr-6 rounded-lg bg-center bg-cover' style={{backgroundImage:`url(${mainImage ? mainImage : BlankProfilePicture})`}} />
                 <input
                   id="displayName"
                   name="displayName"

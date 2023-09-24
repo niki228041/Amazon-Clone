@@ -102,6 +102,9 @@ interface searchAll{
         {
           setLikePressed(true);
         }
+        else{
+          setLikePressed(false);
+        }
         
         dispath(setLikes(track.wasLikedByUsers));
   
@@ -119,7 +122,7 @@ interface searchAll{
       
   
       const handleClickLike = () => {
-        setLikePressed(prevIsLikePressed => !prevIsLikePressed);
+        // setLikePressed(prevIsLikePressed => !prevIsLikePressed);
         
         const request = { userId: Number(user.id), trackId: track.id, isLiked: !isLikePressed };
         
@@ -254,7 +257,8 @@ interface searchAll{
         
       var [setLike,{}] = apiPlayerSlice.useSetLikeMutation();
       const [addHistory,{}]=apiPlayerSlice.useAddHistoryMutation();
-  
+
+
       
       const navigate = useNavigate();
       
@@ -308,7 +312,7 @@ export const SearchItem=({item}:{item:searchAll})=>{
 }
 
 const SearchTracks=()=>{
-  const [checkSetting,setCheckSetting] = useState("everything");
+  const [checkSetting,setCheckSetting] = useState("Everything");
   const [items,setItems] = useState<searchAll[]>();
   
 
@@ -355,36 +359,36 @@ const SearchTracks=()=>{
                 </div>
                 <div className='bg-middleGrayColor p-4 rounded-lg font-medium self-center mt-5'>
                     <span className='text-white text-lg'>I’m searching for</span>
-                    <div className='flex justify-between mt-3'>
+                    <div className='flex justify-between mt-3 select-none'>
                         <span className=' text-almostWhiteColor self-center text-sm'>Everything</span>
-                        <div onClick={()=>setCheckSetting("everything")} className={classNames(
+                        <div onClick={()=>setCheckSetting("Everything")} className={classNames(
                             'h-3 self-center  rounded-full cursor-pointer transition-all ',
-                            {" bg-orangeColor w-20":checkSetting == "everything",
-                             "bg-grayForCheckBox w-10":checkSetting != "everything"}
+                            {" bg-orangeColor w-20":checkSetting == "Everything",
+                             "bg-grayForCheckBox w-10":checkSetting != "Everything"}
                         )} />
                     </div>
-                    <div className='flex justify-between mt-3'>
+                    <div className='flex justify-between mt-3 select-none'>
                         <span className=' text-almostWhiteColor self-center text-sm'>People</span>
-                        <div onClick={()=>setCheckSetting("people")} className={classNames(
+                        <div onClick={()=>setCheckSetting("User")} className={classNames(
                             'h-3 self-center  rounded-full cursor-pointer transition-all ',
-                            {" bg-orangeColor w-20":checkSetting == "people",
-                             "bg-grayForCheckBox w-10":checkSetting != "people"}
+                            {" bg-orangeColor w-20":checkSetting == "User",
+                             "bg-grayForCheckBox w-10":checkSetting != "User"}
                         )} />
                     </div>
-                    <div className='flex justify-between mt-3'>
+                    <div className='flex justify-between mt-3 select-none'>
                         <span className=' text-almostWhiteColor self-center text-sm'>Tracks</span>
-                        <div onClick={()=>setCheckSetting("tracks")} className={classNames(
+                        <div onClick={()=>setCheckSetting("Track")} className={classNames(
                             'h-3 self-center  rounded-full cursor-pointer transition-all ',
-                            {" bg-orangeColor w-20":checkSetting == "tracks",
-                             "bg-grayForCheckBox w-10":checkSetting != "tracks"}
+                            {" bg-orangeColor w-20":checkSetting == "Track",
+                             "bg-grayForCheckBox w-10":checkSetting != "Track"}
                         )} />
                     </div>
-                    <div className='flex justify-between mt-3'>
+                    <div className='flex justify-between mt-3 select-none'>
                         <span className=' text-almostWhiteColor self-center text-sm'>Albums</span>
-                        <div onClick={()=>setCheckSetting("albums")} className={classNames(
+                        <div onClick={()=>setCheckSetting("Album")} className={classNames(
                             'h-3 self-center  rounded-full cursor-pointer transition-all ',
-                            {" bg-orangeColor w-20":checkSetting == "albums",
-                             "bg-grayForCheckBox w-10":checkSetting != "albums"}
+                            {" bg-orangeColor w-20":checkSetting == "Album",
+                             "bg-grayForCheckBox w-10":checkSetting != "Album"}
                         )} />
                     </div>
                 </div>
@@ -392,7 +396,7 @@ const SearchTracks=()=>{
             <div className='col-span-4 mb-20'>
                 <p className=' text-almostWhiteColor mt-6'>{items?.filter(item => item.type === "Track").length} Tracks was founded, {items?.filter(item => item.type === "User").length} People was founded, {items?.filter(item => item.type === "Album").length} Albums was founded</p>
 
-                {items?.map((item)=>{
+                {items?.filter(item => item.type === checkSetting || checkSetting == "Everything").map((item)=>{
                   return <SearchItem item={item} />;
                 })}
 

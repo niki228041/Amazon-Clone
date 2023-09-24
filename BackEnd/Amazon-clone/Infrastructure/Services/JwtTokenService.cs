@@ -47,7 +47,7 @@ namespace Infrastructure.Services
 
             if(user.AvatarImage!= null)
             {
-                image = $@"https://amazonclone.monster/api/{DirectoriesInProject.ProductImages}/{image + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
+                image = $@"https://amazonclone.monster/api/{DirectoriesInProject.ProductImages}/{user.AvatarImage + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
             }
 
             List<Claim> claims = new List<Claim>()

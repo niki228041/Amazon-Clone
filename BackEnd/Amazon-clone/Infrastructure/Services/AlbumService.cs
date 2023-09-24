@@ -3,6 +3,7 @@ using DAL.Constants;
 using DAL.Entities;
 using DAL.Entities.Music;
 using DAL.Interfaces;
+using DAL.Repositories;
 using Infrastructure.Enum_s;
 using Infrastructure.Interfaces;
 using Infrastructure.Models;
@@ -23,8 +24,11 @@ namespace Infrastructure.Services
         private readonly ITrackRepository _trackRepository;
         private readonly IUserRepository _userRepository;
         private readonly IImageService _imageService;
+        private readonly ITrackHistoryService _trackHistoryService;
+        private readonly ILikedTracksService _likedTracksService;
+        private readonly ITrackCommentService _trackCommentService;
 
-        public AlbumService(IMapper mapper, IAlbumRepository albumRepository, IUserRepository userRepository, ITrackRepository trackRepository, IImageService imageService)
+        public AlbumService(IMapper mapper, IAlbumRepository albumRepository, IUserRepository userRepository, ITrackRepository trackRepository, IImageService imageService, ITrackHistoryService trackHistoryService, ILikedTracksService likedTracksService, ITrackCommentService trackCommentService)
         {
             _mapper = mapper;
             _albumRepository = albumRepository;
@@ -32,6 +36,9 @@ namespace Infrastructure.Services
             _userRepository = userRepository;
             _trackRepository = trackRepository;
             _imageService = imageService;
+            _trackHistoryService = trackHistoryService;
+            _likedTracksService = likedTracksService;
+            _trackCommentService = trackCommentService;
         }
 
         public async Task<ServiceResponse> AddAlbumAsync(AlbumDTO model)
@@ -91,6 +98,8 @@ namespace Infrastructure.Services
             
             var albumVm = _mapper.Map<Album, AlbumVM>(album);
             var tracksList = new List<TrackVM>();
+            var allHistory = await _trackHistoryService.GetAllTrackHistoryAsync();
+            var likedTracks = await _likedTracksService.GetLikedTracks();
 
             if (album != null)
             {
@@ -98,11 +107,20 @@ namespace Infrastructure.Services
                 {
                     var trackVm = _mapper.Map<Track, TrackVM>(track.Track);
 
+                    var comments = await _trackCommentService.GetTrackCommentsByTrackIdAsync(trackVm.Id);
+                    trackVm.Comments = comments.Count;
                     trackVm.Image = $@"https://amazonclone.monster/api/{DirectoriesInProject.MusicImages}/{trackVm.Image + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
                     trackVm.Song = $@"https://amazonclone.monster/api/{DirectoriesInProject.MusicFiles}/{trackVm.Song}";
 
+                    foreach (var likedTrack in likedTracks)
+                    {
+                        if (likedTrack.Track.Id == trackVm.Id)
+                            trackVm.WasLikedByUsers.Add((int)likedTrack.UserId);
+                    }
+
                     tracksList.Add(trackVm);
                 }
+                tracksList.ForEach(track => track.Views = allHistory.FindAll(his => his.TrackId == track.Id).Count);
 
                 albumVm.Tracks = tracksList;
                 if (album.User != null)
@@ -134,16 +152,31 @@ namespace Infrastructure.Services
                 .Where(alb => alb.UserId == userId);
             var albumsVms = new List<AlbumVM>();
 
+            var allHistory = await _trackHistoryService.GetAllTrackHistoryAsync();
+            var likedTracks = await _likedTracksService.GetLikedTracks();
+
             foreach (var album in albums)
             {
                 var albumVm = _mapper.Map<Album, AlbumVM>(album);
                 var tracksList = new List<TrackVM>();
 
+
                 foreach (var track in album.TrackAlbums)
                 {
                     var trackVm = _mapper.Map<Track, TrackVM>(track.Track);
+
+                    foreach (var likedTrack in likedTracks)
+                    {
+                        if (likedTrack.Track.Id == trackVm.Id)
+                            trackVm.WasLikedByUsers.Add((int)likedTrack.UserId);
+                    }
+
+
                     tracksList.Add(trackVm);
                 }
+                tracksList.ForEach(track => track.Views = allHistory.FindAll(his => his.TrackId == track.Id).Count);
+
+
                 albumVm.Tracks = tracksList;
                 if(album.User != null)
                 albumVm.Username = album.User.DisplayName;
