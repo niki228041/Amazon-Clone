@@ -53,7 +53,7 @@ namespace ShopApi.Controllers
             foreach (var opt in optionsVms)
             {
                 opt.Variants.ForEach(var_ => 
-                var_.CountOfProducts = _productRepository.Products.Where(prod => prod.VariantProducts.FirstOrDefault(varik=>varik.VariantId== var_.Id) != null).Count()
+                    var_.CountOfProducts = _productRepository.Products.Where(prod => prod.VariantProducts.FirstOrDefault(varik=>varik.VariantId== var_.Id) != null).Count()
                 );
             }
 
@@ -80,6 +80,7 @@ namespace ShopApi.Controllers
 
             return Ok(optionsVms);
         }
+
 
         [HttpPost]
         [Route("CreateOptions")]

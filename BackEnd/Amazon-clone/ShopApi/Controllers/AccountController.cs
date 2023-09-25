@@ -64,6 +64,18 @@ namespace ShopApi.Controllers
 
         }
 
+        [HttpPost]
+        [Route("EditUser")]
+        public async Task<IActionResult> EditUserAsync(EditUserDTO model)
+        {
+            var res = await _userService.EditUserAsync(model);
+            if (res.IsSuccess)
+            {
+                return Ok(res);
+            }
+            return BadRequest(res);
+        }
+
         [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> RegisterAsync([FromBody] RegisterViewModel model)
@@ -112,6 +124,18 @@ namespace ShopApi.Controllers
             }
             return BadRequest(result);
         }
+
+        [HttpPost("GetUserById")]
+        public async Task<IActionResult> GetUserByIdAsync(FindByIdVM model)
+        {
+            var result = await _userService.GetUserByIdAsync(model.Id);
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
 
         [HttpPost("GoogleExternalLogin")]
         public async Task<IActionResult> GoogleExternalLoginAsync([FromBody] ExternalLoginRequest request)
@@ -223,6 +247,7 @@ namespace ShopApi.Controllers
 
             return Ok(token);
         }
+
 
     }   
 }

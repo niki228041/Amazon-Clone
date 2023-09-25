@@ -24,6 +24,7 @@ import { useAppSelector } from '../../app/hooks';
 import { parseISO ,format} from 'date-fns';
 import { uk } from 'date-fns/locale';
 import { GetCurrency } from '../../api/jwtDecodeToken';
+import { Link } from 'react-router-dom';
 
 const HistoryItem=({order}:{order:OrderedOrder})=>{
   const [dropDown,setDropDown] =  useState(false);
@@ -65,7 +66,7 @@ const HistoryItem=({order}:{order:OrderedOrder})=>{
       <div className='mx-4'></div>
       <div className=''>
         <p className='font-medium text-[16px] text-grayColorForHeader '>Відправлено до</p>
-        <span className=' text-sm font-medium cursor-pointer text-darkBlueColor'>Шафранська Анна</span>
+        <span className=' text-sm font-medium cursor-pointer text-darkBlueColor'>{order.userName}</span>
       </div>
 
     </div>
@@ -87,26 +88,27 @@ const HistoryItem=({order}:{order:OrderedOrder})=>{
     </div>
 
     <div className='  w-full is-profile overflow-hidden  ' style={{ height: elementHeight}}>
-      {order.products != null ?
+      {order?.products != null ?
       <>
         <p className=' pt-4 font-semibold text-lg'>Доставлено {formatDateDifference(order?.dateCreated)}</p>
-        <p className=' font-semibold '>Посилка була передана покупцю </p>
+        <p className=' font-semibold '>{order?.isBought ? "Посилка була передана покупцю " : "Обробка замовлення"}</p>
       </>
 
       :""}
       
       {order?.products?.map((prod)=>
         <div className=' py-3 flex  justify-between'>
-          <div className='flex'>
+          
+          <div className='flex w-2/3'>
             <div>
               <div className='h-28 w-28 rounded-lg bg-center bg-cover' style={{backgroundImage:`url(${prod.product?.image})`}} />
             </div>
             <div className='ml-2 text-gray-500 '>
-              <p className=' font-medium'>{prod.product?.name}</p>
-              <p className=' text-gray-400 mt-2'>{parser.parseFromString(prod.product?.description, 'text/html').body.textContent?.slice(0,30)}</p>
+              <p className=' font-medium h-7 overflow-hidden'>{prod.product?.name}</p>
+              <p className=' text-gray-400 h-7 overflow-hidden'>{parser.parseFromString(prod.product?.description, 'text/html').body.textContent?.slice(0,30)}</p>
               <p className=' text-gray-500 text-sm'>Час на повернення товару скінчився 6 вересня</p>
               <div className='mt-4'>
-                <button className=' bg-mainYellowColor rounded-lg py-2 px-2 text-sm text-white hover:bg-orange-500 transition-all'>Купити знову</button>
+                <Link to={"/product/description/"+prod.product?.id} className=' bg-mainYellowColor rounded-lg py-2 px-2 text-sm text-white hover:bg-orange-500 transition-all'>Купити знову</Link>
                 <button className=' border border-gray-300 rounded-lg py-2 px-2 text-sm shadow-lg ml-4 hover:shadow-none transition-all'>Детальніше</button>
               </div>
             </div>
@@ -114,7 +116,7 @@ const HistoryItem=({order}:{order:OrderedOrder})=>{
 
           <div className=' p-2 self-center'>
             <div className=' rounded-sm flex justify-center border py-1 px-16 hover:bg-gray-200 cursor-pointer self-center mb-7'>Допомога</div>
-            <div className=' rounded-sm flex justify-center border py-1 px-16 hover:bg-gray-200 cursor-pointer self-center '>Залишити відгук</div>
+            <Link to={"/product/reviews/"+prod.product?.id} className=' rounded-sm flex justify-center border py-1 px-16 hover:bg-gray-200 cursor-pointer self-center '>Залишити відгук</Link>
           </div>
         </div>
       )}

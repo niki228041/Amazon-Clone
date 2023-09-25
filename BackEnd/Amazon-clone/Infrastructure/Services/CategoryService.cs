@@ -11,6 +11,8 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using DAL.Entities.FilterEntities;
 using Microsoft.VisualBasic;
+using DAL.Constants;
+using Infrastructure.Enum_s;
 
 namespace Infrastructure.Services
 {
@@ -20,15 +22,22 @@ namespace Infrastructure.Services
         private readonly IProductRepository _productRepository;
         private readonly IOptionsRepository _optionsRepository;
         private readonly IOptionsCategoryRepository _optionsCategoryRepository;
+        private readonly IImageService _imageService;
+        private readonly ICategoryImageService _categoryImageService;
+        private readonly ICategoryImageRepository _categoryImageRepository;
         private readonly IMapper _mapper;
 
-        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper, IProductRepository productService, IOptionsRepository optionsRepository, IOptionsCategoryRepository optionsCategoryRepository)
+        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper, IProductRepository productService, IOptionsRepository optionsRepository, IOptionsCategoryRepository optionsCategoryRepository,
+        IImageService ImageService, ICategoryImageService categoryImageService, ICategoryImageRepository categoryImageRepository)
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;
             _productRepository = productService;
             _optionsRepository = optionsRepository;
             _optionsCategoryRepository = optionsCategoryRepository;
+            _imageService = ImageService;
+            _categoryImageService = categoryImageService;
+            _categoryImageRepository = categoryImageRepository;
         }
 
         public async Task<ServiceResponse> Create(CategoryCreateVM model)
@@ -56,6 +65,7 @@ namespace Infrastructure.Services
                         await _optionsCategoryRepository.Create(new OptionsCategory { CategoryId = category_child.Id, OptionsId = real_option.Id });
                     }
                 }
+                
 
                 category_parent.Subcategories.Add(category_child);
                 await _categoryRepository.Update(category_parent);
@@ -82,13 +92,58 @@ namespace Infrastructure.Services
 
             }
 
+            foreach (var img in model.Images_)
+            {
+                var imgTemplate = img.Data;
+                var imgFileName = await _imageService.SaveImageAsync(imgTemplate, DirectoriesInProject.ProductImages);
+
+                if (string.IsNullOrEmpty(imgFileName))
+                {
+                    return new ServiceResponse
+                    {
+                        Message = "Error with image, may be wrong format!",
+                        IsSuccess = false,
+                    };
+                }
+
+
+                CategoryImage new_img_to_upload = new CategoryImage { Name = imgFileName, CategoryId = category_child.Id };
+
+                await _categoryImageService.CreateCategoryImageAsync(new_img_to_upload);
+                category_child.CategoryImageId = new_img_to_upload.Id;
+                await _categoryRepository.Update(category_child);
+            }
+
             return new ServiceResponse
             {
                 Message = "Category was created",
                 IsSuccess = true,
             };
         }
+        public async Task<string> UploadImage(string data)
+        {
+            string fileName = string.Empty;
 
+            try
+            {
+                if (data != null)
+                {
+                    var fileExp = "png";
+                    var dir = Path.Combine(Directory.GetCurrentDirectory(), "images");
+                    fileName = string.Format(@"{0}" + fileExp, Guid.NewGuid());
+
+
+                    byte[] byteBuffer = Convert.FromBase64String(data);
+                    System.IO.File.WriteAllBytes(Path.Combine(dir, fileName), byteBuffer);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return fileName;
+        }
         public async Task<ServiceResponse> GetMainCategoriesAsync()
         {
             try
@@ -117,6 +172,8 @@ namespace Infrastructure.Services
                 var categoryVMs = _mapper.Map<List<Category>, List<CategoryVM>>(categories);
 
 
+
+
                 return new ServiceResponse
                 {
                     IsSuccess = true,
@@ -137,7 +194,7 @@ namespace Infrastructure.Services
 
         public async Task DeleteCategoryAsync(int id)
         {
-            var category = _categoryRepository.Categories.Where(cat=>cat.Id==id).Include(cat=>cat.OptionsCategories).Include(cat=>cat.Products).Include(cat=>cat.Subcategories).FirstOrDefault();
+            var category = _categoryRepository.Categories.Where(cat=>cat.Id==id).Include(cat=>cat.OptionsCategories).Include(cat=>cat.Products).Include(prod => prod.CategoryImage).Include(cat=>cat.Subcategories).FirstOrDefault();
 
 
              await _categoryRepository.Delete(category);
@@ -169,35 +226,40 @@ namespace Infrastructure.Services
         {
             try
             {
-
-
                 var categories = await _categoryRepository.Categories
                     .Include(c => c.Parent)
+                    .Include(c => c.CategoryImage)
                     .Include(c => c.Subcategories)
-                    .Include(c=>c.OptionsCategories)
+                    .Include(c => c.OptionsCategories)
                     .ToListAsync();
-                //var categoriesWithParents = _categoryRepository.Categories.Include(c => c.Parent).ToList();
 
                 var categoryVMs = _mapper.Map<List<Category>, List<CategoryVM>>(categories);
 
+                foreach (var categoryVM in categoryVMs)
+                {
+                    var category = categories.FirstOrDefault(cat => cat.Id == categoryVM.Id);
+                    
+                    if (category != null && category.CategoryImage != null)
+                    {
+                        var url = $@"https://amazonclone.monster/api/{DirectoriesInProject.ProductImages}/{category.CategoryImage.Name + "_" + (int)Qualities.QualitiesSelector.HIGH + ".jpg"}";
+                        categoryVM.Images_ = url;
+                    }
+                }
 
                 return new ServiceResponse
                 {
                     IsSuccess = true,
                     Payload = categoryVMs
                 };
-
             }
             catch (Exception ex)
             {
-
                 return new ServiceResponse
                 {
                     IsSuccess = false,
                     Message = ex.Message
                 };
             }
-
         }
 
         public async Task<Category> GetByIdAsync(int id)
@@ -258,7 +320,6 @@ namespace Infrastructure.Services
                     {
                         var allSubCategories = await getSubcategoriesFromCategory(sub_category.Subcategories);
                         categ_list.AddRange(allSubCategories);
-                        categ_list = categ_list;
                     }
                     categ_list.Add(categ_tmp);
                 }

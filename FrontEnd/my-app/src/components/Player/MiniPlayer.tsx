@@ -75,13 +75,14 @@ function MiniPlayer() {
     else{
       setLikePressed(false);
     }
-
     
 
   },[track.currentTrack?.wasLikedByUsers,track.currentTrack?.id])
 
 
   return (
+    <>
+    {track.currentTrack != null?
     <div className=''>
         <div className="bg-middleGrayColor  rounded-lg mt-2 self-center gap-3 text-white text-[15px] select-none p-1">
           <div className="flex p-1">
@@ -130,6 +131,8 @@ function MiniPlayer() {
         </div>
 
     </div>
+    :""}
+    </>
   )
 }
 

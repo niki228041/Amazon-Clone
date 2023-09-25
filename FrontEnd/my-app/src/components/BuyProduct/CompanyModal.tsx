@@ -7,6 +7,8 @@ import { useAppSelector } from '../../app/hooks';
 import { useState } from 'react';
 import { apiAddressSlice} from '../../features/user/apiAddressSlice';
 import { apiCompanySlice } from '../../features/user/apiCompanySlice';
+import { useDispatch } from 'react-redux';
+import { setCompanyModalWindow } from '../../features/user/modalWindowsStateSlice';
 
 interface addCompany{
   name:string,
@@ -15,15 +17,16 @@ interface addCompany{
 }
 
 
-export const CompanyModal=({ isOpen,onClose }: { isOpen: boolean,onClose:(prop:boolean)=>void })=>{
+export const CompanyModal=()=>{
 
   var user = useAppSelector(((state: { user: UserState; orders: Orders })=>state.user.user));
+  var isOpen = useAppSelector(((state)=>state.modalWindows.isCompanyOpen));
   const [country, setCountry] = useState('');
 
   const [addCompany,{}] = apiCompanySlice.useCreateCompanyMutation();
 
 
-
+  var dispatch = useDispatch();
 
   const handleAddCompany=(data:React.FormEvent<HTMLFormElement>)=>{
     data.preventDefault();
@@ -39,7 +42,7 @@ export const CompanyModal=({ isOpen,onClose }: { isOpen: boolean,onClose:(prop:b
     }
 
     addCompany(request);
-    onClose(false);
+    dispatch(setCompanyModalWindow(false));
     console.log(request);
   }
 
@@ -47,14 +50,14 @@ export const CompanyModal=({ isOpen,onClose }: { isOpen: boolean,onClose:(prop:b
     return( 
         <form onSubmit={handleAddCompany}>
         {isOpen?
-        <div className="flex justify-center absolute w-full h-full bg-black/30 transition-all">
-            <div className=" absolute w-2/4 mt-20 rounded-xl bg-gray-100">
+        <div className="flex justify-center h-full w-full fixed bg-black/30 transition-all z-30">
+        <div className=" absolute w-2/4 rounded-xl bg-gray-100 grid mt-48" >
                 
                 <div className=" relative box-border p-2  flex place-content-between select-none px-8 pt-8">
                     <div className=" font-medium text-xl">
                         Add Company
                     </div>
-                    <span  onClick={()=>onClose(false)} className="p-2 cursor-pointer" >
+                    <span  onClick={()=>dispatch(setCompanyModalWindow(false))} className="p-2 cursor-pointer" >
                         <img className=' h-5' src={close}></img>
                     </span>
                 </div>

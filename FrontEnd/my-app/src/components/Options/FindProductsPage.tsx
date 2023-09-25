@@ -113,7 +113,7 @@ const Product_Component=({ data , productsImages,viewListOrGrid}: { data: Produc
     " col-span-1 ":viewListOrGrid=="grid"
   })}
   >
-  <Link to={"/product/" + data.id} >
+  <Link to={"/product/description/" + data.id} >
     <div className={classNames('pb-2 w-full hover:shadow-lg grid rounded-lg p-2 py-10 bg-whiteColor ',{
     " grid-cols-10 ":viewListOrGrid=="list",
     " grid-cols-1 ":viewListOrGrid=="grid"})}>
@@ -245,13 +245,13 @@ const PageWithOptions = () => {
   var [page, setPage] = useState(1);
   var [limit, setLimit] = useState(8);
 
+
   var [viewListOrGrid, setViewListOrGrid] = useState("grid");
   var [seeAllCategories, setSeeAllCategories] = useState(true);
 
 
 
   var [categoriesToView, setCategoriesToView] = useState<Category[]>([]);
-  var [allFilters,setAllFilters] = useState<AllFilters>({categoryId:-1,min_Preis:-1,max_Preis:-1,stars:-1,variants:[],productName:"",page:page,limit:limit,sortBy:""});
   var [products, setProducts] = useState([]);
   var [productsCount, setProductsCount] = useState<number>();
 
@@ -268,24 +268,57 @@ const PageWithOptions = () => {
     setPage(1);
   },[selectedCategory,selectedBrends,selectedColor,selectedPrice,selectedRating,sortBy])
 
+
+  useEffect(()=>{
+    if(categories)
+    setCategoriesToView(categories?.payload);
+
+    // Отримуємо новий productName з параметрів URL
+    const newProductName = getSearchParams().get('productName') || '';
+    const newSelectedCategory = getSearchParams().get('categoryId') || '';
+
+
+    // Перевіряємо, чи змінилось значення productName в параметрах URL
+    // console.log("useEffect");
+    // console.log(newProductName);
+
+    console.log("newSelectedCategory");
+    console.log(newSelectedCategory);
+
+
+    search_.set("productName",newProductName);
+    search_.set("stars", selectedRating!);
+    setSelectedCategory(newSelectedCategory);
+    
+    if(newSelectedCategory == "")
+    {
+      search_.set("categoryId","-1");
+    }
+
+
+    handlePriceFilter();
+
+    setSearch(search_);
+    funcs();
+
+    handleSetCountOfPagesToView();
+
+    console.log(countOfViewedPage);
+
+    
+    
+  },[getSearchParams().get('categoryId')])
+
+
   useEffect(()=>{
     if(categories)
       setCategoriesToView(categories?.payload);
 
     // Отримуємо новий productName з параметрів URL
     const newProductName = getSearchParams().get('productName') || '';
-    
-    // Перевіряємо, чи змінилось значення productName в параметрах URL
-    // console.log("useEffect");
-    // console.log(newProductName);
+
     search_.set("productName",newProductName);
     search_.set("stars", selectedRating!);
-    search_.set("categoryId",selectedCategory);
-    if(selectedCategory == "")
-    {
-      search_.set("categoryId","-1");
-    }
-    
 
     handlePriceFilter();
     
@@ -485,7 +518,7 @@ const PageWithOptions = () => {
 
               <div className=' text-sm mb-2  '>
                 <div className='my-3 cursor-pointer'>
-                  <span className=' font-semibold mr-3 text-optionsGrayDarkBlueColor' onClick={()=>setSelectedCategory("-1")}>Всі</span>
+                  <span className=' font-semibold mr-3 text-optionsGrayDarkBlueColor' onClick={()=>{setSelectedCategory("-1");search_.set("categoryId","-1");}}>Всі</span>
                   <span className=' text-optionsGrayBlueColor'>({productCount?.payload})</span>
                 </div>
 
@@ -496,7 +529,7 @@ const PageWithOptions = () => {
                   className={classNames(" text-sm hover:underline",{
                     "font-semibold underline":selectedCategory == category.id.toString()
                   })}
-                  onClick={()=>{setSelectedCategory(category.id.toString())}}>{category.name}</span>
+                  onClick={()=>{setSelectedCategory(category.id.toString());search_.set("categoryId",category.id.toString());}}>{category.name}</span>
                   <span className=' text-optionsGrayBlueColor'>({category.countOfProducts})</span>
                 </div> })}
 

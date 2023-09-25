@@ -44,6 +44,9 @@ namespace DAL.Migrations
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
@@ -68,9 +71,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
+                    b.HasIndex("UserId");
 
                     b.ToTable("tblAddresses");
                 });
@@ -125,6 +126,9 @@ namespace DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("CategoryImageId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CountOfProducts")
                         .HasColumnType("int");
 
@@ -142,9 +146,38 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryImageId");
+
                     b.HasIndex("ParentId");
 
                     b.ToTable("tblCategories");
+                });
+
+            modelBuilder.Entity("DAL.Entities.CategoryImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("tblCategoryImages");
                 });
 
             modelBuilder.Entity("DAL.Entities.Comment", b =>
@@ -771,6 +804,9 @@ namespace DAL.Migrations
                     b.Property<int?>("SubcategoryId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -778,6 +814,8 @@ namespace DAL.Migrations
                     b.HasIndex("CompanyId");
 
                     b.HasIndex("SubcategoryId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("tblProducts");
                 });
@@ -914,6 +952,9 @@ namespace DAL.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("AvatarImage")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("CompanyId")
                         .HasColumnType("int");
 
@@ -924,6 +965,9 @@ namespace DAL.Migrations
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -931,6 +975,9 @@ namespace DAL.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FathersName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
@@ -993,6 +1040,38 @@ namespace DAL.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("DAL.Entities.UserFollower", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("FollowerId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FollowerId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserFollower");
                 });
 
             modelBuilder.Entity("DAL.FAQ.AnswerToFAQ", b =>
@@ -1144,8 +1223,9 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.Address", b =>
                 {
                     b.HasOne("DAL.Entities.User", "User")
-                        .WithOne("Address")
-                        .HasForeignKey("DAL.Entities.Address", "UserId");
+                        .WithMany("Addresses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("User");
                 });
@@ -1161,11 +1241,26 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Entities.Category", b =>
                 {
+                    b.HasOne("DAL.Entities.CategoryImage", "CategoryImage")
+                        .WithMany()
+                        .HasForeignKey("CategoryImageId");
+
                     b.HasOne("DAL.Entities.Category", "Parent")
                         .WithMany("Subcategories")
                         .HasForeignKey("ParentId");
 
+                    b.Navigation("CategoryImage");
+
                     b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("DAL.Entities.CategoryImage", b =>
+                {
+                    b.HasOne("DAL.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("DAL.Entities.Comment", b =>
@@ -1388,9 +1483,15 @@ namespace DAL.Migrations
                         .WithMany("Products")
                         .HasForeignKey("SubcategoryId");
 
+                    b.HasOne("DAL.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Category");
 
                     b.Navigation("Company");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DAL.Entities.ProductImage", b =>
@@ -1453,6 +1554,25 @@ namespace DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("DAL.Entities.UserFollower", b =>
+                {
+                    b.HasOne("DAL.Entities.User", "Follower")
+                        .WithMany("Following")
+                        .HasForeignKey("FollowerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DAL.Entities.User", "User")
+                        .WithMany("Followers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Follower");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DAL.FAQ.AnswerToFAQ", b =>
@@ -1592,11 +1712,15 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Entities.User", b =>
                 {
-                    b.Navigation("Address");
+                    b.Navigation("Addresses");
 
                     b.Navigation("Cards");
 
                     b.Navigation("Comments");
+
+                    b.Navigation("Followers");
+
+                    b.Navigation("Following");
 
                     b.Navigation("LikedTracks");
 

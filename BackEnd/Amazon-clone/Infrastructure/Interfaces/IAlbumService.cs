@@ -14,6 +14,7 @@ namespace Infrastructure.Interfaces
         public Task<ServiceResponse> GetAllAlbumsAsync();
         public Task<ServiceResponse> AddAlbumAsync(AlbumDTO model);
         public Task<ServiceResponse> GetAlbumsByUserIdAsync(int userId);
+        public Task<ServiceResponse> GetAlbumByIdAsync(int id);
         public Task DeleteAlbumByIdAsync(int id);
     }
 }

@@ -152,6 +152,57 @@ export const apiPlayerSlice:any = createApi({
           }),
           providesTags:result=>['Player']
         }),
+        getTrackByIds:builder.query<any,any>({
+          query:(todo)=>({
+            url:'/api/Track/GetTrackByIds',
+            method:"POST",
+            body:todo
+          }),
+          providesTags:result=>['Player']
+        }),
+        createAlbum:builder.mutation<any,any>({
+          query:(todo)=>({
+            url:'/api/Album/AddAlbum',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Player']
+        }),
+        getAlbumById:builder.query<any,any>({
+          query:(todo)=>({
+            url:'/api/Album/GetAlbumById',
+            method:"POST",
+            body:todo
+          }),
+          providesTags:result=>['Player']
+        }),
+        subscribe:builder.mutation<any,any>({
+          query:(todo)=>({
+            url:'/api/Track/Subscribe',
+            method:"POST",
+            body:todo
+          }),
+          invalidatesTags:['Player']
+        }),
+        getSubscribersByUserId:builder.query<any,any>({
+          query:(todo)=>({
+            url:'/api/Track/GetSubscribers',
+            method:"POST",
+            body:todo
+          }),
+          providesTags:result=>['Player']
+        }),
+        getMySubscribesByUserId:builder.query<any,any>({
+          query:(todo)=>({
+            url:'/api/Track/GetMySubscribes',
+            method:"POST",
+            body:todo
+          }),
+          providesTags:result=>['Player']
+        }),
+        
+
+
     })
 })
 
@@ -165,5 +216,9 @@ export const {
   useGetTrackByIdQuery,
   useGetTrackCommentsByTrackIdQuery,
   useGetAlbumsByUserIdQuery,
+  useGetTrackByIdsQuery,
+  useGetAlbumByIdQuery,
+  useGetSubscribersByUserIdQuery,
+  useGetMySubscribesByUserIdQuery,
 } = apiPlayerSlice
 

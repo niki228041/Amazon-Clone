@@ -43,6 +43,7 @@ namespace Infrastructure.Services
         public async Task<OrderVM> AddOrderAsync(OrderDTO model)
         {
             var order = _mapper.Map<OrderDTO, Order>(model);
+            order.isBought = false;
             await _orderRepository.Create(order);
 
             foreach (var orderedProdct_tmp in model.OrderedProducts_)
@@ -62,7 +63,7 @@ namespace Infrastructure.Services
             await _emailService.SendEmailAsync(user.Email, "THANK YOU FOR YOUR PURCHASE", "</div><h1>Your order id:" + order.Id +"</h1>" + 
                 "<p>" +
                 "You can check your order status in your profile" +
-                "<p>" +
+                "</p>" +
                 "<p>" +
                 "If you have any questions write us: allmarkt@gmail.com" +
                 "</p></div>");
@@ -115,6 +116,9 @@ namespace Infrastructure.Services
 
                 var tmpOrder = _mapper.Map<Order, OrderVM>(order);
 
+                var user = await _userRepository.GetUserByIdAsync(order.UserId.ToString());
+                tmpOrder.UserName = user.DisplayName;
+
                 foreach (var item in order.OrderedProducts)
                 {
                     
@@ -129,7 +133,6 @@ namespace Infrastructure.Services
                         Product = _mapper.Map<Product, ProductVM>(item.Product),
                     };
 
-                    ordered.Product.Id = item.Id;
 
                     if (item.ProductId != null)
                     {
@@ -147,12 +150,23 @@ namespace Infrastructure.Services
             return orderVMs;
         }
 
-        public async Task<List<OrderVM>> GetOrdersByCompanyIdAsync(int id)
+        public async Task<ServiceResponse> GetOrdersByCompanyIdWithPaginationAsync(GetOrdersByCompanyIdWithPaginationDTO model)//
         {
             var orders = _orderRepository.GetAll()
+            .Include(order=>order.Card)
+            .Include(order=>order.Address)
             .Include(order => order.OrderedProducts)
                 .ThenInclude(orderedProduct => orderedProduct.Product) // Include the related products
             .ToList();
+
+            if(!orders.Any())
+            {
+                return new ServiceResponse()
+                {
+                    Message = "У вас немає замовлень",
+                    IsSuccess = false
+                };
+            }
 
             var selectedOrders = new List<Order>();
 
@@ -166,6 +180,7 @@ namespace Infrastructure.Services
                     {
                         canCloseOrder = false;
                     }
+                    
                 }
 
                 if (canCloseOrder)
@@ -186,7 +201,7 @@ namespace Infrastructure.Services
                 for (int i = 0; i < orderedProductsList.Count; i++)
                 {
                     if (orderedProductsList[i].ProductId != null)
-                    if (orderedProductsList[i].Product.CompanyId==id)
+                    if (orderedProductsList[i].Product.CompanyId== model.Id)
                     {
                         selectedProducts.Add(orderedProductsList[i]);
                     }
@@ -207,23 +222,61 @@ namespace Infrastructure.Services
             foreach (var order in selectedOrders)
             {
                 var tmpOrder = _mapper.Map<Order, OrderVM>(order);
+                var address = _mapper.Map<Address,AddressVM>(order.Address);
+                var card = _mapper.Map< Card, CardVM>(order.Card);
+                tmpOrder.Address = address;
+                tmpOrder.Card = card;
+
+                var user = await _userRepository.GetUserByIdAsync(order.UserId.ToString());
+                tmpOrder.UserName = user.DisplayName;
 
                 foreach (var item in order.OrderedProducts)
                 {
                     if (tmpOrder.Products == null) { tmpOrder.Products = new List<OrderedProductUpdatedVM>(); }
+
+                    var image = await _productImageService.GetMainImageByIdAsync((int)item.ProductId);
+                    var url = $@"https://amazonclone.monster/api/images/{image.Name + "_" + (int)Qualities.QualitiesSelector.LOW + ".jpg"}";
+
+                    var productVm = _mapper.Map<Product, ProductVM>(item.Product);
+                    productVm.Image = url;
+
                     tmpOrder.Products.Add(new OrderedProductUpdatedVM
                     {
                         isBought=item.isBought,
                         Count = item.Count,
                         Id= item.Id,
-                        Product= _mapper.Map<Product, ProductVM>(item.Product),
+                        Product= productVm,
                     });
+
+                    
+
                 }
                 orderVMs.Add(tmpOrder);
 
             }
 
-            return orderVMs;
+            var page = model.Page;
+            var limit = model.Limit;
+
+            var startIndex = (page - 1) * limit;
+            var endIndex = page * limit;
+
+
+            var res = orderVMs
+                .Skip(startIndex)
+                .Take(limit)
+                .ToList();
+
+            OrdersWithPagination ordersWithPagination = new OrdersWithPagination();
+            ordersWithPagination.Orders = res;
+            ordersWithPagination.Total = orderVMs.Count;
+
+            return new ServiceResponse()
+            {
+                Message="Замовлення за ід компанії",
+                Payload= ordersWithPagination,
+                IsSuccess=true
+            };
         }
 
 

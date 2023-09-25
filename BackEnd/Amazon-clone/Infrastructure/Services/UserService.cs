@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.WebUtilities;
 using DAL.Constants;
 using System.Globalization;
 using System.Resources;
+using DAL.Repositories;
+using DAL.Entities.Music;
 
 
 namespace Infrastructure.Services
@@ -27,15 +29,17 @@ namespace Infrastructure.Services
         private EmailService _emailService;
         private IJwtTokenService _jwtService;
         private readonly IMapper _mapper;
+        private readonly IImageService _imageService;
         private TokenValidationParameters _tokenValidationParameters;
+        
 
-
-        public UserService(IUserRepository userRepository, IJwtTokenService jwtService, IConfiguration configuration, EmailService emailService, IMapper mapper, TokenValidationParameters tokenValidationParameters)
+        public UserService(IUserRepository userRepository, IJwtTokenService jwtService, IConfiguration configuration, EmailService emailService, IMapper mapper, TokenValidationParameters tokenValidationParameters, IImageService imageService)
         {
             _userRepository = userRepository;
             _configuration = configuration;
             _jwtService = jwtService;
             _mapper = mapper;
+            _imageService = imageService;
         }
 
         public async Task<ServiceResponse> RegisterUserAsync(RegisterViewModel model)
@@ -55,6 +59,7 @@ namespace Infrastructure.Services
             }
 
             var newUser = _mapper.Map<RegisterViewModel, User>(model);
+            newUser.UserName = newUser.Email;
 
             var result = await _userRepository.RegisterUserAsync(newUser, model.Password);
             
@@ -91,7 +96,7 @@ namespace Infrastructure.Services
                 {
                     case "PasswordTooShort":errorUA = "Пароль повиннен бути не менше чим 6 символів.";break;
                     case "DuplicateUserName": errorUA = "Користувач з таким ім'ям користувача вже існує, виберіть інший!";break;
-                    default: errorUA = "Щось пішло не так...";break;
+                    default: errorUA = error.Code;break;
                 }
 
                 return new ServiceResponse
@@ -189,6 +194,56 @@ namespace Infrastructure.Services
 
         }
 
+        public async Task<ServiceResponse> EditUserAsync(EditUserDTO model)
+        {
+            var oldUser = await _userRepository.GetUserByIdAsync(model.Id.ToString());
+            var user = _mapper.Map(model, oldUser);
+
+
+            if (user != null)
+            {
+                var mainImage = await _imageService.SaveImageAsync(model.AvatarImage, DirectoriesInProject.ProductImages);
+
+                user.AvatarImage = mainImage;
+
+                await _userRepository.UpdateUserAsync(user);
+                return new ServiceResponse
+                {
+                    Message = "Користувач був успішно оновлений!",
+                    IsSuccess = true,
+                    Payload = "ok"
+                };
+            }
+
+            return new ServiceResponse
+            {
+                Message = "Користувач не був успішно оновлений!",
+                IsSuccess = false,
+            };
+        }
+
+        public async Task<ServiceResponse> GetUserByIdAsync(int id)
+        {
+            var user = await _userRepository.GetUserByIdAsync(id.ToString());
+
+            if (user != null)
+            {
+                var userVM = _mapper.Map<User, AllUsersVM>(user);
+
+                return new ServiceResponse()
+                {
+                    Payload = userVM,
+                    Message = "Користувача знайдено",
+                    IsSuccess = true,
+                };
+            }
+            
+            return new ServiceResponse()
+            {
+                Message = "Такого користувача не існує",
+                IsSuccess = false,
+            };
+        }
     }
 }
 

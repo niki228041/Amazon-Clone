@@ -80,7 +80,7 @@ export const CommentItem=({comment}:{comment:CommentFromServer})=>{
         <div className='flex justify-between'>
           <div className='flex'>
             <img className='h-12' src={circle} />
-            <span className=' self-center ml-2'>Поліщук Тетяна</span>
+            <span className=' self-center ml-2'>{comment.userName}</span>
           </div>
           <div>
             <div className='text-sm'>{formatDateDifference(comment.dateCreated)}</div>
@@ -146,7 +146,7 @@ const Reviews=()=> {
 
     useEffect(()=>{},[comments?.length,canLeaveComment?.payload])
 
-    console.log(comments);
+    console.log(canLeaveComment);
 
   return (
     <div className='p-5 px-10 '>

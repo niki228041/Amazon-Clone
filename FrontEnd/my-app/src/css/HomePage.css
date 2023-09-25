@@ -1,5 +1,5 @@
 body {
-    background-color: white;
+    background-color: #F7F7F7;
 }
 
 .first-section .image-div {
@@ -7,7 +7,7 @@ body {
     justify-content: space-between;
     font-family: 'Inter';
     height: 430px;
-    background-color: #F3EDC9;
+    /* background-color: #F3EDC9; */
 }
 
 .first-section .image-div .left-elements-image {
@@ -15,8 +15,11 @@ body {
     flex-direction: column;
     justify-content: center;
     margin-left: 90px;
-
 }
+
+/* .first-section {
+    background-image: url(../images/topMainImage.svg);
+} */
 
 .first-section .image-div .right-elements-image .circle-block {
     display: flex;
@@ -32,7 +35,9 @@ body {
     right: 210px;
 }
 
-
+.topCategory {
+    background-image: linear-gradient(#F3EDC9, #FFFFFF00);
+}
 
 .first-section .image-div .right-elements-image .circle-block span {
     display: flex;
@@ -115,8 +120,8 @@ body {
 }
 
 .container-for-card .arrivals-card {
-    height: 300px;
-    width: 190px;
+    height: 288px;
+    width: 188px;
     margin-right: 25px;
     border: 1px solid rgba(0, 0, 0, 0.13);
     padding-top: 8px;
@@ -137,12 +142,10 @@ body {
 }
 
 .container-for-card .arrivals-card img {
-    margin-top: 5px;
-    margin-bottom: 10px;
-    height: 158px;
+    width: 158px;
+    height: 129px;
     max-width: 100%;
     display: block;
-    margin: 0 auto;
 }
 
 .price-container {
@@ -200,6 +203,38 @@ body {
     text-transform: uppercase;
 }
 
+.best-offers-header-variants h3,
+.our-products-header-variants h3,
+.last-element-header h3 {
+    text-decoration: none;
+    position: relative;
+    cursor: pointer;
+}
+
+.best-offers-header-variants h3::after,
+.our-products-header-variants h3::after,
+.last-element-header h3::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #002A42;
+    transform: scaleX(0);
+    transition: transform 0.3s ease-in-out;
+}
+
+.best-offers-header-variants h3:hover::after,
+.best-offers-header-variants h3.active::after,
+.our-products-header-variants h3:hover::after,
+.our-products-header-variants h3.active::after,
+.last-element-header h3:hover::after,
+.last-element-header h3.active::after {
+    transform: scaleX(1);
+}
+
+
 .our-products .our-products-main {
     display: flex;
     justify-content: space-between;
@@ -222,7 +257,7 @@ body {
 
 .our-products-main-special img {
     height: 430px;
-    
+
 }
 
 
@@ -245,7 +280,7 @@ body {
 .our-products-right-circle .circle-block {
     display: flex;
     align-items: center;
-    background-color: #FF9A02;
+    background-color: #102048;
     width: 115px;
     height: 111px;
     border-radius: 83px;
@@ -255,7 +290,7 @@ body {
 .offers-circle-block {
     display: flex;
     align-items: center;
-    background-color: #FF9A02;
+    background-color: #002A42;
     width: 141px;
     height: 143px;
     border-radius: 83px;
@@ -264,7 +299,7 @@ body {
 .offers-circle-block-4 {
     display: flex;
     align-items: center;
-    background-color: #FF9A02;
+    background-color: #102048;
     width: 93px;
     height: 91px;
     border-radius: 83px;
@@ -287,8 +322,7 @@ body {
     text-align: center;
     width: 100%;
     height: 100%;
-    font-size: 30px;
-    line-height: 36px;
+    line-height: 24px;
     color: white;
 }
 
@@ -299,15 +333,15 @@ body {
     text-align: center;
     width: 100%;
     height: 100%;
-    font-size: 20px;
-    line-height: 24px;
-    color: #151A1B;
+    font-size: 14px;
+    line-height: 17px;
+    color: white;
 }
 
 .offers-circle-block-5 {
     display: flex;
     align-items: center;
-    background-color: #FF9A02;
+    background-color: #002A42;
     width: 141px;
     height: 143px;
     border-radius: 83px;
@@ -320,9 +354,9 @@ body {
     text-align: center;
     width: 100%;
     height: 100%;
-    font-size: 30px;
-    line-height: 36px;
-    color: #151A1B;
+    font-size: 20px;
+    line-height: 24px;
+    color: white;
 }
 
 /* // */
@@ -330,14 +364,14 @@ body {
 .container-main-cards {
     display: flex;
     flex-direction: column;
-    
+
 }
 
 .container-main-cards img {
     max-width: 100%;
     display: block;
     margin: 0 auto;
-    
+
 }
 
 .our-products-main-card {
@@ -482,9 +516,11 @@ body {
 .best-offers-main-element-img {
     /* background-image: url(./../images/product-img.svg); */
     height: 459px;
+
     display: flex;
-    padding-left: 20px;
     /* padding-top: 20px; */
+    margin-right: 20px;
+    margin-left: 20px;
     background-repeat: no-repeat;
     background-size: contain;
     justify-content: center;
@@ -507,6 +543,7 @@ body {
 .new-receipts-product-card:last-child {
     margin-right: 0;
 }
+
 .new-reseipts-right-circle {
     display: flex;
     padding-right: 20px;
@@ -556,7 +593,7 @@ body {
 .best-offers-main {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    
+
 }
 
 .best-offers-main-element,
@@ -566,13 +603,13 @@ body {
     padding-bottom: 25px;
     padding-left: 25px;
     padding-right: 25px;
-    
+
 }
 
-.best-offers-main-element button{
+.best-offers-main-element button {
     width: 140px;
     height: 90px;
-    background-color: #FF9A02;
+    background-color: #002A42;
     font-size: 24px;
 }
 
@@ -589,7 +626,7 @@ body {
     font-size: 36px;
     line-height: 43px;
     text-transform: uppercase;
-    white-space: normal; 
+    white-space: normal;
 }
 
 .element-2 {
@@ -599,12 +636,12 @@ body {
 }
 
 .special-offer div {
-    display:flex;
+    display: flex;
     flex-direction: column;
 }
 
 .special-offer>span {
-    display: block; 
+    display: block;
     line-height: 29px;
 }
 
@@ -666,7 +703,8 @@ body {
 }
 
 .last-element-card img {
-    height: 158px;
+    width: 158px;
+    height: 129px;
     margin-right: 10px;
 
 }
@@ -711,19 +749,19 @@ body {
 
 .winMart-first-div {
     display: flex;
-    align-items: center; 
-    justify-content: flex-start; 
-    background-color: #FF9A02;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #002A42;
     color: white;
     border-radius: 10px;
     font-size: 25px;
     line-height: 58px;
-    text-align: center; 
-    
+    text-align: center;
+
 }
 
 .rotate-content {
-    writing-mode: vertical-rl; 
+    writing-mode: vertical-rl;
     transform: scaleY(1) rotate(180deg);
 }
 
@@ -735,8 +773,8 @@ body {
 
 .winMart-second-div img {
     height: 129px;
-    max-width: 100%; 
-    display: block; 
+    max-width: 100%;
+    display: block;
     margin: 0 auto;
     margin-bottom: 3px;
 }
@@ -763,16 +801,16 @@ body {
 
 }
 
-.winMart-third-div{
+.winMart-third-div {
     background-image: url(./../images/winMart.svg);
     width: 528px;
     height: 368px;
     background-repeat: no-repeat;
     position: relative;
-    
+
 }
 
-.winMart-third-div .text-div{
+.winMart-third-div .text-div {
     position: relative;
     top: 80px;
     /* left: 40px; */
@@ -780,12 +818,12 @@ body {
     line-height: 63px;
 }
 
-.winMart-third-div .text-div span{
+.winMart-third-div .text-div span {
     font-family: 'Inter-Bold';
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.73);
 }
 
-.winMart-third-div .text-div h3{
+.winMart-third-div .text-div h3 {
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.73);
 }
 
@@ -794,11 +832,8 @@ body {
     top: 50px;
     left: 362px;
     width: 0;
-    border-left: 53px solid transparent; 
-    border-bottom: 53px solid rgba(255, 154, 2, 1); 
-    transform: scale(5); 
+    border-left: 53px solid transparent;
+    border-bottom: 53px solid rgba(255, 154, 2, 1);
+    transform: scale(5);
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.73);
 }
-
-
-/* Need fix */

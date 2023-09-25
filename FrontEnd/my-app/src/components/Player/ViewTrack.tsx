@@ -36,6 +36,11 @@ export interface AddTrackCommentDTO{
   trackId:number
 }
 
+export interface FollowDTO{
+  userId:string,
+  subscriberId:string
+}
+
 const ViewTrack=()=>{
     var navigate = useNavigate();
     const [isFollow, setIsFollow] = useState(false);
@@ -51,6 +56,7 @@ const ViewTrack=()=>{
 
     const [addCommentTrack,{}] = apiPlayerSlice.useAddTrackCommentMutation();
     
+    const [subscribe,{}] = apiPlayerSlice.useSubscribeMutation();
 
     const params = useParams();
     const {data}: { data?: TrackFromServer} = useGetTrackByIdQuery({ Id: params.trackId });
@@ -89,7 +95,28 @@ const ViewTrack=()=>{
       return () => {
         document.removeEventListener("keydown", handleKeyDown);
       };
-    },[commentText,user.id,data?.id])
+    },[commentText,user.id,data?.id,track.currentTrack?.id,isPlay])
+
+    useEffect(()=>{
+      var isFollow = false;
+
+      if(data?.subscribers)
+      {
+        for (let index = 0; index < data.subscribers.length; index++) {
+          const element = data.subscribers[index];
+          if(element.id == parseInt(user.id))
+          {
+            isFollow = true;
+
+          }
+        }
+        
+      }
+
+      setIsFollow(isFollow);
+      console.log("YO");
+
+    },[data?.subscribers])
 
 
 
@@ -100,9 +127,10 @@ const ViewTrack=()=>{
       {
         dispath(changeTrack(data!));
       }
-
-      dispath(setOnChangeSlider(e.target.value));
-
+      else
+      {
+        dispath(setOnChangeSlider(e.target.value));
+      }
     }
     
 
@@ -121,6 +149,15 @@ const ViewTrack=()=>{
         setPlayPressed(false);
         dispath(setIsPlay(false))
       }
+      else if(isPlayPressed == true && track.currentTrack?.id != data?.id)
+      {
+        if(data != undefined)
+        {
+          setPlayPressed(true);
+          dispath(changeTrack(data!));
+          dispath(setIsPlay(true))
+        }
+      }
       else if(isPlayPressed == false && track.currentTrack?.id == data?.id)
       {
         setPlayPressed(true);
@@ -130,7 +167,13 @@ const ViewTrack=()=>{
       
     }
 
-
+    const handleFollow=()=>{
+      setIsFollow(!isFollow);
+      console.log(user.id);
+      console.log(data?.userId!);
+      var request:FollowDTO = {userId:data?.userId.toString()!,subscriberId:user.id};
+      subscribe(request);
+    }
 
     
     const formatTime = (seconds:number) => {
@@ -156,7 +199,7 @@ const ViewTrack=()=>{
             <div className="flex w-full px-2">
               <div className="flex flex-col ">
                 <div className="flex h-full">
-                  <p className="text-lg">Britni spiers</p>
+                  <p className="text-lg">{data?.username}</p>
                 </div>
                 
                 <div className="flex h-full">
@@ -173,7 +216,7 @@ const ViewTrack=()=>{
                 </div>
                 
                 <div className="flex h-full">
-                  <button onClick={()=>{setIsFollow(!isFollow)}} className={classNames(
+                  <button onClick={()=>{handleFollow()}} className={classNames(
                     "rounded-lg transition-all duration-125",
                     {
                       "bg-orangeColor text-black px-12 ": !isFollow,

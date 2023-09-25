@@ -23,13 +23,15 @@ export interface imgDTO{
 export interface createCategory{
     name: string,
     categoryId: number,
+    images_:any,
     optionsIds:number[]
 }
 
 export interface Category{
     id: number,
     name: string,
-    countOfProducts:number
+    countOfProducts:number,
+    images_: string
 }
 
 

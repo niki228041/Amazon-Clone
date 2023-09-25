@@ -116,15 +116,14 @@ public class ProductService : IProductService
                 IsSuccess = false,
             };
         }
-
-        if (!roles.Contains(Roles.Seller))
-        {
-            return new ServiceResponse
-            {
-                Message = "You need to be a Seller (you can check if you'r a Seller in your Profile)!",
-                IsSuccess = false,
-            };
-        }
+        //if (!roles.Contains(Roles.Seller))
+        //{
+        //    return new ServiceResponse
+        //    {
+        //        Message = "You need to be a Seller (you can check if you'r a Seller in your Profile)!",
+        //        IsSuccess = false,
+        //    };
+        //}
 
         product.CompanyId = user.CompanyId;
 
@@ -234,7 +233,7 @@ public class ProductService : IProductService
         var optionsToSend = new List<SelectedOptionVM>();
 
         
-
+        if(res != null)
         foreach (var variantProduct in res.VariantProducts)
         {
             var variant = await _variantRepository.GetById((int)variantProduct.VariantId);
@@ -560,6 +559,7 @@ public class ProductService : IProductService
 
         List<Product> res = _productRepository.GetAll()
             .Include(prod => prod.VariantProducts)
+            .Include(prod => prod.Category)
             .ToList();
         List<ProductVM> res_to_send = new List<ProductVM>();
 
@@ -724,7 +724,60 @@ public class ProductService : IProductService
 
         return new ServiceResponse
         {
-            Message = "Продукт не був успішно оновлений!",
+            Message = "Продукт не був успішно оновлений!!!",
+            IsSuccess = false,
+        };
+    }
+
+    public async Task<ServiceResponse> GetProductWithLimitByUserIdAsync(GetProductsWithPaginationAndByUserIdDTO model)
+    {
+
+        var page = model.Page;
+        var limit = model.Limit;
+
+        var startIndex = (page - 1) * limit;
+        var endIndex = page * limit;
+
+
+        List<Product> res = _productRepository.GetAll()
+            .Include(prod => prod.VariantProducts)
+            .Where(prod=>prod.UserId == model.Id)
+            .Skip(startIndex)
+            .Take(limit)
+            .ToList();
+        List<ProductVM> res_to_send = new List<ProductVM>();
+
+
+
+        if (res.Count > 0)
+        {
+            for (int i = 0; i < res.Count; i++)
+            {
+                Product product = res[i];
+
+                var item = _mapper.Map<Product, ProductVM>(product);
+                //var comments = await _commentService.GetCommentsByProductIdAsync(product.Id);
+                //item.Comments = comments;
+
+
+                ////var mainImage = await _productImageService.GetMainImageByIdAsync(item.Id);
+                ////if (mainImage != null)
+                ////    item.Image = _productImageService.GetBase64ByName(mainImage.Name,Qualities.QualitiesSelector.LOW);
+
+                res_to_send.Add(item);
+            }
+
+            return new ServiceResponse
+            {
+                Message = "Отримано товари по користувачу",
+                IsSuccess = true,
+                Payload = res_to_send
+            };
+        }
+
+        return new ServiceResponse()
+        {
+            Message = "Ви ще не додали товари",
             IsSuccess = false,
         };
     }

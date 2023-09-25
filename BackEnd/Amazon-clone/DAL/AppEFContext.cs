@@ -23,6 +23,7 @@ namespace DAL
 
         public DbSet<Address> Address { get; set; }
         public DbSet<Category> Category { get; set; }
+        public DbSet<CategoryImage> CategoryImage { get; set; }
         public DbSet<Comment> Comment { get; set; }
         public DbSet<CommentImage> CommentImage { get; set; }
         public DbSet<Company> Company { get; set; }
@@ -45,8 +46,9 @@ namespace DAL
         public DbSet<TrackHistory> TrackHistory { get; set; }
         public DbSet<FrequentlyAskedQuestion> FrequentlyAskedQuestion { get; set; }
         public DbSet<AnswerToFAQ> AnswerToFAQ { get; set; }
+        public DbSet<UserFollower> UserFollower { get; set; }
 
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -104,9 +106,12 @@ namespace DAL
                 .OnDelete(DeleteBehavior.Cascade);
             //END
 
-
-
-
+            ////START One to one
+            //modelBuilder.Entity<Category>()
+            //    .HasOne(c => c.CategoryImage)
+            //    .WithOne()
+            //    .HasForeignKey<Category>(c => c.CategoryImageId);
+            ////END
 
             //START Many to many
             modelBuilder.Entity<VariantProduct>()
@@ -124,6 +129,13 @@ namespace DAL
 
 
 
+            //START Many to one
+            modelBuilder.Entity<User>()
+                .HasMany(user => user.Addresses)
+                .WithOne(adr => adr.User)
+                .HasForeignKey(adr => adr.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+            //END
 
 
             //START Many to one
@@ -146,6 +158,21 @@ namespace DAL
                 .WithMany(p => p.OrderedProducts)
                 .HasForeignKey(op => op.ProductId);
             //END
+
+            //START Many to many
+            modelBuilder.Entity<UserFollower>()
+                .HasOne(uf => uf.User)
+                .WithMany(u => u.Followers)
+                .HasForeignKey(uf => uf.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserFollower>()
+                .HasOne(uf => uf.Follower)
+                .WithMany(u => u.Following)
+                .HasForeignKey(uf => uf.FollowerId)
+                .OnDelete(DeleteBehavior.Restrict);
+            //END
+
 
             //START Many to one
             modelBuilder.Entity<Company>()

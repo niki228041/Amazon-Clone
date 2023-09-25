@@ -6,6 +6,7 @@ import parseJwt from "../../api/jwtDecodeToken";
 import { SetAccessToken,SetRefreshToken } from "../../api/jwtDecodeToken";
 import { ForgotPasswordRequest, LoginRequest } from "../../components/Auth/types";
 import { baseURL } from "../../api/axios";
+import { editProfileDTO } from "../../components/Profile/EditProfile";
 
 
 export interface UserState{
@@ -23,6 +24,9 @@ interface User{
     email:string,
     name:string,
     surname:string,
+    username:string,
+    avatar:string,
+    phoneNumber:string,
     roles:any,
     id:string,
 }
@@ -30,7 +34,7 @@ interface User{
 
 // UserState :
 const initialState:UserState= {
-    user:{email:"",name:"",surname:"",roles:[],id:""},
+    user:{email:"",name:"",surname:"",username:"",phoneNumber:"",roles:[],id:"",avatar:""},
     accessToken:"",
     refreshToken:"",
     loading:false,
@@ -70,6 +74,15 @@ export const postForgotPassword:any = createAsyncThunk('/api/Account/login',asyn
 export const becomeASeller:any = createAsyncThunk('/api/Account/BecomeASeller',async(dateFromFrontend:LoginRequest)=>{
     try{
         const response = await axios.post(baseURL + '/api/Account/BecomeASeller',dateFromFrontend);
+        return response.data;
+    }catch(err:any){
+        return err.message;
+    }
+})
+
+export const postEditUser:any = createAsyncThunk('/api/Account/EditUser',async(dateFromFrontend:editProfileDTO)=>{
+    try{
+        const response = await axios.post(baseURL + '/api/Account/EditUser',dateFromFrontend);
         return response.data;
     }catch(err:any){
         return err.message;
@@ -119,7 +132,7 @@ const userSlice = createSlice(
                         state.user = parseJwt(action.payload.payload);
                     }
                     else{
-                        state.user = {email:"",name:"",surname:"",roles:[],id:""};
+                        state.user = {email:"",name:"",surname:"",username:"",phoneNumber:"",roles:[],id:"",avatar:""};
                     }
                     console.log(action.payload);
                     console.log(action.error);
@@ -143,7 +156,7 @@ const userSlice = createSlice(
                         state.user = parseJwt(action.payload.payload);
                     }
                     else{
-                        state.user = {email:"",name:"",surname:"",roles:[],id:""};
+                        state.user = {email:"",name:"",surname:"",username:"",phoneNumber:"",roles:[],id:"",avatar:""};
                     }
                     console.log(action.payload);
                     state.isAuth = true;
@@ -175,11 +188,14 @@ const userSlice = createSlice(
                     state.user = parseJwt(action.payload);
                 }
                 else{
-                    state.user = {email:"",name:"",surname:"",roles:[],id:""};
+                    state.user = {email:"",name:"",surname:"",username:"",phoneNumber:"",roles:[],id:"",avatar:""};
                 }
                 console.log(action);
                 console.log(action.error);
                 state.isAuth = true;
+            })
+            .addCase(postEditUser.fulfilled,(state,action)=>{
+                console.log("state.isAuth = false;");
             })
     }
 });

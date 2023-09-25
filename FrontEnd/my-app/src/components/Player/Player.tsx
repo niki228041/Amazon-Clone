@@ -14,9 +14,11 @@ import classNames from "classnames";
 import circle from "../../images/black-circle.png";
 
 import { useAppSelector } from "../../app/hooks";
-import { setCurrentTime, setDurationTime, setIsPlay, setPercentageTime } from "../../features/user/musicStateSlice";
+import { changeTrack, setCurrentTime, setDurationTime, setIsPlay, setPercentageTime } from "../../features/user/musicStateSlice";
 import { useDispatch } from "react-redux";
 import MiniPlayer from "./MiniPlayer";
+import SelectSongsForAlbumModal from "./Album/SelectSongsForAlbumModal";
+import { UserVM } from "../types";
 
 
 
@@ -38,8 +40,11 @@ export interface TrackFromServer{
   image:string,
   background:string,
   likes:string,
+  userId:number,
+  username:string,
   id:number,
   dateCreated:string,
+  subscribers:UserVM[],
   comments:number,
   wasLikedByUsers:any,
   trackHistoryDateCreated:string,
@@ -58,14 +63,16 @@ const Player=()=>{
   const auth = useAppSelector((state)=>state.user.isAuth);
 
   const track = useAppSelector((state)=>state.track.currentTrack);
+  const user = useAppSelector((state)=>state.user.user);
   const isMenuOpen = useAppSelector((state)=>state.track.isMenuOpen);
   const onChangeSlider = useAppSelector((state)=>state.track.onChangeSlider);
   const isPlay = useAppSelector((state)=>state.track.isPlay);
+  const tracksQuery = useAppSelector((state)=>state.track.tracksQuery);
+  const trackForAudioAtribute = useAppSelector((state)=>state.track);
 
 
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const [currentSong, setCurrentSong] = useState<Track>(songsdata[1]);
 
   const audioRef:any = useRef<HTMLAudioElement>(null);
   const clickRef:any = useRef();
@@ -96,47 +103,42 @@ const Player=()=>{
   };
 
   const getCurrDuration = (e:any) => {
-    const percent = ((e.currentTarget.currentTime / e.currentTarget.duration) * 100).toFixed(2)
-    const time = e.currentTarget.currentTime
+    const percent = ((e?.currentTarget?.currentTime / e?.currentTarget?.duration) * 100).toFixed(2)
 
-    setPercentage(+percent)
-    ;
+    setPercentage(+percent);
+
     dispatch(setPercentageTime(percent));
 
-    const audio = audioRef.current;
-    dispatch(setDurationTime(e.currentTarget.duration));
+    const audio = audioRef?.current;
+    dispatch(setDurationTime(e?.currentTarget?.duration));
+
     // audio.currentTime = time.toFixed(2);
   }
 
   const onChange = () => {
     const audio = audioRef?.current;
 
-    if(onChangeSlider != "" && audio?.duration != undefined && Number(onChangeSlider) < audio?.duration)
+    if(onChangeSlider != "" && audio?.duration != undefined && audio?.currentTime)
       audio.currentTime = (audio?.duration / 100) * Number(onChangeSlider);
 
   }
 
   useEffect(() => {
-    // onChange();
-    if (isPlaying) {
-      onPlaying();
+    
+    dispatch(setCurrentTime(audioRef?.current?.currentTime));
+    
+  }, [audioRef?.current?.currentTime,onChangeSlider])
+
+
+  useEffect(()=>{
+    if (isPlay) {
       audioRef.current.play();
     }
     else {
-      onPlaying();
       audioRef.current.pause();
     }
+  },[isPlay,track?.song])
 
-    if(!isPlaying)
-    {
-      dispatch(setIsPlay(false));
-    }
-
-    dispatch(setCurrentTime(audioRef?.current?.currentTime));
-
-
-    
-  }, [isPlaying,currentSong.song,audioRef?.current?.currentTime,onChangeSlider])
 
   useEffect(()=>{
     onChange();
@@ -171,78 +173,58 @@ const Player=()=>{
     };
     
 
-    
 
-    if(isPlay)
-    {
-      setCurrentSong((prev)=>(
-        {...prev,
-          song:track?.song,
-          image:track?.image!,
-          title:track?.title!
-        }
-      ));
-      setIsPlaying(true);
-    }
-    else
-    {
-      setCurrentSong((prev)=>({...prev,song:track?.song}));
-      setIsPlaying(false);
-    }
 
     
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isRewinding,track?.song,isPlay,onChangeSlider]);
+  }, [isRewinding,track?.song,onChangeSlider]);
+
+
 
   
-  const skipBack = ()=>
-  {
-    const index = songsdata.findIndex((x:any)=>x.title == currentSong.title);
-    if (index == 0)
-    {
-      setCurrentSong(songsdata[songsdata.length - 1])
-    }
-    else
-    {
-      setCurrentSong(songsdata[index - 1])
-    }
-    audioRef.current.currentTime = 0;
-}
+//   const skipBack = ()=>
+//   {
+//     const index = songsdata.findIndex((x:any)=>x.title == currentSong.title);
+//     if (index == 0)
+//     {
+//       setCurrentSong(songsdata[songsdata.length - 1])
+//     }
+//     else
+//     {
+//       setCurrentSong(songsdata[index - 1])
+//     }
+//     audioRef.current.currentTime = 0;
+// }
 
 
-  const skiptoNext = ()=>
-  {
-    const index = songsdata.findIndex((x:any)=>x.title == currentSong.title);
-    if (index == songsdata.length-1)
-    {
-      setCurrentSong(songsdata[0])
-    }
-    else
-    {
-      setCurrentSong(songsdata[index + 1])
-    }
-    audioRef.current.currentTime = 0;
-  }
+  // const skiptoNext = ()=>
+  // {
+  //   const index = songsdata.findIndex((x:any)=>x.title == currentSong.title);
+  //   if (index == songsdata.length-1)
+  //   {
+  //     setCurrentSong(songsdata[0])
+  //   }
+  //   else
+  //   {
+  //     setCurrentSong(songsdata[index + 1])
+  //   }
+  //   audioRef.current.currentTime = 0;
+  // }
 
-  const checkWidth = (e:any)=>
-  {
-    let width = clickRef.current.clientWidth;
-    const offset = e.nativeEvent.offsetX;
+  // const checkWidth = (e:any)=>
+  // {
+  //   let width = clickRef.current.clientWidth;
+  //   const offset = e.nativeEvent.offsetX;
 
-    const divprogress = offset / width * 100;
+  //   const divprogress = offset / width * 100;
 
-    audioRef.current.currentTime = divprogress / 100 * currentSong.length;
-  }
+  //   audioRef.current.currentTime = divprogress / 100 * currentSong.length;
+  // }
 
-  const onPlaying = () => {
-    const duration = audioRef.current.duration;
-    const ct = audioRef.current.currentTime;
 
-    setCurrentSong({ ...currentSong, "progress": ct / duration * 100, "length": duration })
-  }
 
 
 
@@ -254,26 +236,56 @@ const Player=()=>{
   const handleSetAnotherSong = async (track:TrackFromServer)=>{
     // var obj = URL.createObjectURL(track.song);
     var newTrack:Track = {song:track.song,title:track.title,progress:0,length:0,image:track.image,background:track.background,id:track.id,likes:Number(track.likes),dateCreated:track.dateCreated};
-    setCurrentSong(newTrack);
+    // setCurrentSong(newTrack);
     setIsPlaying(true);
     scrollToTop();
   }
 
-  const handleSongEnd = ()=>{
-    var Index = tracks.findIndex(track=>Number(track.id)==currentSong.id);
-    
-    
-    if(tracks[Index]==null || tracks[Index] == undefined)
+  var dispath = useDispatch();
+
+  console.log(trackForAudioAtribute);
+
+  const handleSongEnd = async ()=>{
+    // var Index = tracks.findIndex(track=>Number(track.id)==currentSong.id);
+    dispatch(setCurrentTime(0));
+    audioRef.current.currentTime = 0;
+
+    if(tracksQuery?.length! > 0 && tracksQuery != null)
     {
-      var newTrack:Track = {song:tracks[0].song,title:tracks[0].title,progress:0,length:0,image:tracks[0].image,background:tracks[0].background,id:tracks[0].id,likes:Number(tracks[0].likes),dateCreated:tracks[0].dateCreated};
-      setCurrentSong(newTrack);
+      console.log("tracksQuery");
+      var currentSongIndexInTracksQuery = tracksQuery.findIndex(qur=>qur.id == track?.id);
+      console.log("currentSongIndexInTracksQuery:");
+      console.log(currentSongIndexInTracksQuery);
+      console.log(tracksQuery);
+      
+      if(tracksQuery[currentSongIndexInTracksQuery+1])
+      {
+        console.log("AFTER TRACK IS POSIBLE TO GO TO NEXT TRACK");
+        dispath(changeTrack(tracksQuery[currentSongIndexInTracksQuery+1]!));
+      }
+      else
+      {
+        dispath(changeTrack(tracksQuery[0]!));
+        console.log("it was LAST track in the query");
+      }
     }
     else
     {
-      var newTrack:Track = {song:tracks[Index+1].song,title:tracks[Index+1].title,progress:0,length:0,image:tracks[Index+1].image,background:tracks[Index+1].background,id:tracks[Index+1].id,likes:Number(tracks[1].likes),dateCreated:tracks[1].dateCreated};
-      setCurrentSong(newTrack);
+      dispatch(setIsPlay(true));
+      audioRef.current.play();
     }
-    // setCurrentSong((prevIndex) => (prevIndex + 1) % songs.length);
+    
+    // if(tracks[Index]==null || tracks[Index] == undefined)
+    // {
+    //   var newTrack:Track = {song:tracks[0].song,title:tracks[0].title,progress:0,length:0,image:tracks[0].image,background:tracks[0].background,id:tracks[0].id,likes:Number(tracks[0].likes),dateCreated:tracks[0].dateCreated};
+    //   setCurrentSong(newTrack);
+    // }
+    // else
+    // {
+    //   var newTrack:Track = {song:tracks[Index+1].song,title:tracks[Index+1].title,progress:0,length:0,image:tracks[Index+1].image,background:tracks[Index+1].background,id:tracks[Index+1].id,likes:Number(tracks[1].likes),dateCreated:tracks[1].dateCreated};
+    //   setCurrentSong(newTrack);
+    // }
+    // // setCurrentSong((prevIndex) => (prevIndex + 1) % songs.length);
     
   }
 
@@ -288,7 +300,7 @@ const Player=()=>{
   });
 
     return<>
-    <audio onEnded={handleSongEnd} src={currentSong.song} ref={audioRef} onTimeUpdate={onPlaying} onTimeUpdateCapture={getCurrDuration}/>
+    <audio onEnded={handleSongEnd} src={track?.song} ref={audioRef} onTimeUpdateCapture={getCurrDuration}/>
     <div className=" w-5/6 mx-auto p-2 px-4 grid grid-cols-10 gap-4 ">
       <div className={classNames(
           'col-span-8 '
@@ -302,6 +314,9 @@ const Player=()=>{
             Home
           </div>
 
+
+          {auth == true ?
+          <>
           <div onClick={()=>changeTab("history")}
           className={
             "cursor-pointer flex p-1 justify-center self-center px-2 col-start-9" +
@@ -320,12 +335,13 @@ const Player=()=>{
               (whatIsOpen === "likes" ? " text-orangeColor" : "")
             }>Likes</div>
 
-          {auth == true ?
+          
           <div onClick={()=>changeTab("mytracks")}
             className={
               "cursor-pointer flex p-1 justify-center self-center px-2 col-start-12" +
               (whatIsOpen === "mytracks" ? " text-orangeColor" : "")
             }>My Tracks</div>
+          </>
           :""
           }
         </div>
@@ -357,7 +373,7 @@ const Player=()=>{
           </div>
 
           <div className={classNames("bg-middleGrayColor p-2 rounded-lg mt-4 text-almostWhiteColor select-none transition-all")}>
-            <div onClick={()=>navigate("profile/main")} className="p-3 flex pl-5 hover:scale-105 transition-all cursor-pointer active:bg-slate-50/50 active:transition-none rounded-lg m-2">
+            <div onClick={()=>navigate("profile/main/"+user?.id)} className="p-3 flex pl-5 hover:scale-105 transition-all cursor-pointer active:bg-slate-50/50 active:transition-none rounded-lg m-2">
               <span>Account</span>
             </div>
             <div onClick={()=>navigate("profile/settings")} className="p-3 flex pl-5 hover:scale-105 transition-all cursor-pointer active:bg-slate-50/50 active:transition-none rounded-lg m-2">

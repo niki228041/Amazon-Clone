@@ -24,7 +24,7 @@ import logo_auth from '../../images/logo_auth.svg';
 import { registrationSchema } from "./Validation/Registration";
 
 interface RegistrationRequest {
-  userName: string,
+  displayName: string,
   firstName: string,
   lastName: string,
   email: string,
@@ -38,7 +38,7 @@ const Registration = () => {
 
   const formik = useFormik({
     initialValues: {
-      userName: '',
+      displayName: '',
       firstName: '',
       lastName: '',
       email: '',
@@ -49,7 +49,7 @@ const Registration = () => {
     onSubmit: values => {
 
 
-      var userName = values.userName;
+      var displayName = values.displayName;
       var firstName = values.firstName;
       var lastName = values.lastName;
 
@@ -57,7 +57,7 @@ const Registration = () => {
       var password = values.password;
       var repeatPassword = values.repeatPassword;
 
-      var request: RegistrationRequest = { userName: userName, firstName: firstName, lastName: lastName, email: email, password: password, checkPassword: repeatPassword, avatarImage: "" };
+      var request: RegistrationRequest = { displayName: displayName, firstName: firstName, lastName: lastName, email: email, password: password, checkPassword: repeatPassword, avatarImage: "" };
       console.log(request);
       // var request:RegistrationRequest = {email:email,password:password};
 
@@ -67,36 +67,37 @@ const Registration = () => {
         setServerErrorLogin(res.payload.message);
         console.log("showServerErrorLogin");
         console.log(showServerErrorLogin);
-        if(res.payload.isSuccess)
+        if(res?.payload?.isSuccess)
         {
           navigate("/todaysDeals");
         }
+
+        
+
       })
-      
 
       },
   });
 
-  const [showServerError, setServerError] = useState(false);
 
   var dispatch = useDispatch();
   var navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [showServerErrorLogin, setServerErrorLogin] = useState(null);
+  const [showServerErrorLogin, setServerErrorLogin] = useState("");
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   return (
     <form className='' onSubmit={formik.handleSubmit}>
       <div className="w-full grid grid-cols-2 h-full fixed ">
-        <div className=" p-2 bg-litleYellow ">
+        <div className=" p-2 bg-litleYellow xl:col-span-1 col-span-2">
 
         <div className='m-auto relative flex h-full justify-center'>
           <div className="absolute flex justify-center mt-10">
             <img src={logo_auth} />
           </div>
           <div className="flex m-auto w-full">
-          <div className=" p-2  m-auto w-3/6 ">
+          <div className=" p-2  m-auto xl:w-3/6 lg:w-4/6 ">
 
             <div className=" flex flex-col justify-center text-grayColorForHeader">
               <p className="flex self-center text-[40px] font-bold">Реєстрація</p>
@@ -106,8 +107,8 @@ const Registration = () => {
             <div className="flex flex-col justify-center  mt-4 mx-auto">
               <div className=" grid grid-cols-2 w-full  gap-x-6 gap-y-4">
                 <div className=" col-span-2">
-                  <input id="userName" name="userName" type="userName" onChange={formik.handleChange} value={formik.values.userName} className=" w-full border outline-0 rounded-lg py-3 border-gray-400/90 px-4 mx-auto text-sm placeholder-veryYellowColor" placeholder="Ім'я користувача (показується всім)" />
-                  {formik.errors.userName ? <div className=' text-red-500 text-sm font-semibold'>{formik.errors.userName}</div> : null}
+                  <input id="displayName" name="displayName" type="displayName" onChange={formik.handleChange} value={formik.values.displayName} className=" w-full border outline-0 rounded-lg py-3 border-gray-400/90 px-4 mx-auto text-sm placeholder-veryYellowColor" placeholder="Ім'я користувача (показується всім)" />
+                  {formik.errors.displayName ? <div className=' text-red-500 text-sm font-semibold'>{formik.errors.displayName}</div> : null}
                 </div>
 
                 <div>
@@ -163,7 +164,7 @@ const Registration = () => {
         </div>
 
         
-        <div className=" bg-mainYellowColor">
+        <div className=" bg-mainYellowColor xl:block hidden">
           <div className=" w-4/6 mx-auto ">
             <div className="w-4/6 text-darkBlueColor text-[20px] mt-20">
               <span>

@@ -44,6 +44,10 @@ import { AdressModal } from "./BuyProduct/AdressModal";
 import { GetCurrency, SetCurrency } from "../api/jwtDecodeToken";
 import { ua, us, eu } from "../const/constants";
 import { setCurrency } from "../features/user/CurrencyStateSlice";
+import RequestToLogin from "./ModalWindows/RequestToLogin";
+import { setBurgerModalWindow, setLoginRequestWindow } from "../features/user/modalWindowsStateSlice";
+import { CompanyModal } from "./BuyProduct/CompanyModal";
+import { useGetCurrencyQuery } from "../features/user/apiCurrencySlice";
 
 
 const Header = () => {
@@ -51,6 +55,7 @@ const Header = () => {
   var user = useAppSelector(((state: { user: UserState; orders: Orders }) => state.user.user));
   var orderWasAdded = useAppSelector((state) => state.orders.orderWasAdded);
   var isAuth = useAppSelector((state) => state.user.isAuth);
+  var isBurgerModalOpen = useAppSelector((state) => state.modalWindows.isBurgerModalOpen);
   
   const [onSearch, setSearch] = useState(false);
   const [inputText, setInputText] = useState("");
@@ -62,7 +67,7 @@ const Header = () => {
 
   var totalCount: number = 0;
 
-  orders.orders.forEach(order => {
+  orders?.orders?.forEach(order => {
     totalCount += order.count;
   });
 
@@ -83,7 +88,25 @@ const Header = () => {
   },[orderWasAdded])
 
 
+  var user = useAppSelector(((state: { user: UserState; orders: Orders })=>state.user.user));
 
+  const handleBecomeASeller=()=>{
+
+  }
+
+  var request = {
+    access_key:"cced39933489c33dfef9699f1e3fc638",
+    currencies:"EUR,GBP,CAD,PLN",
+    source:"USD",
+    format:1
+  };
+
+  var {data} = useGetCurrencyQuery();
+
+  console.log("useGetCurrencyQuery");
+  console.log(data);
+
+  
 
   const getProducts = async () => {
     let response: any = await getProductsByCategory({ id: -1 });
@@ -116,13 +139,6 @@ const Header = () => {
     setDropdown(false);
   }
 
-  const sortProductsByInput = () => {
-    // products = products?.filter(
-    //     (item:any)=>{
-    //         return inputText.toLowerCase() === ' ' ? item : item.name.toLowerCase().includes(inputText) });
-    // console.log(isSuccess);
-  }
-
   const [isBurgerOpen,setIsBurgerOpen] = useState(false);
   const [isCurrencyDrop,setCurrencyDrop] = useState(false);
 
@@ -141,12 +157,21 @@ const Header = () => {
  }
 
 
+  const handleIsAuth=(path:string)=>{
+    if(!isAuth)
+      dispatch(setLoginRequestWindow(true));
+    else
+      navigate(path);
+  }
+
   console.log(isBurgerOpen);
 
   return (<div className=" ">
-    <BurgerModal isOpen={isBurgerOpen} onClose={setIsBurgerOpen}  />
+    <BurgerModal/>
     <CardModal/>
     <AdressModal/>
+    <RequestToLogin/>
+    <CompanyModal/>
     
     <div className="sticky z-30 bg-white">
 
@@ -197,9 +222,9 @@ const Header = () => {
             <img src={trackOrder} />
             <span>Відслідкувати замовлення</span>
           </div>
-          <div className="shop-container">
+          <div onClick={()=>handleIsAuth("/seller/mycompany")} className=" cursor-pointer shop-container">
             <img src={shop} />
-            <span>Магазин</span>
+            <span>Сторінка Продавця</span>
           </div>
           <div className="settings-container">
             <img src={settings} />
@@ -216,7 +241,7 @@ const Header = () => {
 
     <div className="header grid text-whiteForHeader relative z-20 bg-white ">
       <div className="languagediv">
-        <div className="hamburger xl:p-5 p-2" onClick={()=>{setIsBurgerOpen(!isBurgerOpen)}}>
+        <div className="hamburger xl:p-5 p-2" onClick={()=>{dispatch(setBurgerModalWindow(!isBurgerModalOpen))}}>
           <img src={union} />
         </div>
         <div onClick={() => navigate("/")} className="pl-2 xl:mr-10 mr-2">
@@ -269,12 +294,12 @@ const Header = () => {
 
       <div className=" xl:block lg:block sm:block hidden">
         <div className=" grid grid-cols-4 xl:pr-9">
-          <Link to={isAuth?"/profile":"/login"} className="singindiv">
+          <div onClick={()=>handleIsAuth("/profile")} className="singindiv cursor-pointer">
             <div className="image-container">
               <img src={profile} alt="Profile"  />
             </div>
             <a className="alang">Профіль</a>
-          </Link>
+          </div>
 
           <Link to="/message" className="singindiv">
             <div className="image-container">
@@ -323,13 +348,13 @@ const Header = () => {
 
 
 
-        <div className="underheader text-[6px] lg:text-sm xl:text-sm flex justify-between px-10 xl:h-10 h-6">
+        <div className="underheader text-[6px] lg:text-sm xl:text-sm flex justify-between px-10 xl:h-10 h-6 ">
           <div onClick={() => navigate("/todaysDeals")}                  className="  w-full text-white hover:outline hover:outline-[1px]  outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center ">Сьогоднішні пропозиції</div>
-          <div className="hidden xl:block w-full"><div onClick={() => navigate("/products")}                  className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer   h-full flex items-center font-medium justify-center ">Подарункові карти </div></div>
+          <div className="hidden xl:block w-full"><div onClick={() => navigate("/giftCards")}                  className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer   h-full flex items-center font-medium justify-center ">Подарункові карти </div></div>
           <div onClick={() => navigate("/help")}                  className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Обслуговування клієнтів </div>
-          <div className="hidden xl:block w-full"><div onClick={() => navigate("/admin/products")}            className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Сторінка для адміна</div></div>
+          {user?.roles?.includes("admin")? <div className="hidden xl:block w-full"><div onClick={() => navigate("/admin/products")}            className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Сторінка для адміна</div></div> : ""}
           <div onClick={() => navigate("/music/home")}                className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer h-full flex items-center font-medium justify-center">Музика</div>
-          <div onClick={() => navigate("/tempProfile/becomeASeller")} className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Тимчасовий Профіль</div>
+          {/* <div onClick={() => navigate("/tempProfile/becomeASeller")} className=" w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer  h-full flex items-center font-medium justify-center">Тимчасовий Профіль</div> */}
           <div className="hidden xl:block w-full"><div onClick={() => navigate("/aboutUs")}                   className="  w-full text-white hover:outline hover:outline-[1px] outline-offset-[-1px] cursor-pointer h-full flex items-center font-medium justify-center">Про нас</div></div>
         </div>
       </div>

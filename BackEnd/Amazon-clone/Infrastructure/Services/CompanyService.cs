@@ -5,6 +5,7 @@ using DAL.Interfaces;
 using Infrastructure.Interfaces;
 using Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
+using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,17 +77,43 @@ namespace Infrastructure.Services
             return null;
         }
 
-            public async Task<CompanyVM> AddUserToCompanyAsync(AddUserToCompanyDTO model)
+        public async Task<ServiceResponse> AddUserToCompanyAsync(AddUserToCompanyDTO model)
         {
             var user = await _userRepository.GetUserByEmailAsync(model.UserEmail);
             var company = _companyRepository.GetAll().Include(comp=>comp.Users).FirstOrDefault(comp=>comp.Id == model.CompanyId);
+            
             if (user != null)
             {
+                if(user.CompanyId != null)
+                {
+                    return new ServiceResponse()
+                    {
+                        IsSuccess= false,
+                        Message = "Користувач вже має компанію."
+                    };
+                }
+                
                 user.CompanyId = company.Id;
                 await _userRepository.UpdateUserAsync(user);
             }
+            else
+            {
+                return new ServiceResponse()
+                {
+                    Message = "Такого користувача не існує .",
+                    IsSuccess = false
+                };
+            }
+
             var companyVm = _mapper.Map<Company,CompanyVM>(company);
-            return companyVm;
+
+            return new ServiceResponse()
+            {
+                Payload = companyVm,
+                Message = "Успішно.",
+                IsSuccess = true
+            };
+
         }
 
         public async Task<CompanyVM> AddImageByCompanyIdAsync(ImageForCompanyDTO model)
@@ -98,6 +125,22 @@ namespace Infrastructure.Services
 
             var companyVm = _mapper.Map<Company, CompanyVM>(company);
             return companyVm;
+        }
+
+        public async Task<ServiceResponse> LeaveCompanyByUserIdAsync(int userId)
+        {
+            var user = await _userRepository.GetUserByIdAsync(userId.ToString());
+            
+            if(user == null)
+            {
+                return new ServiceResponse() { Message = "Користувача не знайденно!" };
+            }
+
+            user.CompanyId = 0;
+            await _userRepository.UpdateUserAsync(user);
+
+
+            return new ServiceResponse() { Message="Ви покінули компанію!"};
         }
     }
 }

@@ -3,6 +3,7 @@ import { Company } from "./Admin/types";
 
 export interface Product{
     id: number,
+    category: string,
     name: string,
     price: number,
     discount: string,
@@ -39,9 +40,6 @@ export interface OneProductVM{
     companyVM:Company,
 }
 
-
-
-
 export interface SelectedOption{
     title:string,
     isBaseOptions:boolean,
@@ -68,6 +66,7 @@ export interface OrderedOrder{
     cardId:number;
     isBought:boolean;
     price:number;
+    userName:string;
     addressId:number;
     dateCreated:string;
     products:OrderedProductUpdated[];
@@ -75,9 +74,14 @@ export interface OrderedOrder{
 
 export interface OrderForSeller{
     id:any;
+    price:number;
+    image:string;
     fullName:string;
+    userName:string;
     cardId:number;
     addressId:number;
+    address:Address;
+    card:Card;
     dateCreated:string;
     products:OrderedProductUpdated[];
 }
@@ -111,8 +115,10 @@ export interface UserVM {
     firstName: string,
     lastName: string,
     userName: string,
+    displayName: string,
     email: string,
-    avatar:string
+    avatar:string,
+    id:number,
 }
 
 export interface Login {
