@@ -457,8 +457,8 @@ const HomePage = () => {
                                                         <span className="old-price">{product.discountPercentageString}</span>
                                                         <span className="new-price">{product.discountPercentage}</span>
                                                     </div>
-                                                    <button className="rounded" onClick={() => { handleAddNewOrder(product?.id) }}>Додати в кошик</button>
                                                 </Link>
+                                                <button className="rounded" onClick={() => { handleAddNewOrder(product?.id) }}>Додати в кошик</button>
                                             </div>
 
                                         ))
@@ -472,8 +472,8 @@ const HomePage = () => {
                                                     <span className="old-price">{product.discountPercentageString}</span>
                                                     <span className="new-price">{product.discountPercentage}</span>
                                                 </div>
-                                                <button className="rounded" onClick={() => { handleAddNewOrder(product?.id) }}>Додати в кошик</button>
                                             </Link>
+                                            <button className="rounded" onClick={() => { handleAddNewOrder(product?.id) }}>Додати в кошик</button>
                                         </div>
                                     ))
                                 : null}
@@ -495,8 +495,8 @@ const HomePage = () => {
                                                         <span className="old-price">{product.discountPercentageString}</span>
                                                         <span className="new-price">{product.discountPercentage}</span>
                                                     </div>
-                                                    <button className="rounded" onClick={() => { handleAddNewOrder(product?.id) }}>Додати в кошик</button>
                                                 </Link>
+                                                <button className="rounded" onClick={() => { handleAddNewOrder(product?.id) }}>Додати в кошик</button>
                                             </div>
                                         ))
                                     : productsWithDiscounts.slice(4, 8).map((product: any) => (
@@ -509,8 +509,8 @@ const HomePage = () => {
                                                     <span className="old-price">{product.discountPercentageString}</span>
                                                     <span className="new-price">{product.discountPercentage}</span>
                                                 </div>
-                                                <button className="rounded" onClick={() => { handleAddNewOrder(product?.id) }}>Додати в кошик</button>
                                             </Link>
+                                            <button className="rounded" onClick={() => { handleAddNewOrder(product?.id) }}>Додати в кошик</button>
                                         </div>
                                     ))
                                 : null}
